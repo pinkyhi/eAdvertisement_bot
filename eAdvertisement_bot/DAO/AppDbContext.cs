@@ -25,7 +25,7 @@ namespace eAdvertisement_bot.DAO
         public DbSet<User> Users { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseMySql("server=localhost;UserId=root;Password=yourPass;database=eadvertisement_bot;");
+            optionsBuilder.UseMySql("server=localhost;UserId=root;Password=df443335;database=eadvertisement_bot;");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

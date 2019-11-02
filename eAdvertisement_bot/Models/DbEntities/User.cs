@@ -11,7 +11,7 @@ namespace eAdvertisement_bot.Models.DbEntities
     public class User
     {
         [Key, Column("user_id")]
-        public int User_Id { get; set; }
+        public long User_Id { get; set; }
 
         [Column("phone")]
         public string Phone { get; set; }
@@ -30,6 +30,12 @@ namespace eAdvertisement_bot.Models.DbEntities
 
         [Column("ban")]
         public bool Ban { get; set; }
+
+        [Column("firstname")]
+        public string FirstName { get; set; }
+
+        [Column("lastname")]
+        public string LastName { get; set; }
 
         // One to Many relationship lists
         public List<Input> Inputs { get; set; }

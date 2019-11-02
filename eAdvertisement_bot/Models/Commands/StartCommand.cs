@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace eAdvertisement_bot.Models.Commands
 {
@@ -27,20 +28,87 @@ namespace eAdvertisement_bot.Models.Commands
 
         public override async Task Execute(Message message, TelegramBotClient botClient)
         {
-            var chatId = message.Chat.Id;
+            var chatId = message.From.Id;
+            AppDbContext dbContext = new AppDbContext();
+
+            InlineKeyboardButton statusBotIKB=new InlineKeyboardButton();
+            InlineKeyboardButton buyIKB = new InlineKeyboardButton { Text = "Buy", CallbackData = "/buyMenu" };
+            InlineKeyboardButton sellIKB = new InlineKeyboardButton { Text = "Sell", CallbackData = "/sellMenu" };
+            InlineKeyboardButton soldPostsIKB = new InlineKeyboardButton { Text = "Sold posts", CallbackData = "/soldPostsMenu" };
+            InlineKeyboardButton boughtPostsIKB = new InlineKeyboardButton { Text = "Bought posts", CallbackData = "/boughtPostsMenu" };
+            InlineKeyboardButton infoIKB = new InlineKeyboardButton { Text = "Info", CallbackData = "/infoMenu" };
+
+
+
             try
             {
-                AppDbContext dbContext = new AppDbContext();
-                dbContext.Users.Add(new DbEntities.User { User_Id = message.From.Id, Nickname = message.From.Username, FirstName = message.From.FirstName, LastName = message.From.LastName, Language = message.From.LanguageCode });
+
+                dbContext.Users.Add(new DbEntities.User { User_Id = message.From.Id, Nickname = message.From.Username, FirstName = message.From.FirstName, LastName = message.From.LastName, Language = message.From.LanguageCode, Stopped = false });
                 dbContext.SaveChanges();
                 dbContext.Dispose();
-                await botClient.SendTextMessageAsync(chatId, "Hi, "+message.From.FirstName+". Initialization is succesfull :)", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
+                statusBotIKB = new InlineKeyboardButton { Text = "Stop Bot", CallbackData = "/stopBot" };
+
+                InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(new[]
+                {
+                    new[] //first row
+                    {
+                        statusBotIKB,
+                    },
+                    new[] // second row
+                    {
+                        buyIKB,
+                        sellIKB,
+                    },
+                    new[] // third row
+                    {
+                        soldPostsIKB,
+                        boughtPostsIKB,
+                    },
+                    new[] // fourth row
+                    {
+                        infoIKB,
+                    }
+                });
+
+                await botClient.SendTextMessageAsync(chatId, "Hi, "+message.From.FirstName+". Initialization is succesfull :)", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown, replyMarkup: keyboard);
             }
             catch (Exception ex)
             {
                 if (ex.InnerException.ToString().Contains("Duplicate"))
                 {
-                    await botClient.SendTextMessageAsync(chatId, "You are already initialized.", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
+                    if ( dbContext.Users.First(u => u.User_Id == chatId).Stopped)
+                    {
+                        statusBotIKB = new InlineKeyboardButton { Text = "Launch Bot", CallbackData = "/launchBot" };
+                    }
+                    else
+                    {
+                        statusBotIKB = new InlineKeyboardButton { Text = "Stop Bot", CallbackData = "/stopBot" };
+                    }
+
+                    InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(new[]
+                    {
+                        new[] //first row
+                        {
+                            statusBotIKB,
+                        },
+                        new[] // second row
+                        {
+                            buyIKB,
+                            sellIKB,
+                        },
+                        new[] // third row
+                        {
+                            soldPostsIKB,
+                            boughtPostsIKB,
+                        },
+                        new[] // fourth row
+                        {
+                            infoIKB,
+                        }
+                    });
+
+                    await botClient.SendTextMessageAsync(chatId, "You are already initialized.", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown, replyMarkup: keyboard);
+
                 }
                 else
                 {

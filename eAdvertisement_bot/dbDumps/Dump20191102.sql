@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS `advertisement`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `advertisement` (
-  `channel_id` int(11) NOT NULL,
+  `channel_id` bigint(20) NOT NULL,
   `date_time` datetime NOT NULL,
   `top` int(11) NOT NULL DEFAULT '1',
   `alive` int(11) NOT NULL DEFAULT '24',
@@ -105,7 +105,7 @@ DROP TABLE IF EXISTS `autobuy_channel`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `autobuy_channel` (
   `autobuy_id` int(11) NOT NULL,
-  `channel_id` int(11) NOT NULL,
+  `channel_id` bigint(20) NOT NULL,
   PRIMARY KEY (`autobuy_id`,`channel_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -174,7 +174,7 @@ DROP TABLE IF EXISTS `channel`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `channel` (
-  `channel_id` int(11) NOT NULL,
+  `channel_id` bigint(20) NOT NULL,
   `link` varchar(256) DEFAULT NULL,
   `subscribers` int(11) NOT NULL DEFAULT '0',
   `coverage` int(11) NOT NULL DEFAULT '0',
@@ -205,7 +205,7 @@ DROP TABLE IF EXISTS `channel_category`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `channel_category` (
-  `channel_id` int(11) NOT NULL,
+  `channel_id` bigint(20) NOT NULL,
   `category_id` int(11) NOT NULL,
   PRIMARY KEY (`channel_id`,`category_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -279,7 +279,7 @@ DROP TABLE IF EXISTS `place`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `place` (
   `time` time NOT NULL,
-  `channel_id` int(11) NOT NULL,
+  `channel_id` bigint(20) NOT NULL,
   PRIMARY KEY (`time`,`channel_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -303,7 +303,7 @@ DROP TABLE IF EXISTS `publication`;
 CREATE TABLE `publication` (
   `publication_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(32) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
+  `user_id` bigint(20) DEFAULT NULL,
   `text` varchar(2048) DEFAULT NULL,
   PRIMARY KEY (`publication_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -333,8 +333,10 @@ CREATE TABLE `user` (
   `publications_limit` int(11) NOT NULL DEFAULT '5',
   `autobuys_limit` int(11) NOT NULL DEFAULT '5',
   `ban` tinyint(1) NOT NULL DEFAULT '0',
-  `firstname` varchar(45) DEFAULT NULL,
-  `lastname` varchar(45) DEFAULT NULL,
+  `firstname` varchar(64) DEFAULT NULL,
+  `lastname` varchar(64) DEFAULT NULL,
+  `language` varchar(32) DEFAULT NULL,
+  `stopped` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -345,7 +347,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (458816638,NULL,'pinky_hi',0,0,0,0,'Иван','Владимиров'),(933004747,NULL,'memniyboh',0,0,0,0,'Мемный Бох',NULL);
+INSERT INTO `user` VALUES (401093470,NULL,NULL,0,0,0,0,'Вероника','Балаклицкая',NULL,0),(458816638,NULL,'pinky_hi',0,0,0,0,'Иван','Владимиров',NULL,0),(933004747,NULL,'memniyboh',0,0,0,0,'Мемный Бох',NULL,NULL,0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -382,4 +384,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-11-02 14:48:31
+-- Dump completed on 2019-11-02 18:20:41

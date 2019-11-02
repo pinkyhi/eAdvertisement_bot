@@ -328,11 +328,13 @@ DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `user_id` int(11) NOT NULL,
   `phone` varchar(24) DEFAULT NULL,
-  `nickname` varchar(64) NOT NULL,
+  `nickname` varchar(64) DEFAULT NULL,
   `balance` int(11) NOT NULL DEFAULT '0',
   `publications_limit` int(11) NOT NULL DEFAULT '5',
   `autobuys_limit` int(11) NOT NULL DEFAULT '5',
   `ban` tinyint(1) NOT NULL DEFAULT '0',
+  `firstname` varchar(45) DEFAULT NULL,
+  `lastname` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -343,6 +345,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES (458816638,NULL,'pinky_hi',0,0,0,0,'Иван','Владимиров'),(933004747,NULL,'memniyboh',0,0,0,0,'Мемный Бох',NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -379,4 +382,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-11-01 22:22:25
+-- Dump completed on 2019-11-02 14:48:31

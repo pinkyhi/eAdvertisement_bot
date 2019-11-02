@@ -37,6 +37,9 @@ namespace eAdvertisement_bot.Models.DbEntities
         [Column("lastname")]
         public string LastName { get; set; }
 
+        [Column("language")]
+        public string Language { get; set; }
+
         // One to Many relationship lists
         public List<Input> Inputs { get; set; }
         public List<Advertisement> Advertisements { get; set; }

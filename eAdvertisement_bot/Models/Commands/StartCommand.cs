@@ -31,10 +31,10 @@ namespace eAdvertisement_bot.Models.Commands
             try
             {
                 AppDbContext dbContext = new AppDbContext();
-                dbContext.Users.Add(new DbEntities.User { User_Id = chatId, Nickname = message.Chat.Username, FirstName = message.Chat.FirstName, LastName = message.Chat.LastName });
+                dbContext.Users.Add(new DbEntities.User { User_Id = message.From.Id, Nickname = message.From.Username, FirstName = message.From.FirstName, LastName = message.From.LastName, Language = message.From.LanguageCode });
                 dbContext.SaveChanges();
                 dbContext.Dispose();
-                await botClient.SendTextMessageAsync(chatId, "Hi, "+message.Chat.FirstName+". Initialization is succesfull :)", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
+                await botClient.SendTextMessageAsync(chatId, "Hi, "+message.From.FirstName+". Initialization is succesfull :)", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
             }
             catch (Exception ex)
             {

@@ -11,7 +11,7 @@ namespace eAdvertisement_bot.Models.DbEntities
     public class Autobuy_Channel
     {
         [Key, Column("channel_id")]
-        public int Channel_Id { get; set; }
+        public long Channel_Id { get; set; }
         public Channel Channel { get; set; }
 
         [Key,Column("autobuy_id")]

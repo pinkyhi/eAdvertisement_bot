@@ -12,7 +12,7 @@ namespace eAdvertisement_bot.Models.DbEntities
     public class Advertisement
     {
         [Column("channel_id")]
-        public int Channel_Id { get; set; }
+        public long Channel_Id { get; set; }
         public Channel Channel { get; set; }
 
         [Column("date_time")]

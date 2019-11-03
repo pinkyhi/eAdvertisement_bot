@@ -35,6 +35,7 @@ namespace eAdvertisement_bot.Controllers
 
             * If you would find a problem with part of working with dbContext, try to solve it with FluentAPI part in AppDbContext
             */
+
             return "GET method is unavailable";
         }
 

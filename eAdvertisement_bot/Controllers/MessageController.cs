@@ -44,26 +44,33 @@ namespace eAdvertisement_bot.Controllers
         //POST: Main post method in that updates from telegram become 
         [HttpPost]
         [Route("/df443335")]
-        public async Task<OkResult> Post([FromBody]Update update)
+        public async Task<StatusCodeResult> Post([FromBody]Update update)
         {
+            var commands = Bot.Commands;
+            var botClient = await Bot.GetBotClientAsync();
+
             if (update == null) { return Ok(); }    // Message can has no updates, but smth else
             else
             {
-                var commands = Bot.Commands;
-                var message = update.Message;
-                var botClient = await Bot.GetBotClientAsync();
-
-                
-                foreach(var command in commands)
+                foreach (var command in commands)
                 {
-                    if(command.Contains(message))
+                    if (command.Contains(update))
                     {
-                        await command.Execute(message, botClient);
-                        break;
+                        await command.Execute(update, botClient);
+                        return Ok();
                     }
                 }
-                return Ok();
+                if(update.Type== Telegram.Bot.Types.Enums.UpdateType.Message)
+                {
+                    await botClient.DeleteMessageAsync(update.Message.Chat.Id, update.Message.MessageId);
+
+                }
+
             }
+
+
+
+            return Ok();
         }
     }
 }

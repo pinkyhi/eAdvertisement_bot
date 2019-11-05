@@ -14,20 +14,22 @@ namespace eAdvertisement_bot.Models.Commands
         public override string Name => @"/start";
 
         
-        public override bool Contains(Message message)
+        public override bool Contains(Update update)
         {
-            if (message.Type != Telegram.Bot.Types.Enums.MessageType.Text)
+            if (update.Type != Telegram.Bot.Types.Enums.UpdateType.Message)
             {
                 return false;
             }
             else
             {
-                return message.Text.Equals(this.Name);    // If it command is in text of update method TODO: now true with /start and /starts 
+                return update.Message.Text.Equals(this.Name);    // If it command is in text of update method
             }
         }
 
-        public override async Task Execute(Message message, TelegramBotClient botClient)
+        public override async Task Execute(Update update, TelegramBotClient botClient)
         {
+            var message = update.Message;
+
             var chatId = message.From.Id;
             AppDbContext dbContext = new AppDbContext();
 
@@ -76,6 +78,7 @@ namespace eAdvertisement_bot.Models.Commands
             {
                 if (ex.InnerException.ToString().Contains("Duplicate"))
                 {
+                    eAdvertisement_bot.Models.DbEntities.User user = dbContext.Users.First(u => u.User_Id == chatId);   // TODO: if stopped in db is 1 Stopped is false in any way
                     if ( dbContext.Users.First(u => u.User_Id == chatId).Stopped)
                     {
                         statusBotIKB = new InlineKeyboardButton { Text = "Launch Bot", CallbackData = "/launchBot" };

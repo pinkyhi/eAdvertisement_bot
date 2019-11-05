@@ -10,8 +10,8 @@ namespace eAdvertisement_bot.Models.Commands
     public abstract class Command
     {
         public abstract string Name { get; }
-        public abstract Task Execute(Message message, TelegramBotClient botClient); // This method contains the main logic which should be executed if this command contains in update message
-        public abstract bool Contains(Message message); // This method is used to check if this command contains in update message
+        public abstract Task Execute(Update update, TelegramBotClient botClient); // This method contains the main logic which should be executed if this command contains in update message
+        public abstract bool Contains(Update update); // This method is used to check if this command contains in update message
 
     }
 }

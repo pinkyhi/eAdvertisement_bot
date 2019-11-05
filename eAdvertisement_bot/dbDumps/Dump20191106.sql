@@ -332,11 +332,11 @@ CREATE TABLE `user` (
   `balance` int(11) NOT NULL DEFAULT '0',
   `publications_limit` int(11) NOT NULL DEFAULT '5',
   `autobuys_limit` int(11) NOT NULL DEFAULT '5',
-  `ban` tinyint(1) NOT NULL DEFAULT '0',
+  `ban` bit(1) NOT NULL,
   `firstname` varchar(64) DEFAULT NULL,
   `lastname` varchar(64) DEFAULT NULL,
   `language` varchar(32) DEFAULT NULL,
-  `stopped` tinyint(1) NOT NULL DEFAULT '0',
+  `stopped` bit(1) NOT NULL,
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -347,32 +347,8 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (401093470,NULL,NULL,0,0,0,0,'Вероника','Балаклицкая',NULL,0),(458816638,NULL,'pinky_hi',0,0,0,0,'Иван','Владимиров',NULL,0),(933004747,NULL,'memniyboh',0,0,0,0,'Мемный Бох',NULL,NULL,0);
+INSERT INTO `user` VALUES (357927075,NULL,'Sub2Ch',0,0,0,_binary '\0','SHIIIITT',NULL,NULL,_binary '\0'),(401093470,NULL,NULL,0,0,0,_binary '\0','Вероника','Балаклицкая','en',_binary '\0'),(458816638,NULL,'pinky_hi',0,0,0,_binary '\0','Иван','Владимиров','ru',_binary ''),(517407871,NULL,'zlobste',0,0,0,_binary '\0','Николай','Крайнюк','ru',_binary '\0'),(933004747,NULL,'memniyboh',0,0,0,_binary '\0','Мемный Бох',NULL,NULL,_binary '');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `user_channel`
---
-
-DROP TABLE IF EXISTS `user_channel`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
-CREATE TABLE `user_channel` (
-  `user_id` int(11) NOT NULL,
-  `channel_id` int(11) NOT NULL,
-  `date` datetime DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`user_id`,`channel_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `user_channel`
---
-
-LOCK TABLES `user_channel` WRITE;
-/*!40000 ALTER TABLE `user_channel` DISABLE KEYS */;
-/*!40000 ALTER TABLE `user_channel` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -384,4 +360,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-11-02 18:20:41
+-- Dump completed on 2019-11-06  1:06:46

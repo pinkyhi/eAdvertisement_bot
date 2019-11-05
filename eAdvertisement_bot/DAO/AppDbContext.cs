@@ -46,7 +46,7 @@ namespace eAdvertisement_bot.DAO
                 .HasForeignKey(cg => cg.Channel_Id);
 
             modelBuilder.Entity<Channel_Category>()
-    .HasKey(og => new { og.Channel_Id, og.Category_Id });
+                .HasKey(og => new { og.Channel_Id, og.Category_Id });
             modelBuilder.Entity<Channel_Category>()
                 .HasOne(og => og.Channel)
                 .WithMany(g => g.Channel_Categories)
@@ -55,6 +55,8 @@ namespace eAdvertisement_bot.DAO
                 .HasOne(og => og.Category)
                 .WithMany(o => o.Channel_Categories)
                 .HasForeignKey(og => og.Category_Id);
+
+
         }
     }
 }

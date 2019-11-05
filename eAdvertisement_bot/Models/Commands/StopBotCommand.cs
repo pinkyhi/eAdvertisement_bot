@@ -34,37 +34,7 @@ namespace eAdvertisement_bot.Models.Commands
 
             await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "Bot is stopped", true);  // ...,...,alert    AnswerCallbackQuery is required to send to avoid clock animation ob the button
 
-
-            InlineKeyboardButton statusBotIKB = new InlineKeyboardButton { Text = "Launch Bot", CallbackData = "/launchBot" }; ;
-            InlineKeyboardButton buyIKB = new InlineKeyboardButton { Text = "Buy", CallbackData = "/buyMenu" };
-            InlineKeyboardButton sellIKB = new InlineKeyboardButton { Text = "Sell", CallbackData = "/sellMenu" };
-            InlineKeyboardButton soldPostsIKB = new InlineKeyboardButton { Text = "Sold posts", CallbackData = "/soldPostsMenu" };
-            InlineKeyboardButton boughtPostsIKB = new InlineKeyboardButton { Text = "Bought posts", CallbackData = "/boughtPostsMenu" };
-            InlineKeyboardButton infoIKB = new InlineKeyboardButton { Text = "Info", CallbackData = "/infoMenu" };
-
-
-            InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(new[]
-                    {
-                        new[] //first row
-                        {
-                            statusBotIKB,
-                        },
-                        new[] // second row
-                        {
-                            buyIKB,
-                            sellIKB,
-                        },
-                        new[] // third row
-                        {
-                            soldPostsIKB,
-                            boughtPostsIKB,
-                        },
-                        new[] // fourth row
-                        {
-                            infoIKB,
-                        }
-                    });
-
+            InlineKeyboardMarkup keyboard = entryStoppedBotKeyboard;
 
             await botClient.EditMessageReplyMarkupAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, keyboard);
 

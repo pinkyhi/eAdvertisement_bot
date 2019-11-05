@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -28,7 +29,8 @@ namespace eAdvertisement_bot.Models.DbEntities
         [Column("autobuys_limit")]
         public int Autobuys_Limit { get; set; }
 
-        [Column("ban")]
+        [Column("ban", TypeName = "bit")]
+        [DefaultValue(false)]
         public bool Ban { get; set; }
 
         [Column("firstname")]
@@ -40,7 +42,8 @@ namespace eAdvertisement_bot.Models.DbEntities
         [Column("language")]
         public string Language { get; set; }
 
-        [Column("stopped")]
+        [Column("stopped", TypeName = "bit")]
+        [DefaultValue(false)]
         public bool Stopped { get; set; }
 
         // One to Many relationship lists
@@ -53,10 +56,5 @@ namespace eAdvertisement_bot.Models.DbEntities
         // Many to Many relationship lists
 
 
-        // Some logic
-        public bool IsBanned()
-        {
-            return this.Ban;
-        }
     }
 }

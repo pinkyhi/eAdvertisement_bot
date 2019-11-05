@@ -46,6 +46,7 @@ namespace eAdvertisement_bot.Controllers
         [Route("/df443335")]
         public async Task<StatusCodeResult> Post([FromBody]Update update)
         {
+            
             var commands = Bot.Commands;
             var botClient = await Bot.GetBotClientAsync();
 

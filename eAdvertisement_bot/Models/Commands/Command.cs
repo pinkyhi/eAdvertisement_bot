@@ -30,9 +30,9 @@ namespace eAdvertisement_bot.Models.Commands
                             new InlineKeyboardButton { Text = "Sell", CallbackData = "/sellMenu" },
                         },
                         new[] // third row
-                        {
-                            new InlineKeyboardButton { Text = "Sold posts", CallbackData = "/soldPostsMenu" },
+                        {                            
                             new InlineKeyboardButton { Text = "Bought posts", CallbackData = "/boughtPostsMenu" },
+                            new InlineKeyboardButton { Text = "Sold posts", CallbackData = "/soldPostsMenu" },
                         },
                         new[] // fourth row
                         {
@@ -54,12 +54,29 @@ namespace eAdvertisement_bot.Models.Commands
                         },
                         new[] // third row
                         {
-                            new InlineKeyboardButton { Text = "Sold posts", CallbackData = "/soldPostsMenu" },
                             new InlineKeyboardButton { Text = "Bought posts", CallbackData = "/boughtPostsMenu" },
+                            new InlineKeyboardButton { Text = "Sold posts", CallbackData = "/soldPostsMenu" },
                         },
                         new[] // fourth row
                         {
                             new InlineKeyboardButton { Text = "Info", CallbackData = "/infoMenu" },
+                        }
+        });
+
+        protected InlineKeyboardMarkup buyMenuKeyboard = new InlineKeyboardMarkup(new[]
+       {
+                        new[] //first row
+                        {
+                            new InlineKeyboardButton { Text = "Manual purchase", CallbackData = "/manualPurchaseMenu" },
+                            new InlineKeyboardButton { Text = "Autobuy", CallbackData = "/autoBuyMenu" },
+                        },
+                        new[] // second row
+                        {
+                            new InlineKeyboardButton { Text = "My posts", CallbackData = "/myPostsMenu" },
+                        },
+                        new[] // third row
+                        {
+                            new InlineKeyboardButton { Text = "Back", CallbackData = "/backFromBuyMenu" },
                         }
         });
 

@@ -27,6 +27,7 @@ namespace eAdvertisement_bot
                 //TODO: Add here all commands that we have
                 commandsList.Add(new StartCommand());
                 commandsList.Add(new StopBotCommand());
+                commandsList.Add(new LaunchBotCommand());
                 botClient = new TelegramBotClient(BotSettings.Token);   // Token setting
 
                 string hook = String.Concat(BotSettings.WebHookUrl,"/df443335");    // Setting the webhook for telegram

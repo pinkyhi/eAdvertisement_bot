@@ -65,6 +65,10 @@ namespace eAdvertisement_bot.Models.Commands
                 Console.WriteLine(ex.Message);
                 await botClient.SendTextMessageAsync(userId, "Sorry, now are some troubles with initialization.", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
             }
+            finally
+            {
+                dbContext.Dispose();
+            }
                 
             
         }

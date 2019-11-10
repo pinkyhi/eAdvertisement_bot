@@ -49,7 +49,22 @@ namespace eAdvertisement_bot.Controllers
             
             var commands = Bot.Commands;
             var botClient = await Bot.GetBotClientAsync();
-
+            /*  Part to test some functions
+            try
+            {
+            Chat c = await botClient.GetChatAsync(update.ChannelPost.Chat.Id);
+            var mems =await botClient.GetChatAdministratorsAsync(c.Id);
+            var link=await botClient.ExportChatInviteLinkAsync(c.Id);
+            var mesage = await botClient.SendTextMessageAsync(c.Id, "Eto pisal bot");
+            //var cmsg = await botClient.EditMessageTextAsync(c.Id, 6, "a eto voobshe izmenil bot 2 raz");
+            await botClient.DeleteMessageAsync(c.Id, 6);
+            }
+            catch(Exception ex)
+            {
+                return Ok();
+            }
+            return Ok();
+            */
             if (update == null) { return Ok(); }    // Message can has no updates, but smth else
             else
             {

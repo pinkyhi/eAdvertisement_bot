@@ -38,6 +38,7 @@ namespace eAdvertisement_bot.Models.Commands
 
             await botClient.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, "Balance: " + userEntity.Balance + "\nHold: " + hold);
             await botClient.EditMessageReplyMarkupAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, keyboard);
+            dbContext.Dispose();
         }
     }
 }

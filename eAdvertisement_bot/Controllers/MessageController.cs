@@ -50,6 +50,7 @@ namespace eAdvertisement_bot.Controllers
         public async Task<StatusCodeResult> Post([FromBody]Update update)
         {
             var commands = Bot.Commands;
+            //return Ok();
             var botClient = await Bot.GetBotClientAsync();
             if (update == null) { return Ok(); }    // Message can has no updates, but smth else ?
             else
@@ -62,16 +63,13 @@ namespace eAdvertisement_bot.Controllers
                         return Ok();
                     }
                 }
-                if(update.Type== Telegram.Bot.Types.Enums.UpdateType.Message)
+                /*
+                if (update.Type == Telegram.Bot.Types.Enums.UpdateType.Message)
                 {
                     await botClient.DeleteMessageAsync(update.Message.Chat.Id, update.Message.MessageId);
-
                 }
-
+                */
             }
-
-
-
             return Ok();
         }
     }

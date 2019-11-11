@@ -33,18 +33,7 @@ namespace eAdvertisement_bot.Models.Commands
             AppDbContext dbContext = new AppDbContext();
             try
             {
-                List<DbEntities.User> usu = dbContext.Users.Where(i => i.User_Id == 458816638).ToList(); 
-                List<DbEntities.Input> inputs = dbContext.Inputs.Where(i => i.User_Id == 458816638).ToList();
-                List<DbEntities.Channel> ac = dbContext.Channels.ToList();
-
-
-                long duid = update.CallbackQuery.Message.Chat.Id;
-                DbEntities.Channel channelaaa = dbContext.Channels.First(d => d.User_Id == duid);
-
-                List<DbEntities.Channel> chs = dbContext.Channels.Where(chssda => chssda.User_Id== update.CallbackQuery.Message.Chat.Id).ToList();
-
-
-                List<DbEntities.Channel> channels = chs.OrderBy(c=>c.Channel_Id).ToList();
+                List<DbEntities.Channel> channels = dbContext.Channels.Where(chssda => chssda.User_Id == update.CallbackQuery.Message.Chat.Id).ToList().OrderBy(c=>c.Channel_Id).ToList();
                 List<DbEntities.Channel> channelsToType = channels.Skip(7 * pageNow).Take(7).ToList();
 
                 channelsToType.Remove(null);

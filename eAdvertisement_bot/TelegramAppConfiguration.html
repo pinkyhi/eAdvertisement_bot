@@ -1,0 +1,1449 @@
+<!DOCTYPE html>
+<!-- saved from url=(0028)https://my.telegram.org/apps -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <title>App configuration</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-itunes-app" content="app-id=686449807">
+    <link rel="shortcut icon" href="https://my.telegram.org/favicon.ico?3" type="image/x-icon">
+
+    <link href="./TelegramAppConfiguration_files/bootstrap.min.css" rel="stylesheet">
+    <link href="./TelegramAppConfiguration_files/bootstrap-extra.css" rel="stylesheet">
+    
+    <link href="./TelegramAppConfiguration_files/telegram.css" rel="stylesheet" media="screen">
+    <style>
+    </style>
+  </head>
+  <body>
+    <div id="fb-root"></div>
+    <div class="tl_page_wrap">
+      <div class="tl_page_head navbar navbar-static-top navbar-tg">
+        <div class="navbar-inner">
+          <div class="container">
+            <ul class="nav navbar-nav">
+  <li><a href="https://telegram.org/">Home</a></li>
+  <li><a href="https://telegram.org/faq">FAQ</a></li>
+  <li><a href="https://telegram.org/apps">Apps</a></li>
+  <li class="hidden-xs"><a href="https://core.telegram.org/api">API</a></li>
+  <li class="hidden-xs"><a href="https://core.telegram.org/mtproto">Protocol</a></li>
+</ul>
+          </div>
+        </div>
+      </div>
+      <div class="container tl_page_container">
+        <div class="tl_page">
+          <div class="app_edit_page">
+  <form class="form-horizontal" id="app_edit_form">
+    <input type="hidden" name="hash" value="e77ba6fa07ce1fd0c5">
+    <h2>App configuration</h2>
+    <div class="form-group">
+      <label for="app_id" class="col-md-4 text-right control-label">App api_id:</label>
+      <div class="col-md-7">
+        <span class="form-control input-xlarge uneditable-input" onclick="this.select();"><strong>1026352</strong></span>
+      </div>
+      <div class="col-md-1">
+        <div class="app_lock_tt" data-original-title="" title=""><span class="glyphicon glyphicon-lock"></span></div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="app_hash" class="col-md-4 text-right control-label">App api_hash:</label>
+      <div class="col-md-7">
+        <span class="form-control input-xlarge uneditable-input" onclick="this.select();">a5913624290fc8ba734d33597d39ad87</span>
+      </div>
+      <div class="col-md-1">
+        <div class="app_lock_tt" data-original-title="" title=""><span class="glyphicon glyphicon-lock"></span></div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="app_title" class="col-md-4 text-right control-label">App title:</label>
+      <div class="col-md-8">
+        <input id="app_title" name="app_title" type="text" class="form-control input-xlarge" value="eAdvertisement">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="app_shortname" class="col-md-4 text-right control-label">Short name:</label>
+      <div class="col-md-8">
+        <input id="app_shortname" name="app_shortname" type="text" class="form-control input-xlarge" value="eAdvertisement">
+        <p class="help-block"><span class="text-muted">alphanumeric, 5-32 characters</span></p>
+      </div>
+    </div>
+
+    <div style="display: none;">
+      <h3>PUSH-notifications settings</h3>
+
+      <div class="form-group">
+        <label for="app_gcm_api_key" class="col-md-4 text-right control-label">GCM API key:</label>
+        <div class="col-md-8">
+          <input id="app_gcm_api_key" name="app_gcm_api_key" type="text" class="form-control input-xlarge" value="">
+          <p class="help-block"><a href="http://developer.android.com/google/gcm/gs.html#access-key" target="_blank">How do I get this?</a></p>
+        </div>
+      </div>
+    </div>
+
+    <div style="display: none;">
+      <h3>
+        APNS certificates
+        <small>
+          &nbsp;<a href="https://my.telegram.org/apps/apns_cert">Update</a>
+          &nbsp;<a href="https://my.telegram.org/apps/apns_cert_delete" onclick="return confirm(&#39;Are you sure to delete certificates?&#39;);" style="display: none;">Delete</a>
+        </small>
+      </h3>
+
+      <div class="form-group" style="display: none;">
+        <label for="app_apns_production_pem" class="col-md-4 text-right control-label">APNS production certificate:</label>
+        <div class="col-md-8">
+          <span class="form-control input-xlarge uneditable-input"></span>
+        </div>
+      </div>
+
+      <div class="form-group" style="display: none;">
+        <label for="app_apns_dev_pem" class="col-md-4 text-right control-label">APNS development certificate:</label>
+        <div class="col-md-8">
+          <span class="form-control input-xlarge uneditable-input"></span>
+        </div>
+      </div>
+    </div>
+
+    <h3>Available MTProto servers</h3>
+
+    <div class="form-group">
+      <label class="col-md-4 text-right control-label">Test configuration:</label>
+      <div class="col-md-8">
+        <span class="form-control input-xlarge uneditable-input"><strong>149.154.167.40:443</strong></span>
+        <p class="help-block">DC 2</p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-md-4 text-right control-label">Production configuration:</label>
+      <div class="col-md-8">
+        <span class="form-control input-xlarge uneditable-input"><strong>149.154.167.50:443</strong></span>
+        <p class="help-block">DC 2</p>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-md-4 text-right control-label">Public keys:</label>
+      <div class="col-md-8">
+        <pre><code>-----BEGIN RSA PUBLIC KEY-----
+MIIBCgKCAQEAwVACPi9w23mF3tBkdZz+zwrzKOaaQdr01vAbU4E1pvkfj4sqDsm6
+lyDONS789sVoD/xCS9Y0hkkC3gtL1tSfTlgCMOOul9lcixlEKzwKENj1Yz/s7daS
+an9tqw3bfUV/nqgbhGX81v/+7RFAEd+RwFnK7a+XYl9sluzHRyVVaTTveB2GazTw
+Efzk2DWgkBluml8OREmvfraX3bkHZJTKX4EQSjBbbdJ2ZXIsRrYOXfaA+xayEGB+
+8hdlLmAjbCVfaigxX0CDqWeR1yFL9kwd9P0NsZRPsmoqVwMbMu7mStFai6aIhc3n
+Slv8kg9qv1m6XHVQY3PnEw+QQtqSIXklHwIDAQAB
+-----END RSA PUBLIC KEY-----
+
+-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAruw2yP/BCcsJliRoW5eB
+VBVle9dtjJw+OYED160Wybum9SXtBBLXriwt4rROd9csv0t0OHCaTmRqBcQ0J8fx
+hN6/cpR1GWgOZRUAiQxoMnlt0R93LCX/j1dnVa/gVbCjdSxpbrfY2g2L4frzjJvd
+l84Kd9ORYjDEAyFnEA7dD556OptgLQQ2e2iVNq8NZLYTzLp5YpOdO1doK+ttrltg
+gTCy5SrKeLoCPPbOgGsdxJxyz5KKcZnSLj16yE5HvJQn0CNpRdENvRUXe6tBP78O
+39oJ8BTHp9oIjd6XWXAsp2CvK45Ol8wFXGF710w9lwCGNbmNxNYhtIkdqfsEcwR5
+JwIDAQAB
+-----END PUBLIC KEY-----
+
+-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvfLHfYH2r9R70w8prHbl
+Wt/nDkh+XkgpflqQVcnAfSuTtO05lNPspQmL8Y2XjVT4t8cT6xAkdgfmmvnvRPOO
+KPi0OfJXoRVylFzAQG/j83u5K3kRLbae7fLccVhKZhY46lvsueI1hQdLgNV9n1cQ
+3TDS2pQOCtovG4eDl9wacrXOJTG2990VjgnIKNA0UMoP+KF03qzryqIt3oTvZq03
+DyWdGK+AZjgBLaDKSnC6qD2cFY81UryRWOab8zKkWAnhw2kFpcqhI0jdV5QaSCEx
+vnsjVaX0Y1N0870931/5Jb9ICe4nweZ9kSDF/gip3kWLG0o8XQpChDfyvsqB9OLV
+/wIDAQAB
+-----END PUBLIC KEY-----
+
+-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAs/ditzm+mPND6xkhzwFI
+z6J/968CtkcSE/7Z2qAJiXbmZ3UDJPGrzqTDHkO30R8VeRM/Kz2f4nR05GIFiITl
+4bEjvpy7xqRDspJcCFIOcyXm8abVDhF+th6knSU0yLtNKuQVP6voMrnt9MV1X92L
+GZQLgdHZbPQz0Z5qIpaKhdyA8DEvWWvSUwwc+yi1/gGaybwlzZwqXYoPOhwMebzK
+Uk0xW14htcJrRrq+PXXQbRzTMynseCoPIoke0dtCodbA3qQxQovE16q9zz4Otv2k
+4j63cz53J+mhkVWAeWxVGI0lltJmWtEYK6er8VqqWot3nqmWMXogrgRLggv/Nbbo
+oQIDAQAB
+-----END PUBLIC KEY-----
+
+-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvmpxVY7ld/8DAjz6F6q0
+5shjg8/4p6047bn6/m8yPy1RBsvIyvuDuGnP/RzPEhzXQ9UJ5Ynmh2XJZgHoE9xb
+nfxL5BXHplJhMtADXKM9bWB11PU1Eioc3+AXBB8QiNFBn2XI5UkO5hPhbb9mJpjA
+9Uhw8EdfqJP8QetVsI/xrCEbwEXe0xvifRLJbY08/Gp66KpQvy7g8w7VB8wlgePe
+xW3pT13Ap6vuC+mQuJPyiHvSxjEKHgqePji9NP3tJUFQjcECqcm0yV7/2d0t/pbC
+m+ZH1sadZspQCEPPrtbkQBlvHb4OLiIWPGHKSMeRFvp3IWcmdJqXahxLCUS1Eh6M
+AQIDAQAB
+-----END PUBLIC KEY-----
+</code></pre>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-md-8 col-md-offset-4">
+        <button type="button" class="btn btn-primary" data-loading-text="Saving..." id="app_save_btn" onclick="saveApp(); return false;">Save changes</button>
+        <a href="https://my.telegram.org/" class="btn btn-link">Cancel</a>
+      </div>
+    </div>
+  </form>
+</div>
+          
+        </div>
+      </div>
+    </div>
+    <script src="./TelegramAppConfiguration_files/jquery.min.js.Без названия"></script>
+    <script src="./TelegramAppConfiguration_files/bootstrap.min.js.Без названия"></script>
+    <script src="./TelegramAppConfiguration_files/main.js.Без названия"></script>
+    
+    <script>$('#app_save_btn').button();
+$('.app_lock_tt').tooltip({html: true, title: '<div class="app_lock_text">It is forbidden to pass this value to third parties.</div>'});
+
+function saveApp() {
+  $('#app_save_btn').button('loading');
+
+  $.ajax({
+    type: 'POST',
+    url: '/apps/save',
+    data: $('#app_edit_form').serialize(),
+    success: function (error) {
+      $('#app_save_btn').button('reset');
+      if (error) {
+        alert(error);
+      }
+    },
+    error: function (error) {
+      $('#app_save_btn').button('reset');
+      if (error) {
+        alert(error);
+      }
+    }
+  });
+}
+</script>
+  
+
+<!-- page generated in 4.21ms -->
+<style class="sf-download-bar-styles">
+.sf-download-bar__circle {
+    width: 40px;
+    height: 40px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.sf-download-bar__circle .sf-download-bar__circle-slice,
+.sf-download-bar__circle .sf-download-bar__circle-fill {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    transition: transform 0.3s;
+    border-radius: 50%;
+}
+
+.sf-download-bar__circle .sf-download-bar__circle-slice {
+    clip: rect(0px, 40px, 40px, 20px);
+}
+
+.sf-download-bar__circle .sf-download-bar__circle-slice .sf-download-bar__circle-fill {
+    clip: rect(0px, 20px, 40px, 0px);
+    background-color: #fff;
+}
+
+.sf-download-bar__circle .sf-download-bar__circle-overlay {
+    width: 38px;
+    height: 38px;
+    position: absolute;
+    margin-left: 1px;
+    margin-top: 1px;
+    background-color: #5181B8;
+    border-radius: 50%;
+}
+
+.sf-download-bar__circle[data-progress='0'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='0'] .sf-download-bar__circle-fill {
+    transform: rotate(0deg);
+}
+
+.sf-download-bar__circle[data-progress='0'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(0deg);
+}
+
+.sf-download-bar__circle[data-progress='1'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='1'] .sf-download-bar__circle-fill {
+    transform: rotate(1.8deg);
+}
+
+.sf-download-bar__circle[data-progress='1'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(3.6deg);
+}
+
+.sf-download-bar__circle[data-progress='2'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='2'] .sf-download-bar__circle-fill {
+    transform: rotate(3.6deg);
+}
+
+.sf-download-bar__circle[data-progress='2'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(7.2deg);
+}
+
+.sf-download-bar__circle[data-progress='3'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='3'] .sf-download-bar__circle-fill {
+    transform: rotate(5.4deg);
+}
+
+.sf-download-bar__circle[data-progress='3'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(10.8deg);
+}
+
+.sf-download-bar__circle[data-progress='4'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='4'] .sf-download-bar__circle-fill {
+    transform: rotate(7.2deg);
+}
+
+.sf-download-bar__circle[data-progress='4'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(14.4deg);
+}
+
+.sf-download-bar__circle[data-progress='5'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='5'] .sf-download-bar__circle-fill {
+    transform: rotate(9deg);
+}
+
+.sf-download-bar__circle[data-progress='5'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(18deg);
+}
+
+.sf-download-bar__circle[data-progress='6'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='6'] .sf-download-bar__circle-fill {
+    transform: rotate(10.8deg);
+}
+
+.sf-download-bar__circle[data-progress='6'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(21.6deg);
+}
+
+.sf-download-bar__circle[data-progress='7'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='7'] .sf-download-bar__circle-fill {
+    transform: rotate(12.6deg);
+}
+
+.sf-download-bar__circle[data-progress='7'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(25.2deg);
+}
+
+.sf-download-bar__circle[data-progress='8'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='8'] .sf-download-bar__circle-fill {
+    transform: rotate(14.4deg);
+}
+
+.sf-download-bar__circle[data-progress='8'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(28.8deg);
+}
+
+.sf-download-bar__circle[data-progress='9'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='9'] .sf-download-bar__circle-fill {
+    transform: rotate(16.2deg);
+}
+
+.sf-download-bar__circle[data-progress='9'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(32.4deg);
+}
+
+.sf-download-bar__circle[data-progress='10'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='10'] .sf-download-bar__circle-fill {
+    transform: rotate(18deg);
+}
+
+.sf-download-bar__circle[data-progress='10'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(36deg);
+}
+
+.sf-download-bar__circle[data-progress='11'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='11'] .sf-download-bar__circle-fill {
+    transform: rotate(19.8deg);
+}
+
+.sf-download-bar__circle[data-progress='11'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(39.6deg);
+}
+
+.sf-download-bar__circle[data-progress='12'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='12'] .sf-download-bar__circle-fill {
+    transform: rotate(21.6deg);
+}
+
+.sf-download-bar__circle[data-progress='12'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(43.2deg);
+}
+
+.sf-download-bar__circle[data-progress='13'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='13'] .sf-download-bar__circle-fill {
+    transform: rotate(23.4deg);
+}
+
+.sf-download-bar__circle[data-progress='13'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(46.8deg);
+}
+
+.sf-download-bar__circle[data-progress='14'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='14'] .sf-download-bar__circle-fill {
+    transform: rotate(25.2deg);
+}
+
+.sf-download-bar__circle[data-progress='14'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(50.4deg);
+}
+
+.sf-download-bar__circle[data-progress='15'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='15'] .sf-download-bar__circle-fill {
+    transform: rotate(27deg);
+}
+
+.sf-download-bar__circle[data-progress='15'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(54deg);
+}
+
+.sf-download-bar__circle[data-progress='16'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='16'] .sf-download-bar__circle-fill {
+    transform: rotate(28.8deg);
+}
+
+.sf-download-bar__circle[data-progress='16'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(57.6deg);
+}
+
+.sf-download-bar__circle[data-progress='17'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='17'] .sf-download-bar__circle-fill {
+    transform: rotate(30.6deg);
+}
+
+.sf-download-bar__circle[data-progress='17'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(61.2deg);
+}
+
+.sf-download-bar__circle[data-progress='18'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='18'] .sf-download-bar__circle-fill {
+    transform: rotate(32.4deg);
+}
+
+.sf-download-bar__circle[data-progress='18'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(64.8deg);
+}
+
+.sf-download-bar__circle[data-progress='19'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='19'] .sf-download-bar__circle-fill {
+    transform: rotate(34.2deg);
+}
+
+.sf-download-bar__circle[data-progress='19'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(68.4deg);
+}
+
+.sf-download-bar__circle[data-progress='20'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='20'] .sf-download-bar__circle-fill {
+    transform: rotate(36deg);
+}
+
+.sf-download-bar__circle[data-progress='20'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(72deg);
+}
+
+.sf-download-bar__circle[data-progress='21'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='21'] .sf-download-bar__circle-fill {
+    transform: rotate(37.8deg);
+}
+
+.sf-download-bar__circle[data-progress='21'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(75.6deg);
+}
+
+.sf-download-bar__circle[data-progress='22'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='22'] .sf-download-bar__circle-fill {
+    transform: rotate(39.6deg);
+}
+
+.sf-download-bar__circle[data-progress='22'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(79.2deg);
+}
+
+.sf-download-bar__circle[data-progress='23'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='23'] .sf-download-bar__circle-fill {
+    transform: rotate(41.4deg);
+}
+
+.sf-download-bar__circle[data-progress='23'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(82.8deg);
+}
+
+.sf-download-bar__circle[data-progress='24'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='24'] .sf-download-bar__circle-fill {
+    transform: rotate(43.2deg);
+}
+
+.sf-download-bar__circle[data-progress='24'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(86.4deg);
+}
+
+.sf-download-bar__circle[data-progress='25'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='25'] .sf-download-bar__circle-fill {
+    transform: rotate(45deg);
+}
+
+.sf-download-bar__circle[data-progress='25'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(90deg);
+}
+
+.sf-download-bar__circle[data-progress='26'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='26'] .sf-download-bar__circle-fill {
+    transform: rotate(46.8deg);
+}
+
+.sf-download-bar__circle[data-progress='26'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(93.6deg);
+}
+
+.sf-download-bar__circle[data-progress='27'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='27'] .sf-download-bar__circle-fill {
+    transform: rotate(48.6deg);
+}
+
+.sf-download-bar__circle[data-progress='27'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(97.2deg);
+}
+
+.sf-download-bar__circle[data-progress='28'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='28'] .sf-download-bar__circle-fill {
+    transform: rotate(50.4deg);
+}
+
+.sf-download-bar__circle[data-progress='28'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(100.8deg);
+}
+
+.sf-download-bar__circle[data-progress='29'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='29'] .sf-download-bar__circle-fill {
+    transform: rotate(52.2deg);
+}
+
+.sf-download-bar__circle[data-progress='29'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(104.4deg);
+}
+
+.sf-download-bar__circle[data-progress='30'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='30'] .sf-download-bar__circle-fill {
+    transform: rotate(54deg);
+}
+
+.sf-download-bar__circle[data-progress='30'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(108deg);
+}
+
+.sf-download-bar__circle[data-progress='31'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='31'] .sf-download-bar__circle-fill {
+    transform: rotate(55.8deg);
+}
+
+.sf-download-bar__circle[data-progress='31'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(111.6deg);
+}
+
+.sf-download-bar__circle[data-progress='32'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='32'] .sf-download-bar__circle-fill {
+    transform: rotate(57.6deg);
+}
+
+.sf-download-bar__circle[data-progress='32'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(115.2deg);
+}
+
+.sf-download-bar__circle[data-progress='33'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='33'] .sf-download-bar__circle-fill {
+    transform: rotate(59.4deg);
+}
+
+.sf-download-bar__circle[data-progress='33'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(118.8deg);
+}
+
+.sf-download-bar__circle[data-progress='34'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='34'] .sf-download-bar__circle-fill {
+    transform: rotate(61.2deg);
+}
+
+.sf-download-bar__circle[data-progress='34'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(122.4deg);
+}
+
+.sf-download-bar__circle[data-progress='35'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='35'] .sf-download-bar__circle-fill {
+    transform: rotate(63deg);
+}
+
+.sf-download-bar__circle[data-progress='35'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(126deg);
+}
+
+.sf-download-bar__circle[data-progress='36'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='36'] .sf-download-bar__circle-fill {
+    transform: rotate(64.8deg);
+}
+
+.sf-download-bar__circle[data-progress='36'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(129.6deg);
+}
+
+.sf-download-bar__circle[data-progress='37'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='37'] .sf-download-bar__circle-fill {
+    transform: rotate(66.6deg);
+}
+
+.sf-download-bar__circle[data-progress='37'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(133.2deg);
+}
+
+.sf-download-bar__circle[data-progress='38'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='38'] .sf-download-bar__circle-fill {
+    transform: rotate(68.4deg);
+}
+
+.sf-download-bar__circle[data-progress='38'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(136.8deg);
+}
+
+.sf-download-bar__circle[data-progress='39'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='39'] .sf-download-bar__circle-fill {
+    transform: rotate(70.2deg);
+}
+
+.sf-download-bar__circle[data-progress='39'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(140.4deg);
+}
+
+.sf-download-bar__circle[data-progress='40'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='40'] .sf-download-bar__circle-fill {
+    transform: rotate(72deg);
+}
+
+.sf-download-bar__circle[data-progress='40'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(144deg);
+}
+
+.sf-download-bar__circle[data-progress='41'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='41'] .sf-download-bar__circle-fill {
+    transform: rotate(73.8deg);
+}
+
+.sf-download-bar__circle[data-progress='41'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(147.6deg);
+}
+
+.sf-download-bar__circle[data-progress='42'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='42'] .sf-download-bar__circle-fill {
+    transform: rotate(75.6deg);
+}
+
+.sf-download-bar__circle[data-progress='42'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(151.2deg);
+}
+
+.sf-download-bar__circle[data-progress='43'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='43'] .sf-download-bar__circle-fill {
+    transform: rotate(77.4deg);
+}
+
+.sf-download-bar__circle[data-progress='43'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(154.8deg);
+}
+
+.sf-download-bar__circle[data-progress='44'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='44'] .sf-download-bar__circle-fill {
+    transform: rotate(79.2deg);
+}
+
+.sf-download-bar__circle[data-progress='44'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(158.4deg);
+}
+
+.sf-download-bar__circle[data-progress='45'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='45'] .sf-download-bar__circle-fill {
+    transform: rotate(81deg);
+}
+
+.sf-download-bar__circle[data-progress='45'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(162deg);
+}
+
+.sf-download-bar__circle[data-progress='46'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='46'] .sf-download-bar__circle-fill {
+    transform: rotate(82.8deg);
+}
+
+.sf-download-bar__circle[data-progress='46'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(165.6deg);
+}
+
+.sf-download-bar__circle[data-progress='47'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='47'] .sf-download-bar__circle-fill {
+    transform: rotate(84.6deg);
+}
+
+.sf-download-bar__circle[data-progress='47'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(169.2deg);
+}
+
+.sf-download-bar__circle[data-progress='48'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='48'] .sf-download-bar__circle-fill {
+    transform: rotate(86.4deg);
+}
+
+.sf-download-bar__circle[data-progress='48'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(172.8deg);
+}
+
+.sf-download-bar__circle[data-progress='49'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='49'] .sf-download-bar__circle-fill {
+    transform: rotate(88.2deg);
+}
+
+.sf-download-bar__circle[data-progress='49'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(176.4deg);
+}
+
+.sf-download-bar__circle[data-progress='50'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='50'] .sf-download-bar__circle-fill {
+    transform: rotate(90deg);
+}
+
+.sf-download-bar__circle[data-progress='50'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(180deg);
+}
+
+.sf-download-bar__circle[data-progress='51'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='51'] .sf-download-bar__circle-fill {
+    transform: rotate(91.8deg);
+}
+
+.sf-download-bar__circle[data-progress='51'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(183.6deg);
+}
+
+.sf-download-bar__circle[data-progress='52'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='52'] .sf-download-bar__circle-fill {
+    transform: rotate(93.6deg);
+}
+
+.sf-download-bar__circle[data-progress='52'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(187.2deg);
+}
+
+.sf-download-bar__circle[data-progress='53'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='53'] .sf-download-bar__circle-fill {
+    transform: rotate(95.4deg);
+}
+
+.sf-download-bar__circle[data-progress='53'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(190.8deg);
+}
+
+.sf-download-bar__circle[data-progress='54'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='54'] .sf-download-bar__circle-fill {
+    transform: rotate(97.2deg);
+}
+
+.sf-download-bar__circle[data-progress='54'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(194.4deg);
+}
+
+.sf-download-bar__circle[data-progress='55'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='55'] .sf-download-bar__circle-fill {
+    transform: rotate(99deg);
+}
+
+.sf-download-bar__circle[data-progress='55'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(198deg);
+}
+
+.sf-download-bar__circle[data-progress='56'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='56'] .sf-download-bar__circle-fill {
+    transform: rotate(100.8deg);
+}
+
+.sf-download-bar__circle[data-progress='56'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(201.6deg);
+}
+
+.sf-download-bar__circle[data-progress='57'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='57'] .sf-download-bar__circle-fill {
+    transform: rotate(102.6deg);
+}
+
+.sf-download-bar__circle[data-progress='57'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(205.2deg);
+}
+
+.sf-download-bar__circle[data-progress='58'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='58'] .sf-download-bar__circle-fill {
+    transform: rotate(104.4deg);
+}
+
+.sf-download-bar__circle[data-progress='58'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(208.8deg);
+}
+
+.sf-download-bar__circle[data-progress='59'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='59'] .sf-download-bar__circle-fill {
+    transform: rotate(106.2deg);
+}
+
+.sf-download-bar__circle[data-progress='59'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(212.4deg);
+}
+
+.sf-download-bar__circle[data-progress='60'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='60'] .sf-download-bar__circle-fill {
+    transform: rotate(108deg);
+}
+
+.sf-download-bar__circle[data-progress='60'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(216deg);
+}
+
+.sf-download-bar__circle[data-progress='61'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='61'] .sf-download-bar__circle-fill {
+    transform: rotate(109.8deg);
+}
+
+.sf-download-bar__circle[data-progress='61'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(219.6deg);
+}
+
+.sf-download-bar__circle[data-progress='62'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='62'] .sf-download-bar__circle-fill {
+    transform: rotate(111.6deg);
+}
+
+.sf-download-bar__circle[data-progress='62'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(223.2deg);
+}
+
+.sf-download-bar__circle[data-progress='63'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='63'] .sf-download-bar__circle-fill {
+    transform: rotate(113.4deg);
+}
+
+.sf-download-bar__circle[data-progress='63'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(226.8deg);
+}
+
+.sf-download-bar__circle[data-progress='64'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='64'] .sf-download-bar__circle-fill {
+    transform: rotate(115.2deg);
+}
+
+.sf-download-bar__circle[data-progress='64'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(230.4deg);
+}
+
+.sf-download-bar__circle[data-progress='65'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='65'] .sf-download-bar__circle-fill {
+    transform: rotate(117deg);
+}
+
+.sf-download-bar__circle[data-progress='65'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(234deg);
+}
+
+.sf-download-bar__circle[data-progress='66'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='66'] .sf-download-bar__circle-fill {
+    transform: rotate(118.8deg);
+}
+
+.sf-download-bar__circle[data-progress='66'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(237.6deg);
+}
+
+.sf-download-bar__circle[data-progress='67'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='67'] .sf-download-bar__circle-fill {
+    transform: rotate(120.6deg);
+}
+
+.sf-download-bar__circle[data-progress='67'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(241.2deg);
+}
+
+.sf-download-bar__circle[data-progress='68'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='68'] .sf-download-bar__circle-fill {
+    transform: rotate(122.4deg);
+}
+
+.sf-download-bar__circle[data-progress='68'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(244.8deg);
+}
+
+.sf-download-bar__circle[data-progress='69'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='69'] .sf-download-bar__circle-fill {
+    transform: rotate(124.2deg);
+}
+
+.sf-download-bar__circle[data-progress='69'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(248.4deg);
+}
+
+.sf-download-bar__circle[data-progress='70'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='70'] .sf-download-bar__circle-fill {
+    transform: rotate(126deg);
+}
+
+.sf-download-bar__circle[data-progress='70'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(252deg);
+}
+
+.sf-download-bar__circle[data-progress='71'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='71'] .sf-download-bar__circle-fill {
+    transform: rotate(127.8deg);
+}
+
+.sf-download-bar__circle[data-progress='71'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(255.6deg);
+}
+
+.sf-download-bar__circle[data-progress='72'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='72'] .sf-download-bar__circle-fill {
+    transform: rotate(129.6deg);
+}
+
+.sf-download-bar__circle[data-progress='72'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(259.2deg);
+}
+
+.sf-download-bar__circle[data-progress='73'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='73'] .sf-download-bar__circle-fill {
+    transform: rotate(131.4deg);
+}
+
+.sf-download-bar__circle[data-progress='73'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(262.8deg);
+}
+
+.sf-download-bar__circle[data-progress='74'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='74'] .sf-download-bar__circle-fill {
+    transform: rotate(133.2deg);
+}
+
+.sf-download-bar__circle[data-progress='74'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(266.4deg);
+}
+
+.sf-download-bar__circle[data-progress='75'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='75'] .sf-download-bar__circle-fill {
+    transform: rotate(135deg);
+}
+
+.sf-download-bar__circle[data-progress='75'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(270deg);
+}
+
+.sf-download-bar__circle[data-progress='76'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='76'] .sf-download-bar__circle-fill {
+    transform: rotate(136.8deg);
+}
+
+.sf-download-bar__circle[data-progress='76'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(273.6deg);
+}
+
+.sf-download-bar__circle[data-progress='77'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='77'] .sf-download-bar__circle-fill {
+    transform: rotate(138.6deg);
+}
+
+.sf-download-bar__circle[data-progress='77'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(277.2deg);
+}
+
+.sf-download-bar__circle[data-progress='78'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='78'] .sf-download-bar__circle-fill {
+    transform: rotate(140.4deg);
+}
+
+.sf-download-bar__circle[data-progress='78'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(280.8deg);
+}
+
+.sf-download-bar__circle[data-progress='79'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='79'] .sf-download-bar__circle-fill {
+    transform: rotate(142.2deg);
+}
+
+.sf-download-bar__circle[data-progress='79'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(284.4deg);
+}
+
+.sf-download-bar__circle[data-progress='80'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='80'] .sf-download-bar__circle-fill {
+    transform: rotate(144deg);
+}
+
+.sf-download-bar__circle[data-progress='80'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(288deg);
+}
+
+.sf-download-bar__circle[data-progress='81'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='81'] .sf-download-bar__circle-fill {
+    transform: rotate(145.8deg);
+}
+
+.sf-download-bar__circle[data-progress='81'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(291.6deg);
+}
+
+.sf-download-bar__circle[data-progress='82'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='82'] .sf-download-bar__circle-fill {
+    transform: rotate(147.6deg);
+}
+
+.sf-download-bar__circle[data-progress='82'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(295.2deg);
+}
+
+.sf-download-bar__circle[data-progress='83'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='83'] .sf-download-bar__circle-fill {
+    transform: rotate(149.4deg);
+}
+
+.sf-download-bar__circle[data-progress='83'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(298.8deg);
+}
+
+.sf-download-bar__circle[data-progress='84'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='84'] .sf-download-bar__circle-fill {
+    transform: rotate(151.2deg);
+}
+
+.sf-download-bar__circle[data-progress='84'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(302.4deg);
+}
+
+.sf-download-bar__circle[data-progress='85'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='85'] .sf-download-bar__circle-fill {
+    transform: rotate(153deg);
+}
+
+.sf-download-bar__circle[data-progress='85'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(306deg);
+}
+
+.sf-download-bar__circle[data-progress='86'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='86'] .sf-download-bar__circle-fill {
+    transform: rotate(154.8deg);
+}
+
+.sf-download-bar__circle[data-progress='86'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(309.6deg);
+}
+
+.sf-download-bar__circle[data-progress='87'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='87'] .sf-download-bar__circle-fill {
+    transform: rotate(156.6deg);
+}
+
+.sf-download-bar__circle[data-progress='87'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(313.2deg);
+}
+
+.sf-download-bar__circle[data-progress='88'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='88'] .sf-download-bar__circle-fill {
+    transform: rotate(158.4deg);
+}
+
+.sf-download-bar__circle[data-progress='88'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(316.8deg);
+}
+
+.sf-download-bar__circle[data-progress='89'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='89'] .sf-download-bar__circle-fill {
+    transform: rotate(160.2deg);
+}
+
+.sf-download-bar__circle[data-progress='89'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(320.4deg);
+}
+
+.sf-download-bar__circle[data-progress='90'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='90'] .sf-download-bar__circle-fill {
+    transform: rotate(162deg);
+}
+
+.sf-download-bar__circle[data-progress='90'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(324deg);
+}
+
+.sf-download-bar__circle[data-progress='91'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='91'] .sf-download-bar__circle-fill {
+    transform: rotate(163.8deg);
+}
+
+.sf-download-bar__circle[data-progress='91'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(327.6deg);
+}
+
+.sf-download-bar__circle[data-progress='92'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='92'] .sf-download-bar__circle-fill {
+    transform: rotate(165.6deg);
+}
+
+.sf-download-bar__circle[data-progress='92'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(331.2deg);
+}
+
+.sf-download-bar__circle[data-progress='93'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='93'] .sf-download-bar__circle-fill {
+    transform: rotate(167.4deg);
+}
+
+.sf-download-bar__circle[data-progress='93'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(334.8deg);
+}
+
+.sf-download-bar__circle[data-progress='94'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='94'] .sf-download-bar__circle-fill {
+    transform: rotate(169.2deg);
+}
+
+.sf-download-bar__circle[data-progress='94'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(338.4deg);
+}
+
+.sf-download-bar__circle[data-progress='95'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='95'] .sf-download-bar__circle-fill {
+    transform: rotate(171deg);
+}
+
+.sf-download-bar__circle[data-progress='95'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(342deg);
+}
+
+.sf-download-bar__circle[data-progress='96'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='96'] .sf-download-bar__circle-fill {
+    transform: rotate(172.8deg);
+}
+
+.sf-download-bar__circle[data-progress='96'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(345.6deg);
+}
+
+.sf-download-bar__circle[data-progress='97'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='97'] .sf-download-bar__circle-fill {
+    transform: rotate(174.6deg);
+}
+
+.sf-download-bar__circle[data-progress='97'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(349.2deg);
+}
+
+.sf-download-bar__circle[data-progress='98'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='98'] .sf-download-bar__circle-fill {
+    transform: rotate(176.4deg);
+}
+
+.sf-download-bar__circle[data-progress='98'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(352.8deg);
+}
+
+.sf-download-bar__circle[data-progress='99'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='99'] .sf-download-bar__circle-fill {
+    transform: rotate(178.2deg);
+}
+
+.sf-download-bar__circle[data-progress='99'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(356.4deg);
+}
+
+.sf-download-bar__circle[data-progress='100'] .sf-download-bar__circle-slice.sf-download-bar__circle-slice_view_full,
+.sf-download-bar__circle[data-progress='100'] .sf-download-bar__circle-fill {
+    transform: rotate(180deg);
+}
+
+.sf-download-bar__circle[data-progress='100'] .sf-download-bar__circle-fill.sf-download-bar__circle-bar {
+    transform: rotate(360deg);
+}
+
+.sf-download-bar {
+    position: fixed;
+    right: 110px;
+    bottom: 100px;
+    z-index: 99999;
+
+    width: 64px;
+    height: 64px;
+    font-family: "Roboto", Helvetica, Arial, sans-serif;
+
+    transition: width, height, right, 0.2s;
+
+    border-radius: 50%;
+}
+
+.sf-download-bar_opened_yes {
+    width: 184px;
+
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+
+    box-shadow: 0px 0px 18px rgba(49, 51, 106, 0.15);
+}
+
+.sf-download-bar_hide_yes {
+    right: -64px;
+}
+
+.sf-download-bar__head {
+    position: relative;
+    z-index: 10;
+
+    display: block;
+    white-space: nowrap;
+
+    width: 100%;
+    height: 64px;
+
+    outline: none;
+    text-align: center;
+    text-decoration: none;
+
+    background: #5181B8;
+    border-radius: 100px;
+    box-shadow: none;
+}
+
+/* .sf-download-bar:not(.sf-download-bar_opened_yes) .sf-download-bar__head {
+    box-shadow: 0px 0px 18px rgba(49, 51, 106, 0.15);
+} */
+
+.sf-download-bar__head:after {
+    content: '';
+    width: 64px;
+    height: 64px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    background: #5181B8;
+    border-radius: 100px;
+    transition: width, height, left, top, 0.2s;
+}
+
+.sf-download-bar:not(.sf-download-bar_opened_yes):hover .sf-download-bar__head:after {
+    width: 68px;
+    height: 68px;
+    top: -2px;
+    left: -2px;
+    box-shadow: 0px 0px 18px rgba(49, 51, 106, 0.15);
+}
+
+.sf-download-bar_opened_yes .sf-download-bar__head:after {
+    opacity: 0;
+    display: none;
+}
+
+.sf-download-bar__ticker {
+    z-index: 1;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+
+    width: 17px;
+    height: 17px;
+
+    background: #FF734C;
+    border-radius: 100px;
+
+    color: #fff;
+    text-align: center;
+    line-height: 17px;
+    font-size: 10px;
+    font-weight: bold;
+
+    transition: opacity 0.2s;
+}
+
+.sf-download-bar_opened_yes .sf-download-bar__ticker {
+    opacity: 0;
+}
+
+.sf-download-bar__ticker-big {
+    opacity: 0;
+    z-index: 1;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+
+    width: 40px;
+    height: 40px;
+    ;
+
+    color: #fff;
+    text-align: center;
+    line-height: 40px;
+    font-size: 14px;
+
+    transition: opacity 0.2s;
+}
+
+.sf-download-bar_opened_yes .sf-download-bar__ticker-big {
+    opacity: 1;
+}
+
+.sf-download-bar__circle svg {
+    z-index: 1;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: block;
+    margin: -7px 0 0 -5px;
+}
+
+.sf-download-bar_opened_yes .sf-download-bar__circle svg {
+    opacity: 0;
+}
+
+.sf-download-bar__content {
+    overflow: hidden;
+}
+
+.sf-download-bar__text {
+    opacity: 0.6;
+
+    color: #fff;
+    font-size: 11px;
+    text-align: center;
+    line-height: 64px;
+
+    overflow: hidden;
+
+    margin-left: -90px;
+    margin-right: 26px;
+
+    width: 64px;
+    height: 64px;
+
+    vertical-align: middle;
+    display: inline-block;
+    transition: margin-left 0.2s;
+}
+
+.sf-download-bar_opened_yes .sf-download-bar__text {
+    margin-left: 30px;
+}
+
+.sf-download-bar__footer {
+    width: 100%;
+    height: 0;
+    background-color: #fff;
+    overflow-y: auto;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+.sf-download-bar_opened_yes .sf-download-bar__footer {
+    padding-top: 32px;
+    margin-top: -32px;
+}
+
+.sf-download-bar__stop {
+    opacity: 0.5;
+    width: 8px;
+    height: 8px;
+    visibility: hidden;
+    margin-right: 7px;
+    margin-left: 15px;
+    margin-top: 6px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.sf-download-bar__stop:hover {
+    opacity: 1;
+}
+
+.sf-download-bar__item {
+    overflow: hidden;
+    height: 48px;
+    line-height: 40px;
+    transition: background-color 0.1s;
+}
+
+.sf-download-bar__item:first-child {
+    margin-top: 5px;
+}
+
+.sf-download-bar__item:hover {
+    background-color: #E9EDF1;
+}
+
+.sf-download-bar__item:hover .sf-download-bar__stop {
+    visibility: visible;
+}
+
+.sf-download-bar__item-info {
+    height: 30px;
+    position: relative;
+    display: inline-block;
+    width: 135px;
+}
+
+.sf-download-bar__item-name {
+    line-height: 1em;
+    font-size: 11px;
+    color: #000;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.sf-download-bar__item-progress,
+.sf-download-bar__item-progress-bg {
+    position: absolute;
+    top: 18px;
+    left: 0;
+    height: 1px;
+}
+
+.sf-download-bar__item-progress-bg {
+    width: 100%;
+    background-color: #E7E8EC;
+    z-index: 1;
+}
+
+.sf-download-bar__item-progress {
+    width: 0;
+    background-color: #5181B8;
+    z-index: 2;
+}
+
+.sf-download-bar__cancel {
+    display: none;
+    height: 40px;
+    line-height: 40px;
+    color: #5181B8;
+    font-size: 9px;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.2s;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    background: #fff;
+}
+
+.sf-download-bar_opened_yes .sf-download-bar__cancel {
+    display: block;
+}
+
+.sf-download-bar__cancel:hover {
+    text-decoration: none;
+    background-color: #5181B8;
+    color: #fff;
+}
+</style><div class="sf-download-bar sf-download-bar_hide_yes"><a href="https://my.telegram.org/apps#" class="sf-download-bar__head"><div class="sf-download-bar__ticker">1</div><div class="sf-download-bar__content"><div class="sf-download-bar__text">Downloading</div><div class="sf-download-bar__circle" data-progress="0"><div class="sf-download-bar__ticker-big">1</div><svg width="16" height="16" viewBox="0 0 16 16"><path d="M0 13.3623H11.0043V11.7903H0V13.3623ZM11.0043 4.71611H7.86018V0H3.14407V4.71611H0L5.50213 10.2182L11.0043 4.71611Z" fill="#fff"></path></svg><div class="sf-download-bar__circle-slice sf-download-bar__circle-slice_view_full"><div class="sf-download-bar__circle-fill"></div></div><div class="sf-download-bar__circle-slice"><div class="sf-download-bar__circle-fill"></div><div class="sf-download-bar__circle-fill sf-download-bar__circle-bar"></div></div><div class="sf-download-bar__circle-overlay"></div></div></div></a><div class="sf-download-bar__footer"><div class="sf-download-bar__list"></div></div><a href="https://my.telegram.org/apps#" class="sf-download-bar__cancel">Cancel all downloads</a></div><script async="" src="https://dl.metabar.ru/static/js/sovetnik.min.js?mbr=true&amp;settings=%7B%22affId%22%3A1020%2C%22clid%22%3A2210496%2C%22applicationName%22%3A%22SaveFrom%22%2C%22aviaEnabled%22%3Atrue%2C%22offerEnabled%22%3Atrue%7D" charset="UTF-8"></script></body></html>

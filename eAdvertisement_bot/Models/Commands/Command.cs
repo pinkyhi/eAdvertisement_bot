@@ -76,7 +76,7 @@ namespace eAdvertisement_bot.Models.Commands
                         },
                         new[] // third row
                         {
-                            new InlineKeyboardButton { Text = "Back", CallbackData = "/backFromBuyMenu" },
+                            new InlineKeyboardButton { Text = "Back", CallbackData = "/backToStartMenu" },
                         }
         });
 

@@ -21,21 +21,24 @@ namespace eAdvertisement_bot.Controllers
         [HttpGet]
         public string Get()
         {
+            
             /*
              * Small example how to get access to related tables, and how to add something.
              * More examples and with LINQ too is here https://metanit.com/sharp/entityframeworkcore/1.1.php
-             * 
+             */
+             /*
+            AppDbContext dbContext = new AppDbContext();
             List<Channel_Category> channelCategories = dbContext.Channel_Categories.ToList();
             List<Category> categories = dbContext.Categories.ToList();
             List<Channel> channels = dbContext.Channels.ToList();
             List<Advertisement> advs = dbContext.Advertisements.ToList();
             dbContext.Categories.Add(new Category { Name = "testCategoryThatAddedFromApp" });
             dbContext.SaveChanges();
-
-
+            */
+            /*
             * If you would find a problem with part of working with dbContext, try to solve it with FluentAPI part in AppDbContext
             */
-
+            
             return "GET method is unavailable";
         }
 
@@ -46,26 +49,9 @@ namespace eAdvertisement_bot.Controllers
         [Route("/df443335")]
         public async Task<StatusCodeResult> Post([FromBody]Update update)
         {
-            
             var commands = Bot.Commands;
             var botClient = await Bot.GetBotClientAsync();
-            /*  Part to test some functions
-            try
-            {
-            Chat c = await botClient.GetChatAsync(update.ChannelPost.Chat.Id);
-            var mems =await botClient.GetChatAdministratorsAsync(c.Id);
-            var link=await botClient.ExportChatInviteLinkAsync(c.Id);
-            var mesage = await botClient.SendTextMessageAsync(c.Id, "Eto pisal bot");
-            //var cmsg = await botClient.EditMessageTextAsync(c.Id, 6, "a eto voobshe izmenil bot 2 raz");
-            await botClient.DeleteMessageAsync(c.Id, 6);
-            }
-            catch(Exception ex)
-            {
-                return Ok();
-            }
-            return Ok();
-            */
-            if (update == null) { return Ok(); }    // Message can has no updates, but smth else
+            if (update == null) { return Ok(); }    // Message can has no updates, but smth else ?
             else
             {
                 foreach (var command in commands)

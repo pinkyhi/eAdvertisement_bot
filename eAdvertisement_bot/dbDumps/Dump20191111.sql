@@ -182,7 +182,7 @@ CREATE TABLE `channel` (
   `name` varchar(64) DEFAULT NULL,
   `description` varchar(1024) DEFAULT NULL,
   `ban` tinyint(1) NOT NULL DEFAULT '0',
-  `user_id` int(11) NOT NULL,
+  `user_id` bigint(20) NOT NULL,
   `date` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`channel_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -194,6 +194,7 @@ CREATE TABLE `channel` (
 
 LOCK TABLES `channel` WRITE;
 /*!40000 ALTER TABLE `channel` DISABLE KEYS */;
+INSERT INTO `channel` VALUES (-132,NULL,1,1,NULL,'T2',NULL,0,458816638,'2019-11-11 01:05:56'),(9,NULL,1,1,NULL,'T3',NULL,0,458816638,'2019-11-11 01:05:56'),(78,NULL,1,1,NULL,'T1',NULL,0,458816638,'2019-11-11 01:05:56'),(79,NULL,1,1,NULL,'T4',NULL,0,458816638,'2019-11-11 01:06:47'),(80,NULL,1,1,NULL,'T5',NULL,0,458816638,'2019-11-11 01:06:47'),(81,NULL,1,1,NULL,'T6',NULL,0,458816638,'2019-11-11 01:06:47'),(82,NULL,1,1,NULL,'T7',NULL,0,458816638,'2019-11-11 01:06:47'),(83,NULL,1,1,NULL,'T8',NULL,0,458816638,'2019-11-11 01:06:47');
 /*!40000 ALTER TABLE `channel` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -229,12 +230,12 @@ DROP TABLE IF EXISTS `input`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `input` (
   `input_id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
+  `user_id` bigint(20) NOT NULL,
   `sum` double NOT NULL,
   `inputed` int(11) NOT NULL,
   `description` varchar(64) NOT NULL,
   PRIMARY KEY (`input_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -243,6 +244,7 @@ CREATE TABLE `input` (
 
 LOCK TABLES `input` WRITE;
 /*!40000 ALTER TABLE `input` DISABLE KEYS */;
+INSERT INTO `input` VALUES (5,458816638,1,1,'1');
 /*!40000 ALTER TABLE `input` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -326,7 +328,7 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `user` (
-  `user_id` int(11) NOT NULL,
+  `user_id` bigint(20) NOT NULL,
   `phone` varchar(24) DEFAULT NULL,
   `nickname` varchar(64) DEFAULT NULL,
   `balance` int(11) NOT NULL DEFAULT '0',
@@ -347,7 +349,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (357927075,NULL,'Sub2Ch',0,0,0,_binary '\0','SHIIIITT',NULL,NULL,_binary '\0'),(401093470,NULL,NULL,0,0,0,_binary '\0','Вероника','Балаклицкая','en',_binary '\0'),(458816638,NULL,'pinky_hi',0,0,0,_binary '\0','Иван','Владимиров','ru',_binary ''),(517407871,NULL,'zlobste',0,0,0,_binary '\0','Николай','Крайнюк','ru',_binary '\0'),(933004747,NULL,'memniyboh',0,0,0,_binary '\0','Мемный Бох',NULL,NULL,_binary '');
+INSERT INTO `user` VALUES (357927075,NULL,'Sub2Ch',0,0,0,_binary '\0','SHIIIITT',NULL,NULL,_binary '\0'),(401093470,NULL,NULL,0,0,0,_binary '\0','Вероника','Балаклицкая','en',_binary '\0'),(458816638,NULL,'pinky_hi',0,0,0,_binary '\0','Иван','Владимиров','ru',_binary '\0'),(517407871,NULL,'zlobste',0,0,0,_binary '\0','Николай','Крайнюк','ru',_binary '\0'),(933004747,NULL,'memniyboh',0,0,0,_binary '\0','Мемный Бох',NULL,'ru',_binary '\0');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -360,4 +362,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-11-06  1:06:46
+-- Dump completed on 2019-11-11  4:00:18

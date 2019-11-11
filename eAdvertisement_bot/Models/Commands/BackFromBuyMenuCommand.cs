@@ -29,22 +29,27 @@ namespace eAdvertisement_bot.Models.Commands
         public async override Task Execute(Update update, TelegramBotClient botClient)
         {
             AppDbContext dbContext = new AppDbContext();
-            await botClient.DeleteMessageAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId);
-            long userId = update.CallbackQuery.From.Id;
-            DbEntities.User userEntity = dbContext.Users.Find(userId);
-
-            InlineKeyboardMarkup keyboard;
-            if (userEntity.Stopped)
+            try
             {
-                keyboard = entryStoppedBotKeyboard;
-            }
-            else
-            {
-                keyboard = entryLaunchedBotKeyboard;
-            }
-            await botClient.SendTextMessageAsync(userId, "You are already initialized.", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown, replyMarkup: keyboard);
+                long userId = update.CallbackQuery.From.Id;
+                DbEntities.User userEntity = dbContext.Users.Find(userId);
 
-            dbContext.Dispose();
+                InlineKeyboardMarkup keyboard;
+                if (userEntity.Stopped)
+                {
+                    keyboard = entryStoppedBotKeyboard;
+                }
+                else
+                {
+                    keyboard = entryLaunchedBotKeyboard;
+                }
+                await botClient.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, "You are already initialized.", replyMarkup: keyboard);
+            }
+            catch { }
+            finally
+            {
+                dbContext.Dispose();
+            }
         }
     }
 }

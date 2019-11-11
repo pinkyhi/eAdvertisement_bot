@@ -14,7 +14,7 @@ namespace eAdvertisement_bot.Models.DbEntities
         public int Input_Id { get; set; }
 
         [Column("user_id")]
-        public int User_Id { get; set; }
+        public long User_Id { get; set; }
         public User User { get; set; }
 
         [Column("sum")]

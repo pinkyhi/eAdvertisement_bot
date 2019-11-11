@@ -30,6 +30,7 @@ namespace eAdvertisement_bot
                 commandsList.Add(new LaunchBotCommand());
                 commandsList.Add(new BuyMenuCommand());
                 commandsList.Add(new BackFromBuyMenuCommand());
+                commandsList.Add(new SellMenuCommand());
 
                 botClient = new TelegramBotClient(BotSettings.Token);   // Token setting
 

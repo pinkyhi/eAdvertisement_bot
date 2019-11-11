@@ -36,7 +36,7 @@ namespace eAdvertisement_bot.Models.Commands
 
             InlineKeyboardMarkup keyboard = entryStoppedBotKeyboard;
 
-            await botClient.EditMessageReplyMarkupAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, keyboard);
+            await botClient.EditMessageReplyMarkupAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, keyboard);    //i don't know why here is editing and no deleting and sending, but i don't want to rework it
 
             dbContext.Dispose();
         }

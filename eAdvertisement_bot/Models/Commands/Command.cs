@@ -27,7 +27,7 @@ namespace eAdvertisement_bot.Models.Commands
                         new[] // second row
                         {
                             new InlineKeyboardButton { Text = "Buy", CallbackData = "/buyMenu" },
-                            new InlineKeyboardButton { Text = "Sell", CallbackData = "/sellMenu" },
+                            new InlineKeyboardButton { Text = "Sell", CallbackData = "/sellMenuP0" },
                         },
                         new[] // third row
                         {                            
@@ -50,7 +50,7 @@ namespace eAdvertisement_bot.Models.Commands
                         new[] // second row
                         {
                             new InlineKeyboardButton { Text = "Buy", CallbackData = "/buyMenu" },
-                            new InlineKeyboardButton { Text = "Sell", CallbackData = "/sellMenu" },
+                            new InlineKeyboardButton { Text = "Sell", CallbackData = "/sellMenuP0" },
                         },
                         new[] // third row
                         {

@@ -17,13 +17,13 @@ namespace eAdvertisement_bot.Models.DbEntities
         public string Link { get; set; }
 
         [Column("subscribers")]
-        public int Subscribers { get; set; }
+        public int? Subscribers { get; set; }
 
         [Column("coverage")]
-        public int Coverage { get; set; }
+        public int? Coverage { get; set; }
 
         [Column("cpm")]
-        public int Cpm { get; set; }
+        public int? Cpm { get; set; }
 
         [Column("name")]
         public string Name { get; set; }
@@ -35,7 +35,7 @@ namespace eAdvertisement_bot.Models.DbEntities
         public bool Ban { get; set; }
 
         [Column("user_id")]
-        public int User_Id { get; set; }
+        public long User_Id { get; set; }
         public User User { get; set; }
 
         [Column("date")]

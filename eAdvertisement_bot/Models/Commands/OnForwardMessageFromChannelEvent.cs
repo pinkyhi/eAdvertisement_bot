@@ -74,7 +74,7 @@ namespace eAdvertisement_bot.Models.Commands
 
                                 await botClient.ExportChatInviteLinkAsync(update.Message.ForwardFromChat.Id);
                                 string inviteLink = (await botClient.GetChatAsync(chatId)).InviteLink;
-                                dbContext.Channels.Add(new DbEntities.Channel { Coverage = 0, Channel_Id = chatId, Link = inviteLink, Subscribers = await botClient.GetChatMembersCountAsync(update.Message.ForwardFromChat.Id), }); 
+                                dbContext.Channels.Add(new DbEntities.Channel { Coverage = 0, Channel_Id = chatId, Link = inviteLink, Subscribers = await botClient.GetChatMembersCountAsync(update.Message.ForwardFromChat.Id), User_Id= update.Message.From.Id }); 
                                 dbContext.SaveChanges();
                                 try
                                 {

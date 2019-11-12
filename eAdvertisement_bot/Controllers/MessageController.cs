@@ -49,26 +49,34 @@ namespace eAdvertisement_bot.Controllers
         [Route("/df443335")]
         public async Task<StatusCodeResult> Post([FromBody]Update update)
         {
-            var commands = Bot.Commands;
-            //return Ok();
             var botClient = await Bot.GetBotClientAsync();
-            if (update == null) { return Ok(); }    // Message can has no updates, but smth else ?
-            else
+            try
             {
-                foreach (var command in commands)
+                var commands = Bot.Commands;
+                //return Ok();
+                if (update == null) { return Ok(); }    // Message can has no updates, but smth else ?
+                else
                 {
-                    if (command.Contains(update))
+                    foreach (var command in commands)
                     {
-                        await command.Execute(update, botClient);
-                        return Ok();
+                        if (command.Contains(update))
+                        {
+                            await command.Execute(update, botClient);
+                            return Ok();
+                        }
                     }
+                    /*
+                    if (update.Type == Telegram.Bot.Types.Enums.UpdateType.Message)
+                    {
+                        await botClient.DeleteMessageAsync(update.Message.Chat.Id, update.Message.MessageId);
+                    }
+                    */
                 }
-                /*
-                if (update.Type == Telegram.Bot.Types.Enums.UpdateType.Message)
-                {
-                    await botClient.DeleteMessageAsync(update.Message.Chat.Id, update.Message.MessageId);
-                }
-                */
+            }
+            catch(Exception ex) { await botClient.SendTextMessageAsync(update.Message == null ? update.CallbackQuery.From.Id : update.Message.From.Id, "Error: " + ex.Message); }
+            finally
+            {
+                Ok();
             }
             return Ok();
         }

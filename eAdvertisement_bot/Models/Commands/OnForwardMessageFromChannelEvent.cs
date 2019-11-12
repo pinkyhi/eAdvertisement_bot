@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.ReplyMarkups;
 using TeleSharp.TL;
 using TeleSharp.TL.Messages;
 using TLSharp.Core;
@@ -72,10 +73,13 @@ namespace eAdvertisement_bot.Models.Commands
                                 await cah.ConnectClient();
                                 await cah.SetClientId();
 
-                                await botClient.ExportChatInviteLinkAsync(update.Message.ForwardFromChat.Id);
+                                if((await botClient.GetChatAsync(chatId)).InviteLink == null)
+                                {
+                                    await botClient.ExportChatInviteLinkAsync(update.Message.ForwardFromChat.Id);
+                                }
+
                                 string inviteLink = (await botClient.GetChatAsync(chatId)).InviteLink;
-                                dbContext.Channels.Add(new DbEntities.Channel { Coverage = 0, Channel_Id = chatId, Link = inviteLink, Subscribers = await botClient.GetChatMembersCountAsync(update.Message.ForwardFromChat.Id), User_Id= update.Message.From.Id }); 
-                                dbContext.SaveChanges();
+                                
                                 try
                                 {
                                     Chat s = await botClient.GetChatAsync(chatId);
@@ -87,16 +91,21 @@ namespace eAdvertisement_bot.Models.Commands
                                     {
                                         coverage = await cah.GetCoverageOfChannel(inviteLink, chatId, false);
                                     }
-
-                                    dbContext.Channels.Find(chatId).Coverage = coverage;
+                                    dbContext.Channels.Add(new DbEntities.Channel { Coverage=coverage, Name=update.Message.ForwardFromChat.Username, Date = DateTime.UtcNow, Channel_Id = chatId, Link = inviteLink, Subscribers = await botClient.GetChatMembersCountAsync(update.Message.ForwardFromChat.Id), User_Id = update.Message.From.Id });
                                     dbContext.SaveChanges();
+                                    await botClient.SendTextMessageAsync(update.Message.From.Id, "OK! Channel is added :)", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Back to sell menu", CallbackData = "/backToSellMenu" }));
+                                    
                                 }
                                 catch (Exception ex)
                                 {
                                     if (ex.Message.Equals("INVITE_HASH_EXPIRED"))
                                     {
                                         await botClient.SendTextMessageAsync(update.Message.Chat.Id, "eAdvertisement_bot helper couldn't join to channel, try to add it manually.\n@eAdvertisement_Helper\n" +
-                                            "Also that can be because of high load on helper account, so just try again later.");
+                                            "Also that can be because of high load on helper account, so just try again later.\n\n"+inviteLink);
+                                    }
+                                    else
+                                    {
+                                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, ex.Message);
                                     }
                                 }
                             }
@@ -127,8 +136,8 @@ namespace eAdvertisement_bot.Models.Commands
                         else if(chInDb.User_Id != update.Message.From.Id && isUserACreator)
                         {
                             chInDb.User_Id = update.Message.From.Id;
-                            dbContext.SaveChanges();    // Check if it will save changes to db
-                            await botClient.SendTextMessageAsync(update.Message.Chat.Id, "This channel was attached not to you, but we fixed it\n Congratulations with a new channel! :)");
+                            dbContext.SaveChanges();    
+                            await botClient.SendTextMessageAsync(update.Message.Chat.Id, "This channel was attached not to you, but we fixed it!\nCongratulations with a new channel! :)");
                         }
                     }
                 }

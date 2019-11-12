@@ -339,6 +339,7 @@ CREATE TABLE `user` (
   `lastname` varchar(64) DEFAULT NULL,
   `language` varchar(32) DEFAULT NULL,
   `stopped` bit(1) NOT NULL,
+  `user_state_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -349,8 +350,32 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (357927075,NULL,'Sub2Ch',0,0,0,_binary '\0','SHIIIITT',NULL,NULL,_binary '\0'),(401093470,NULL,NULL,0,0,0,_binary '\0','Вероника','Балаклицкая','en',_binary '\0'),(458816638,NULL,'pinky_hi',0,0,0,_binary '\0','Иван','Владимиров','ru',_binary '\0'),(517407871,NULL,'zlobste',0,0,0,_binary '\0','Николай','Крайнюк','ru',_binary '\0'),(933004747,NULL,'memniyboh',0,0,0,_binary '\0','Мемный Бох',NULL,'ru',_binary '\0');
+INSERT INTO `user` VALUES (357927075,NULL,'Sub2Ch',0,0,0,_binary '\0','SHIIIITT',NULL,NULL,_binary '\0',0),(401093470,NULL,NULL,0,0,0,_binary '\0','Вероника','Балаклицкая','en',_binary '\0',0),(458816638,NULL,'pinky_hi',0,0,0,_binary '\0','Иван','Владимиров','ru',_binary '\0',1),(517407871,NULL,'zlobste',0,0,0,_binary '\0','Николай','Крайнюк','ru',_binary '\0',0),(933004747,NULL,'memniyboh',0,0,0,_binary '\0','Мемный Бох',NULL,'ru',_binary '\0',1);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user_state`
+--
+
+DROP TABLE IF EXISTS `user_state`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `user_state` (
+  `user_state_id` int(11) NOT NULL AUTO_INCREMENT,
+  `state` varchar(32) DEFAULT NULL,
+  PRIMARY KEY (`user_state_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user_state`
+--
+
+LOCK TABLES `user_state` WRITE;
+/*!40000 ALTER TABLE `user_state` DISABLE KEYS */;
+INSERT INTO `user_state` VALUES (0,'Null'),(1,'Waiting for a new channel');
+/*!40000 ALTER TABLE `user_state` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -362,4 +387,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-11-11  4:00:18
+-- Dump completed on 2019-11-12  4:08:18

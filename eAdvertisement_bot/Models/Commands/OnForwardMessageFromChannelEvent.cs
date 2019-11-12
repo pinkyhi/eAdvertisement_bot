@@ -5,6 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
+using TeleSharp.TL;
+using TeleSharp.TL.Messages;
+using TLSharp.Core;
 
 namespace eAdvertisement_bot.Models.Commands
 {
@@ -53,10 +56,11 @@ namespace eAdvertisement_bot.Models.Commands
                     DbEntities.Channel chInDb = dbContext.Channels.Find(chatId);
 
                     
-                        ChatMember[] admins = await botClient.GetChatAdministratorsAsync(chatId);
-                        ChatMember botAsAChatMember = admins.First(a => a.User.Id == botId);
-                        bool isBotAdmin = botAsAChatMember!=null;
-                        bool isUserACreator = admins.First(a => a.User.Id == update.Message.From.Id).Status == Telegram.Bot.Types.Enums.ChatMemberStatus.Creator;
+                    ChatMember[] admins = await botClient.GetChatAdministratorsAsync(chatId);
+                    ChatMember botAsAChatMember = admins.First(a => a.User.Id == botId);
+                    bool isBotAdmin = botAsAChatMember!=null;
+                    bool isUserACreator = admins.First(a => a.User.Id == update.Message.From.Id).Status == Telegram.Bot.Types.Enums.ChatMemberStatus.Creator;
+
                     if (chInDb == null)
                     {
                         if (isBotAdmin && isUserACreator)
@@ -64,8 +68,37 @@ namespace eAdvertisement_bot.Models.Commands
                             int coverage=0;
                             if(botAsAChatMember.CanDeleteMessages==true && botAsAChatMember.CanEditMessages==true && botAsAChatMember.CanPostMessages == true)
                             {
-                                //here will be a part with client api
-                                dbContext.Channels.Add(new DbEntities.Channel { Channel_Id = chatId, Link = update.Message.ForwardFromChat.InviteLink, Subscribers = await botClient.GetChatMembersCountAsync(update.Message.ForwardFromChat.Id), });
+                                ClientApiHandler cah = new ClientApiHandler();
+                                await cah.ConnectClient();
+                                await cah.SetClientId();
+
+                                await botClient.ExportChatInviteLinkAsync(update.Message.ForwardFromChat.Id);
+                                string inviteLink = (await botClient.GetChatAsync(chatId)).InviteLink;
+                                dbContext.Channels.Add(new DbEntities.Channel { Coverage = 0, Channel_Id = chatId, Link = inviteLink, Subscribers = await botClient.GetChatMembersCountAsync(update.Message.ForwardFromChat.Id), }); 
+                                dbContext.SaveChanges();
+                                try
+                                {
+                                    Chat s = await botClient.GetChatAsync(chatId);
+                                    if ((await botClient.GetChatMemberAsync(chatId, cah.Client_Id)).Status != Telegram.Bot.Types.Enums.ChatMemberStatus.Member)
+                                    {
+                                        coverage = await cah.GetCoverageOfChannel(inviteLink,chatId,true);
+                                    }
+                                    else
+                                    {
+                                        coverage = await cah.GetCoverageOfChannel(inviteLink, chatId, false);
+                                    }
+
+                                    dbContext.Channels.Find(chatId).Coverage = coverage;
+                                    dbContext.SaveChanges();
+                                }
+                                catch (Exception ex)
+                                {
+                                    if (ex.Message.Equals("INVITE_HASH_EXPIRED"))
+                                    {
+                                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "eAdvertisement_bot helper couldn't join to channel, try to add it manually.\n@eAdvertisement_Helper\n" +
+                                            "Also that can be because of high load on helper account, so just try again later.");
+                                    }
+                                }
                             }
                             else
                             {
@@ -78,9 +111,8 @@ namespace eAdvertisement_bot.Models.Commands
                         }
                         if (!isUserACreator)
                         {
-                            await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Sorry, but you aren't a creator of this channel");
-                        }
-                        
+                            await botClient.SendTextMessageAsync(update.Message.Chat.Id, "You aren't a creator of this channel");
+                        }             
                     }
                     else
                     {
@@ -96,7 +128,7 @@ namespace eAdvertisement_bot.Models.Commands
                         {
                             chInDb.User_Id = update.Message.From.Id;
                             dbContext.SaveChanges();    // Check if it will save changes to db
-                            await botClient.SendTextMessageAsync(update.Message.Chat.Id, "This channel was attached not to you, but we fixed it\n Congratulations witha new channel! :)");
+                            await botClient.SendTextMessageAsync(update.Message.Chat.Id, "This channel was attached not to you, but we fixed it\n Congratulations with a new channel! :)");
                         }
                     }
                 }

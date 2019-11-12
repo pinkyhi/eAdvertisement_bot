@@ -43,6 +43,7 @@ namespace eAdvertisement_bot.Models.Commands
                 {
                     keyboard = entryLaunchedBotKeyboard;
                 }
+                await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, null, false);
                 await botClient.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, "You are already initialized.", replyMarkup: keyboard);
             }
             catch { }

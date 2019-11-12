@@ -91,12 +91,14 @@ namespace eAdvertisement_bot.Models.Commands
                     indexToPaste++;
                 }
 
-                keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = "Back", CallbackData = "/backFromSaleMenu" }, };
+                keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = "Back", CallbackData = "/backToStartMenu" }, };
 
 
 
                 
                 await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, null, false);  // ...,...,alert    AnswerCallbackQuery is required to send to avoid clock animation ob the button
+                dbContext.Users.Find(Convert.ToInt64(update.CallbackQuery.From.Id)).User_State_Id = 0;
+                dbContext.SaveChanges();
                 await botClient.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, "Here you can see your channels", replyMarkup: new InlineKeyboardMarkup(keyboard));
                 
                 

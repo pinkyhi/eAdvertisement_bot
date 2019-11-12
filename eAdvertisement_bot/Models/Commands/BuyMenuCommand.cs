@@ -37,7 +37,6 @@ namespace eAdvertisement_bot.Models.Commands
                 await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, null, false);  // ...,...,alert    AnswerCallbackQuery is required to send to avoid clock animation ob the button
 
                 InlineKeyboardMarkup keyboard = buyMenuKeyboard;
-
                 await botClient.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, "Balance: " + userEntity.Balance + "\nHold: " + hold, replyMarkup: keyboard);
             }
             catch { }

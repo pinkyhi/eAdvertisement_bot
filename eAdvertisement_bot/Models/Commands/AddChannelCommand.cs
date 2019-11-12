@@ -31,7 +31,8 @@ namespace eAdvertisement_bot.Models.Commands
             AppDbContext dbContext = new AppDbContext();
             try
             {
-                InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Back to sell menu", CallbackData = "/backToSellMenu" });
+                InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Back to sell menu", CallbackData = "/sellMenuP0" });
+                await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, null, false);
                 await botClient.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, "Send any post from a channel where this bot is administrator", replyMarkup: keyboard);
                 dbContext.Users.First(u => u.User_Id == update.CallbackQuery.From.Id).User_State_Id = 1;
                 dbContext.SaveChanges();

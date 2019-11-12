@@ -91,9 +91,9 @@ namespace eAdvertisement_bot.Models.Commands
                                     {
                                         coverage = await cah.GetCoverageOfChannel(inviteLink, chatId, false);
                                     }
-                                    dbContext.Channels.Add(new DbEntities.Channel { Coverage=coverage, Name=update.Message.ForwardFromChat.Username, Date = DateTime.UtcNow, Channel_Id = chatId, Link = inviteLink, Subscribers = await botClient.GetChatMembersCountAsync(update.Message.ForwardFromChat.Id), User_Id = update.Message.From.Id });
+                                    dbContext.Channels.Add(new DbEntities.Channel { Coverage=coverage, Name=update.Message.ForwardFromChat.Title, Date = DateTime.UtcNow, Channel_Id = chatId, Link = inviteLink, Subscribers = await botClient.GetChatMembersCountAsync(update.Message.ForwardFromChat.Id), User_Id = update.Message.From.Id });
                                     dbContext.SaveChanges();
-                                    await botClient.SendTextMessageAsync(update.Message.From.Id, "OK! Channel is added :)", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Back to sell menu", CallbackData = "/backToSellMenu" }));
+                                    await botClient.SendTextMessageAsync(update.Message.From.Id, "OK! Channel is added :)", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Back to sell menu", CallbackData = "/sellMenuP0" }));
                                     
                                 }
                                 catch (Exception ex)
@@ -127,7 +127,7 @@ namespace eAdvertisement_bot.Models.Commands
                     {
                         if(chInDb.User_Id == update.Message.From.Id)
                         {
-                            await botClient.SendTextMessageAsync(update.Message.Chat.Id, "This channel is already attached to you");
+                            await botClient.SendTextMessageAsync(update.Message.Chat.Id, "This channel is already attached to you", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Back to sell menu", CallbackData = "/sellMenuP0" }));
                         }
                         else if(!isUserACreator)
                         {
@@ -137,7 +137,7 @@ namespace eAdvertisement_bot.Models.Commands
                         {
                             chInDb.User_Id = update.Message.From.Id;
                             dbContext.SaveChanges();    
-                            await botClient.SendTextMessageAsync(update.Message.Chat.Id, "This channel was attached not to you, but we fixed it!\nCongratulations with a new channel! :)");
+                            await botClient.SendTextMessageAsync(update.Message.Chat.Id, "This channel was attached not to you, but we fixed it!\nCongratulations with a new channel! :)", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Back to sell menu", CallbackData = "/sellMenuP0" }));
                         }
                     }
                 }

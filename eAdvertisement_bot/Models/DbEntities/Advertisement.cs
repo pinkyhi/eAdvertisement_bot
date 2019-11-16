@@ -31,7 +31,7 @@ namespace eAdvertisement_bot.Models.DbEntities
         public int Price { get; set; }
 
         [Column("user_id")]
-        public int User_Id { get; set; }
+        public long User_Id { get; set; }
         public User User { get; set; }
 
         [Column("advertisement_status_id")]

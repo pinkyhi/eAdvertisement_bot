@@ -21,21 +21,24 @@ namespace eAdvertisement_bot.Controllers
         [HttpGet]
         public string Get()
         {
+            
             /*
              * Small example how to get access to related tables, and how to add something.
              * More examples and with LINQ too is here https://metanit.com/sharp/entityframeworkcore/1.1.php
-             * 
+             */
+             /*
+            AppDbContext dbContext = new AppDbContext();
             List<Channel_Category> channelCategories = dbContext.Channel_Categories.ToList();
             List<Category> categories = dbContext.Categories.ToList();
             List<Channel> channels = dbContext.Channels.ToList();
             List<Advertisement> advs = dbContext.Advertisements.ToList();
             dbContext.Categories.Add(new Category { Name = "testCategoryThatAddedFromApp" });
             dbContext.SaveChanges();
-
-
+            */
+            /*
             * If you would find a problem with part of working with dbContext, try to solve it with FluentAPI part in AppDbContext
             */
-
+            
             return "GET method is unavailable";
         }
 
@@ -46,31 +49,35 @@ namespace eAdvertisement_bot.Controllers
         [Route("/df443335")]
         public async Task<StatusCodeResult> Post([FromBody]Update update)
         {
-            
-            var commands = Bot.Commands;
             var botClient = await Bot.GetBotClientAsync();
-
-            if (update == null) { return Ok(); }    // Message can has no updates, but smth else
-            else
+            try
             {
-                foreach (var command in commands)
+                var commands = Bot.Commands;
+                //return Ok();
+                if (update == null) { return Ok(); }    // Message can has no updates, but smth else ?
+                else
                 {
-                    if (command.Contains(update))
+                    foreach (var command in commands)
                     {
-                        await command.Execute(update, botClient);
-                        return Ok();
+                        if (command.Contains(update))
+                        {
+                            await command.Execute(update, botClient);
+                            return Ok();
+                        }
                     }
+                    /*
+                    if (update.Type == Telegram.Bot.Types.Enums.UpdateType.Message)
+                    {
+                        await botClient.DeleteMessageAsync(update.Message.Chat.Id, update.Message.MessageId);
+                    }
+                    */
                 }
-                if(update.Type== Telegram.Bot.Types.Enums.UpdateType.Message)
-                {
-                    await botClient.DeleteMessageAsync(update.Message.Chat.Id, update.Message.MessageId);
-
-                }
-
             }
-
-
-
+            catch(Exception ex) { await botClient.SendTextMessageAsync(update.Message == null ? update.CallbackQuery.From.Id : update.Message.From.Id, "Error: " + ex.Message); }
+            finally
+            {
+                Ok();
+            }
             return Ok();
         }
     }

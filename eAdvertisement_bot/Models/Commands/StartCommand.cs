@@ -23,7 +23,15 @@ namespace eAdvertisement_bot.Models.Commands
             }
             else
             {
-                return update.Message.Text.Equals(this.Name);    // If it command is in text of update method
+                try
+                {
+                    return update.Message.Text.Equals(this.Name);    // If it command is in text of update method
+
+                }
+                catch
+                {
+                    return false;
+                }
             }
         }
 
@@ -64,6 +72,10 @@ namespace eAdvertisement_bot.Models.Commands
             {
                 Console.WriteLine(ex.Message);
                 await botClient.SendTextMessageAsync(userId, "Sorry, now are some troubles with initialization.", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
+            }
+            finally
+            {
+                dbContext.Dispose();
             }
                 
             

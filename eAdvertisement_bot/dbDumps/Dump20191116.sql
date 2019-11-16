@@ -179,7 +179,7 @@ CREATE TABLE `channel` (
   `subscribers` int(11) NOT NULL DEFAULT '0',
   `coverage` int(11) NOT NULL DEFAULT '0',
   `cpm` int(11) DEFAULT NULL,
-  `name` varchar(64) DEFAULT NULL,
+  `name` varchar(64) NOT NULL,
   `description` varchar(1024) DEFAULT NULL,
   `ban` tinyint(1) NOT NULL DEFAULT '0',
   `user_id` bigint(20) NOT NULL,
@@ -194,7 +194,7 @@ CREATE TABLE `channel` (
 
 LOCK TABLES `channel` WRITE;
 /*!40000 ALTER TABLE `channel` DISABLE KEYS */;
-INSERT INTO `channel` VALUES (-132,NULL,1,1,NULL,'T2',NULL,0,458816638,'2019-11-11 01:05:56'),(9,NULL,1,1,NULL,'T3',NULL,0,458816638,'2019-11-11 01:05:56'),(78,NULL,1,1,NULL,'T1',NULL,0,458816638,'2019-11-11 01:05:56'),(79,NULL,1,1,NULL,'T4',NULL,0,458816638,'2019-11-11 01:06:47'),(80,NULL,1,1,NULL,'T5',NULL,0,458816638,'2019-11-11 01:06:47'),(81,NULL,1,1,NULL,'T6',NULL,0,458816638,'2019-11-11 01:06:47'),(82,NULL,1,1,NULL,'T7',NULL,0,458816638,'2019-11-11 01:06:47'),(83,NULL,1,1,NULL,'T8',NULL,0,458816638,'2019-11-11 01:06:47');
+INSERT INTO `channel` VALUES (-1001490275304,'https://t.me/joinchat/AAAAAFjTy-g9D20fp_fY4w',2,0,NULL,'Vaniiidlo',NULL,0,517407871,'2019-11-13 05:57:21'),(-1001488041253,'https://t.me/joinchat/AAAAAFixtSWUaYq_RFusGw',4,2,NULL,'TestPrivacy',NULL,0,933004747,'2019-11-12 18:34:01'),(-1001281342955,'https://t.me/joinchat/AAAAAExfvevDvegLORYxcg',16088,2461,NULL,'тысяча хуёв тебе в рот, олег',NULL,0,811048411,'2019-11-13 14:14:08'),(9,NULL,1,1,NULL,'T3',NULL,0,458816638,'2019-11-11 01:05:56'),(78,NULL,1,1,NULL,'T1',NULL,0,458816638,'2019-11-11 01:05:56'),(79,NULL,1,1,NULL,'T4',NULL,0,458816638,'2019-11-11 01:06:47'),(80,NULL,1,1,NULL,'T5',NULL,0,458816638,'2019-11-11 01:06:47'),(81,NULL,1,1,NULL,'T6',NULL,0,458816638,'2019-11-11 01:06:47'),(82,NULL,1,1,NULL,'T7',NULL,0,458816638,'2019-11-11 01:06:47'),(83,NULL,1,1,NULL,'T8',NULL,0,458816638,'2019-11-11 01:06:47');
 /*!40000 ALTER TABLE `channel` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -350,7 +350,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (357927075,NULL,'Sub2Ch',0,0,0,_binary '\0','SHIIIITT',NULL,NULL,_binary '\0',0),(401093470,NULL,NULL,0,0,0,_binary '\0','Вероника','Балаклицкая','en',_binary '\0',0),(458816638,NULL,'pinky_hi',0,0,0,_binary '\0','Иван','Владимиров','ru',_binary '\0',1),(517407871,NULL,'zlobste',0,0,0,_binary '\0','Николай','Крайнюк','ru',_binary '\0',0),(933004747,NULL,'memniyboh',0,0,0,_binary '\0','Мемный Бох',NULL,'ru',_binary '\0',1);
+INSERT INTO `user` VALUES (357927075,NULL,'Sub2Ch',0,0,0,_binary '\0','SHIIIITT',NULL,NULL,_binary '\0',0),(401093470,NULL,NULL,0,0,0,_binary '\0','Вероника','Балаклицкая','en',_binary '\0',0),(458816638,NULL,'pinky_hi',0,0,0,_binary '\0','Иван','Владимиров','ru',_binary '\0',1),(517407871,NULL,'zlobste',0,0,0,_binary '\0','Николай','Крайнюк','ru',_binary '\0',0),(811048411,NULL,'olejchanskiy',0,0,0,_binary '\0','олег','(не олег)',NULL,_binary '\0',0),(933004747,NULL,'memniyboh',0,0,0,_binary '\0','Мемный Бох',NULL,'ru',_binary '\0',0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -387,4 +387,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-11-12  4:08:18
+-- Dump completed on 2019-11-16 15:39:31

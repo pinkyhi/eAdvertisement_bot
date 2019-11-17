@@ -11,7 +11,7 @@ namespace eAdvertisement_bot.Models.DbEntities
     public class User_State
     {
         [Key, Column("user_state_id")]
-        public int User_State_Id { get; set; }
+        public long User_State_Id { get; set; }
 
         [Column("state")]
         public string State { get; set; }

@@ -57,7 +57,7 @@ namespace eAdvertisement_bot.Models.Commands
                         {
                             new InlineKeyboardButton { Text = "Add channel", CallbackData = "/addChannel" },
                         }
-            };
+                };
 
                 if (toNextPageButton || toPreviousPageButton)
                 {

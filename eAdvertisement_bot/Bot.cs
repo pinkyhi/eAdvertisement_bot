@@ -24,6 +24,7 @@ namespace eAdvertisement_bot
             else
             {
                 commandsList = new List<Command>();
+
                 //TODO: Add here all commands that we have
                 commandsList.Add(new StartCommand());
                 commandsList.Add(new StopBotCommand());
@@ -32,6 +33,14 @@ namespace eAdvertisement_bot
                 commandsList.Add(new BackToStartMenu());
                 commandsList.Add(new SellMenuCommand());
                 commandsList.Add(new AddChannelCommand());
+                commandsList.Add(new ShowChannelForSellerCommand());
+                commandsList.Add(new DeleteChannelPlaceCommand());
+
+                //TODO: Next add command texts
+                commandsList.Add(new ChangeChannelCpmCommandText());
+                commandsList.Add(new ChangeChannelDescriptionCommandText());
+                commandsList.Add(new AddChannelPlaceCommandText());
+
                 //TODO: Next add events, because they require dbConnection
                 commandsList.Add(new OnForwardMessageFromChannelEvent());
 

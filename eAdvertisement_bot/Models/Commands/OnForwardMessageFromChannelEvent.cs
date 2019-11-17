@@ -24,7 +24,7 @@ namespace eAdvertisement_bot.Models.Commands
                 AppDbContext dbContext = new AppDbContext();
                 try
                 {
-                    userStateId = dbContext.Users.First(u => u.User_Id == update.Message.From.Id).User_State_Id;
+                    userStateId = Convert.ToInt32(dbContext.Users.First(u => u.User_Id == update.Message.From.Id).User_State_Id);
                     if (userStateId == 0)
                     {
                         return false;
@@ -51,7 +51,7 @@ namespace eAdvertisement_bot.Models.Commands
             AppDbContext dbContext = new AppDbContext();
             try
             {
-                userStateId = dbContext.Users.First(u => u.User_Id == update.Message.From.Id).User_State_Id;
+                userStateId = Convert.ToInt32(dbContext.Users.First(u => u.User_Id == update.Message.From.Id).User_State_Id);
                 if (userStateId == 1)
                 {
                     DbEntities.Channel chInDb = dbContext.Channels.Find(chatId);

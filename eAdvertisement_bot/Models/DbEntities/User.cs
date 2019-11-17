@@ -47,7 +47,7 @@ namespace eAdvertisement_bot.Models.DbEntities
         public bool Stopped { get; set; }
 
         [Column("user_state_id")]
-        public int User_State_Id { get; set; }
+        public long User_State_Id { get; set; }
         public User_State User_State { get; set; }
 
         // One to Many relationship lists

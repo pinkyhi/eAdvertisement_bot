@@ -16,5 +16,8 @@ namespace eAdvertisement_bot.Models.DbEntities
         [Column("channel_id")]
         public long Channel_Id { get; set; }
         public Channel Channel { get; set; }
+
+        [Column("place_id")]
+        public int Place_Id { get; set; }
     }
 }

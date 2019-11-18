@@ -20,7 +20,7 @@ namespace eAdvertisement_bot.Models.Commands
         {
             if(update.Type == Telegram.Bot.Types.Enums.UpdateType.Message && update.Message.ForwardFromChat.Type == Telegram.Bot.Types.Enums.ChatType.Channel)
             {
-                int userStateId = 0;
+                long userStateId = 0;
                 AppDbContext dbContext = new AppDbContext();
                 try
                 {

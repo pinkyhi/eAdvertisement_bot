@@ -41,17 +41,22 @@ namespace eAdvertisement_bot.Models.Commands
                     "\nCoverage: " + channel.Coverage +
                     "\nERR: " + Math.Round(Convert.ToDouble(channel.Coverage) / Convert.ToDouble(channel.Subscribers), 2) +
                     "\nPrice: " + Convert.ToInt32(channel.Coverage / 1000 * channel.Cpm) +
-                    "\n Cpm: " + channel.Cpm +
-                    "\n*Description*\n" + channel.Description + 
-                    "\nIf you want to change cpm write:\ncpm: *integer cpm*" +
-                    "\nIf you want to change description write:\ndescription: *TEXT OF YOUR DESCRIPTION*" +
-                    "\nIf you want to add place for advertisements write:\naddPlace: *time in format hh:mm*\n" +
-                    "Examples:\n" +
-                    "cpm: 110\ndescription: This channel is the best!\naddPlace: 12:00";
+                    "\nCpm: " + channel.Cpm;
+                if(channel.Description!=null && !channel.Description.Equals(""))
+                {
+                    info += "\n*Description*\n" + channel.Description;
+                }
 
                 List<Place> places = dbContext.Places.Where(p => p.Channel_Id == channelId).OrderBy(p=>p.Time).ToList();
-                InlineKeyboardButton[][] keyboard = new InlineKeyboardButton[places.Count+1][];
-                int indexToPaste = 0;
+                InlineKeyboardButton[][] keyboard = new InlineKeyboardButton[places.Count+2][];
+
+                keyboard[0] = new[]
+                {
+                    new InlineKeyboardButton { Text = "Change desc", CallbackData = "/howToChangeDescription"},
+                    new InlineKeyboardButton { Text = "Change cpm", CallbackData = "/howToChangeCpm"},
+                    new InlineKeyboardButton { Text = "Add adv place", CallbackData = "/howToAddAdvPlace"},
+                };
+                int indexToPaste = 1;
                 while (indexToPaste < places.Count())
                 {
                     keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = "Delete place "+places[indexToPaste].Time, CallbackData = "/deletePlaceN" + places[indexToPaste].Place_Id }, };

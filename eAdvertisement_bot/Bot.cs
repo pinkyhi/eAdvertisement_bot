@@ -26,6 +26,7 @@ namespace eAdvertisement_bot
                 commandsList = new List<Command>();
 
                 //TODO: Add here all commands that we have
+                commandsList.Add(new HowToCommand());
                 commandsList.Add(new StartCommand());
                 commandsList.Add(new StopBotCommand());
                 commandsList.Add(new LaunchBotCommand());

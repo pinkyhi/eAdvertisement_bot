@@ -23,7 +23,7 @@ namespace eAdvertisement_bot.Models.Commands
             {
                 try
                 {
-                    return update.Message.Text.StartsWith("addPlace: ");    // If it command is in text of update method
+                    return update.Message.Text.ToLower().StartsWith("place:");    // If it command is in text of update method
 
                 }
                 catch
@@ -35,7 +35,7 @@ namespace eAdvertisement_bot.Models.Commands
 
         public override async Task Execute(Update update, TelegramBotClient botClient)
         {
-            string timeStr = update.Message.Text.Substring(10);
+            string timeStr = update.Message.Text.Substring(6).Trim();
             if (timeStr.Length > 5)
             {
                 await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Incorrect format of time. Try again.");

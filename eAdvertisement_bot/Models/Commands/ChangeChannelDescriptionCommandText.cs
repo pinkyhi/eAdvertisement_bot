@@ -23,7 +23,7 @@ namespace eAdvertisement_bot.Models.Commands
             {
                 try
                 {
-                    return update.Message.Text.StartsWith("description: ");    // If it command is in text of update method
+                    return update.Message.Text.ToLower().StartsWith("description:");    // If it command is in text of update method
 
                 }
                 catch
@@ -45,7 +45,7 @@ namespace eAdvertisement_bot.Models.Commands
                 }
                 else
                 {
-                    string newDescription = update.Message.Text.Substring(13);
+                    string newDescription = update.Message.Text.Substring(12).Trim();
                     if (newDescription.Length > 1024)
                     {
                         await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Description must be less than 1024 chars\nYour is: "+newDescription.Length);

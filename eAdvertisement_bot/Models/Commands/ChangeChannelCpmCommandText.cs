@@ -23,7 +23,7 @@ namespace eAdvertisement_bot.Models.Commands
             {
                 try
                 {
-                    return update.Message.Text.StartsWith("cpm: ");    // If it command is in text of update method
+                    return update.Message.Text.ToLower().StartsWith("cpm:");    // If it command is in text of update method
 
                 }
                 catch
@@ -45,7 +45,7 @@ namespace eAdvertisement_bot.Models.Commands
                 }
                 else
                 {
-                    int amount = Convert.ToInt32(update.Message.Text.Substring(5));
+                    int amount = Convert.ToInt32(update.Message.Text.Substring(4).Trim());
                     dbContext.Channels.Find(user.User_State_Id).Cpm = amount;
                     dbContext.SaveChanges();
                     await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Cpm is changed succesfully :)\nYou can write next commands, or press button bellow to see an updated menu", replyMarkup: new InlineKeyboardMarkup(new[] { new[] { new InlineKeyboardButton { Text = "Show updated menu", CallbackData = "/showChannelForSellerN" + user.User_State_Id }, } })); 

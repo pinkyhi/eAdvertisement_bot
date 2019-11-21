@@ -22,13 +22,9 @@ namespace eAdvertisement_bot.Models.DbEntities
 
         [Column("balance")]
         public int Balance { get; set; }
-        /*
-        [Column("publications_limit")]
-        public int Publications_Limit { get; set; }
+        [Column("object_id")]
+        public long Object_Id { get; set; }
 
-        [Column("autobuys_limit")]
-        public int Autobuys_Limit { get; set; }
-        */
         [Column("ban", TypeName = "bit")]
         [DefaultValue(false)]
         public bool Ban { get; set; }

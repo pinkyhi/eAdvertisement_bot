@@ -39,16 +39,16 @@ namespace eAdvertisement_bot.Models.Commands
             try
             {
                 DbEntities.User user = dbContext.Users.Find(Convert.ToInt64(update.Message.From.Id));
-                if (user.User_State_Id > -1)
+                if (user.User_State_Id != 2)
                 {
                     await botClient.SendTextMessageAsync(update.Message.Chat.Id, "You aren't in the channel info menu");
                 }
                 else
                 {
                     int amount = Convert.ToInt32(update.Message.Text.Substring(4).Trim());
-                    dbContext.Channels.Find(user.User_State_Id).Cpm = amount;
+                    dbContext.Channels.Find(user.Object_Id).Cpm = amount;
                     dbContext.SaveChanges();
-                    await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Cpm is changed succesfully :)\nYou can write next commands, or press button bellow to see an updated menu", replyMarkup: new InlineKeyboardMarkup(new[] { new[] { new InlineKeyboardButton { Text = "Show updated menu", CallbackData = "/showChannelForSellerN" + user.User_State_Id }, } })); 
+                    await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Cpm is changed succesfully :)\nYou can write next commands, or press button bellow to see an updated menu", replyMarkup: new InlineKeyboardMarkup(new[] { new[] { new InlineKeyboardButton { Text = "Show updated menu", CallbackData = "/showChannelForSellerN" + user.Object_Id }, } })); 
                 }
             }
             catch(Exception ex)

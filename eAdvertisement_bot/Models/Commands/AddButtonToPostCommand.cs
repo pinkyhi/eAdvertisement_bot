@@ -32,7 +32,8 @@ namespace eAdvertisement_bot.Models.Commands
             try
             {
                 DbEntities.User user = dbContext.Users.Find(Convert.ToInt64(update.CallbackQuery.From.Id));
-                user.User_State_Id = Convert.ToInt64("102" + update.CallbackQuery.Data.Substring(17));
+                user.User_State_Id = 102;
+                user.Object_Id = Convert.ToInt64(update.CallbackQuery.Data.Substring(17));
                 dbContext.SaveChanges();
 
                 await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "Send buttons in format like in message below\nYou can't use symbols such as ()[] in text or url\nIf you attach buttons, you won't be able to add more than 1 image!", true);

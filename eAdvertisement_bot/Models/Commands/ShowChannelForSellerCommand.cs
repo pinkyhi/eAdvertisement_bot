@@ -34,7 +34,8 @@ namespace eAdvertisement_bot.Models.Commands
             try
             {
                 Channel channel = dbContext.Channels.Find(channelId);
-                dbContext.Users.Find(channel.User_Id).User_State_Id = channel.Channel_Id;
+                dbContext.Users.Find(channel.User_Id).Object_Id = channel.Channel_Id;
+                dbContext.Users.Find(channel.User_Id).User_State_Id = 2;
                 dbContext.SaveChanges();
                 string info = "[" + channel.Name + "](" + channel.Link + ")" +
                     "\nSubscribers: " + channel.Subscribers +

@@ -47,14 +47,14 @@ namespace eAdvertisement_bot.Models.Commands
                 try
                 {
                     DbEntities.User user = dbContext.Users.Find(Convert.ToInt64(update.Message.From.Id));
-                    if (user.User_State_Id < 0)
+                    if (user.User_State_Id == 2)
                     {
                         if (dbContext.Places.Count(p => p.Channel_Id == user.User_State_Id) < 8)
                         {
                             TimeSpan ts = TimeSpan.Parse(timeStr);
-                            dbContext.Places.Add(new DbEntities.Place { Channel_Id = user.User_State_Id, Time = ts });
+                            dbContext.Places.Add(new DbEntities.Place { Channel_Id = user.Object_Id, Time = ts });
                             dbContext.SaveChanges();
-                            await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Place is added succesfully :)\nYou can write next commands, or press button bellow to see an updated menu", replyMarkup: new InlineKeyboardMarkup(new[] { new[] { new InlineKeyboardButton { Text = "Show updated menu", CallbackData = "/showChannelForSellerN" + user.User_State_Id }, } }));
+                            await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Place is added succesfully :)\nYou can write next commands, or press button bellow to see an updated menu", replyMarkup: new InlineKeyboardMarkup(new[] { new[] { new InlineKeyboardButton { Text = "Show updated menu", CallbackData = "/showChannelForSellerN" +user.Object_Id }, } }));
                         }
                         else
                         {

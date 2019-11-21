@@ -46,9 +46,9 @@ namespace eAdvertisement_bot.Models.Commands
             try
             {
                 DbEntities.User user = dbContext.Users.Find(Convert.ToInt64(update.Message.From.Id));
-                if (Convert.ToString(user.User_State_Id).StartsWith("101"))
+                if (user.User_State_Id==101)
                 {
-                    DbEntities.Publication post = dbContext.Publications.Find(Convert.ToInt32((Convert.ToString(user.User_State_Id)).Substring(3)));
+                    DbEntities.Publication post = dbContext.Publications.Find(Convert.ToInt32(user.Object_Id));
 
                     if (post != null)
                     {

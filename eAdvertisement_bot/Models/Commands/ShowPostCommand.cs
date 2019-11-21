@@ -112,6 +112,10 @@ namespace eAdvertisement_bot.Models.Commands
                     },
                     new[]
                     {
+                        new InlineKeyboardButton{Text="Change name",CallbackData = "/changePostNameN"+postId}
+                    },
+                    new[]
+                    {
                         new InlineKeyboardButton{Text="Back",CallbackData = "/myPostsMenu"}
                     }
                 };

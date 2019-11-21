@@ -42,6 +42,7 @@ namespace eAdvertisement_bot
                 commandsList.Add(new AddImageToPostCommand());
                 commandsList.Add(new AddButtonToPostCommand());
                 commandsList.Add(new ChangeTextOnPostCommand());
+                commandsList.Add(new ChangePostNameCommand());
                 commandsList.Add(new DeletePostCommand());
 
                 //TODO: Next add command texts

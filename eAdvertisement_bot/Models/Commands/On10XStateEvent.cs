@@ -43,29 +43,37 @@ namespace eAdvertisement_bot.Models.Commands
                 if (tag==102)
                 {
                     List<DbEntities.Button> btns = new List<DbEntities.Button>();
-                    int postId = Convert.ToInt32(Convert.ToString(user.User_State_Id).Substring(3));
-                    string text = update.Message.Text;
-                    int maxInd = 0;
-                    while (maxInd<5)
+                    int postId = Convert.ToInt32(user.Object_Id);
+                    if (dbContext.Medias.Count(m => m.Publication_Id == postId) < 2)
                     {
-                        int iofc = text.IndexOf('(');
-                        int iosc = text.IndexOf(')');
-                        int iofs = text.IndexOf('[');
-                        int ioss = text.IndexOf(']');
-                        if (iofc == -1 || iosc == -1 || iofs == -1 || ioss == -1)
+                        int existAlready = dbContext.Buttons.Count(b => b.Publication_Id == postId);
+                        string text = update.Message.Text;
+                        int maxInd = 0;
+                        while (maxInd < 5 - existAlready)
                         {
-                            break;
-                        }
+                            int iofc = text.IndexOf('(');
+                            int iosc = text.IndexOf(')');
+                            int iofs = text.IndexOf('[');
+                            int ioss = text.IndexOf(']');
+                            if (iofc == -1 || iosc == -1 || iofs == -1 || ioss == -1)
+                            {
+                                break;
+                            }
 
-                        string buttonText = text.Substring(iofc + 1, iosc - iofc - 1);
-                        string buttonUrl = text.Substring(iofs + 1, ioss - iofs - 1);
-                        dbContext.Buttons.Add(new DbEntities.Button { Text = buttonText, Url = buttonUrl, Publication_Id = postId });
-                        text = text.Substring(ioss + 1);
-                        maxInd++;
+                            string buttonText = text.Substring(iofc + 1, iosc - iofc - 1);
+                            string buttonUrl = text.Substring(iofs + 1, ioss - iofs - 1);
+                            dbContext.Buttons.Add(new DbEntities.Button { Text = buttonText, Url = buttonUrl, Publication_Id = postId });
+                            text = text.Substring(ioss + 1);
+                            maxInd++;
+                        }
+                        user.User_State_Id = 0;
+                        dbContext.SaveChanges();
+                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, maxInd + " buttons are added!");
                     }
-                    user.User_State_Id = 0;
-                    dbContext.SaveChanges();
-                    await botClient.SendTextMessageAsync(update.Message.Chat.Id, maxInd+" buttons are added!");
+                    else
+                    {
+                        await botClient.SendTextMessageAsync(update.Message.Chat.Id,"You can't use buttons because you attached more than 1 image\nRecreate post if you want to use buttons");
+                    }
 
                 }
                 else if(tag==103)
@@ -74,6 +82,13 @@ namespace eAdvertisement_bot.Models.Commands
                     user.User_State_Id = 0;
                     dbContext.SaveChanges();
                     await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Text is changed!");
+                }
+                else if (tag == 104)
+                {
+                    dbContext.Publications.Find(Convert.ToInt32(user.Object_Id)).Name = update.Message.Text;
+                    user.User_State_Id = 0;
+                    dbContext.SaveChanges();
+                    await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Name is changed!");
                 }
             }
             catch(Exception ex)

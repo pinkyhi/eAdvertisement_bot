@@ -18,7 +18,7 @@ namespace eAdvertisement_bot.Models.Commands
 
         public override bool Contains(Update update)
         {
-            if(update.Type == Telegram.Bot.Types.Enums.UpdateType.Message && update.Message.ForwardFromChat.Type == Telegram.Bot.Types.Enums.ChatType.Channel)
+            if(update.Type == Telegram.Bot.Types.Enums.UpdateType.Message && update.Message.ForwardFromChat!= null && update.Message.ForwardFromChat.Type == Telegram.Bot.Types.Enums.ChatType.Channel)
             {
                 long userStateId = 0;
                 AppDbContext dbContext = new AppDbContext();

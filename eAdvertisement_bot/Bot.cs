@@ -36,6 +36,13 @@ namespace eAdvertisement_bot
                 commandsList.Add(new AddChannelCommand());
                 commandsList.Add(new ShowChannelForSellerCommand());
                 commandsList.Add(new DeleteChannelPlaceCommand());
+                commandsList.Add(new MyPostsMenuCommand());
+                commandsList.Add(new AddPostCommand());
+                commandsList.Add(new ShowPostCommand());
+                commandsList.Add(new AddImageToPostCommand());
+                commandsList.Add(new AddButtonToPostCommand());
+                commandsList.Add(new ChangeTextOnPostCommand());
+                commandsList.Add(new DeletePostCommand());
 
                 //TODO: Next add command texts
                 commandsList.Add(new ChangeChannelCpmCommandText());
@@ -44,6 +51,8 @@ namespace eAdvertisement_bot
 
                 //TODO: Next add events, because they require dbConnection
                 commandsList.Add(new OnForwardMessageFromChannelEvent());
+                commandsList.Add(new OnPhotoMessageEvent());
+                commandsList.Add(new On10XStateEvent());   
 
                 botClient = new TelegramBotClient(BotSettings.Token);   // Token setting
 

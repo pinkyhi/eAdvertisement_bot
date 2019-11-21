@@ -11,13 +11,14 @@ namespace eAdvertisement_bot.Models.DbEntities
     public class Publication
     {
         [Key, Column("publication_id")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Publication_Id { get; set; }
 
         [Column("name")]
         public string Name { get; set; }
 
         [Column("user_id")]
-        public long User_Id { get; set; }
+        public long? User_Id { get; set; }
         public User User { get; set; }
 
         [Column("text")]

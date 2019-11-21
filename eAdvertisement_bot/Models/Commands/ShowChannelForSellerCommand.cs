@@ -57,9 +57,9 @@ namespace eAdvertisement_bot.Models.Commands
                     new InlineKeyboardButton { Text = "Add adv place", CallbackData = "/howToAddAdvPlace"},
                 };
                 int indexToPaste = 1;
-                while (indexToPaste < places.Count())
+                while (indexToPaste < places.Count()+1)
                 {
-                    keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = "Delete place "+places[indexToPaste].Time, CallbackData = "/deletePlaceN" + places[indexToPaste].Place_Id }, };
+                    keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = "Delete place "+places[indexToPaste-1].Time, CallbackData = "/deletePlaceN" + places[indexToPaste-1].Place_Id }, };
                     indexToPaste++;
                 }
                 keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = "Back", CallbackData = "/sellMenuP0" }, };

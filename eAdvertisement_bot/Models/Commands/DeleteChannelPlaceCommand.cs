@@ -38,11 +38,17 @@ namespace eAdvertisement_bot.Models.Commands
                 dbContext.SaveChanges();
                 places = dbContext.Places.Where(p => p.Channel_Id == channelId).ToList();
 
-                InlineKeyboardButton[][] keyboard = new InlineKeyboardButton[places.Count + 1][];
-                int indexToPaste = 0;
-                while (indexToPaste < places.Count())
+                InlineKeyboardButton[][] keyboard = new InlineKeyboardButton[places.Count + 2][];
+                keyboard[0] = new[]
                 {
-                    keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = "Delete place " + places[indexToPaste].Time, CallbackData = "/deletePlaceN" + places[indexToPaste].Place_Id }, };
+                    new InlineKeyboardButton { Text = "Change desc", CallbackData = "/howToChangeDescription"},
+                    new InlineKeyboardButton { Text = "Change cpm", CallbackData = "/howToChangeCpm"},
+                    new InlineKeyboardButton { Text = "Add adv place", CallbackData = "/howToAddAdvPlace"},
+                };
+                int indexToPaste = 1;
+                while (indexToPaste < places.Count() + 1)
+                {
+                    keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = "Delete place " + places[indexToPaste - 1].Time, CallbackData = "/deletePlaceN" + places[indexToPaste - 1].Place_Id }, };
                     indexToPaste++;
                 }
                 keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = "Back", CallbackData = "/sellMenuP0" }, };

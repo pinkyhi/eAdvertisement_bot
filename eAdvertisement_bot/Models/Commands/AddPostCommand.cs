@@ -37,25 +37,11 @@ namespace eAdvertisement_bot.Models.Commands
                     DbEntities.Publication newPost = new DbEntities.Publication { User_Id = user.User_Id, Name = "newPost",Text=null };
                     dbContext.Publications.Add(newPost);
                     dbContext.SaveChanges();
-                    //user.User_State_Id = Convert.ToInt32("100" + newPost.Publication_Id);
-                    //dbContext.SaveChanges();
 
                     await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, null, false);
-                    try
-                    {
-                        await botClient.DeleteMessageAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId);
-                    }
-                    catch { }
 
-                    InlineKeyboardButton[][] keyboard = new[]
-                    {
-                        new[]
-                        {
-                            new InlineKeyboardButton{Text = "Show updated posts menu", CallbackData="/myPostsMenu"}
-                        }
-                    };
-
-                    await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Post is added, to personalize it click in posts menu.", replyMarkup: new InlineKeyboardMarkup(keyboard));
+                    MyPostsMenuCommand x = new MyPostsMenuCommand();
+                    await x.Execute(update, botClient);
                     
                 }
                 else

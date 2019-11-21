@@ -39,8 +39,8 @@ namespace eAdvertisement_bot.Models.Commands
             try
             {
                 DbEntities.User user = dbContext.Users.Find(Convert.ToInt64(update.Message.From.Id));
-                string tag = Convert.ToString(user.User_State_Id).Substring(0, 3);
-                if (tag.Equals("102"))
+                long tag = user.User_State_Id;
+                if (tag==102)
                 {
                     List<DbEntities.Button> btns = new List<DbEntities.Button>();
                     int postId = Convert.ToInt32(Convert.ToString(user.User_State_Id).Substring(3));
@@ -68,9 +68,9 @@ namespace eAdvertisement_bot.Models.Commands
                     await botClient.SendTextMessageAsync(update.Message.Chat.Id, maxInd+" buttons are added!");
 
                 }
-                else if(tag.Equals("103"))
+                else if(tag==103)
                 {
-                    dbContext.Publications.Find(Convert.ToInt32(Convert.ToString(user.User_State_Id).Substring(3))).Text = update.Message.Text;
+                    dbContext.Publications.Find(Convert.ToInt32(user.Object_Id)).Text = update.Message.Text;
                     user.User_State_Id = 0;
                     dbContext.SaveChanges();
                     await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Text is changed!");

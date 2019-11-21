@@ -31,7 +31,8 @@ namespace eAdvertisement_bot.Models.Commands
             try
             {
                 DbEntities.User user = dbContext.Users.Find(Convert.ToInt64(update.CallbackQuery.From.Id));
-                user.User_State_Id = Convert.ToInt64("103" + update.CallbackQuery.Data.Substring(18));
+                user.User_State_Id = 103;
+                user.Object_Id = Convert.ToInt64(update.CallbackQuery.Data.Substring(18));
                 dbContext.SaveChanges();
 
                 await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "Send text for your post\nFormating is markdown!", true);

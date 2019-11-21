@@ -32,7 +32,8 @@ namespace eAdvertisement_bot.Models.Commands
             try
             {
                 DbEntities.User user = dbContext.Users.Find(Convert.ToInt64(update.CallbackQuery.From.Id));
-                user.User_State_Id = Convert.ToInt64("101"+update.CallbackQuery.Data.Substring(16));
+                user.User_State_Id = 101;
+                user.Object_Id = Convert.ToInt64(update.CallbackQuery.Data.Substring(16));
                 dbContext.SaveChanges();
 
                 await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "Send image, it will be added to post\nIf you attach 2 or more images, you won't be able to add buttons!", true);

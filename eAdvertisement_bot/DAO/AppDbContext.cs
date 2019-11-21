@@ -34,6 +34,7 @@ namespace eAdvertisement_bot.DAO
 
             modelBuilder.Entity<Advertisement>().HasKey(p => new { p.Date_Time, p.Channel_Id });
 
+            // Many to Many
             modelBuilder.Entity<Autobuy_Channel>()
                 .HasKey(cg => new { cg.Autobuy_Id, cg.Channel_Id });
             modelBuilder.Entity<Autobuy_Channel>()
@@ -55,6 +56,17 @@ namespace eAdvertisement_bot.DAO
                 .HasOne(og => og.Category)
                 .WithMany(o => o.Channel_Categories)
                 .HasForeignKey(og => og.Category_Id);
+
+            // Cascade deleting
+            modelBuilder.Entity<Button>()
+                .HasOne(b=>b.Publication)
+                .WithMany(p=>p.Buttons)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Media>()
+                .HasOne(m => m.Publication)
+                .WithMany(p => p.Media)
+                .OnDelete(DeleteBehavior.Cascade);
 
 
         }

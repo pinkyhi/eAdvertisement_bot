@@ -11,6 +11,8 @@ namespace eAdvertisement_bot.Models.DbEntities
     public class Media
     {
         [Key, Column("media_id")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+
         public int Media_Id { get; set; }
 
         [Column("publication_id")]

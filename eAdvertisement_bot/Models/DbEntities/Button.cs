@@ -11,13 +11,17 @@ namespace eAdvertisement_bot.Models.DbEntities
     public class Button
     {
         [Key, Column("button_id")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+
         public int Button_Id { get; set; }
 
         [Column("publication_id")]
         public int Publication_Id { get; set; }
         public Publication Publication { get; set; }
 
-        [Column("string")]
-        public string String { get; set; }
+        [Column("text")]
+        public string Text { get; set; }
+        [Column("url")]
+        public string Url { get; set; }
     }
 }

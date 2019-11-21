@@ -29,7 +29,8 @@ namespace eAdvertisement_bot.Controllers
         [Route("/df443335")]
         public async Task<StatusCodeResult> Post([FromBody]Update update)
         {
-            var botClient = await Bot.GetBotClientAsync();
+            var botClient = await Bot.GetBotClientAsync();    // May be this will be better to make static
+            //return Ok();
             try
             {
                 var commands = Bot.Commands;
@@ -44,12 +45,7 @@ namespace eAdvertisement_bot.Controllers
                             break;
                         }
                     }
-                    /*
-                    if (update.Type == Telegram.Bot.Types.Enums.UpdateType.Message)
-                    {
-                        await botClient.DeleteMessageAsync(update.Message.Chat.Id, update.Message.MessageId);
-                    }
-                    */
+                    
                 }
             }
             catch(Exception ex) { await botClient.SendTextMessageAsync(update.Message == null ? update.CallbackQuery.From.Id : update.Message.From.Id, "Error: " + ex.Message); return Ok(); }

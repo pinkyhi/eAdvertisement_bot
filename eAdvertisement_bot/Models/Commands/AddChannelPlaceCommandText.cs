@@ -38,7 +38,7 @@ namespace eAdvertisement_bot.Models.Commands
             string timeStr = update.Message.Text.Substring(6).Trim();
             if (timeStr.Length > 5)
             {
-                await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Incorrect format of time. Try again.");
+                await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Incorrect format of time in command \"place:\". Try again.");
                 return;
             }
             else
@@ -47,17 +47,24 @@ namespace eAdvertisement_bot.Models.Commands
                 try
                 {
                     DbEntities.User user = dbContext.Users.Find(Convert.ToInt64(update.Message.From.Id));
-                    if (dbContext.Places.Count(p => p.Channel_Id == user.User_State_Id) < 8)
+                    if (user.User_State_Id < 0)
                     {
-                        TimeSpan ts = TimeSpan.Parse(timeStr);
-                        dbContext.Places.Add(new DbEntities.Place { Channel_Id = user.User_State_Id, Time = ts });
-                        dbContext.SaveChanges();
-                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Place is added succesfully :)\nYou can write next commands, or press button bellow to see an updated menu", replyMarkup: new InlineKeyboardMarkup(new[] { new[] { new InlineKeyboardButton { Text = "Show updated menu", CallbackData = "/showChannelForSellerN" + user.User_State_Id }, } }));
+                        if (dbContext.Places.Count(p => p.Channel_Id == user.User_State_Id) < 8)
+                        {
+                            TimeSpan ts = TimeSpan.Parse(timeStr);
+                            dbContext.Places.Add(new DbEntities.Place { Channel_Id = user.User_State_Id, Time = ts });
+                            dbContext.SaveChanges();
+                            await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Place is added succesfully :)\nYou can write next commands, or press button bellow to see an updated menu", replyMarkup: new InlineKeyboardMarkup(new[] { new[] { new InlineKeyboardButton { Text = "Show updated menu", CallbackData = "/showChannelForSellerN" + user.User_State_Id }, } }));
+                        }
+                        else
+                        {
+                            await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Your count has to be less than 8");
+                            return;
+                        }
                     }
                     else
                     {
-                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Your count has to be less than 8");
-                        return;
+                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "You must be in your channel menu to use \"place:\" command");
                     }
                     
                 }

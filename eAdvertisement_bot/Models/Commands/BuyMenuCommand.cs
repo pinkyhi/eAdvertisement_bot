@@ -32,7 +32,9 @@ namespace eAdvertisement_bot.Models.Commands
             AppDbContext dbContext = new AppDbContext();
             try
             {
-                DbEntities.User userEntity = dbContext.Users.Find(update.CallbackQuery.Message.Chat.Id);
+                DbEntities.User userEntity = dbContext.Users.Find(Convert.ToInt64(update.CallbackQuery.From.Id));
+                userEntity.User_State_Id = 0;
+                dbContext.SaveChanges();
                 long hold = dbContext.Advertisements.Where(a => a.User_Id == userEntity.User_Id && a.Advertisement_Status_Id == 1).Sum(a => a.Price);
                 await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, null, false);  // ...,...,alert    AnswerCallbackQuery is required to send to avoid clock animation ob the button
 

@@ -1,4 +1,5 @@
 ﻿using eAdvertisement_bot.Models.Commands;
+using eAdvertisement_bot.Models.Commands.ManualPurchase;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,6 +45,7 @@ namespace eAdvertisement_bot
                 commandsList.Add(new ChangeTextOnPostCommand());
                 commandsList.Add(new ChangePostNameCommand());
                 commandsList.Add(new DeletePostCommand());
+                commandsList.Add(new ManualPurchaseMenuCommand());
 
                 //TODO: Next add command texts
                 commandsList.Add(new ChangeChannelCpmCommandText());

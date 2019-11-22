@@ -46,7 +46,9 @@ namespace eAdvertisement_bot.Models.Commands
                 else
                 {
                     int amount = Convert.ToInt32(update.Message.Text.Substring(4).Trim());
-                    dbContext.Channels.Find(user.Object_Id).Cpm = amount;
+                    DbEntities.Channel channel = dbContext.Channels.Find(user.Object_Id);
+                    channel.Cpm = amount;
+                    channel.Price = Convert.ToInt32(channel.Coverage * channel.Cpm / 1000);
                     dbContext.SaveChanges();
                     await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Cpm is changed succesfully :)\nYou can write next commands, or press button bellow to see an updated menu", replyMarkup: new InlineKeyboardMarkup(new[] { new[] { new InlineKeyboardButton { Text = "Show updated menu", CallbackData = "/showChannelForSellerN" + user.Object_Id }, } })); 
                 }

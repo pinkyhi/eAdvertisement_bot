@@ -91,7 +91,7 @@ namespace eAdvertisement_bot.Models.Commands
                                     {
                                         coverage = await cah.GetCoverageOfChannel(inviteLink, chatId, false);
                                     }
-                                    dbContext.Channels.Add(new DbEntities.Channel { Coverage=coverage, Name=update.Message.ForwardFromChat.Title, Date = DateTime.UtcNow, Channel_Id = chatId, Link = inviteLink, Subscribers = await botClient.GetChatMembersCountAsync(update.Message.ForwardFromChat.Id), User_Id = update.Message.From.Id });
+                                    dbContext.Channels.Add(new DbEntities.Channel { Price=0, Coverage=coverage, Name=update.Message.ForwardFromChat.Title, Date = DateTime.UtcNow, Channel_Id = chatId, Link = inviteLink, Subscribers = await botClient.GetChatMembersCountAsync(update.Message.ForwardFromChat.Id), User_Id = update.Message.From.Id });
                                     dbContext.SaveChanges();
                                     await botClient.SendTextMessageAsync(update.Message.From.Id, "OK! Channel is added :)", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Back to sell menu", CallbackData = "/sellMenuP0" }));
                                     

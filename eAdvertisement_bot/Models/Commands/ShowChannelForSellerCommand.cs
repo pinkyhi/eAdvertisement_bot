@@ -41,7 +41,7 @@ namespace eAdvertisement_bot.Models.Commands
                     "\nSubscribers: " + channel.Subscribers +
                     "\nCoverage: " + channel.Coverage +
                     "\nERR: " + Math.Round(Convert.ToDouble(channel.Coverage) / Convert.ToDouble(channel.Subscribers), 2) +
-                    "\nPrice: " + Convert.ToInt32(channel.Coverage / 1000 * channel.Cpm) +
+                    "\nPrice: " + channel.Price +
                     "\nCpm: " + channel.Cpm;
                 if(channel.Description!=null && !channel.Description.Equals(""))
                 {

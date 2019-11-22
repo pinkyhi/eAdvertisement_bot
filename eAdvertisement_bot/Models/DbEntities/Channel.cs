@@ -41,6 +41,10 @@ namespace eAdvertisement_bot.Models.DbEntities
         [Column("date")]
         public DateTime Date { get; set; }
 
+        [Column("price")]
+        public int Price { get; set; }
+
+
 
         //One to Many relationships
         public List<Advertisement> Advertisements { get; set; }

@@ -55,7 +55,7 @@ namespace eAdvertisement_bot
                 //TODO: Next add events, because they require dbConnection
                 commandsList.Add(new OnForwardMessageFromChannelEvent());
                 commandsList.Add(new OnPhotoMessageEvent());
-                commandsList.Add(new On10XStateEvent());   
+                commandsList.Add(new On10XStateEvent());
 
                 botClient = new TelegramBotClient(BotSettings.Token);   // Token setting
 

@@ -83,6 +83,20 @@ namespace eAdvertisement_bot.Models.Commands
                                 try
                                 {
                                     Chat s = await botClient.GetChatAsync(chatId);
+                                    try
+                                    {
+                                        if ((await botClient.GetChatMemberAsync(chatId, cah.Client_Id)).Status == Telegram.Bot.Types.Enums.ChatMemberStatus.Member)
+                                        {
+                                            coverage = await cah.GetCoverageOfChannel(inviteLink, chatId, false);
+                                        }
+                                    }
+                                    catch
+                                    {
+                                        coverage = await cah.GetCoverageOfChannel(inviteLink, chatId, true);
+                                    }
+
+                                    /* Old Version
+                                     *
                                     if ((await botClient.GetChatMemberAsync(chatId, cah.Client_Id)).Status != Telegram.Bot.Types.Enums.ChatMemberStatus.Member)
                                     {
                                         coverage = await cah.GetCoverageOfChannel(inviteLink,chatId,true);
@@ -91,6 +105,7 @@ namespace eAdvertisement_bot.Models.Commands
                                     {
                                         coverage = await cah.GetCoverageOfChannel(inviteLink, chatId, false);
                                     }
+                                    */
                                     dbContext.Channels.Add(new DbEntities.Channel { Price=0, Coverage=coverage, Name=update.Message.ForwardFromChat.Title, Date = DateTime.UtcNow, Channel_Id = chatId, Link = inviteLink, Subscribers = await botClient.GetChatMembersCountAsync(update.Message.ForwardFromChat.Id), User_Id = update.Message.From.Id });
                                     dbContext.SaveChanges();
                                     await botClient.SendTextMessageAsync(update.Message.From.Id, "OK! Channel is added :)", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Back to sell menu", CallbackData = "/sellMenuP0" }));

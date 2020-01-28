@@ -35,7 +35,7 @@ namespace eAdvertisement_bot.Models.Commands
             {
                 Channel channel = dbContext.Channels.Find(channelId);
                 dbContext.Users.Find(channel.User_Id).Object_Id = channel.Channel_Id;
-                dbContext.Users.Find(channel.User_Id).User_State_Id = 2;
+                dbContext.Users.Find(channel.User_Id).User_State_Id = 0;
                 dbContext.SaveChanges();
                 string info = "[" + channel.Name + "](" + channel.Link + ")" +
                     "\nSubscribers: " + channel.Subscribers +
@@ -53,9 +53,9 @@ namespace eAdvertisement_bot.Models.Commands
 
                 keyboard[0] = new[]
                 {
-                    new InlineKeyboardButton { Text = "Change desc", CallbackData = "/howToChangeDescription"},
-                    new InlineKeyboardButton { Text = "Change cpm", CallbackData = "/howToChangeCpm"},
-                    new InlineKeyboardButton { Text = "Add adv place", CallbackData = "/howToAddAdvPlace"},
+                    new InlineKeyboardButton { Text = "Change desc", CallbackData = "/changeDescription"},
+                    new InlineKeyboardButton { Text = "Change cpm", CallbackData = "/changeCpm"},
+                    new InlineKeyboardButton { Text = "Add adv place", CallbackData = "/addAdvPlace"},
                 };
                 int indexToPaste = 1;
                 while (indexToPaste < places.Count()+1)
@@ -69,7 +69,10 @@ namespace eAdvertisement_bot.Models.Commands
                 {
                     await botClient.DeleteMessageAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId);
                 }
-                catch { }
+                catch(Exception ex) 
+                {
+                    await botClient.SendTextMessageAsync(update.Message.Chat.Id, ex.Message);
+                }
                 await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, info, replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown, disableWebPagePreview: true);
             }
             catch(Exception ex) { await botClient.SendTextMessageAsync(update.CallbackQuery.From.Id, ex.Message); }

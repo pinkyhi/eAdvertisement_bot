@@ -48,14 +48,15 @@ namespace eAdvertisement_bot
                 commandsList.Add(new ManualPurchaseMenuCommand());
 
                 //TODO: Next add command texts
-                commandsList.Add(new ChangeChannelCpmCommandText());
-                commandsList.Add(new ChangeChannelDescriptionCommandText());
-                commandsList.Add(new AddChannelPlaceCommandText());
+                commandsList.Add(new ChangeChannelCpmCommand());
+                commandsList.Add(new ChangeChannelDescriptionCommand());
+                commandsList.Add(new AddChannelPlaceCommand());
 
                 //TODO: Next add events, because they require dbConnection
                 commandsList.Add(new OnForwardMessageFromChannelEvent());
                 commandsList.Add(new OnPhotoMessageEvent());
                 commandsList.Add(new On10XStateEvent());
+                commandsList.Add(new On20XStateEvent());
 
                 botClient = new TelegramBotClient(BotSettings.Token);   // Token setting
 

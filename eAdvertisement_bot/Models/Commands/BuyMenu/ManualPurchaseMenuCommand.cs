@@ -26,7 +26,7 @@ namespace eAdvertisement_bot.Models.Commands.ManualPurchase
             }
         }
 
-        public override  async Task Execute(Update update, TelegramBotClient botClient)
+        public override async Task Execute(Update update, TelegramBotClient botClient)
         {
             string tags = update.CallbackQuery.Data.Substring(20);    //0I100I200S1,2,3,4,5,6C1,2,3,4,5,6,7
 
@@ -63,11 +63,12 @@ namespace eAdvertisement_bot.Models.Commands.ManualPurchase
             List<int> cIndexes = new List<int>(cStrs.Count);  // Indexes of categories
             for(int si=0;si<sStrs.Count; si++)
             {
-                sIndexes[si] = Convert.ToInt32(sStrs[si]);
+                
+                sIndexes.Add(Convert.ToInt32(sStrs[si]));
             }
             for(int ci=0;ci<cStrs.Count; ci++)
             {
-                cIndexes[ci] = Convert.ToInt32(cStrs[ci]);
+                cIndexes.Add(Convert.ToInt32(cStrs[ci]));
             }
 
             AppDbContext dbContext = new AppDbContext();
@@ -82,40 +83,42 @@ namespace eAdvertisement_bot.Models.Commands.ManualPurchase
             // To use: sIndexes, cIndexes, intervalFrom, intervalTo, page
             try
             {
+
                 List<DbEntities.Channel_Category> channelsCategoriesToShow = dbContext.Channel_Categories.Where(cc=>cIndexes.Contains(cc.Category_Id)).ToList();
                 List<DbEntities.Channel> channels = dbContext.Channels.Where(c=>c.Price>=intervalFrom && c.Price<=intervalTo).ToList();
 
                 List<int> categoriesToShow = channelsCategoriesToShow.Select(cc => cc.Category_Id).Distinct().ToList();
-                List<string> categoriesStrs = dbContext.Categories.Where(c => categoriesToShow.Contains(c.Category_Id)).Select(c => c.Name).ToList();
+                //List<string> categoriesStrs = dbContext.Categories.Where(c => categoriesToShow.Contains(c.Category_Id)).Select(c => c.Name).ToList(); OLD VERSION
+                List<string> categoriesStrs = (dbContext.Categories.Where(cc => cIndexes.Contains(cc.Category_Id))).Select(c=>c.Name).ToList();
+
                 if (cIndexes.Count != 0)
                 {
-                    channels = channels.Where(c => c.Channel_Categories.Any(cc => categoriesToShow.Contains(cc.Category_Id))).ToList();
+                    channels = channels.Where(c => c.Channel_Categories!=null && c.Channel_Categories.Any(cc => categoriesToShow.Contains(cc.Category_Id))).ToList();
                 }
 
                 
                 // Sorts part => 1 is by cpm; 2 is by price; 3 is by cpm desc; 4 is by price desc;
                 if (sIndexes.Count > 0)
                 {
-                    if (sIndexes.Contains(1))
-                    {
-                        channels.OrderBy(c => c.Cpm);
-                    }
+
                     if (sIndexes.Contains(2))
                     {
-                        channels.OrderBy(c => c.Price);
-                    }
-                    if (sIndexes.Contains(3))
-                    {
-                        channels.OrderByDescending(c => c.Cpm);
+                        channels = channels.OrderBy(c => c.Price).ToList();
                     }
                     if (sIndexes.Contains(4))
                     {
-                        channels.OrderByDescending(c => c.Price);
+                        channels = channels.OrderByDescending(c => c.Price).ToList();
                     }
-                }
+                    if (sIndexes.Contains(1))
+                    {
+                        channels = channels.OrderBy(c => c.Cpm).ToList();
+                    }
+                    if (sIndexes.Contains(3))
+                    {
+                        channels = channels.OrderByDescending(c => c.Cpm).ToList();
+                    }
 
-                channels = channels.Skip(7 * page).Take(7).ToList();
-                channels.Remove(null);
+                }
 
                 bool toNextPageButton = false;
                 bool toPreviousPageButton = false;
@@ -128,6 +131,11 @@ namespace eAdvertisement_bot.Models.Commands.ManualPurchase
                 {
                     toPreviousPageButton = true;
                 }
+                channels = channels.Skip(7 * page).Take(7).ToList();
+                channels.Remove(null);
+
+
+
 
                 InlineKeyboardButton[][] keyboard;
                 if (toNextPageButton || toPreviousPageButton)
@@ -138,12 +146,12 @@ namespace eAdvertisement_bot.Models.Commands.ManualPurchase
                 {
                     keyboard = new InlineKeyboardButton[channels.Count + 2][];
                 }
-                keyboard[0] = new[] { new InlineKeyboardButton { Text = "Categories", CallbackData = "/categoriesMenu" + update.CallbackQuery.Data.Substring(19) }, new InlineKeyboardButton { Text = "Sorts", CallbackData = "/sortsMenu" + update.CallbackQuery.Data.Substring(19) } };
+                keyboard[0] = new[] { new InlineKeyboardButton { Text = "Categories", CallbackData = "/categoriesMenuP0" + update.CallbackQuery.Data.Substring(update.CallbackQuery.Data.IndexOf('I')) }, new InlineKeyboardButton { Text = "Sorts", CallbackData = "/sortsMenu" + update.CallbackQuery.Data.Substring(19) } };
 
                 int indexToPaste = 1;
                 foreach (DbEntities.Channel ch in channels)
                 {
-                    keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = ch.Name, CallbackData = "/showChannelForBuyerN" + ch.Channel_Id }, };
+                    keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = "CPM: "+ch.Cpm+" Price: "+ch.Price +" \n"+ ch.Name, CallbackData = "/showChannelForBuyerN" + ch.Channel_Id }, };
                     indexToPaste++;
                 }
 
@@ -167,6 +175,11 @@ namespace eAdvertisement_bot.Models.Commands.ManualPurchase
 
                 dbContext.Users.Find(Convert.ToInt64(update.CallbackQuery.From.Id)).User_State_Id = 3;
                 dbContext.SaveChanges();
+
+
+                string text = "Here you can change channel to buy ad there.\nIf you want to buy in specific channel you can send a post from it\n*Show settings*\nCategories:" + String.Join(", ", categoriesStrs) + "\nPrice interval: " + intervalFrom + "-" + intervalTo;
+                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, text, replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
+
                 try
                 {
                     await botClient.DeleteMessageAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId);
@@ -175,9 +188,7 @@ namespace eAdvertisement_bot.Models.Commands.ManualPurchase
 
                 
 
-                string text = "Here you can change channel to buy ad there.\nIf you want to buy in specific channel you can send a post from it\n*Show settings*\nCategories:" + String.Join(", ", categoriesStrs) + "\nPrice interval: " + intervalFrom + "-" + intervalTo;
-                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, text, replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
-            }
+                }
             catch(Exception ex)
             {
                 await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, ex.Message);

@@ -46,6 +46,9 @@ namespace eAdvertisement_bot
                 commandsList.Add(new ChangePostNameCommand());
                 commandsList.Add(new DeletePostCommand());
                 commandsList.Add(new ManualPurchaseMenuCommand());
+                commandsList.Add(new SortsMenuCommand());
+                commandsList.Add(new CategoriesMenuCommand());
+
 
                 //TODO: Next add command texts
                 commandsList.Add(new ChangeChannelCpmCommand());

@@ -35,6 +35,7 @@ namespace eAdvertisement_bot.DAO
             modelBuilder.Entity<Advertisement>().HasKey(p => new { p.Date_Time, p.Channel_Id });
 
             // Many to Many
+
             modelBuilder.Entity<Autobuy_Channel>()
                 .HasKey(cg => new { cg.Autobuy_Id, cg.Channel_Id });
             modelBuilder.Entity<Autobuy_Channel>()

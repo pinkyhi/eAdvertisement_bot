@@ -67,7 +67,7 @@ namespace eAdvertisement_bot.Models.Commands
        {
                         new[] //first row
                         {
-                            new InlineKeyboardButton { Text = "Manual purchase", CallbackData = "/manualPurchaseMenuP0IISC" },
+                            new InlineKeyboardButton { Text = "Manual purchase", CallbackData = "/manualPurchaseMenuP0IIS1,2C" },
                             new InlineKeyboardButton { Text = "Autobuy", CallbackData = "/autoBuyMenu" },
                         },
                         new[] // second row

@@ -11,9 +11,9 @@ using Telegram.Bot.Types.ReplyMarkups;
 
 namespace eAdvertisement_bot.Models.Commands
 {
-    public class ShowAvailablePlacesForBuyerCommand : Command
+    public class ShowPlacesCalendarForBuyerCommand : Command
     {
-        public override string Name => "/showAvailablePlacesForBuyer";
+        public override string Name => "/showPlacesCalendarForBuyer";
 
         public override bool Contains(Update update)
         {
@@ -24,14 +24,14 @@ namespace eAdvertisement_bot.Models.Commands
             else
             {
                 var data = update.CallbackQuery.Data;
-                return data.StartsWith("/showAvailablePlacesForBuyerN");
+                return data.StartsWith("/showPlacesCalendarForBuyerN");
             }
         }
 
         public async override Task Execute(Update update, TelegramBotClient botClient)
         {
             AppDbContext dbContext = new AppDbContext();
-            long channelId = Convert.ToInt64(update.CallbackQuery.Data.Substring(29));
+            long channelId = Convert.ToInt64(update.CallbackQuery.Data.Substring(28));
             try
             {
                 Channel channel = dbContext.Channels.Find(channelId);

@@ -49,7 +49,7 @@ namespace eAdvertisement_bot.Models.Commands
 
                 keyboard[0] = new[]
                 {
-                    new InlineKeyboardButton { Text = "Buy place", CallbackData = "/showAvailablePlacesForBuyerN"+channelId},
+                    new InlineKeyboardButton { Text = "Buy place", CallbackData = "/showPlacesCalendarForBuyerN"+channelId},
                     new InlineKeyboardButton { Text = "Back", CallbackData = "/manualPurchaseMenuP0IIS1,2C"},
                 };
 

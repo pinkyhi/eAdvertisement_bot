@@ -48,8 +48,10 @@ namespace eAdvertisement_bot
                 commandsList.Add(new ManualPurchaseMenuCommand());
                 commandsList.Add(new SortsMenuCommand());
                 commandsList.Add(new CategoriesMenuCommand());
+                commandsList.Add(new ShowChannelForBuyerCommand());
+                commandsList.Add(new ShowAvailablePlacesForBuyerCommand());
 
-
+                
                 //TODO: Next add command texts
                 commandsList.Add(new ChangeChannelCpmCommand());
                 commandsList.Add(new ChangeChannelDescriptionCommand());

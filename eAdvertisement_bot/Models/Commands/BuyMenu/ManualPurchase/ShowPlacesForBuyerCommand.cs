@@ -30,9 +30,9 @@ namespace eAdvertisement_bot.Models.Commands
         public async override Task Execute(Update update, TelegramBotClient botClient)
         {
             AppDbContext dbContext = new AppDbContext();
-            string x = update.CallbackQuery.Data.Substring(20, update.CallbackQuery.Data.IndexOf('D') - 20);
             long channelId = Convert.ToInt64(update.CallbackQuery.Data.Substring(20, update.CallbackQuery.Data.IndexOf('D')-20));
-            string dateStr = update.CallbackQuery.Data.Substring(update.CallbackQuery.Data.IndexOf('D') + 1);
+            string dateStr = update.CallbackQuery.Data.Substring(update.CallbackQuery.Data.IndexOf('D') + 1, update.CallbackQuery.Data.IndexOf('T') - (update.CallbackQuery.Data.IndexOf('D') + 1));
+            string tags = update.CallbackQuery.Data.Substring(update.CallbackQuery.Data.IndexOf('T') + 1);
             DateTime dateTime = DateTime.Parse(dateStr);
             try
             {
@@ -59,7 +59,7 @@ namespace eAdvertisement_bot.Models.Commands
                         keyboard[i] = new[] { new InlineKeyboardButton { Text = Convert.ToString(places[i].Time), CallbackData = "/" } };
                     }
                 }
-                keyboard[keyboard.Length - 1] = new[] { new InlineKeyboardButton { Text = "Back", CallbackData = "/showPlacesCalendarForBuyerN" + channelId } };
+                keyboard[keyboard.Length - 1] = new[] { new InlineKeyboardButton { Text = "Back", CallbackData = "/showPlacesCalendarForBuyerN" + channelId +"T"+tags} };
 
 
                 await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Choose time", replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown, disableWebPagePreview: true);

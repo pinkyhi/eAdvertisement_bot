@@ -31,7 +31,8 @@ namespace eAdvertisement_bot.Models.Commands
         public async override Task Execute(Update update, TelegramBotClient botClient)
         {
             AppDbContext dbContext = new AppDbContext();
-            long channelId = Convert.ToInt64(update.CallbackQuery.Data.Substring(28));
+            long channelId = Convert.ToInt64(update.CallbackQuery.Data.Substring(28, update.CallbackQuery.Data.IndexOf('T') - 28));
+            string tags = update.CallbackQuery.Data.Substring(update.CallbackQuery.Data.IndexOf('T') + 1);
             try
             {
                 Channel channel = dbContext.Channels.Find(channelId);
@@ -49,11 +50,11 @@ namespace eAdvertisement_bot.Models.Commands
 
                         if(dbContext.Advertisements.Count(a => a.Channel_Id == channelId && a.Date_Time.Date == nowIs.Date && a.Advertisement_Status_Id == 4) > 6)
                         {
-                            keyboard[i][j] = new InlineKeyboardButton { Text = "×" + Convert.ToString(nowIs.Date).Substring(0, 5) + "×", CallbackData = "/showPlacesForBuyerN" + channelId + "D" + Convert.ToString(nowIs) };
+                            keyboard[i][j] = new InlineKeyboardButton { Text = "×" + Convert.ToString(nowIs.Date).Substring(0, 5) + "×", CallbackData = "/showPlacesForBuyerN" + channelId + "D" + Convert.ToString(nowIs.Date).Substring(0, 10) + "T"+tags };
                         }
                         else
                         {
-                            keyboard[i][j] = new InlineKeyboardButton { Text = Convert.ToString(nowIs.Date).Substring(0, 5), CallbackData = "/showPlacesForBuyerN" + channelId + "D" + Convert.ToString(nowIs)};
+                            keyboard[i][j] = new InlineKeyboardButton { Text = Convert.ToString(nowIs.Date).Substring(0, 5), CallbackData = "/showPlacesForBuyerN" + channelId + "D" + Convert.ToString(nowIs.Date).Substring(0,10)+"T"+tags};
 
                         }
                         nowIs=nowIs.AddDays(1);
@@ -62,7 +63,7 @@ namespace eAdvertisement_bot.Models.Commands
 
                 keyboard[3] = new[]
                 {
-                    new InlineKeyboardButton { Text = "Back", CallbackData = "/showChannelForBuyerN"+channelId},
+                    new InlineKeyboardButton { Text = "Back", CallbackData = "/showChannelForBuyerN"+channelId+"T"+tags},
                 };
 
                 await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Here you can choose day where you want to buy an ad", replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown, disableWebPagePreview: true);

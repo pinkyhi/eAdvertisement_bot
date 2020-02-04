@@ -29,7 +29,7 @@ namespace eAdvertisement_bot.Models.Commands.ManualPurchase
         public override async Task Execute(Update update, TelegramBotClient botClient)
         {
             string tags = update.CallbackQuery.Data.Substring(20);    //0I100I200S1,2,3,4,5,6C1,2,3,4,5,6,7
-
+            string tagsC = new string(tags);
             int indexOfI1 = tags.IndexOf('I');
             int page = Convert.ToInt32(tags.Substring(0, indexOfI1));
             tags = tags.Substring(indexOfI1 + 1);
@@ -151,7 +151,7 @@ namespace eAdvertisement_bot.Models.Commands.ManualPurchase
                 int indexToPaste = 1;
                 foreach (DbEntities.Channel ch in channels)
                 {
-                    keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = "CPM: "+ch.Cpm+" Price: "+ch.Price +" \n"+ ch.Name, CallbackData = "/showChannelForBuyerN" + ch.Channel_Id }, };
+                    keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = "CPM: "+ch.Cpm+" Price: "+ch.Price +" \n"+ ch.Name, CallbackData = "/showChannelForBuyerN" + ch.Channel_Id+"T"+tagsC }, };
                     indexToPaste++;
                 }
 

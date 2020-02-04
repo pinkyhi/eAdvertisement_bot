@@ -30,7 +30,8 @@ namespace eAdvertisement_bot.Models.Commands
         public async override Task Execute(Update update, TelegramBotClient botClient)
         {
             AppDbContext dbContext = new AppDbContext();
-            long channelId = Convert.ToInt64(update.CallbackQuery.Data.Substring(21));
+            long channelId = Convert.ToInt64(update.CallbackQuery.Data.Substring(21, update.CallbackQuery.Data.IndexOf('T')-21));
+            string tags = update.CallbackQuery.Data.Substring(update.CallbackQuery.Data.IndexOf('T')+1);
             try
             {
                 Channel channel = dbContext.Channels.Find(channelId);
@@ -49,8 +50,8 @@ namespace eAdvertisement_bot.Models.Commands
 
                 keyboard[0] = new[]
                 {
-                    new InlineKeyboardButton { Text = "Buy place", CallbackData = "/showPlacesCalendarForBuyerN"+channelId},
-                    new InlineKeyboardButton { Text = "Back", CallbackData = "/manualPurchaseMenuP0IIS1,2C"},
+                    new InlineKeyboardButton { Text = "Buy place", CallbackData = "/showPlacesCalendarForBuyerN"+channelId+"T"+tags},
+                    new InlineKeyboardButton { Text = "Back", CallbackData = "/manualPurchaseMenuP"+tags},
                 };
 
                 await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, info, replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown, disableWebPagePreview: true);

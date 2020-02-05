@@ -12,7 +12,7 @@ namespace eAdvertisement_bot.Models.Commands
 {
     public class ShowChannelForBuyerCommand : Command
     {
-        public override string Name => "/showChannelForBuyerN";
+        public override string Name => "/showChannelForBuyerNT";
 
         public override bool Contains(Update update)
         {

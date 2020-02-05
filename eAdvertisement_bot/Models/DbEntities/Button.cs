@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace eAdvertisement_bot.Models.DbEntities
 {
     [Table("button")]
+    [Serializable]
     public class Button
     {
         [Key, Column("button_id")]
@@ -17,6 +19,8 @@ namespace eAdvertisement_bot.Models.DbEntities
 
         [Column("publication_id")]
         public int Publication_Id { get; set; }
+
+        [JsonIgnore]
         public Publication Publication { get; set; }
 
         [Column("text")]

@@ -35,7 +35,7 @@ namespace eAdvertisement_bot.Models.Commands
                 DbEntities.User userEntity = dbContext.Users.Find(Convert.ToInt64(update.CallbackQuery.From.Id));
                 userEntity.User_State_Id = 0;
                 dbContext.SaveChanges();
-                long hold = dbContext.Advertisements.Where(a => a.User_Id == userEntity.User_Id && a.Advertisement_Status_Id == 1).Sum(a => a.Price);
+                long hold = dbContext.Advertisements.Where(a => a.User_Id == userEntity.User_Id && (a.Advertisement_Status_Id == 1 || a.Advertisement_Status_Id == 2 || a.Advertisement_Status_Id == 4)).Sum(a => a.Price);
                 await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, null, false);  // ...,...,alert    AnswerCallbackQuery is required to send to avoid clock animation ob the button
 
                 InlineKeyboardMarkup keyboard = buyMenuKeyboard;

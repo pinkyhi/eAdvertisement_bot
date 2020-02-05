@@ -12,7 +12,7 @@ namespace eAdvertisement_bot.Models.Commands
 {
     public class ShowPlacesForBuyerCommand : Command
     {
-        public override string Name => "/showPlacesForBuyerNP";
+        public override string Name => "/showPlacesForBuyerNDT";
 
         public override bool Contains(Update update)
         {
@@ -38,7 +38,7 @@ namespace eAdvertisement_bot.Models.Commands
             {
                 List<Place> places = dbContext.Places.Where(p => p.Channel_Id == channelId).OrderBy(p => p.Time).ToList();
                 Channel channel = dbContext.Channels.Find(channelId);
-                List<DateTime> occupiedAds = dbContext.Advertisements.Where(a=> a.Date_Time.Date.Equals(dateTime.Date) ).Where(a => a.Channel_Id == channelId && (a.Advertisement_Status_Id == 2 || a.Advertisement_Status_Id == 4) && a.Date_Time < DateTime.Now).Select(a=>a.Date_Time).ToList();
+                List<DateTime> occupiedAds = dbContext.Advertisements.Where(a=> a.Date_Time.Date.Equals(dateTime.Date) ).Where(a => a.Channel_Id == channelId && (a.Advertisement_Status_Id == 2 || a.Advertisement_Status_Id == 4) || ( a.Date_Time < DateTime.Now)).Select(a=>a.Date_Time).ToList();
                 List<TimeSpan> occupiedTimes = new List<TimeSpan>(occupiedAds.Count);
 
                 for(int i = 0; i < occupiedAds.Count; i++)
@@ -50,13 +50,14 @@ namespace eAdvertisement_bot.Models.Commands
 
                 for(int i = 0; i < places.Count; i++)
                 {
+                    DateTime tDT = DateTime.Parse(dateStr);
                     if (occupiedTimes.Contains(places[i].Time))
                     {
-                        keyboard[i] = new[] { new InlineKeyboardButton { Text = "X"+Convert.ToString(places[i].Time)+"X", CallbackData = "/" } };
+                        keyboard[i] = new[] { new InlineKeyboardButton { Text = "X"+Convert.ToString(places[i].Time)+"X", CallbackData = "/miq" } };
                     }
                     else
                     {
-                        keyboard[i] = new[] { new InlineKeyboardButton { Text = Convert.ToString(places[i].Time), CallbackData = "/" } };
+                        keyboard[i] = new[] { new InlineKeyboardButton { Text = Convert.ToString(places[i].Time), CallbackData = "cpfaN"+channelId+"D"+Convert.ToString(tDT.AddHours(places[i].Time.Hours).AddMinutes(places[i].Time.Minutes))+"T"+tags } };
                     }
                 }
                 keyboard[keyboard.Length - 1] = new[] { new InlineKeyboardButton { Text = "Back", CallbackData = "/showPlacesCalendarForBuyerN" + channelId +"T"+tags} };

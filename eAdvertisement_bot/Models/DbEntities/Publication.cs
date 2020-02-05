@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace eAdvertisement_bot.Models.DbEntities
 {
     [Table("publication")]
+    [Serializable]
     public class Publication
     {
         [Key, Column("publication_id")]
@@ -19,6 +21,7 @@ namespace eAdvertisement_bot.Models.DbEntities
 
         [Column("user_id")]
         public long? User_Id { get; set; }
+        [JsonIgnore]
         public User User { get; set; }
 
         [Column("text")]

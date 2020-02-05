@@ -51,6 +51,9 @@ namespace eAdvertisement_bot
                 commandsList.Add(new ShowChannelForBuyerCommand());
                 commandsList.Add(new ShowPlacesCalendarForBuyerCommand());
                 commandsList.Add(new ShowPlacesForBuyerCommand());
+                commandsList.Add(new ChoosePostForAddCommandcs());
+                commandsList.Add(new BuyerPostInitConfirmationCommand());
+                commandsList.Add(new AcceptManufactureBuyCommand());
 
 
                 //TODO: Next add command texts

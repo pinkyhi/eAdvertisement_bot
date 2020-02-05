@@ -80,5 +80,68 @@ namespace eAdvertisement_bot.Models.Commands
                         }
         });
 
+
+        public async void SendPost(DbEntities.Publication post, Update update, TelegramBotClient botClient )
+        {
+            if (post.Media != null && post.Media.Count > 1)
+            {
+                List<InputMediaPhoto> album = new List<InputMediaPhoto>();
+                for (int i = 0; i < post.Media.Count; i++)
+                {
+                    album.Add(new InputMediaPhoto(new InputMedia(post.Media[i].Path)));
+                }
+                album[0].Caption = post.Text != null ? post.Text : "newPost";
+
+                await botClient.SendMediaGroupAsync(album, update.CallbackQuery.Message.Chat.Id);
+            }
+            else if (post.Media != null && post.Media.Count == 1)
+            {
+                if (post.Buttons != null)
+                {
+                    InlineKeyboardButton[][] keyboard = new InlineKeyboardButton[post.Buttons.Count][];
+
+                    int indexToPaste = 0;
+                    foreach (DbEntities.Button b in post.Buttons)
+                    {
+                        keyboard[indexToPaste] = new[]
+                        {
+                                new InlineKeyboardButton{Text = b.Text, Url = b.Url}
+                            };
+                        indexToPaste++;
+                    }
+
+                    await botClient.SendPhotoAsync(update.CallbackQuery.Message.Chat.Id, post.Media[0].Path, caption: post.Text != null ? post.Text : "newPost", replyMarkup: new InlineKeyboardMarkup(keyboard));
+                }
+                else
+                {
+                    await botClient.SendPhotoAsync(update.CallbackQuery.Message.Chat.Id, post.Media[0].Path, caption: post.Text != null ? post.Text : "newPost");
+                }
+
+            }
+            else if (post.Media == null || post.Media.Count == 0)
+            {
+                if (post.Buttons != null)
+                {
+                    InlineKeyboardButton[][] keyboard = new InlineKeyboardButton[post.Buttons.Count][];
+
+                    int indexToPaste = 0;
+                    foreach (DbEntities.Button b in post.Buttons)
+                    {
+                        keyboard[indexToPaste] = new[]
+                        {
+                                new InlineKeyboardButton{Text = b.Text, Url = b.Url}
+                            };
+                        indexToPaste++;
+                    }
+                    await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, post.Text != null ? post.Text : "newPost", replyMarkup: new InlineKeyboardMarkup(keyboard));
+                }
+                else
+                {
+                    await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, post.Text != null ? post.Text : "newPost");
+                }
+
+            }
+        }
+
     }
 }

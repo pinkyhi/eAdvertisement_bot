@@ -13,7 +13,7 @@ namespace eAdvertisement_bot.Models.Commands
 {
     public class ShowPlacesCalendarForBuyerCommand : Command
     {
-        public override string Name => "/showPlacesCalendarForBuyer";
+        public override string Name => "/showPlacesCalendarForBuyerNT";
 
         public override bool Contains(Update update)
         {
@@ -35,6 +35,7 @@ namespace eAdvertisement_bot.Models.Commands
             string tags = update.CallbackQuery.Data.Substring(update.CallbackQuery.Data.IndexOf('T') + 1);
             try
             {
+                List<Place> places = dbContext.Places.Where(p => p.Channel_Id == channelId).ToList();
                 Channel channel = dbContext.Channels.Find(channelId);
 
 
@@ -48,9 +49,9 @@ namespace eAdvertisement_bot.Models.Commands
                     for(int j = 0; j < 5; j++)
                     {
 
-                        if(dbContext.Advertisements.Count(a => a.Channel_Id == channelId && a.Date_Time.Date == nowIs.Date && a.Advertisement_Status_Id == 4) > 6)
+                        if(channel.Places==null || (dbContext.Advertisements.Count(a => a.Channel_Id == channelId && a.Date_Time.Date == nowIs.Date && (a.Advertisement_Status_Id == 4|| a.Advertisement_Status_Id == 2)) >= channel.Places.Count()))
                         {
-                            keyboard[i][j] = new InlineKeyboardButton { Text = "×" + Convert.ToString(nowIs.Date).Substring(0, 5) + "×", CallbackData = "/showPlacesForBuyerN" + channelId + "D" + Convert.ToString(nowIs.Date).Substring(0, 10) + "T"+tags };
+                            keyboard[i][j] = new InlineKeyboardButton { Text = "X" + Convert.ToString(nowIs.Date).Substring(0, 5) + "X", CallbackData = "/showPlacesForBuyerN" + channelId + "D" + Convert.ToString(nowIs.Date).Substring(0, 10) + "T"+tags };
                         }
                         else
                         {

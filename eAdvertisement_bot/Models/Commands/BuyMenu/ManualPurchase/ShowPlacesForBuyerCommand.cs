@@ -46,7 +46,7 @@ namespace eAdvertisement_bot.Models.Commands
                     occupiedTimes.Add(occupiedAds[i].TimeOfDay);
                 }
                 
-                InlineKeyboardButton[][] keyboard = new InlineKeyboardButton[places.Count+1][];
+                InlineKeyboardButton[][] keyboard = new InlineKeyboardButton[places.Count+2][];
 
                 for(int i = 0; i < places.Count; i++)
                 {
@@ -60,8 +60,11 @@ namespace eAdvertisement_bot.Models.Commands
                         keyboard[i] = new[] { new InlineKeyboardButton { Text = Convert.ToString(places[i].Time), CallbackData = "cpfaN"+channelId+"D"+Convert.ToString(tDT.AddHours(places[i].Time.Hours).AddMinutes(places[i].Time.Minutes))+"T"+tags } };
                     }
                 }
-                keyboard[keyboard.Length - 1] = new[] { new InlineKeyboardButton { Text = "Back", CallbackData = "/showPlacesCalendarForBuyerN" + channelId +"T"+tags} };
-
+                keyboard[keyboard.Length - 2] = new[] { new InlineKeyboardButton { Text = "Back", CallbackData = "/showPlacesCalendarForBuyerN" + channelId +"T"+tags} };
+                keyboard[keyboard.Length - 1] = new[]
+{
+                    new InlineKeyboardButton { Text = "Cancel", CallbackData = "/manualPurchaseMenuP" + tags },
+                };
 
                 await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Choose time", replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown, disableWebPagePreview: true);
 

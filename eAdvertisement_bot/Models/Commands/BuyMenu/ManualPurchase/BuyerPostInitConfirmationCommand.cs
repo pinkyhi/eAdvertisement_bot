@@ -43,7 +43,7 @@ namespace eAdvertisement_bot.Models.Commands
                 List<Button> buttons = dbContext.Buttons.Where(b => b.Publication_Id == post.Publication_Id).ToList();
 
                 List<Media> media = dbContext.Medias.Where(m => m.Publication_Id == post.Publication_Id).ToList();
-                InlineKeyboardButton[][] keyboard = new InlineKeyboardButton[2][];
+                InlineKeyboardButton[][] keyboard = new InlineKeyboardButton[3][];
 
                 //string json = JsonSerializer.Serialize(post);
 
@@ -51,7 +51,10 @@ namespace eAdvertisement_bot.Models.Commands
 
                 keyboard[0] = new[] { new InlineKeyboardButton { Text = "Accept", CallbackData = "ambN" + channelId + "D" + Convert.ToString(dateTime) + "T" + tags + "P" + postId} };
                 keyboard[1] = new[] { new InlineKeyboardButton { Text = "Back", CallbackData = "cpfaN" + channelId + "D" + Convert.ToString(dateTime) + "T" + tags } };
-
+                keyboard[keyboard.Length - 1] = new[]
+{
+                    new InlineKeyboardButton { Text = "Cancel", CallbackData = "/manualPurchaseMenuP" + tags },
+                }; 
 
                 await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Price: "+channel.Price+"\nAre you sure?", replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown, disableWebPagePreview: true);
 

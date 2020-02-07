@@ -29,7 +29,7 @@ namespace eAdvertisement_bot.Models.Commands
                     {
                         return false;
                     }
-                    if (userStateId == 1)
+                    if (userStateId == 1 || userStateId == 3)
                     {
                         
                         return true;
@@ -154,6 +154,49 @@ namespace eAdvertisement_bot.Models.Commands
                             dbContext.SaveChanges();    
                             await botClient.SendTextMessageAsync(update.Message.Chat.Id, "This channel was attached not to you, but we fixed it!\nCongratulations with a new channel! :)", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Back to sell menu", CallbackData = "/sellMenuP0" }));
                         }
+                    }
+                }
+                else if (userStateId == 3)
+                {
+                    DbEntities.Channel channel = dbContext.Channels.Find(chatId);
+                    string info = "";
+                    if (channel != null)
+                    {
+                        info = "[" + channel.Name + "](" + channel.Link + ")" +
+                         "\nSubscribers: " + channel.Subscribers +
+                         "\nCoverage: " + channel.Coverage +
+                         "\nERR: " + Math.Round(Convert.ToDouble(channel.Coverage) / Convert.ToDouble(channel.Subscribers), 2) +
+                         "\nPrice: " + channel.Price +
+                         "\nCpm: " + channel.Cpm;
+                        if (channel.Description != null && !channel.Description.Equals(""))
+                        {
+                            info += "\n*Description*\n" + channel.Description;
+                        }
+                    }
+                    else
+                    {
+                        await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Channel isn't found", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Back", CallbackData = "/manualPurchaseMenuP0IIS1,2C" }), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown, disableWebPagePreview: true);
+                        return;
+                    }
+
+
+                    InlineKeyboardButton[][] keyboard = new InlineKeyboardButton[1][];
+
+                    keyboard[0] = new[]
+                    {
+                        new InlineKeyboardButton { Text = "Buy place", CallbackData = "/showPlacesCalendarForBuyerN"+channel.Channel_Id+"T0IIS1,2C"},
+                        new InlineKeyboardButton { Text = "Back", CallbackData = "/manualPurchaseMenuP0IIS1,2C"},
+                    };
+
+                    await botClient.SendTextMessageAsync(update.Message.Chat.Id, info, replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown, disableWebPagePreview: true);
+
+                    try
+                    {
+                        await botClient.DeleteMessageAsync(update.Message.Chat.Id, update.CallbackQuery.Message.MessageId);
+                    }
+                    catch (Exception ex)
+                    {
+                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, ex.Message);
                     }
                 }
             }

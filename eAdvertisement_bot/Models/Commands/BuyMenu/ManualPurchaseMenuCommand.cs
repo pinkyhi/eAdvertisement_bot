@@ -184,11 +184,14 @@ namespace eAdvertisement_bot.Models.Commands.ManualPurchase
                 {
                     await botClient.DeleteMessageAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId);
                 }
-                catch { }
-
-                
-
+                catch (Exception ex)
+                {
+                    await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, ex.Message);
                 }
+
+
+
+            }
             catch(Exception ex)
             {
                 await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, ex.Message);

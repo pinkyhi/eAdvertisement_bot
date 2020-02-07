@@ -24,7 +24,7 @@ namespace eAdvertisement_bot.Models.Commands
                 try
                 {
                     DbEntities.User user = dbContext.Users.Find(Convert.ToInt64(update.Message.From.Id));
-                    return Convert.ToString(user.User_State_Id).StartsWith("10");
+                    return Convert.ToString(user.User_State_Id).StartsWith("10") && (Convert.ToString(user.User_State_Id)).Length > 2;
                 }
                 catch
                 {

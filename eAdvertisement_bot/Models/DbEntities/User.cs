@@ -38,6 +38,9 @@ namespace eAdvertisement_bot.Models.DbEntities
         [Column("language")]
         public string Language { get; set; }
 
+        [Column("tag")]
+        public string Tag { get; set; }
+
         [Column("stopped", TypeName = "bit")]
         [DefaultValue(false)]
         public bool Stopped { get; set; }

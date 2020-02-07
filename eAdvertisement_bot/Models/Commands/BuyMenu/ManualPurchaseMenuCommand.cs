@@ -76,16 +76,16 @@ namespace eAdvertisement_bot.Models.Commands.ManualPurchase
             {
                 intervalFrom=1;
             }
-            if (intervalTo >10000 || intervalTo<1)
+            if (intervalTo >100000 || intervalTo<1)
             {
-                intervalTo = 10000;
+                intervalTo = 100000;
             }
             // To use: sIndexes, cIndexes, intervalFrom, intervalTo, page
             try
             {
 
                 List<DbEntities.Channel_Category> channelsCategoriesToShow = dbContext.Channel_Categories.Where(cc=>cIndexes.Contains(cc.Category_Id)).ToList();
-                List<DbEntities.Channel> channels = dbContext.Channels.Where(c=>c.Price>=intervalFrom && c.Price<=intervalTo).ToList();
+                List<DbEntities.Channel> channels = dbContext.Channels.Where(c=>c.Price>=intervalFrom && c.Price<=intervalTo && c.Cpm!=null).ToList();
 
                 List<int> categoriesToShow = channelsCategoriesToShow.Select(cc => cc.Category_Id).Distinct().ToList();
                 //List<string> categoriesStrs = dbContext.Categories.Where(c => categoriesToShow.Contains(c.Category_Id)).Select(c => c.Name).ToList(); OLD VERSION
@@ -146,7 +146,7 @@ namespace eAdvertisement_bot.Models.Commands.ManualPurchase
                 {
                     keyboard = new InlineKeyboardButton[channels.Count + 2][];
                 }
-                keyboard[0] = new[] { new InlineKeyboardButton { Text = "Categories", CallbackData = "/categoriesMenuP0" + update.CallbackQuery.Data.Substring(update.CallbackQuery.Data.IndexOf('I')) }, new InlineKeyboardButton { Text = "Sorts", CallbackData = "/sortsMenu" + update.CallbackQuery.Data.Substring(19) } };
+                keyboard[0] = new[] { new InlineKeyboardButton { Text = "Categories", CallbackData = "/categoriesMenuP0" + update.CallbackQuery.Data.Substring(update.CallbackQuery.Data.IndexOf('I')) }, new InlineKeyboardButton { Text = "Sorts", CallbackData = "/sortsMenu" + update.CallbackQuery.Data.Substring(19) }, new InlineKeyboardButton { Text = "Interval", CallbackData = "mpciT" + update.CallbackQuery.Data.Substring(19) } };
 
                 int indexToPaste = 1;
                 foreach (DbEntities.Channel ch in channels)

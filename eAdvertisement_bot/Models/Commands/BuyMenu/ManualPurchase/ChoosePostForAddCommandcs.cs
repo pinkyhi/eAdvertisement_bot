@@ -38,15 +38,18 @@ namespace eAdvertisement_bot.Models.Commands
             {
                 Channel channel = dbContext.Channels.Find(channelId);
                 List<Publication> posts = dbContext.Publications.Where(p => p.User_Id == update.CallbackQuery.From.Id).ToList();
-                InlineKeyboardButton[][] keyboard = new InlineKeyboardButton[posts.Count + 1][];
+                InlineKeyboardButton[][] keyboard = new InlineKeyboardButton[posts.Count + 2][];
 
                 for(int i = 0; i < posts.Count; i++)
                 {
                     keyboard[i] = new[] { new InlineKeyboardButton { Text = posts[i].Name, CallbackData = "bpicN" + channelId + "D" + dateStr + "T" + tags + "P" + posts[i].Publication_Id } };
                 }
 
-                keyboard[keyboard.Length - 1] = new[] { new InlineKeyboardButton { Text = "Back", CallbackData = "/showPlacesForBuyerN" + channelId + "D" + Convert.ToString(dateTime).Substring(0, 10) + "T" + tags } };
-
+                keyboard[keyboard.Length - 2] = new[] { new InlineKeyboardButton { Text = "Back", CallbackData = "/showPlacesForBuyerN" + channelId + "D" + Convert.ToString(dateTime).Substring(0, 10) + "T" + tags } };
+                keyboard[keyboard.Length - 1] = new[]
+{
+                    new InlineKeyboardButton { Text = "Cancel", CallbackData = "/manualPurchaseMenuP" + tags },
+                };
 
                 await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Choose post", replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown, disableWebPagePreview: true);
 

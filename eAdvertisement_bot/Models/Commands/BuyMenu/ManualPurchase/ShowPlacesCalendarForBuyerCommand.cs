@@ -39,7 +39,7 @@ namespace eAdvertisement_bot.Models.Commands
                 Channel channel = dbContext.Channels.Find(channelId);
 
 
-                InlineKeyboardButton[][] keyboard = new InlineKeyboardButton[4][];
+                InlineKeyboardButton[][] keyboard = new InlineKeyboardButton[5][];
 
                 DateTime nowIs = DateTime.Today;
 
@@ -65,6 +65,10 @@ namespace eAdvertisement_bot.Models.Commands
                 keyboard[3] = new[]
                 {
                     new InlineKeyboardButton { Text = "Back", CallbackData = "/showChannelForBuyerN"+channelId+"T"+tags},
+                };
+                keyboard[4] = new[]
+                {
+                    new InlineKeyboardButton { Text = "Cancel", CallbackData = "/manualPurchaseMenuP" + tags },
                 };
 
                 await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Here you can choose day where you want to buy an ad", replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown, disableWebPagePreview: true);

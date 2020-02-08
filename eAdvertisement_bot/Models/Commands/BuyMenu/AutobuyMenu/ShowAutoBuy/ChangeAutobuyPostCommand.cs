@@ -8,12 +8,12 @@ using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace eAdvertisement_bot.Models.Commands
-{
-    public class AutobuyMenuCommand : Command
+{ 
+    public class ChangeAutobuyPostCommand : Command
     {
-        public override string Name => "/autobuyMenu";
+        public override string Name => "/changeAutobuyPostCommand";
 
-        public override bool Contains(Update update)
+        public override bool Contains(Update update) //cabpub
         {
             if (update.Type != Telegram.Bot.Types.Enums.UpdateType.CallbackQuery)
             {
@@ -22,7 +22,7 @@ namespace eAdvertisement_bot.Models.Commands
             else
             {
                 var data = update.CallbackQuery.Data;
-                return data.StartsWith("abm");
+                return data.Equals("cabpub");
             }
         }
 
@@ -31,27 +31,25 @@ namespace eAdvertisement_bot.Models.Commands
             AppDbContext dbContext = new AppDbContext();
             try
             {
-                dbContext.Users.Find(Convert.ToInt64(update.CallbackQuery.From.Id)).User_State_Id = 0;
+                DbEntities.User user = dbContext.Users.Find(Convert.ToInt64(update.CallbackQuery.From.Id));
+                user.User_State_Id = 0;
                 dbContext.SaveChanges();
-                List<DbEntities.Autobuy> autobuys = dbContext.Autobuys.Where(a => a.User_Id == update.CallbackQuery.From.Id).OrderBy(a=>a.Autobuy_Id).ToList();
-                InlineKeyboardButton[][] keyboard = new InlineKeyboardButton[autobuys.Count + 2][];
-                keyboard[0] = new[]
-                {
-                    new InlineKeyboardButton{Text = "Add new autobuy", CallbackData = "anab"}
-                };
+                List<DbEntities.Publication> posts = dbContext.Publications.Where(p => p.User_Id == update.CallbackQuery.From.Id).ToList();
+                InlineKeyboardButton[][] keyboard = new InlineKeyboardButton[posts.Count + 1][];
 
-                int indexToPaste = 1;
-                while (indexToPaste < autobuys.Count + 1)
+
+                int indexToPaste = 0;
+                while (indexToPaste < posts.Count)
                 {
                     keyboard[indexToPaste] = new[]
                     {
-                        new InlineKeyboardButton{Text=autobuys[indexToPaste-1].Name, CallbackData="sabN"+autobuys[indexToPaste-1].Autobuy_Id}
+                        new InlineKeyboardButton{Text=posts[indexToPaste].Name, CallbackData="acabpubN"+posts[indexToPaste].Publication_Id}
                     };
                     indexToPaste++;
                 }
                 keyboard[indexToPaste] = new[]
                 {
-                    new InlineKeyboardButton{Text="Back", CallbackData = "/buyMenu"}
+                    new InlineKeyboardButton{Text="Back", CallbackData = "sabN"+user.Object_Id}
                 };
                 await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, null, false);
                 try
@@ -61,7 +59,7 @@ namespace eAdvertisement_bot.Models.Commands
                 catch { }
                 finally
                 {
-                    await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Here you can create autobuys and look them up", replyMarkup: new InlineKeyboardMarkup(keyboard));
+                    await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Choose the post", replyMarkup: new InlineKeyboardMarkup(keyboard));
                 }
 
             }

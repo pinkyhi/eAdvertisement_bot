@@ -60,6 +60,16 @@ namespace eAdvertisement_bot
                 commandsList.Add(new OwnSoldMenuCommand());
                 commandsList.Add(new AddOwnSoldTimeCommand());
                 commandsList.Add(new ManualPurchaseChangeIntervalCommand());
+                commandsList.Add(new AutobuyMenuCommand());
+                commandsList.Add(new AddNewAutoBuyCommand());
+                commandsList.Add(new ShowAutoBuyCommand());
+                commandsList.Add(new ChangeAutoBuyNameCommand());
+                commandsList.Add(new ChangeAutobuyMinMaxPriceCommand());
+                commandsList.Add(new ChangeAutoBuyMaxCpmCommand());
+                commandsList.Add(new ChangeAutobuyStateCommand());
+                commandsList.Add(new ChangeAutobuyPostCommand());
+                commandsList.Add(new AcceptChangeAutobuyPostCommand());
+                commandsList.Add(new ChangingAutobuyPostIsAcceptedCommand());
 
 
 
@@ -74,6 +84,7 @@ namespace eAdvertisement_bot
                 commandsList.Add(new On10XStateEvent());
                 commandsList.Add(new On20XStateEvent());
                 commandsList.Add(new On30XStateEvent());
+                commandsList.Add(new On40XStateEvent());
                 commandsList.Add(new On9XXStateEvent());
 
                 botClient = new TelegramBotClient(BotSettings.Token);   // Token setting

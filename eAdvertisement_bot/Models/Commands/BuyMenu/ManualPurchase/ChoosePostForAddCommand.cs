@@ -10,7 +10,7 @@ using Telegram.Bot.Types.ReplyMarkups;
 
 namespace eAdvertisement_bot.Models.Commands
 {
-    public class ChoosePostForAddCommandcs : Command
+    public class ChoosePostForAddCommand : Command
     {
         public override string Name => "/choosePostForAdNDT";
 
@@ -37,6 +37,11 @@ namespace eAdvertisement_bot.Models.Commands
             try
             {
                 Channel channel = dbContext.Channels.Find(channelId);
+                if (channel.User_Id == update.CallbackQuery.From.Id)
+                {
+                    await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "You can't go next step because u can't buy ad in your own channel.", true);
+                    return;
+                }
                 List<Publication> posts = dbContext.Publications.Where(p => p.User_Id == update.CallbackQuery.From.Id).ToList();
                 InlineKeyboardButton[][] keyboard = new InlineKeyboardButton[posts.Count + 2][];
 

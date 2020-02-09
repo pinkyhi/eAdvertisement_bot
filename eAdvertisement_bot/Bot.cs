@@ -33,6 +33,7 @@ namespace eAdvertisement_bot
                 commandsList.Add(new LaunchBotCommand());
                 commandsList.Add(new BuyMenuCommand());
                 commandsList.Add(new BackToStartMenu());
+
                 commandsList.Add(new SellMenuCommand());
                 commandsList.Add(new AddChannelCommand());
                 commandsList.Add(new ShowChannelForSellerCommand());
@@ -51,7 +52,7 @@ namespace eAdvertisement_bot
                 commandsList.Add(new ShowChannelForBuyerCommand());
                 commandsList.Add(new ShowPlacesCalendarForBuyerCommand());
                 commandsList.Add(new ShowPlacesForBuyerCommand());
-                commandsList.Add(new ChoosePostForAddCommandcs());
+                commandsList.Add(new ChoosePostForAddCommand());
                 commandsList.Add(new BuyerPostInitConfirmationCommand());
                 commandsList.Add(new AcceptManufactureBuyCommand());
                 commandsList.Add(new InfoMenuCommand());
@@ -65,11 +66,15 @@ namespace eAdvertisement_bot
                 commandsList.Add(new ShowAutoBuyCommand());
                 commandsList.Add(new ChangeAutoBuyNameCommand());
                 commandsList.Add(new ChangeAutobuyMinMaxPriceCommand());
-                commandsList.Add(new ChangeAutoBuyMaxCpmCommand());
+                commandsList.Add(new ChangeAutobuyMaxCpmCommand());
                 commandsList.Add(new ChangeAutobuyStateCommand());
                 commandsList.Add(new ChangeAutobuyPostCommand());
                 commandsList.Add(new AcceptChangeAutobuyPostCommand());
                 commandsList.Add(new ChangingAutobuyPostIsAcceptedCommand());
+                commandsList.Add(new ChangeAutobuyChannelsCommand());
+                commandsList.Add(new ChangeAutobuyIntervalCommand());
+
+                commandsList.Add(new AddChannelsToAutobuyCommand());
 
 
 

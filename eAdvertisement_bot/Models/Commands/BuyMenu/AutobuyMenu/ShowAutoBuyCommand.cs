@@ -46,7 +46,7 @@ namespace eAdvertisement_bot.Models.Commands
                 string text = "*" + autobuyToShow.Name + "*" +
                     "\nBalance of autobuy: " + autobuyToShow.Balance +
                     "\nState: " + (autobuyToShow.State == 1 ? "On" : "Off") +
-                    "\nInterval: " + autobuyToShow.Interval + (autobuyToShow.Interval > 1 ? "day" : "days") +
+                    "\nInterval: " + autobuyToShow.Interval + (autobuyToShow.Interval > 1 ? " days" : " day") +
                     "\nPrice\n    Min: " + autobuyToShow.Min_Price + "\n    Max: " + autobuyToShow.Max_Price +
                     "\nMax CPM: " + autobuyToShow.Max_Cpm +
                     "\nPost: " + postName +
@@ -81,7 +81,7 @@ namespace eAdvertisement_bot.Models.Commands
                     },
                     new[]
                     {
-                        new InlineKeyboardButton{Text="Change channels",CallbackData = "cabcs"}
+                        new InlineKeyboardButton{Text="Change channels",CallbackData = "cabcsP0"}
                     },
                     new[]
                     {

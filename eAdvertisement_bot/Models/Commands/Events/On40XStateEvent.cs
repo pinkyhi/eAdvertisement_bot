@@ -51,7 +51,7 @@ namespace eAdvertisement_bot.Models.Commands
                     int cpm = 0;
                     try
                     {
-                        cpm = Convert.ToInt32(update.Message.Text);
+                        cpm = Convert.ToInt32(update.Message.Text.Trim());
                     }
                     catch
                     {
@@ -95,6 +95,22 @@ namespace eAdvertisement_bot.Models.Commands
                     ab.Min_Price = iF;
 
                     await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Price interval is changed!", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Show updated menu", CallbackData = "sabN" + user.Object_Id }));
+                }
+                else if (state == 404)
+                {
+                    int interval = 0;
+                    try
+                    {
+                        interval = Convert.ToInt32(update.Message.Text.Trim());
+                    }
+                    catch
+                    {
+                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Wrong format");
+                        return;
+                    }
+
+                    dbContext.Autobuys.Find(Convert.ToInt32(user.Object_Id)).Interval = interval;
+                    await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Interval is changed!", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Show updated menu", CallbackData = "sabN" + user.Object_Id }));
                 }
 
                 user.User_State_Id = 0;

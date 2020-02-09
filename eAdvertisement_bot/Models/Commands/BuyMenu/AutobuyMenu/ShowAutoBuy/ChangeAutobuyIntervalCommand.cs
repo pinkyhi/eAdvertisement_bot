@@ -8,9 +8,9 @@ using Telegram.Bot.Types;
 
 namespace eAdvertisement_bot.Models.Commands
 {
-    public class ChangeAutobuyMaxCpmCommand : Command
+    public class ChangeAutobuyIntervalCommand :Command
     {
-        public override string Name => "/changeAutobuyMaxCpm";
+        public override string Name => "/changeAutobuyBuyInterval";
 
         public override bool Contains(Update update)
         {
@@ -21,7 +21,7 @@ namespace eAdvertisement_bot.Models.Commands
             else
             {
                 var data = update.CallbackQuery.Data;
-                return data.StartsWith("cabmac");
+                return data.StartsWith("cabbi");
             }
         }
 
@@ -31,11 +31,11 @@ namespace eAdvertisement_bot.Models.Commands
             try
             {
                 DbEntities.User user = dbContext.Users.Find(Convert.ToInt64(update.CallbackQuery.From.Id));
-                user.User_State_Id = 402;
+                user.User_State_Id = 404;
                 dbContext.SaveChanges();
 
-                await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "Write integer max cpm, bot won't buy ads in channels with cpm bigger than this.", true);
-                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Write integer max cpm\n*100*",parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
+                await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "Write integer interval in days, bot won't buy ads in channels more often than this days count.", true);
+                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Write integer in days\n*14*", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
             }
             catch (Exception ex)
             {
@@ -48,4 +48,3 @@ namespace eAdvertisement_bot.Models.Commands
         }
     }
 }
-

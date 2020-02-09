@@ -29,9 +29,8 @@ namespace eAdvertisement_bot.Models.Commands
                     {
                         return false;
                     }
-                    if (userStateId == 1 || userStateId == 3)
+                    else
                     {
-                        
                         return true;
                     }
                 }
@@ -56,30 +55,30 @@ namespace eAdvertisement_bot.Models.Commands
                 {
                     DbEntities.Channel chInDb = dbContext.Channels.Find(chatId);
 
-                    
+
                     ChatMember[] admins = await botClient.GetChatAdministratorsAsync(chatId);
                     ChatMember botAsAChatMember = admins.First(a => a.User.Id == botId);
-                    bool isBotAdmin = botAsAChatMember!=null;
+                    bool isBotAdmin = botAsAChatMember != null;
                     bool isUserACreator = admins.First(a => a.User.Id == update.Message.From.Id).Status == Telegram.Bot.Types.Enums.ChatMemberStatus.Creator;
 
                     if (chInDb == null)
                     {
                         if (isBotAdmin && isUserACreator)
                         {
-                            int coverage=0;
-                            if(botAsAChatMember.CanDeleteMessages==true && botAsAChatMember.CanEditMessages==true && botAsAChatMember.CanPostMessages == true)
+                            int coverage = 0;
+                            if (botAsAChatMember.CanDeleteMessages == true && botAsAChatMember.CanEditMessages == true && botAsAChatMember.CanPostMessages == true)
                             {
                                 ClientApiHandler cah = new ClientApiHandler();
                                 await cah.ConnectClient();
                                 await cah.SetClientId();
 
-                                if((await botClient.GetChatAsync(chatId)).InviteLink == null)
+                                if ((await botClient.GetChatAsync(chatId)).InviteLink == null)
                                 {
                                     await botClient.ExportChatInviteLinkAsync(update.Message.ForwardFromChat.Id);
                                 }
 
                                 string inviteLink = (await botClient.GetChatAsync(chatId)).InviteLink;
-                                
+
                                 try
                                 {
                                     Chat s = await botClient.GetChatAsync(chatId);
@@ -106,17 +105,17 @@ namespace eAdvertisement_bot.Models.Commands
                                         coverage = await cah.GetCoverageOfChannel(inviteLink, chatId, false);
                                     }
                                     */
-                                    dbContext.Channels.Add(new DbEntities.Channel { Price=0, Coverage=coverage, Name=update.Message.ForwardFromChat.Title, Date = DateTime.UtcNow, Channel_Id = chatId, Link = inviteLink, Subscribers = await botClient.GetChatMembersCountAsync(update.Message.ForwardFromChat.Id), User_Id = update.Message.From.Id });
+                                    dbContext.Channels.Add(new DbEntities.Channel { Price = 0, Coverage = coverage, Name = update.Message.ForwardFromChat.Title, Date = DateTime.UtcNow, Channel_Id = chatId, Link = inviteLink, Subscribers = await botClient.GetChatMembersCountAsync(update.Message.ForwardFromChat.Id), User_Id = update.Message.From.Id });
                                     dbContext.SaveChanges();
                                     await botClient.SendTextMessageAsync(update.Message.From.Id, "OK! Channel is added :)", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Back to sell menu", CallbackData = "/sellMenuP0" }));
-                                    
+
                                 }
                                 catch (Exception ex)
                                 {
                                     if (ex.Message.Equals("INVITE_HASH_EXPIRED"))
                                     {
                                         await botClient.SendTextMessageAsync(update.Message.Chat.Id, "eAdvertisement_bot helper couldn't join to channel, try to add it manually.\n@eAdvertisement_Helper\n" +
-                                            "Also that can be because of high load on helper account, so just try again later.\n\n"+inviteLink);
+                                            "Also that can be because of high load on helper account, so just try again later.\n\n" + inviteLink);
                                     }
                                     else
                                     {
@@ -129,29 +128,29 @@ namespace eAdvertisement_bot.Models.Commands
                                 await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Sorry, but bot hasn't all required permissions \nin this channel to work");
                             }
                         }
-                        if(!isBotAdmin)
+                        if (!isBotAdmin)
                         {
                             await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Sorry, but bot isn't in administrators of this channel");
                         }
                         if (!isUserACreator)
                         {
                             await botClient.SendTextMessageAsync(update.Message.Chat.Id, "You aren't a creator of this channel");
-                        }             
+                        }
                     }
                     else
                     {
-                        if(chInDb.User_Id == update.Message.From.Id)
+                        if (chInDb.User_Id == update.Message.From.Id)
                         {
                             await botClient.SendTextMessageAsync(update.Message.Chat.Id, "This channel is already attached to you", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Back to sell menu", CallbackData = "/sellMenuP0" }));
                         }
-                        else if(!isUserACreator)
+                        else if (!isUserACreator)
                         {
                             await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Sorry, but you aren't a creator of this channel");
                         }
-                        else if(chInDb.User_Id != update.Message.From.Id && isUserACreator)
+                        else if (chInDb.User_Id != update.Message.From.Id && isUserACreator)
                         {
                             chInDb.User_Id = update.Message.From.Id;
-                            dbContext.SaveChanges();    
+                            dbContext.SaveChanges();
                             await botClient.SendTextMessageAsync(update.Message.Chat.Id, "This channel was attached not to you, but we fixed it!\nCongratulations with a new channel! :)", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Back to sell menu", CallbackData = "/sellMenuP0" }));
                         }
                     }
@@ -199,8 +198,59 @@ namespace eAdvertisement_bot.Models.Commands
                         await botClient.SendTextMessageAsync(update.Message.Chat.Id, ex.Message);
                     }
                 }
+                else if (userStateId == 5)
+                {
+                    //TODO: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    DbEntities.Channel channel;
+                    try
+                    {
+                       channel = dbContext.Channels.Find(chatId);
+                    }
+                    catch
+                    {
+                        await botClient.SendTextMessageAsync(update.Message.From.Id, "This channel isn't attached to a bot");
+                        return;
+                    }
+                    if (channel.User_Id == update.Message.From.Id)
+                    {
+                        await botClient.SendTextMessageAsync(update.Message.From.Id, "You can't add this channel because it's yours.");
+                        return;
+                    }
+                    DbEntities.User user = dbContext.Users.Find(Convert.ToInt64(update.Message.From.Id));
+
+                    try
+                    {
+                        List<DbEntities.Autobuy_Channel> abcs = dbContext.Autobuy_Channels.Where(a => a.Autobuy_Id == Convert.ToInt32(user.Object_Id)).ToList();
+                        if (!abcs.Select(ac => ac.Channel_Id).Contains(chatId))
+                        {
+                            if (dbContext.Autobuys.Find(Convert.ToInt32(user.Object_Id)).Autobuy_Channels != null)
+                            {
+                                dbContext.Autobuys.Find(Convert.ToInt32(user.Object_Id)).Autobuy_Channels.Add(new DbEntities.Autobuy_Channel { Autobuy_Id = Convert.ToInt32(user.Object_Id), Channel_Id = channel.Channel_Id });
+                            }
+                            else
+                            {
+                                dbContext.Autobuys.Find(Convert.ToInt32(user.Object_Id)).Autobuy_Channels = new List<DbEntities.Autobuy_Channel> { new DbEntities.Autobuy_Channel { Autobuy_Id = Convert.ToInt32(user.Object_Id), Channel_Id = channel.Channel_Id } };
+                            }
+                            dbContext.SaveChanges();
+                            await botClient.SendTextMessageAsync(update.Message.From.Id, "Adding was succesful", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Show updated menu!", CallbackData = "acstabP0" }));
+
+                        }
+                        else
+                        {
+                            await botClient.SendTextMessageAsync(update.Message.From.Id, "This channel is already attached", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Back", CallbackData = "acstabP0" }));
+
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        await botClient.SendTextMessageAsync(update.Message.From.Id, ex.Message);
+                        
+                    }
+
+
+                }
             }
-            catch (Exception ex){ Console.WriteLine(ex.Message); }
+            catch (Exception ex){ await botClient.SendTextMessageAsync(update.Message.From.Id, ex.Message); }
             finally { dbContext.Dispose(); }
         }
     }

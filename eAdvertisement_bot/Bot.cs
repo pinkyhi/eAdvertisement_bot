@@ -82,6 +82,9 @@ namespace eAdvertisement_bot
                 commandsList.Add(new AcceptAddingChannelToAutobuyCommand());
                 commandsList.Add(new AddingChannelToAutobuyIsAcceptedCommand());
                 commandsList.Add(new ThisChannelIsAddedToAutobuyBlock());
+                commandsList.Add(new ShowAttachedToAutobuyChannelCommand());
+                commandsList.Add(new UnattachChannelFromAutobuyCommand());
+
 
 
 

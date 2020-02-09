@@ -9,9 +9,9 @@ using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 namespace eAdvertisement_bot.Models.Commands
 {
-    public class AddingChannelToAutobuyIsAcceptedCommand:Command
+    public class UnattachChannelFromAutobuyCommand : Command
     {
-        public override string Name => "/addingChannelToAutobuyIsAcceptedNP";
+        public override string Name => "unattachChannelFromAutobuyNP";
 
         public override bool Contains(Update update)
         {
@@ -22,23 +22,20 @@ namespace eAdvertisement_bot.Models.Commands
             else
             {
                 var data = update.CallbackQuery.Data;
-                return data.StartsWith("acltabiaN");
+                return data.StartsWith("unatclfabN");
             }
         }
 
-
-
         public async override Task Execute(Update update, TelegramBotClient botClient)
         {
-            long channelId = Convert.ToInt64(update.CallbackQuery.Data.Substring(9, update.CallbackQuery.Data.IndexOf('P') - 9));
+            long channelId = Convert.ToInt64(update.CallbackQuery.Data.Substring(10, update.CallbackQuery.Data.IndexOf('P') - 10));
             string page = update.CallbackQuery.Data.Substring(update.CallbackQuery.Data.IndexOf('P') + 1);
 
             AppDbContext dbContext = new AppDbContext();
 
             try
             {
-
-                DbEntities.Channel channel;
+                Channel channel;
                 try
                 {
                     channel = dbContext.Channels.Find(channelId);
@@ -58,18 +55,14 @@ namespace eAdvertisement_bot.Models.Commands
                 try
                 {
                     List<DbEntities.Autobuy_Channel> abcs = dbContext.Autobuy_Channels.Where(a => a.Autobuy_Id == Convert.ToInt32(user.Object_Id)).ToList();
-                    if (!abcs.Select(ac => ac.Channel_Id).Contains(channelId))
+                    if (abcs.Select(ac => ac.Channel_Id).Contains(channelId))
                     {
-                        if (dbContext.Autobuys.Find(Convert.ToInt32(user.Object_Id)).Autobuy_Channels != null)
-                        {
-                            dbContext.Autobuys.Find(Convert.ToInt32(user.Object_Id)).Autobuy_Channels.Add(new DbEntities.Autobuy_Channel { Autobuy_Id = Convert.ToInt32(user.Object_Id), Channel_Id = channel.Channel_Id });
-                        }
-                        else
-                        {
-                            dbContext.Autobuys.Find(Convert.ToInt32(user.Object_Id)).Autobuy_Channels = new List<DbEntities.Autobuy_Channel> { new DbEntities.Autobuy_Channel { Autobuy_Id = Convert.ToInt32(user.Object_Id), Channel_Id = channel.Channel_Id } };
-                        }
+
+                            dbContext.Autobuys.Find(Convert.ToInt32(user.Object_Id)).Autobuy_Channels.Remove(dbContext.Autobuy_Channels.Where(ac=>ac.Channel_Id==channelId&&ac.Autobuy_Id==user.Object_Id).FirstOrDefault());
+
+
                         dbContext.SaveChanges();
-                        await botClient.SendTextMessageAsync(update.CallbackQuery.From.Id, "Adding was succesful", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Show updated menu!", CallbackData = "acstabP"+page }));
+                        await botClient.SendTextMessageAsync(update.CallbackQuery.From.Id, "Unattaching was succesful", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Show updated menu!", CallbackData = "cabcsP" + page }));
                         try
                         {
                             await botClient.DeleteMessageAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId);
@@ -82,7 +75,7 @@ namespace eAdvertisement_bot.Models.Commands
                     }
                     else
                     {
-                        await botClient.SendTextMessageAsync(update.CallbackQuery.From.Id, "This channel is already attached", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Back", CallbackData = "acstabP"+page }));
+                        await botClient.SendTextMessageAsync(update.CallbackQuery.From.Id, "This channel isn't attached", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Back", CallbackData = "cabcsP" + page}));
 
                     }
                 }

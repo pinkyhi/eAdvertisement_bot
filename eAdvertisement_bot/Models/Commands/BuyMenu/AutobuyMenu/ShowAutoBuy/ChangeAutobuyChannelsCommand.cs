@@ -76,7 +76,7 @@ namespace eAdvertisement_bot.Models.Commands
                 int indexToPaste = 1;
                 foreach (DbEntities.Channel ch in channels)
                 {
-                    keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = "CPM: " + ch.Cpm + " Price: " + ch.Price + " \n" + ch.Name, CallbackData = "satabc" + ch.Channel_Id }, }; //Show attached to autobuy channel
+                    keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = "CPM: " + ch.Cpm + " Price: " + ch.Price + " \n" + ch.Name, CallbackData = "satabclN" + ch.Channel_Id + "P" + page }, }; //Show attached to autobuy channel
                     indexToPaste++;
                 }
 

@@ -200,7 +200,6 @@ namespace eAdvertisement_bot.Models.Commands
                 }
                 else if (userStateId == 5)
                 {
-                    //TODO: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                     DbEntities.Channel channel;
                     try
                     {

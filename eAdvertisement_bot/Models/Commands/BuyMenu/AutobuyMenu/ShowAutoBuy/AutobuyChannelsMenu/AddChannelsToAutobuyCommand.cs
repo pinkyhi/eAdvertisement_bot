@@ -141,15 +141,15 @@ namespace eAdvertisement_bot.Models.Commands
                 {
                     if (t!= null && t.Contains(ch.Channel_Id))
                     {
-                        keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = "CPM: " + ch.Cpm + " Price: " + ch.Price + " \nX" + ch.Name+"X", CallbackData = "tciatabBlock" + ch.Channel_Id }, };
+                        keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = "CPM: " + ch.Cpm + " Price: " + ch.Price + " \nX" + ch.Name+"X", CallbackData = "tciatabBlock"}, };
                     }
                     else
                     {
-                        keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = "CPM: " + ch.Cpm + " Price: " + ch.Price + " \n" + ch.Name, CallbackData = "aacltab" + ch.Channel_Id }, };
+                        keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = "CPM: " + ch.Cpm + " Price: " + ch.Price + " \n" + ch.Name, CallbackData = "aacltabN" + ch.Channel_Id + "P" + page }, };
                     }
                     indexToPaste++;
                 }
-
+                
                 if (toNextPageButton && toPreviousPageButton)
                 {
                     keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = "←←←", CallbackData = "acstabP" + (page - 1) }, new InlineKeyboardButton { Text = "→→→", CallbackData = "acstabP" + (page + 1)  }, };

@@ -46,8 +46,10 @@ namespace eAdvertisement_bot.Models.Commands
 
                 string tags = user.Tag;    //0I100I200S1,2,3,4,5,6C1,2,3,4,5,6,7
                 string tagsC = new string(tags);
-                int indexOfC = tags.IndexOf('C');
+                
                 int page = Convert.ToInt32(update.CallbackQuery.Data.Substring(7));
+
+                int indexOfC = tags.IndexOf('C');
                 tags = tags.Substring(indexOfC + 1);
 
 
@@ -139,7 +141,7 @@ namespace eAdvertisement_bot.Models.Commands
                 {
                     if (t!= null && t.Contains(ch.Channel_Id))
                     {
-                        keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = "CPM: " + ch.Cpm + " Price: " + ch.Price + " \nX" + ch.Name+"X", CallbackData = "aacltab" + ch.Channel_Id }, };
+                        keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = "CPM: " + ch.Cpm + " Price: " + ch.Price + " \nX" + ch.Name+"X", CallbackData = "tciatabBlock" + ch.Channel_Id }, };
                     }
                     else
                     {

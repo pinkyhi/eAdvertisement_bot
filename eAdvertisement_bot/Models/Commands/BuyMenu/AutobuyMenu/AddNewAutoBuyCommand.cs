@@ -34,6 +34,7 @@ namespace eAdvertisement_bot.Models.Commands
                 if (dbContext.Publications.Count(p => p.User_Id == update.CallbackQuery.From.Id) < 8)
                 {
                     DbEntities.User user = dbContext.Users.Find(Convert.ToInt64(update.CallbackQuery.From.Id));
+
                     DbEntities.Autobuy newAb = new DbEntities.Autobuy { User_Id = user.User_Id, Balance = 0, Interval = 0, State = 0, Name = "New autobuy", Min_Price = 0, Max_Cpm = 0, Max_Price = 0  };
                     dbContext.Autobuys.Add(newAb);
                     dbContext.SaveChanges();

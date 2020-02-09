@@ -57,6 +57,7 @@ namespace eAdvertisement_bot.Models.Commands
                 DbEntities.User user = dbContext.Users.Find(Convert.ToInt64(update.CallbackQuery.From.Id));
                 user.User_State_Id = 4;
                 user.Object_Id = abId;
+                user.Tag = null;
                 dbContext.SaveChanges();
 
                 InlineKeyboardButton[][] keyboardControll = new[]

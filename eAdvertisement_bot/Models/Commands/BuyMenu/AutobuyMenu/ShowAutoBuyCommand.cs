@@ -50,6 +50,7 @@ namespace eAdvertisement_bot.Models.Commands
                     "\nPrice\n    Min: " + autobuyToShow.Min_Price + "\n    Max: " + autobuyToShow.Max_Price +
                     "\nMax CPM: " + autobuyToShow.Max_Cpm +
                     "\nPost: " + postName +
+                    "\nDaily interval: " + autobuyToShow.Daily_Interval_From.Hours + "-"+ autobuyToShow.Daily_Interval_To.Hours +
                     "\n*Channels*" +
                     "\n" + String.Join(',',channels.Select(c=>c.Name)) + ".";
 
@@ -65,6 +66,12 @@ namespace eAdvertisement_bot.Models.Commands
                     new[]
                     {
                         new InlineKeyboardButton{Text = "Change State", CallbackData = "cabst"},
+                        new InlineKeyboardButton{Text="Change post",CallbackData = "cabpub"},
+                    },
+                    new[]//
+                    {
+                        new InlineKeyboardButton{Text="Add balance",CallbackData = "abaltab"},
+                        new InlineKeyboardButton{Text="Drop balance",CallbackData = "drabbal"},
                     },
                     new[]
                     {
@@ -76,13 +83,17 @@ namespace eAdvertisement_bot.Models.Commands
                         new InlineKeyboardButton{Text = "Change Min-Max price", CallbackData = "cabmimap"},
                         new InlineKeyboardButton{Text = "Change buy interval", CallbackData = "cabbi"}
                     },
-                    new[]
+                    new[]//
                     {
-                        new InlineKeyboardButton{Text="Change post",CallbackData = "cabpub"}
+                        new InlineKeyboardButton{Text="Change daily time interval",CallbackData = "cabdti"}
                     },
                     new[]
                     {
                         new InlineKeyboardButton{Text="Change channels",CallbackData = "cabcsP0"}
+                    },
+                    new[]//
+                    {
+                        new InlineKeyboardButton{Text="Delete autobuy",CallbackData = "delab"}
                     },
                     new[]
                     {

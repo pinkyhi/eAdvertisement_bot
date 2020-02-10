@@ -112,6 +112,62 @@ namespace eAdvertisement_bot.Models.Commands
                     dbContext.Autobuys.Find(Convert.ToInt32(user.Object_Id)).Interval = interval;
                     await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Interval is changed!", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Show updated menu", CallbackData = "sabN" + user.Object_Id }));
                 }
+                else if (state == 405)
+                {
+                    int balance = 0;
+                    try
+                    {
+                        balance = Convert.ToInt32(update.Message.Text.Trim());
+                    }
+                    catch
+                    {
+                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Wrong format");
+                        return;
+                    }
+                    if (user.Balance < balance)
+                    {
+                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Not enough balance on your account");
+                        return;
+                    }
+                    user.Balance -= balance;
+
+                    dbContext.Autobuys.Find(Convert.ToInt32(user.Object_Id)).Balance+=balance;
+                    await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Balance is added!", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Show updated menu", CallbackData = "sabN" + user.Object_Id }));
+                }
+                else if (state == 406)
+                {
+                    int iF, iT = 0;
+                    try
+                    {
+                        iF = Convert.ToInt32(update.Message.Text.Trim().Substring(0, update.Message.Text.Trim().IndexOf('-')));
+                        iT = Convert.ToInt32(update.Message.Text.Trim().Substring(update.Message.Text.Trim().IndexOf('-') + 1));
+                    }
+                    catch
+                    {
+                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Wrong format");
+                        return;
+                    }
+                    DbEntities.Autobuy ab = dbContext.Autobuys.Find(Convert.ToInt32(user.Object_Id));
+                    if (iT < 0)
+                    {
+                        iT = 0;
+                    }
+                    if (iF < 0)
+                    {
+                        iF = 0;
+                    }
+                    if (iF > iT)
+                    {
+                        int t = iF;
+                        iF = iT;
+                        iT = t;
+                    }
+
+                    ab.Daily_Interval_To = new TimeSpan(iT,0,0);
+                    ab.Daily_Interval_From = new TimeSpan(iF, 0, 0);
+
+                    await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Daily interval is changed!", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Show updated menu", CallbackData = "sabN" + user.Object_Id }));
+                }
 
                 user.User_State_Id = 0;
                 dbContext.SaveChanges();

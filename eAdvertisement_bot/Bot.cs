@@ -85,6 +85,12 @@ namespace eAdvertisement_bot
                 commandsList.Add(new ShowAttachedToAutobuyChannelCommand());
                 commandsList.Add(new UnattachChannelFromAutobuyCommand());
 
+                commandsList.Add(new DeleteAutobuyCommand());
+                commandsList.Add(new DropAutobuyBalanceCommand());
+                commandsList.Add(new AddBalanceToAutobuyCommand());
+                commandsList.Add(new ChangeAutobuyDailyTimeIntervalCommand());
+
+
 
 
 

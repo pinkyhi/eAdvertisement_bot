@@ -37,6 +37,12 @@ namespace eAdvertisement_bot.Models.DbEntities
         [Column("balance")]
         public int Balance { get; set; }
 
+        [Column("daily_interval_from")]
+        public TimeSpan Daily_Interval_From { get; set; }  // Check this type!
+
+        [Column("daily_interval_to")]
+        public TimeSpan Daily_Interval_To { get; set; }  // Check this type!
+
         [Column("user_id")]
         public long User_Id { get; set; }
         public User User { get; set; }

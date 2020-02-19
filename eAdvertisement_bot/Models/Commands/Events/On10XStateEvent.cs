@@ -70,11 +70,11 @@ namespace eAdvertisement_bot.Models.Commands
                         }
                         user.User_State_Id = 0;
                         dbContext.SaveChanges();
-                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, maxInd + " buttons are added!", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Show updated post", CallbackData = "/showPostN" + post.Publication_Id }));
+                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, maxInd + " кнопки добавлены!", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Показать обновленный пост", CallbackData = "/showPostN" + post.Publication_Id }));
                     }
                     else
                     {
-                        await botClient.SendTextMessageAsync(update.Message.Chat.Id,"You can't use buttons because you attached more than 1 image\nRecreate post if you want to use buttons", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Show updated post", CallbackData = "/showPostN" + post.Publication_Id }));
+                        await botClient.SendTextMessageAsync(update.Message.Chat.Id,"Вы не можете использовать кнопки потому что вы прикрепили более одной картинки\nПересоздайте пост если вы хотите использовать кнопки", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Показать обновленный пост", CallbackData = "/showPostN" + post.Publication_Id }));
                     }
 
                 }
@@ -85,12 +85,12 @@ namespace eAdvertisement_bot.Models.Commands
                         dbContext.Publications.Find(Convert.ToInt32(user.Object_Id)).Text = update.Message.Text;
                         user.User_State_Id = 0;
                         dbContext.SaveChanges();
-                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Text is changed!", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Show updated post", CallbackData = "/showPostN" + post.Publication_Id }));
+                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Текст изменен!", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Показать обновленный пост ", CallbackData = "/showPostN" + post.Publication_Id }));
 
                     }
                     else
                     {
-                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Text length can't be more than 1024 symbols", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Show updated post", CallbackData = "/showPostN" + post.Publication_Id }));
+                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Текст не может быть более 1024 символов", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Показать обновленный пост ", CallbackData = "/showPostN" + post.Publication_Id }));
 
                     }
                 }
@@ -99,7 +99,7 @@ namespace eAdvertisement_bot.Models.Commands
                     dbContext.Publications.Find(Convert.ToInt32(user.Object_Id)).Name = update.Message.Text;
                     user.User_State_Id = 0;
                     dbContext.SaveChanges();
-                    await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Name is changed!", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Show updated post", CallbackData = "/showPostN" + post.Publication_Id }));
+                    await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Имя изменено!", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Показать обновленный пост ", CallbackData = "/showPostN" + post.Publication_Id }));
                 }
             }
             catch(Exception ex)

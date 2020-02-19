@@ -88,6 +88,10 @@ namespace eAdvertisement_bot.Models.Commands
                                         {
                                             coverage = await cah.GetCoverageOfChannel(inviteLink, chatId, false);
                                         }
+                                        else
+                                        {
+                                            coverage = await cah.GetCoverageOfChannel(inviteLink, chatId, true);
+                                        }
                                     }
                                     catch
                                     {
@@ -231,7 +235,7 @@ namespace eAdvertisement_bot.Models.Commands
                                 dbContext.Autobuys.Find(Convert.ToInt32(user.Object_Id)).Autobuy_Channels = new List<DbEntities.Autobuy_Channel> { new DbEntities.Autobuy_Channel { Autobuy_Id = Convert.ToInt32(user.Object_Id), Channel_Id = channel.Channel_Id } };
                             }
                             dbContext.SaveChanges();
-                            await botClient.SendTextMessageAsync(update.Message.From.Id, "Adding was succesful", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Show updated menu!", CallbackData = "acstabP0" }));
+                            await botClient.SendTextMessageAsync(update.Message.From.Id, "Adding was succesful", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Показать обновленное меню!", CallbackData = "acstabP0" }));
 
                         }
                         else

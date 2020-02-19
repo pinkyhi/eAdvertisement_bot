@@ -55,19 +55,19 @@ namespace eAdvertisement_bot.Models.Commands
                     {
                         dbContext.Advertisements.Add(new Advertisement { Channel_Id = channelId, Date_Time = dateTime, Advertisement_Status_Id = 9, Price = 0 });
                         dbContext.SaveChanges();
-                        InlineKeyboardButton[][] keyboard = new[] { new[] { new InlineKeyboardButton { Text = "Back into sold ads menu", CallbackData = "/soldPostsMenu" }, } };
-                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Ad is added succesfully", replyMarkup: new InlineKeyboardMarkup(keyboard));
+                        InlineKeyboardButton[][] keyboard = new[] { new[] { new InlineKeyboardButton { Text = "Назад в меню проданых реклам", CallbackData = "/soldPostsMenu" }, } };
+                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Реклама добавлена успешно", replyMarkup: new InlineKeyboardMarkup(keyboard));
                     }
                     else if(dateTime.Subtract(nearestAd.Date_Time).Hours < nearestAd.Top)
                     {
-                        InlineKeyboardButton[][] keyboard = new[] { new[] { new InlineKeyboardButton { Text = "Back into sold ads menu", CallbackData = "/soldPostsMenu" }, } };
-                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Ad isn't added because u have already an ad sold thats time+top is bigger than time that you defined now. Try again or go back.", replyMarkup: new InlineKeyboardMarkup(keyboard));
+                        InlineKeyboardButton[][] keyboard = new[] { new[] { new InlineKeyboardButton { Text = "Назад в меню проданых реклам", CallbackData = "/soldPostsMenu" }, } };
+                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Реклама не была добавлена так как вы имеете продажу время+время топа которой больше чем время которе вы определили сейчас. Попробуйте ещё раз или вернитесь назад.", replyMarkup: new InlineKeyboardMarkup(keyboard));
                         return;
                     }
                     else if (dateTime<DateTime.Now)
                     {
-                        InlineKeyboardButton[][] keyboard = new[] { new[] { new InlineKeyboardButton { Text = "Back into sold ads menu", CallbackData = "/soldPostsMenu" }, } };
-                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Ad isn't added because date is less than now. Try again or go back.", replyMarkup: new InlineKeyboardMarkup(keyboard));
+                        InlineKeyboardButton[][] keyboard = new[] { new[] { new InlineKeyboardButton { Text = "Назад в меню проданых реклам", CallbackData = "/soldPostsMenu" }, } };
+                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Реклама не была добавлена так как дата/время добавление меньше текущих.", replyMarkup: new InlineKeyboardMarkup(keyboard));
                         return;
                     }
                 }

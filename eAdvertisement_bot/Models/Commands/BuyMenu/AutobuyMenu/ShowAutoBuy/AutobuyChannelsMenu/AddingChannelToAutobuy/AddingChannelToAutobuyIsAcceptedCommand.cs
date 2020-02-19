@@ -69,7 +69,7 @@ namespace eAdvertisement_bot.Models.Commands
                             dbContext.Autobuys.Find(Convert.ToInt32(user.Object_Id)).Autobuy_Channels = new List<DbEntities.Autobuy_Channel> { new DbEntities.Autobuy_Channel { Autobuy_Id = Convert.ToInt32(user.Object_Id), Channel_Id = channel.Channel_Id } };
                         }
                         dbContext.SaveChanges();
-                        await botClient.SendTextMessageAsync(update.CallbackQuery.From.Id, "Adding was succesful", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Show updated menu!", CallbackData = "acstabP"+page }));
+                        await botClient.SendTextMessageAsync(update.CallbackQuery.From.Id, "Adding was succesful", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Показать обновленное меню!", CallbackData = "acstabP"+page }));
                         try
                         {
                             await botClient.DeleteMessageAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId);

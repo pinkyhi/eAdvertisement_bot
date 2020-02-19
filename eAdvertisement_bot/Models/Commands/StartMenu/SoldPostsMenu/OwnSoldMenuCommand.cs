@@ -84,11 +84,11 @@ namespace eAdvertisement_bot.Models.Commands
                     indexToPaste++;
                 }
 
-                keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = "Back", CallbackData = "/soldPostsMenu" }, };
+                keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = "Назад", CallbackData = "/soldPostsMenu" }, };
 
 
 
-                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Choose a channel", replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
+                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Выберите канал", replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
 
                 try
                 {

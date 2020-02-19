@@ -44,7 +44,7 @@ namespace eAdvertisement_bot.Models.Commands
                 if (state == 401)
                 {
                     dbContext.Autobuys.Find(Convert.ToInt32(user.Object_Id)).Name = update.Message.Text;
-                    await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Name is changed!", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Show updated menu", CallbackData = "sabN" + user.Object_Id }));
+                    await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Имя изменено!", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Показать обновленное меню", CallbackData = "sabN" + user.Object_Id }));
                 }
                 else if(state == 402)
                 {
@@ -55,12 +55,12 @@ namespace eAdvertisement_bot.Models.Commands
                     }
                     catch
                     {
-                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Wrong format");
+                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Неверный формат");
                         return;
                     }
 
                     dbContext.Autobuys.Find(Convert.ToInt32(user.Object_Id)).Max_Cpm = cpm;
-                    await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Max cpm is changed!", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Show updated menu", CallbackData = "sabN" + user.Object_Id }));
+                    await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Максимальное CPM измененно!", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Показать обновленное меню", CallbackData = "sabN" + user.Object_Id }));
                 }
                 else if(state == 403)
                 {
@@ -72,7 +72,7 @@ namespace eAdvertisement_bot.Models.Commands
                     }
                     catch
                     {
-                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Wrong format");
+                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Неправильный формат");
                         return;
                     }
                     DbEntities.Autobuy ab = dbContext.Autobuys.Find(Convert.ToInt32(user.Object_Id));
@@ -94,7 +94,7 @@ namespace eAdvertisement_bot.Models.Commands
                     ab.Max_Price = iT;
                     ab.Min_Price = iF;
 
-                    await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Price interval is changed!", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Show updated menu", CallbackData = "sabN" + user.Object_Id }));
+                    await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Интервал цены изменен", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Показать обновленное меню", CallbackData = "sabN" + user.Object_Id }));
                 }
                 else if (state == 404)
                 {
@@ -105,12 +105,12 @@ namespace eAdvertisement_bot.Models.Commands
                     }
                     catch
                     {
-                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Wrong format");
+                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Неправильный формат");
                         return;
                     }
 
                     dbContext.Autobuys.Find(Convert.ToInt32(user.Object_Id)).Interval = interval;
-                    await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Interval is changed!", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Show updated menu", CallbackData = "sabN" + user.Object_Id }));
+                    await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Интервал изменен!", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Показать обновленное меню", CallbackData = "sabN" + user.Object_Id }));
                 }
                 else if (state == 405)
                 {
@@ -121,18 +121,18 @@ namespace eAdvertisement_bot.Models.Commands
                     }
                     catch
                     {
-                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Wrong format");
+                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Неправильный формат");
                         return;
                     }
                     if (user.Balance < balance)
                     {
-                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Not enough balance on your account");
+                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Недостаточный баланс");
                         return;
                     }
                     user.Balance -= balance;
 
                     dbContext.Autobuys.Find(Convert.ToInt32(user.Object_Id)).Balance+=balance;
-                    await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Balance is added!", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Show updated menu", CallbackData = "sabN" + user.Object_Id }));
+                    await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Баланс автозакупа добавлен!", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Показать обновленное меню", CallbackData = "sabN" + user.Object_Id }));
                 }
                 else if (state == 406)
                 {
@@ -144,7 +144,7 @@ namespace eAdvertisement_bot.Models.Commands
                     }
                     catch
                     {
-                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Wrong format");
+                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Неправильный формат");
                         return;
                     }
                     DbEntities.Autobuy ab = dbContext.Autobuys.Find(Convert.ToInt32(user.Object_Id));
@@ -166,7 +166,7 @@ namespace eAdvertisement_bot.Models.Commands
                     ab.Daily_Interval_To = new TimeSpan(iT,0,0);
                     ab.Daily_Interval_From = new TimeSpan(iF, 0, 0);
 
-                    await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Daily interval is changed!", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Show updated menu", CallbackData = "sabN" + user.Object_Id }));
+                    await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Дневной интервал изменен!", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Показать обновленное меню", CallbackData = "sabN" + user.Object_Id }));
                 }
 
                 user.User_State_Id = 0;

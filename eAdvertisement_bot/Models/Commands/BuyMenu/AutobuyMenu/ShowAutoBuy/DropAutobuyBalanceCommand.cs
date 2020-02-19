@@ -38,7 +38,7 @@ namespace eAdvertisement_bot.Models.Commands
                 dbContext.Autobuys.Find(Convert.ToInt32(user.Object_Id)).Balance = 0;
                 user.Balance += t;
                 dbContext.SaveChanges();
-                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Balance is dropped", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown, replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Show updated menu", CallbackData = "sabN" + user.Object_Id }));
+                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Balance is dropped", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown, replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Показать обновленное меню", CallbackData = "sabN" + user.Object_Id }));
 
 
             }

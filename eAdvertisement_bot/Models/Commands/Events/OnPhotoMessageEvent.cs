@@ -66,7 +66,7 @@ namespace eAdvertisement_bot.Models.Commands
 
                             user.User_State_Id = 0;
                             dbContext.SaveChanges();
-                            await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Image is added succesfully :)", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Show updated post", CallbackData = "/showPostN" + post.Publication_Id }));
+                            await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Image is added succesfully :)", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Показать обновленный пост ", CallbackData = "/showPostN" + post.Publication_Id }));
                         }
                         else
                         {

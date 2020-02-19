@@ -84,16 +84,13 @@ namespace eAdvertisement_bot
                         }
                         
                         long unixTimeNow = (Int64)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
-                        for (int i = 0; i < realMessages.Count; i++)
-                        {
-                            if(realMessages[i].Date<unixTimeNow-172800|| realMessages[i].Date > unixTimeNow - 84600)
-                            {
-                                realMessages.RemoveAt(i);
-                            }
-                        }
-                        int min = Convert.ToInt32(realMessages.Min(c => c.Views));
-                        int average = Convert.ToInt32(realMessages.Average(c => c.Views));
-                        int coverage = (((min+average)/2)+min)/2;
+
+                        List<TLMessage> realMessagesAY = realMessages.Where(r => unixTimeNow - r.Date < 259200 && unixTimeNow - r.Date > 172800).ToList();
+                        List<TLMessage> realMessagesY = realMessages.Where(r => unixTimeNow - r.Date <  172800 && unixTimeNow - r.Date > 86400).ToList();
+
+                        double? ay = realMessagesAY.Select(r=>r.Views).Min()*0.87;
+                        double? y = realMessagesY.Select(r=>r.Views).Min();
+                        int coverage = Convert.ToInt32((ay + y) / 2);
                         return coverage;
                     }
                 }

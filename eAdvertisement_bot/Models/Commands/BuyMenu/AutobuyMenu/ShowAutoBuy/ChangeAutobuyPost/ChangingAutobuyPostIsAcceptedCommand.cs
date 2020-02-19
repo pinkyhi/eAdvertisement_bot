@@ -38,7 +38,7 @@ namespace eAdvertisement_bot.Models.Commands
                 autobuy.Publication_Snapshot = JsonSerializer.Serialize(dbContext.Publications.Find(Convert.ToInt32(update.CallbackQuery.Data.Substring(9))));
                 dbContext.SaveChanges();
 
-                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Post is changed!", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Show updated menu", CallbackData = "sabN" + user.Object_Id }));
+                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Post is changed!", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Показать обновленное меню", CallbackData = "sabN" + user.Object_Id }));
 
                 await botClient.DeleteMessageAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId);
             }

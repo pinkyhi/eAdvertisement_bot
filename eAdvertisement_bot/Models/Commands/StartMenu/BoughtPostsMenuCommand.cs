@@ -34,7 +34,7 @@ namespace eAdvertisement_bot.Models.Commands
             try
             {
                 InlineKeyboardButton[][] keyboard = new[] {
-                    new[] { new InlineKeyboardButton { Text = "Back", CallbackData = "/backToStartMenu" } },
+                    new[] { new InlineKeyboardButton { Text = "Назад", CallbackData = "/backToStartMenu" } },
 
                 };
 
@@ -42,14 +42,14 @@ namespace eAdvertisement_bot.Models.Commands
                 List<Channel> channels = dbContext.Channels.ToList();
                 List<Advertisement> ads = dbContext.Advertisements.Where(a => a.User_Id == update.CallbackQuery.From.Id).Where(a => a.Advertisement_Status_Id == 4 || a.Advertisement_Status_Id == 2 || a.Advertisement_Status_Id == 1).ToList();
 
-                string text = "*Here are ads that make a fluent on your balance*\n\n";
+                string text = "*Здесь находятся купленные посты который влияют на ваш баланс*\n\n";
 
                 for (int i = 0; i < ads.Count; i++)
                 {
                     text += "[" + ads[i].Channel.Name + "]" + "(" + ads[i].Channel.Link + ")" +
-                        "\nPrice: " + ads[i].Channel.Price +
-                        "\nPosted at: " + ads[i].Date_Time +
-                        "\nStatus: " + ads[i].Advertisement_Status.Name + "\n";
+                        "\nЦена: " + ads[i].Channel.Price +
+                        "\nДолжно быть запощено в: " + ads[i].Date_Time +
+                        "\nСтатус: " + ads[i].Advertisement_Status.Name + "\n";
                 }
 
                 await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, text, replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown,disableWebPagePreview: true);

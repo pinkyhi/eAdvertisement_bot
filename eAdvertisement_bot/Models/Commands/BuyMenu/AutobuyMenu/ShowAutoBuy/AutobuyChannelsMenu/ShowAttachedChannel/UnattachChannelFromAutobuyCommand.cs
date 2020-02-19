@@ -62,7 +62,7 @@ namespace eAdvertisement_bot.Models.Commands
 
 
                         dbContext.SaveChanges();
-                        await botClient.SendTextMessageAsync(update.CallbackQuery.From.Id, "Unattaching was succesful", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Show updated menu!", CallbackData = "cabcsP" + page }));
+                        await botClient.SendTextMessageAsync(update.CallbackQuery.From.Id, "Unattaching was succesful", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Показать обновленное меню!", CallbackData = "cabcsP" + page }));
                         try
                         {
                             await botClient.DeleteMessageAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId);

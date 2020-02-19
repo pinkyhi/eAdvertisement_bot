@@ -41,20 +41,20 @@ namespace eAdvertisement_bot.Models.Commands
                 InlineKeyboardButton[][] keyboard = new InlineKeyboardButton[places.Count + 2][];
                 keyboard[0] = new[]
                 {
-                    new InlineKeyboardButton { Text = "Change desc", CallbackData = "/howToChangeDescription"},
-                    new InlineKeyboardButton { Text = "Change cpm", CallbackData = "/howToChangeCpm"},
-                    new InlineKeyboardButton { Text = "Add adv place", CallbackData = "/howToAddAdvPlace"},
+                    new InlineKeyboardButton { Text = "Описание", CallbackData = "/howToChangeDescription"},
+                    new InlineKeyboardButton { Text = "CPM", CallbackData = "/howToChangeCpm"},
+                    new InlineKeyboardButton { Text = "Добавить места", CallbackData = "/howToAddAdvPlace"},
                 };
                 int indexToPaste = 1;
                 while (indexToPaste < places.Count() + 1)
                 {
-                    keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = "Delete place " + places[indexToPaste - 1].Time, CallbackData = "/deletePlaceN" + places[indexToPaste - 1].Place_Id }, };
+                    keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = "Удалить место " + places[indexToPaste - 1].Time, CallbackData = "/deletePlaceN" + places[indexToPaste - 1].Place_Id }, };
                     indexToPaste++;
                 }
-                keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = "Back", CallbackData = "/sellMenuP0" }, };
+                keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = "Назад", CallbackData = "/sellMenuP0" }, };
 
 
-                await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "Place is deleted", true);  // ...,...,alert    AnswerCallbackQuery is required to send to avoid clock animation ob the button   
+                await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "Место удалено", true);  // ...,...,alert    AnswerCallbackQuery is required to send to avoid clock animation ob the button   
 
                 try
                 {

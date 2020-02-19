@@ -37,7 +37,7 @@ namespace eAdvertisement_bot.Models.Commands
 
                 await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "State is changed. Autobuy is " + (dbContext.Autobuys.Find(Convert.ToInt32(user.Object_Id)).State == 0 ? "stopped" : "turned on") + "!\n", true);
 
-                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "State is changed. Autobuy is " + (dbContext.Autobuys.Find(Convert.ToInt32(user.Object_Id)).State == 0 ? "stopped" : "turned on") + "!\n", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown, replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Show updated menu", CallbackData = "sabN" + user.Object_Id }));
+                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "State is changed. Autobuy is " + (dbContext.Autobuys.Find(Convert.ToInt32(user.Object_Id)).State == 0 ? "stopped" : "turned on") + "!\n", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown, replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Показать обновленное меню", CallbackData = "sabN" + user.Object_Id }));
             }
             catch (Exception ex)
             {

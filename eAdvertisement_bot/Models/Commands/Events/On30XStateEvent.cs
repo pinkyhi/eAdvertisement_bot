@@ -95,13 +95,13 @@ namespace eAdvertisement_bot.Models.Commands
                     }
                     catch
                     {
-                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Wrong input format");
+                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Неправильный формат ввода");
                         return;
                     }
 
                                         
 
-                    await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Changing is succesful", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Show updated menu", CallbackData = "/manualPurchaseMenuP0I" + intervalFrom + "I" + intervalTo + "S" + String.Join(',', sStrs.ToArray()) + "C" + String.Join(',', cStrs.ToArray()) }));
+                    await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Изменение успешно", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Показать обновленное меню", CallbackData = "/manualPurchaseMenuP0I" + intervalFrom + "I" + intervalTo + "S" + String.Join(',', sStrs.ToArray()) + "C" + String.Join(',', cStrs.ToArray()) }));
                     user.Tag = null;
 
 

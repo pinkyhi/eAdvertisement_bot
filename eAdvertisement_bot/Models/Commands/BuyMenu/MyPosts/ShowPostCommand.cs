@@ -42,10 +42,13 @@ namespace eAdvertisement_bot.Models.Commands
                 if (postToShow.Media!=null && postToShow.Media.Count > 1)
                 {
                     List<InputMediaPhoto> album = new List<InputMediaPhoto>();
+                    
                     for (int i = 0; i < postToShow.Media.Count; i++)
                     {
                         album.Add(new InputMediaPhoto(new InputMedia(postToShow.Media[i].Path)));
+                        album[i].ParseMode = Telegram.Bot.Types.Enums.ParseMode.Markdown;
                     }
+
                     album[0].Caption = postToShow.Text != null ? postToShow.Text : "newPost";
 
                     await botClient.SendMediaGroupAsync(album, update.CallbackQuery.Message.Chat.Id);
@@ -66,11 +69,11 @@ namespace eAdvertisement_bot.Models.Commands
                             indexToPaste++;
                         }
 
-                        await botClient.SendPhotoAsync(update.CallbackQuery.Message.Chat.Id, postToShow.Media[0].Path, caption: postToShow.Text != null ? postToShow.Text : "newPost", replyMarkup: new InlineKeyboardMarkup(keyboard));
+                        await botClient.SendPhotoAsync(update.CallbackQuery.Message.Chat.Id, postToShow.Media[0].Path, caption: postToShow.Text != null ? postToShow.Text : "newPost", replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
                     }
                     else
                     {
-                        await botClient.SendPhotoAsync(update.CallbackQuery.Message.Chat.Id, postToShow.Media[0].Path, caption: postToShow.Text != null ? postToShow.Text : "newPost");
+                        await botClient.SendPhotoAsync(update.CallbackQuery.Message.Chat.Id, postToShow.Media[0].Path, caption: postToShow.Text != null ? postToShow.Text : "newPost", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
                     }
 
                 }
@@ -89,11 +92,11 @@ namespace eAdvertisement_bot.Models.Commands
                             };
                             indexToPaste++;
                         }
-                        await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, postToShow.Text != null ? postToShow.Text : "newPost", replyMarkup: new InlineKeyboardMarkup(keyboard));
+                        await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, postToShow.Text != null ? postToShow.Text : "newPost", replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
                     }
                     else
                     {
-                        await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, postToShow.Text != null ? postToShow.Text : "newPost");
+                        await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, postToShow.Text != null ? postToShow.Text : "newPost", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
                     }
                    
                 }

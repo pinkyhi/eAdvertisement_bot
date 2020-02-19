@@ -61,7 +61,9 @@ namespace eAdvertisement_bot.Models.Commands
                         }
                         if (countOfMediasOnPost < 10)
                         {
-                            dbContext.Medias.Add(new DbEntities.Media { Publication_Id = post.Publication_Id, Path = update.Message.Photo[2].FileId });
+
+                            dbContext.Medias.Add(new DbEntities.Media { Publication_Id = post.Publication_Id, Path = update.Message.Photo[update.Message.Photo.Length - 1].FileId });
+
                             user.User_State_Id = 0;
                             dbContext.SaveChanges();
                             await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Image is added succesfully :)", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Show updated post", CallbackData = "/showPostN" + post.Publication_Id }));

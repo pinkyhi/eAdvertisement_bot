@@ -41,7 +41,7 @@ namespace eAdvertisement_bot.Models.Commands
 
                 List<Advertisement_Status> advertisement_Statuses = dbContext.Advertisement_Statuses.ToList();
                 List<Channel> channels = dbContext.Channels.ToList();
-                List<Advertisement> ads = dbContext.Advertisements.Where(a => a.Channel.User_Id == update.CallbackQuery.From.Id).Where(a => a.Advertisement_Status_Id == 4 || a.Advertisement_Status_Id == 2 || a.Advertisement_Status_Id == 1).ToList();
+                List<Advertisement> ads = dbContext.Advertisements.Where(a => a.Channel.User_Id == update.CallbackQuery.From.Id).Where(a => a.Advertisement_Status_Id == 4 || a.Advertisement_Status_Id == 2 || a.Advertisement_Status_Id == 1 || a.Advertisement_Status_Id == 9).ToList();
 
                 string text = "*Here a posts that you have sold*\n\n";
                 
@@ -53,7 +53,7 @@ namespace eAdvertisement_bot.Models.Commands
                         "\nStatus: " + ads[i].Advertisement_Status.Name+"\n";
                 }
 
-                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, text, replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
+                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, text, replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown, disableWebPagePreview: true);
 
                 try
                 {

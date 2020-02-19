@@ -52,7 +52,7 @@ namespace eAdvertisement_bot.Models.Commands
                         "\nStatus: " + ads[i].Advertisement_Status.Name + "\n";
                 }
 
-                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, text, replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
+                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, text, replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown,disableWebPagePreview: true);
 
                 try
                 {

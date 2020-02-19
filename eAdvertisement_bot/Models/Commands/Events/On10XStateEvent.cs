@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace eAdvertisement_bot.Models.Commands
 {
@@ -39,6 +40,7 @@ namespace eAdvertisement_bot.Models.Commands
             try
             {
                 DbEntities.User user = dbContext.Users.Find(Convert.ToInt64(update.Message.From.Id));
+                DbEntities.Publication post = dbContext.Publications.Find(Convert.ToInt32(user.Object_Id));
                 long tag = user.User_State_Id;
                 if (tag==102)
                 {
@@ -68,27 +70,36 @@ namespace eAdvertisement_bot.Models.Commands
                         }
                         user.User_State_Id = 0;
                         dbContext.SaveChanges();
-                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, maxInd + " buttons are added!");
+                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, maxInd + " buttons are added!", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Show updated post", CallbackData = "/showPostN" + post.Publication_Id }));
                     }
                     else
                     {
-                        await botClient.SendTextMessageAsync(update.Message.Chat.Id,"You can't use buttons because you attached more than 1 image\nRecreate post if you want to use buttons");
+                        await botClient.SendTextMessageAsync(update.Message.Chat.Id,"You can't use buttons because you attached more than 1 image\nRecreate post if you want to use buttons", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Show updated post", CallbackData = "/showPostN" + post.Publication_Id }));
                     }
 
                 }
                 else if(tag==103)
                 {
-                    dbContext.Publications.Find(Convert.ToInt32(user.Object_Id)).Text = update.Message.Text;
-                    user.User_State_Id = 0;
-                    dbContext.SaveChanges();
-                    await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Text is changed!");
+                    if (update.Message.Text.Length < 1024)
+                    {
+                        dbContext.Publications.Find(Convert.ToInt32(user.Object_Id)).Text = update.Message.Text;
+                        user.User_State_Id = 0;
+                        dbContext.SaveChanges();
+                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Text is changed!", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Show updated post", CallbackData = "/showPostN" + post.Publication_Id }));
+
+                    }
+                    else
+                    {
+                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Text length can't be more than 1024 symbols", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Show updated post", CallbackData = "/showPostN" + post.Publication_Id }));
+
+                    }
                 }
                 else if (tag == 104)
                 {
                     dbContext.Publications.Find(Convert.ToInt32(user.Object_Id)).Name = update.Message.Text;
                     user.User_State_Id = 0;
                     dbContext.SaveChanges();
-                    await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Name is changed!");
+                    await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Name is changed!", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Show updated post", CallbackData = "/showPostN" + post.Publication_Id }));
                 }
             }
             catch(Exception ex)

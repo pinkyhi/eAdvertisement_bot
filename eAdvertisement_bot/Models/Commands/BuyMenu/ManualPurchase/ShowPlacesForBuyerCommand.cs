@@ -38,7 +38,7 @@ namespace eAdvertisement_bot.Models.Commands
             {
                 List<Place> places = dbContext.Places.Where(p => p.Channel_Id == channelId).OrderBy(p => p.Time).ToList();
                 Channel channel = dbContext.Channels.Find(channelId);
-                List<DateTime> occupiedAds = dbContext.Advertisements.Where(a=> a.Date_Time.Date.Equals(dateTime.Date) ).Where(a => a.Channel_Id == channelId && (a.Advertisement_Status_Id == 2 || a.Advertisement_Status_Id == 4) || ( a.Date_Time < DateTime.Now)).Select(a=>a.Date_Time).ToList();
+                List<DateTime> occupiedAds = dbContext.Advertisements.Where(a=> a.Date_Time.Date.Equals(dateTime.Date) ).Where(a => a.Channel_Id == channelId && (a.Advertisement_Status_Id == 2 || a.Advertisement_Status_Id == 4 || a.Advertisement_Status_Id == 9) || ( a.Date_Time < DateTime.Now)).Select(a=>a.Date_Time).ToList();
                 List<TimeSpan> occupiedTimes = new List<TimeSpan>(occupiedAds.Count);
 
                 for(int i = 0; i < occupiedAds.Count; i++)

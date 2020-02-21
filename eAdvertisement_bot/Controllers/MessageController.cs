@@ -42,6 +42,7 @@ namespace eAdvertisement_bot.Controllers
                         if (command.Contains(update))
                         {
                             await command.Execute(update, botClient);
+                            
                             break;
                         }
                     }

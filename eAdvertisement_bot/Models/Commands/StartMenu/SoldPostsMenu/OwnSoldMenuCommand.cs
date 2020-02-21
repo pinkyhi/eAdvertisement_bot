@@ -36,6 +36,8 @@ namespace eAdvertisement_bot.Models.Commands
                 List<DbEntities.Channel> channels = dbContext.Channels.Where(chssda => chssda.User_Id == update.CallbackQuery.Message.Chat.Id).ToList().OrderBy(c => c.Channel_Id).ToList();
                 List<DbEntities.Channel> channelsToType = channels.Skip(7 * pageNow).Take(7).ToList();
 
+                dbContext.Users.Find(Convert.ToInt64(update.CallbackQuery.From.Id)).Object_Id = 0; // TEST FUNCTION
+
                 channelsToType.Remove(null);
 
                 bool toNextPageButton = false;

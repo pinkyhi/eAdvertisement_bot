@@ -48,8 +48,45 @@ namespace eAdvertisement_bot.Models.Commands
                     keyboard[i] = new InlineKeyboardButton[5];
                     for(int j = 0; j < 5; j++)
                     {
+                        List<Place> placesShot = new List<Place>(places);
+                        int freePlacesCount = placesShot.Count;
+                        if (channel.Places != null)
+                        {
 
-                        if(channel.Places==null || (dbContext.Advertisements.Count(a => a.Channel_Id == channelId && a.Date_Time.Date == nowIs.Date && (a.Advertisement_Status_Id == 4|| a.Advertisement_Status_Id == 2)) >= channel.Places.Count()))
+                            foreach(Place p in placesShot)
+                            {
+                                if (new DateTime(nowIs.Year, nowIs.Month, nowIs.Day, p.Time.Hours, p.Time.Minutes, p.Time.Seconds) < DateTime.Now)
+                                {
+                                    freePlacesCount--;
+                                    continue;
+                                }
+                                List<Advertisement> nearestAds = dbContext.Advertisements.Where(a => a.Channel_Id == channelId && a.Date_Time <= new DateTime(nowIs.Year,nowIs.Month,nowIs.Day,p.Time.Hours, p.Time.Minutes,p.Time.Seconds)).ToList();
+                                Advertisement nearestAd = nearestAds.FirstOrDefault(a => a.Date_Time.Equals(nearestAds.Max(a => a.Date_Time)));
+
+                                List<Advertisement> nearestTopAds = dbContext.Advertisements.Where(a => a.Channel_Id == channelId && a.Date_Time > new DateTime(nowIs.Year, nowIs.Month, nowIs.Day, p.Time.Hours, p.Time.Minutes, p.Time.Seconds)).ToList();
+                                Advertisement nearestTopAd = nearestTopAds.FirstOrDefault(a => a.Date_Time.Equals(nearestTopAds.Min(a => a.Date_Time)));
+
+                                if(nearestAd!= null)
+                                {
+                                    if( (new DateTime(nowIs.Year, nowIs.Month, nowIs.Day, p.Time.Hours, p.Time.Minutes, p.Time.Seconds)).Subtract(new TimeSpan(nearestAd.Top, 0, 0)) < nearestAd.Date_Time)
+                                    {
+                                        freePlacesCount--;
+                                        continue;
+                                    }
+                                }
+                                if(nearestTopAd!= null)
+                                {
+                                    if ((new DateTime(nowIs.Year, nowIs.Month, nowIs.Day, p.Time.Hours, p.Time.Minutes, p.Time.Seconds)).Add(new TimeSpan(1, 0, 0)) > nearestTopAd.Date_Time)
+                                    {
+                                        freePlacesCount--;
+                                        continue;
+                                    }
+                                }
+                            }
+                        }
+  
+
+                        if(channel.Places==null || (freePlacesCount == 0))
                         {
                             keyboard[i][j] = new InlineKeyboardButton { Text = "X" + Convert.ToString(nowIs.Date).Substring(0, 5) + "X", CallbackData = "/showPlacesForBuyerN" + channelId + "D" + Convert.ToString(nowIs.Date).Substring(0, 10) + "T"+tags };
                         }
@@ -58,6 +95,7 @@ namespace eAdvertisement_bot.Models.Commands
                             keyboard[i][j] = new InlineKeyboardButton { Text = Convert.ToString(nowIs.Date).Substring(0, 5), CallbackData = "/showPlacesForBuyerN" + channelId + "D" + Convert.ToString(nowIs.Date).Substring(0,10)+"T"+tags};
 
                         }
+                        
                         nowIs=nowIs.AddDays(1);
                     }
                 }

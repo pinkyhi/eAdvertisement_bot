@@ -42,7 +42,7 @@ namespace eAdvertisement_bot.Models.Commands
 
                     dbContext.SaveChanges();
                     await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "Канал удален успешно", true);
-                    update.CallbackQuery.Data = "/sellMenu";
+                    update.CallbackQuery.Data = "/sellMenuP0";
                     SellMenuCommand scfsc = new SellMenuCommand();
                     await scfsc.Execute(update, botClient);
                 }

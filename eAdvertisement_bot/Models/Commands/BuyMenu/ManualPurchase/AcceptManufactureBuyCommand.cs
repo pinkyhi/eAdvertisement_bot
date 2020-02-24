@@ -55,6 +55,52 @@ namespace eAdvertisement_bot.Models.Commands
                 {
                     try
                     {
+                        // TODO: Check time
+
+                        DateTime nowIs = DateTime.Now;
+                        DateTime tDT = DateTime.Parse(dateStr);
+
+
+                        if (new DateTime(tDT.Year, tDT.Month, tDT.Day, tDT.Hour, tDT.Minute, tDT.Second) < DateTime.Now)
+                        {
+                            await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "Это место уже занято :С, попробуйте выбрать другое");
+                            update.CallbackQuery.Data = "/showPlacesCalendarForBuyerN" + channelId + "T" + tags;
+                            ShowPlacesCalendarForBuyerCommand spcfbc = new ShowPlacesCalendarForBuyerCommand();
+                            await spcfbc.Execute(update, botClient);
+                            return;
+
+                        }
+
+                        List<Advertisement> nearestAds = dbContext.Advertisements.Where(a => a.Channel_Id == channelId && a.Date_Time <= new DateTime(tDT.Year, tDT.Month, tDT.Day, tDT.Hour, tDT.Minute, tDT.Second)).ToList();
+                        Advertisement nearestAd = nearestAds.FirstOrDefault(a => a.Date_Time.Equals(nearestAds.Max(a => a.Date_Time)));
+
+                        List<Advertisement> nearestTopAds = dbContext.Advertisements.Where(a => a.Channel_Id == channelId && a.Date_Time > new DateTime(tDT.Year, tDT.Month, tDT.Day, tDT.Hour, tDT.Minute, tDT.Second)).ToList();
+                        Advertisement nearestTopAd = nearestTopAds.FirstOrDefault(a => a.Date_Time.Equals(nearestTopAds.Min(a => a.Date_Time)));
+
+                        if (nearestAd != null)
+                        {
+                            if ((new DateTime(tDT.Year, tDT.Month, tDT.Day, tDT.Hour, tDT.Minute, tDT.Second)).Subtract(new TimeSpan(nearestAd.Top, 0, 0)) < nearestAd.Date_Time)
+                            {
+                                await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "Это место уже занято :С, попробуйте выбрать другое");
+                                update.CallbackQuery.Data = "/showPlacesCalendarForBuyerN" + channelId + "T" + tags;
+                                ShowPlacesCalendarForBuyerCommand spcfbc = new ShowPlacesCalendarForBuyerCommand();
+                                await spcfbc.Execute(update, botClient);
+                                return;
+                            }
+                        }
+                        if (nearestTopAd != null)
+                        {
+                            if ((new DateTime(nowIs.Year, nowIs.Month, nowIs.Day, tDT.Hour, tDT.Minute, tDT.Second)).Add(new TimeSpan(1, 0, 0)) > nearestTopAd.Date_Time)
+                            {
+                                await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "Это место уже занято :С, попробуйте выбрать другое");
+                                update.CallbackQuery.Data = "/showPlacesCalendarForBuyerN" + channelId + "T" + tags;
+                                ShowPlacesCalendarForBuyerCommand spcfbc = new ShowPlacesCalendarForBuyerCommand();
+                                await spcfbc.Execute(update, botClient);
+                                return;
+                            }
+                        }
+
+
                         dbContext.Advertisements.Add(new Advertisement { Advertisement_Status_Id = 1, Alive = 24, Top = 1, Channel_Id = channelId, Publication_Snapshot = json, Date_Time = dateTime, User_Id = update.CallbackQuery.From.Id, Price = channel.Price });
                         user.Balance -= channel.Price;
                         dbContext.SaveChanges();

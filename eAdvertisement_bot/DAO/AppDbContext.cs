@@ -69,7 +69,20 @@ namespace eAdvertisement_bot.DAO
                 .WithMany(p => p.Media)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<Channel_Category>()     // Channel deleting
+                .HasOne(cg => cg.Channel)
+                .WithMany(c => c.Channel_Categories)
+                .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<Autobuy_Channel>()
+                .HasOne(a => a.Channel)
+                .WithMany(c => c.Autobuy_Channels)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Place>()
+                .HasOne(p => p.Channel)
+                .WithMany(c => c.Places)
+                .OnDelete(DeleteBehavior.Cascade);      // End of channel deleting
         }
     }
 }

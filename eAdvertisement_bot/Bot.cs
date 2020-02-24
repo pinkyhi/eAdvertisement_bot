@@ -37,6 +37,8 @@ namespace eAdvertisement_bot
                 commandsList.Add(new SellMenuCommand());
                 commandsList.Add(new AddChannelCommand());
                 commandsList.Add(new ShowChannelForSellerCommand());
+                commandsList.Add(new DeleteChannelCommand());
+                commandsList.Add(new AcceptChannelDeleting());
                 commandsList.Add(new DeleteChannelPlaceCommand());
                 commandsList.Add(new MyPostsMenuCommand());
                 commandsList.Add(new AddPostCommand());

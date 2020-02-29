@@ -16,7 +16,7 @@ namespace eAdvertisement_bot
         public static List<Command> Commands { get { return commandsList; } }
 
         // Bot initialization
-        public static async Task<TelegramBotClient> GetBotClientAsync()
+        public static async Task<TelegramBotClient> GetBotClientAsync() //ebat' menya v ochko, eto chtole singleton???
         {
             if (botClient!=null)
             {

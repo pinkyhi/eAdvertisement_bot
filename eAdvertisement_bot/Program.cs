@@ -15,7 +15,9 @@ namespace eAdvertisement_bot
     {
         public static void Main(string[] args)
         {
+            StartScheduler();
             CreateHostBuilder(args).Build().Run();
+            
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
@@ -24,5 +26,8 @@ namespace eAdvertisement_bot
                 {
                     webBuilder.UseStartup<Startup>();
                 });
+
+        private static void StartScheduler() => QuartzScheduled.StartScheduler.StartSchedulers();
+        
     }
 }

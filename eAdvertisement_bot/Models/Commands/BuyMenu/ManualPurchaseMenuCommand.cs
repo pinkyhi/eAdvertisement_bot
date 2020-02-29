@@ -83,7 +83,6 @@ namespace eAdvertisement_bot.Models.Commands.ManualPurchase
             // To use: sIndexes, cIndexes, intervalFrom, intervalTo, page
             try
             {
-
                 List<DbEntities.Channel_Category> channelsCategoriesToShow = dbContext.Channel_Categories.Where(cc=>cIndexes.Contains(cc.Category_Id)).ToList();
                 List<DbEntities.Channel> channels = dbContext.Channels.Where(c=>c.Price>=intervalFrom && c.Price<=intervalTo && c.Cpm!=null).ToList();
 

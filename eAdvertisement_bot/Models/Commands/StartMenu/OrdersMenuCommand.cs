@@ -39,7 +39,47 @@ namespace eAdvertisement_bot.Models.Commands
                 List<Channel> channels = dbContext.Channels.Where(c => c.User_Id == userEntity.User_Id).ToList();
                 List<long> channelIds = channels.Select(c => c.Channel_Id).ToList();
                 List<Advertisement> ads = dbContext.Advertisements.Where(a => a.Date_Time>DateTime.Now && channelIds.Contains(a.Channel_Id) && a.Advertisement_Status_Id == 1).OrderByDescending(a=>a.Price).OrderBy(a=>a.Date_Time).ToList();
-                
+                DateTime nowIs = DateTime.Now;
+
+                for (int i = 0; i < ads.Count; i++)
+                {
+                    Advertisement adNow = ads[i];
+                    DateTime tDT = adNow.Date_Time;
+
+
+                    if (new DateTime(tDT.Year, tDT.Month, tDT.Day, tDT.Hour, tDT.Minute, tDT.Second) < DateTime.Now)
+                    {
+                        adNow.Advertisement_Status_Id = 3;
+                        continue;
+
+                    }
+
+                    List<Advertisement> nearestAds = dbContext.Advertisements.Where(a => a.Advertisement_Status_Id == 2 || a.Advertisement_Status_Id == 4 || a.Advertisement_Status_Id == 9).Where(a => a.Channel_Id == adNow.Channel_Id && a.Date_Time <= new DateTime(tDT.Year, tDT.Month, tDT.Day, tDT.Hour, tDT.Minute, tDT.Second)).ToList();
+                    Advertisement nearestAd = nearestAds.FirstOrDefault(a => a.Date_Time.Equals(nearestAds.Max(a => a.Date_Time)));
+
+                    List<Advertisement> nearestTopAds = dbContext.Advertisements.Where(a => a.Advertisement_Status_Id == 2 || a.Advertisement_Status_Id == 4 || a.Advertisement_Status_Id == 9).Where(a => a.Channel_Id == adNow.Channel_Id && a.Date_Time > new DateTime(tDT.Year, tDT.Month, tDT.Day, tDT.Hour, tDT.Minute, tDT.Second)).ToList();
+                    Advertisement nearestTopAd = nearestTopAds.FirstOrDefault(a => a.Date_Time.Equals(nearestTopAds.Min(a => a.Date_Time)));
+
+                    if (nearestAd != null)
+                    {
+                        if ((new DateTime(tDT.Year, tDT.Month, tDT.Day, tDT.Hour, tDT.Minute, tDT.Second)).Subtract(new TimeSpan(nearestAd.Top, 0, 0)) < nearestAd.Date_Time)
+                        {
+                            adNow.Advertisement_Status_Id = 3;
+                            continue;
+                        }
+                    }
+                    if (nearestTopAd != null)
+                    {
+                        if ((new DateTime(nowIs.Year, nowIs.Month, nowIs.Day, tDT.Hour, tDT.Minute, tDT.Second)).Add(new TimeSpan(1, 0, 0)) > nearestTopAd.Date_Time)
+                        {
+                            adNow.Advertisement_Status_Id = 3;
+                            continue;
+                        }
+                    }
+                }
+
+                dbContext.SaveChanges();
+                ads = ads.Where(a => a.Advertisement_Status_Id == 1).ToList();
                 Advertisement ad = ads!=null && ads.Count!=0 && ads[page] != null ? ads[page] : null;
                 if (ad != null)
                 {
@@ -117,7 +157,7 @@ namespace eAdvertisement_bot.Models.Commands
                     }
                     await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id,"_____________Конец поста____________");
 
-                    string text = "Всего заказов"+ads.Count()+"\n*Информация о заказе*\n" +
+                    string text = "Всего заказов "+ads.Count()+"\n*Информация о заказе*\n" +
                     "Канал: " + "[" + ad.Channel.Name + "](" + ad.Channel.Link + ")" +
                     "\nЦена: " + ad.Price +
                     "\nТоп: " + ad.Top +
@@ -134,7 +174,7 @@ namespace eAdvertisement_bot.Models.Commands
                                 new InlineKeyboardButton{CallbackData = "afaN"+ad.Advertisement_Id, Text = "Accept"},
                                 new InlineKeyboardButton{CallbackData = "dfaN"+ad.Advertisement_Id, Text = "Decline"}
                             };
-                            controllKeyboard[1] = new[] { new InlineKeyboardButton { CallbackData = "/ordersMenuP" + (page + 1), Text = "→→→"+(page+1) } };
+                            controllKeyboard[1] = new[] { new InlineKeyboardButton { CallbackData = "/ordersMenuP" + (page + 1), Text = "→→→ "+(page+2) } };
                             controllKeyboard[2] = new[] { new InlineKeyboardButton { CallbackData = "/backToStartMenu", Text = "Back" } };
                         }
                         else if (page == ads.Count - 1)
@@ -144,7 +184,7 @@ namespace eAdvertisement_bot.Models.Commands
                                 new InlineKeyboardButton{CallbackData = "afaN"+ad.Advertisement_Id, Text = "Accept"},
                                 new InlineKeyboardButton{CallbackData = "dfaN"+ad.Advertisement_Id, Text = "Decline"}
                             };
-                            controllKeyboard[1] = new[] { new InlineKeyboardButton { CallbackData = "/ordersMenuP" + (page - 1), Text = (page-1)+"←←←" } };
+                            controllKeyboard[1] = new[] { new InlineKeyboardButton { CallbackData = "/ordersMenuP" + (page - 1), Text = page+" ←←←" } };
                             controllKeyboard[2] = new[] { new InlineKeyboardButton { CallbackData = "/backToStartMenu", Text = "Back" } };
                         }
                         else
@@ -154,7 +194,7 @@ namespace eAdvertisement_bot.Models.Commands
                                 new InlineKeyboardButton{CallbackData = "afaN"+ad.Advertisement_Id, Text = "Accept"},
                                 new InlineKeyboardButton{CallbackData = "dfaN"+ad.Advertisement_Id, Text = "Decline"}
                             };
-                            controllKeyboard[1] = new[] { new InlineKeyboardButton { CallbackData = "/ordersMenuP" + (page - 1), Text = (page-1)+"←←←" }, new InlineKeyboardButton { CallbackData = "/ordersMenuP" + page + 1, Text = "→→→"+(page+1) } };
+                            controllKeyboard[1] = new[] { new InlineKeyboardButton { CallbackData = "/ordersMenuP" + (page - 1), Text = page+ " ←←←" }, new InlineKeyboardButton { CallbackData = "/ordersMenuP" + (page + 1), Text = "→→→ "+(page+2) } };
                             controllKeyboard[2] = new[] { new InlineKeyboardButton { CallbackData = "/backToStartMenu", Text = "Back" } };
                         }
                     }

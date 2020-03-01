@@ -9,7 +9,7 @@ namespace eAdvertisement_bot
     {
         public static string Name { get; set; } = "eAdvertisement_bot";
         public static string Token { get; set; } = "1032490890:AAEtv4rktCg47NeYLiD3j6tq3EW33_9tSoM";    // Bot token that gives botfather
-        public static string WebHookUrl { get; set; } = "https://6e9fd0be.ngrok.io";    // Part of webhook url that gives ngrok. Command to get it for ssl in IIS Express: ngrok http https://localhost:44360 -host-header="localhost:44360"
+        public static string WebHookUrl { get; set; } = "https://d9875dac.ngrok.io";    // Part of webhook url that gives ngrok. Command to get it for ssl in IIS Express: ngrok http https://localhost:44360 -host-header="localhost:44360"
 
     }
 }

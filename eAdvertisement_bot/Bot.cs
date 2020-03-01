@@ -93,6 +93,8 @@ namespace eAdvertisement_bot
                 commandsList.Add(new ChangeAutobuyDailyTimeIntervalCommand());
 
                 commandsList.Add(new OrdersMenuCommand());
+                commandsList.Add(new AcceptForeignAdCommand());
+                commandsList.Add(new DeclineForeignAdCommand());
 
 
 

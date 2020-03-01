@@ -115,9 +115,9 @@ namespace eAdvertisement_bot.Models.Commands
                         }
 
                     }
-                    await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id,"_____________End of post____________");
+                    await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id,"_____________Конец поста____________");
 
-                    string text = "*Информация о заказе*\n" +
+                    string text = "Всего заказов"+ads.Count()+"\n*Информация о заказе*\n" +
                     "Канал: " + "[" + ad.Channel.Name + "](" + ad.Channel.Link + ")" +
                     "\nЦена: " + ad.Price +
                     "\nТоп: " + ad.Top +
@@ -128,35 +128,32 @@ namespace eAdvertisement_bot.Models.Commands
                     {
                         controllKeyboard = new InlineKeyboardButton[3][];
                         if (page == 0)
-                        {//→→→←←←
+                        {
                             controllKeyboard[0] = new[]
                             {
-                            new InlineKeyboardButton{CallbackData = "afpC"+ad.Channel_Id+"D"+ad.Date_Time, Text = "Accept"},
-                            new InlineKeyboardButton{CallbackData = "rfpC"+ad.Channel_Id+"D"+ad.Date_Time, Text = "Regret"}
-
-                        };
+                                new InlineKeyboardButton{CallbackData = "afaN"+ad.Advertisement_Id, Text = "Accept"},
+                                new InlineKeyboardButton{CallbackData = "dfaN"+ad.Advertisement_Id, Text = "Decline"}
+                            };
                             controllKeyboard[1] = new[] { new InlineKeyboardButton { CallbackData = "/ordersMenuP" + (page + 1), Text = "→→→"+(page+1) } };
                             controllKeyboard[2] = new[] { new InlineKeyboardButton { CallbackData = "/backToStartMenu", Text = "Back" } };
                         }
                         else if (page == ads.Count - 1)
                         {
                             controllKeyboard[0] = new[]
-    {
-                            new InlineKeyboardButton{CallbackData = "afpC"+ad.Channel_Id+"D"+ad.Date_Time, Text = "Accept"},
-                            new InlineKeyboardButton{CallbackData = "rfpC"+ad.Channel_Id+"D"+ad.Date_Time, Text = "Regret"}
-
-                        };
+                            {
+                                new InlineKeyboardButton{CallbackData = "afaN"+ad.Advertisement_Id, Text = "Accept"},
+                                new InlineKeyboardButton{CallbackData = "dfaN"+ad.Advertisement_Id, Text = "Decline"}
+                            };
                             controllKeyboard[1] = new[] { new InlineKeyboardButton { CallbackData = "/ordersMenuP" + (page - 1), Text = (page-1)+"←←←" } };
                             controllKeyboard[2] = new[] { new InlineKeyboardButton { CallbackData = "/backToStartMenu", Text = "Back" } };
                         }
                         else
                         {
                             controllKeyboard[0] = new[]
-    {
-                            new InlineKeyboardButton{CallbackData = "afpC"+ad.Channel_Id+"D"+ad.Date_Time, Text = "Accept"},
-                            new InlineKeyboardButton{CallbackData = "rfpC"+ad.Channel_Id+"D"+ad.Date_Time, Text = "Regret"}
-
-                        };
+                            {
+                                new InlineKeyboardButton{CallbackData = "afaN"+ad.Advertisement_Id, Text = "Accept"},
+                                new InlineKeyboardButton{CallbackData = "dfaN"+ad.Advertisement_Id, Text = "Decline"}
+                            };
                             controllKeyboard[1] = new[] { new InlineKeyboardButton { CallbackData = "/ordersMenuP" + (page - 1), Text = (page-1)+"←←←" }, new InlineKeyboardButton { CallbackData = "/ordersMenuP" + page + 1, Text = "→→→"+(page+1) } };
                             controllKeyboard[2] = new[] { new InlineKeyboardButton { CallbackData = "/backToStartMenu", Text = "Back" } };
                         }
@@ -166,10 +163,9 @@ namespace eAdvertisement_bot.Models.Commands
                         controllKeyboard = new InlineKeyboardButton[2][];
                         controllKeyboard[0] = new[]
                             {
-                            new InlineKeyboardButton{CallbackData = "afpC"+ad.Channel_Id+"D"+ad.Date_Time, Text = "Accept"},
-                            new InlineKeyboardButton{CallbackData = "rfpC"+ad.Channel_Id+"D"+ad.Date_Time, Text = "Regret"}
-
-                        };
+                                new InlineKeyboardButton{CallbackData = "afaN"+ad.Advertisement_Id, Text = "Accept"},
+                                new InlineKeyboardButton{CallbackData = "dfaN"+ad.Advertisement_Id, Text = "Decline"}
+                            };
                         controllKeyboard[1] = new[] { new InlineKeyboardButton { CallbackData = "/backToStartMenu", Text = "Back" } };
                     }
 

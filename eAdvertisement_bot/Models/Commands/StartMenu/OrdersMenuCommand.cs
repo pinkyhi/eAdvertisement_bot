@@ -40,7 +40,7 @@ namespace eAdvertisement_bot.Models.Commands
                 List<long> channelIds = channels.Select(c => c.Channel_Id).ToList();
                 List<Advertisement> ads = dbContext.Advertisements.Where(a => a.Date_Time>DateTime.Now && channelIds.Contains(a.Channel_Id) && a.Advertisement_Status_Id == 1).OrderByDescending(a=>a.Price).OrderBy(a=>a.Date_Time).ToList();
                 
-                Advertisement ad = ads!=null && ads[page] != null ? ads[page] : null;
+                Advertisement ad = ads!=null && ads.Count!=0 && ads[page] != null ? ads[page] : null;
                 if (ad != null)
                 {
                     Publication post;

@@ -12,4 +12,8 @@
     <PackageReference Include="TLSharp" Version="0.1.0.429" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\Commands\StartMenu\OrdersMenu\" />
+  </ItemGroup>
+
 </Project>

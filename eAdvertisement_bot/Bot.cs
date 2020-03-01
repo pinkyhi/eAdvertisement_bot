@@ -92,7 +92,7 @@ namespace eAdvertisement_bot
                 commandsList.Add(new AddBalanceToAutobuyCommand());
                 commandsList.Add(new ChangeAutobuyDailyTimeIntervalCommand());
 
-
+                commandsList.Add(new OrdersMenuCommand());
 
 
 

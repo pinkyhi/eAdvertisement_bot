@@ -36,6 +36,10 @@ namespace eAdvertisement_bot.Models.Commands
                         },
                         new[] // fourth row
                         {
+                            new InlineKeyboardButton { Text = "Заказы", CallbackData = "/ordersMenuP0" },
+                        },
+                        new[] // fifth row
+                        {
                             new InlineKeyboardButton { Text = "Info", CallbackData = "/infoMenu" },
                         }
         });
@@ -58,6 +62,10 @@ namespace eAdvertisement_bot.Models.Commands
                             new InlineKeyboardButton { Text = "Sold posts", CallbackData = "/soldPostsMenu" },
                         },
                         new[] // fourth row
+                        {
+                            new InlineKeyboardButton { Text = "Заказы", CallbackData = "/ordersMenuP0" },
+                        },
+                        new[] // fifth row
                         {
                             new InlineKeyboardButton { Text = "Info", CallbackData = "/infoMenu" },
                         }

@@ -40,7 +40,7 @@ namespace eAdvertisement_bot.Models.Commands
 
                 List<Advertisement_Status> advertisement_Statuses = dbContext.Advertisement_Statuses.ToList();
                 List<Channel> channels = dbContext.Channels.ToList();
-                List<Advertisement> ads = dbContext.Advertisements.Where(a => a.User_Id == update.CallbackQuery.From.Id).Where(a => a.Advertisement_Status_Id == 4 || a.Advertisement_Status_Id == 2 || a.Advertisement_Status_Id == 1).ToList();
+                List<Advertisement> ads = dbContext.Advertisements.Where(a => a.User_Id == update.CallbackQuery.From.Id).Where(a => a.Advertisement_Status_Id == 4 || a.Advertisement_Status_Id == 2 || a.Advertisement_Status_Id == 1).OrderByDescending(a=>a.Advertisement_Status_Id).ToList();
 
                 string text = "*Здесь находятся купленные посты который влияют на ваш баланс*\n\n";
 
@@ -63,7 +63,7 @@ namespace eAdvertisement_bot.Models.Commands
                     await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, ex.Message);
                 }
             }
-            catch (Exception ex) { Console.WriteLine(ex.Message); }
+            catch (Exception ex) { await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, ex.Message); }
             finally
             {
                 dbContext.Dispose();

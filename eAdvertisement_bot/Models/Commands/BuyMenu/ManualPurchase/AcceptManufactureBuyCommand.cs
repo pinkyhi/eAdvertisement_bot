@@ -100,10 +100,11 @@ namespace eAdvertisement_bot.Models.Commands
                             }
                         }
 
-
-                        dbContext.Advertisements.Add(new Advertisement { Advertisement_Status_Id = 1, Alive = 24, Top = 1, Channel_Id = channelId, Publication_Snapshot = json, Date_Time = dateTime, User_Id = update.CallbackQuery.From.Id, Price = channel.Price });
+                        Advertisement newAd = new Advertisement { Advertisement_Status_Id = 1, Alive = 24, Top = 1, Channel_Id = channelId, Publication_Snapshot = json, Date_Time = dateTime, User_Id = update.CallbackQuery.From.Id, Price = channel.Price };
+                        dbContext.Advertisements.Add(newAd);
                         user.Balance -= channel.Price;
                         dbContext.SaveChanges();
+
                         await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Post is sent, to back into manual purchase menu click the button below", replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown, disableWebPagePreview: true);
                     }
                     catch

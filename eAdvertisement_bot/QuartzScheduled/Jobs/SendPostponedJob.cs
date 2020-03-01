@@ -31,7 +31,7 @@ namespace eAdvertisement_bot.QuartzScheduled.Jobs
                 foreach (Advertisement ad in dbContext.Advertisements)
                 {
                     
-                    if (DateTime.Compare(ad.Date_Time, now) == 0) //t1 is the same as t2.
+                    if (DateTime.Compare(ad.Date_Time, now) == 0 && ad.Advertisement_Status_Id == 2) //t1 is the same as t2.
                     {
                         ChatMember[] admins = await bot.GetChatAdministratorsAsync(ad.Channel_Id);
                         ChatMember adminBot = admins.First(a => a.User.Id == bot.BotId);
@@ -54,7 +54,7 @@ namespace eAdvertisement_bot.QuartzScheduled.Jobs
                             await bot.SendTextMessageAsync(ad.Channel_Id, "Ну вот оно и первое отправленное сообщение в группу" +
                                 ". На костылях конечно, но хоть как-то(");
 
-                            ad.Advertisement_Status_Id = 5;
+                            ad.Advertisement_Status_Id = 5; // не мяеняется!!??!?
 
                             dbContext.SaveChanges();
                         }

@@ -93,7 +93,7 @@ namespace eAdvertisement_bot
                         }
                         int min = Convert.ToInt32(realMessages.Min(c => c.Views));
                         int average = Convert.ToInt32(realMessages.Average(c => c.Views));
-                        int coverage = (((min+average)/2)+min)/2;
+                        int coverage = (((min+average)/2)+min)/2;  // (((min+average)/2)+average)/2;
                         return coverage;
                     }
                 }
@@ -104,6 +104,65 @@ namespace eAdvertisement_bot
             }
             return 0;
         }
+        /// <summary>
+        /// Returns false if post was interrupted during top time
+        /// </summary>
+        /// <param name="channelID">Channel ID</param>
+        /// <param name="postID">Post id</param>
+        /// <param name="topTime"> Time, during which post mustn't be interrupted </param>
+        /// <returns>Returns false if post was interrupted during top time</returns>
+        public async /*double*/ Task<Boolean> CheckPostTop(long channelID, long postID,TimeSpan topTime)
+        {
+            bool /*double*/ coef = true;
+            long tempId = postID + 1;
+            channelID = Math.Abs(1000000000000 + channelID);
+            try
+            {
+
+                TLDialogs dialogs = (TLDialogs) await Client.GetUserDialogsAsync();
+                TLChannel channel = (TLChannel)dialogs.Chats.First(x => x is TLChannel && ((TLChannel)x).Id == channelID);
+                TLInputPeerChannel peer = new TLInputPeerChannel() { ChannelId = channel.Id, AccessHash = (long)channel.AccessHash };
+                var messages = (await Client.SendRequestAsync<TLChannelMessages>(new TLRequestGetHistory()
+                    {
+                       Peer = peer,
+                        Limit = 100
+                    })).Messages;
+
+                TLMessage msg = (TLMessage)messages.Where(i => i is TLMessage).First(j => ((TLMessage)j).Id == postID);
+                TLMessage nextMsg = (TLMessage)messages.Where(i => i is TLMessage).First(j => ((TLMessage)j).Id == tempId);
+
+                if (msg is null) return false;
+                if (nextMsg is null)
+                    while (nextMsg.Id != ((TLMessage)messages.Where(i => i is TLMessage).OrderByDescending(x => ((TLMessage)x).Id).First()).Id)
+                    {
+                        tempId += 1;
+                        nextMsg = (TLMessage)messages.Where(i => i is TLMessage).First(j => ((TLMessage)j).Id == tempId);
+                        if (nextMsg is null)
+                            return true;
+                    }
+                else
+                {
+                    // a.Subract(b) => a - b
+                    //TimeSpan hour = new TimeSpan(hours: 0, minutes: 59, seconds: 0); - default time is hour
+                    TimeSpan postTopTime = ConvertFromUnixTime((double)nextMsg.Date).Subtract(ConvertFromUnixTime((double)msg.Date));
+
+                    int index = TimeSpan.Compare(postTopTime, topTime);
+                    if (index > 0 || index == 0) return true;
+                    else return false;
+
+                    // 1 - 59 minutes
+                    // x - timeDiff.Minutes
+                    // convert all to ticks to calculate coeff:
+                    //coef = (double)postTime.Ticks / hour.Ticks;
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex);
+                return true;
+            }
+            return true;
+        }
 
         public static long ConvertToUnixTime(DateTime datetime)
         {
@@ -111,7 +170,8 @@ namespace eAdvertisement_bot
 
             return (long)(datetime - sTime).TotalSeconds;
         }
-        private static DateTime ConvertFromUnixTime(Double TimestampToConvert, bool Local)
+
+        private static DateTime ConvertFromUnixTime(Double TimestampToConvert, bool Local = false)
         {
             var mdt = new DateTime(1970, 1, 1, 0, 0, 0);
             if (Local)
@@ -123,7 +183,6 @@ namespace eAdvertisement_bot
                 return mdt.AddSeconds(TimestampToConvert);
             }
         }
-
         public async Task SetClientId()
         {
             var rq = new TeleSharp.TL.Users.TLRequestGetFullUser { Id = new TLInputUserSelf() };

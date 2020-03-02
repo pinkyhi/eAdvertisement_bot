@@ -104,16 +104,20 @@ namespace eAdvertisement_bot
             }
             return 0;
         }
+
         /// <summary>
-        /// Returns false if post was interrupted during top time
+        /// Returns false if post was interrupted or deleted during top time
         /// </summary>
         /// <param name="channelID">Channel ID</param>
         /// <param name="postID">Post id</param>
         /// <param name="topTime"> Time, during which post mustn't be interrupted </param>
         /// <returns>Returns false if post was interrupted during top time</returns>
-        public async /*double*/ Task<Boolean> CheckPostTop(long channelID, long postID,TimeSpan topTime)
+        public async /*double*/ Task<Boolean> CheckPostTop(long channelID, int postID,TimeSpan topTime)
         {
-            bool /*double*/ coef = true;
+            if (TimeSpan.Compare(topTime, new TimeSpan(hours: 1, minutes: 0, seconds: 0)) == 0)
+                topTime = new TimeSpan(hours: 0, minutes: 59, seconds: 0);
+            else
+                topTime = new TimeSpan(topTime.Hours - 1, minutes: 59, seconds: 0);
             long tempId = postID + 1;
             channelID = Math.Abs(1000000000000 + channelID);
             try
@@ -125,38 +129,41 @@ namespace eAdvertisement_bot
                 var messages = (await Client.SendRequestAsync<TLChannelMessages>(new TLRequestGetHistory()
                     {
                        Peer = peer,
-                        Limit = 100
+                       Limit = 25
                     })).Messages;
-
                 TLMessage msg = (TLMessage)messages.Where(i => i is TLMessage).First(j => ((TLMessage)j).Id == postID);
-                TLMessage nextMsg = (TLMessage)messages.Where(i => i is TLMessage).First(j => ((TLMessage)j).Id == tempId);
 
-                if (msg is null) return false;
-                if (nextMsg is null)
-                    while (nextMsg.Id != ((TLMessage)messages.Where(i => i is TLMessage).OrderByDescending(x => ((TLMessage)x).Id).First()).Id)
-                    {
-                        tempId += 1;
-                        nextMsg = (TLMessage)messages.Where(i => i is TLMessage).First(j => ((TLMessage)j).Id == tempId);
-                        if (nextMsg is null)
-                            return true;
-                    }
+                int maxID = ((TLMessage)messages.Where(i => i is TLMessage).OrderByDescending(x => ((TLMessage)x).Id).First()).Id;
+
+                if (maxID == postID)
+                    return true;
+                
+                else if (maxID < postID)
+                    return false;
+
+                //     maxID<postID       postID    \/     topTime    \/
+                //--------------------------|-----------------|--------------->t
+
                 else
-                {
-                    // a.Subract(b) => a - b
-                    //TimeSpan hour = new TimeSpan(hours: 0, minutes: 59, seconds: 0); - default time is hour
-                    TimeSpan postTopTime = ConvertFromUnixTime((double)nextMsg.Date).Subtract(ConvertFromUnixTime((double)msg.Date));
-
-                    int index = TimeSpan.Compare(postTopTime, topTime);
-                    if (index > 0 || index == 0) return true;
-                    else return false;
-
-                    // 1 - 59 minutes
-                    // x - timeDiff.Minutes
-                    // convert all to ticks to calculate coeff:
-                    //coef = (double)postTime.Ticks / hour.Ticks;
-                }
+                    foreach( long i in Enumerable.Range(postID+1, maxID - postID)) 
+                        if(messages.Where(j => j is TLMessage).Any(x => ((TLMessage)x).Id == i)) 
+                        {
+                            TLMessage nextMsg = (TLMessage)messages.Where(i => i is TLMessage).First(x => ((TLMessage)x).Id == i);
+                            TimeSpan postTopTime = ConvertFromUnixTime((double)nextMsg.Date).Subtract(ConvertFromUnixTime((double)msg.Date));
+                           
+                            if (postTopTime >= topTime) return true;
+                            else return false;
+                        }
+                
             }
-            catch(Exception ex)
+            // Usually shows up in line msg initialization, when post with 
+            // definite id is deleted()
+            catch (InvalidOperationException ex)
+            {
+                Console.WriteLine($"Post is deleted => {channelID} : {postID}");
+                return false;
+            }
+            catch (Exception ex)
             {
                 Console.WriteLine(ex);
                 return true;

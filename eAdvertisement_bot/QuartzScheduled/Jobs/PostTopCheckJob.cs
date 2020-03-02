@@ -23,36 +23,47 @@ namespace eAdvertisement_bot.QuartzScheduled.Jobs
             int interval = (int)map["AddCheckInterval"];
             //bool isInterrupted = await cah.CheckPostTop( /*...*/);
             DateTime now = DateTime.Now.AddSeconds(-DateTime.Now.Second);
-            try
+
+            bool isTesting = true;
+            if (isTesting) 
             {
-               
-                TimeSpan temp;
-                List<Advertisement> advertisements = dbContext.Advertisements.Where(x => x.Advertisement_Status_Id == 2).Where(x => 
-                    StartScheduler.DateInIntervalCheck(now.AddMinutes(-interval), now, x.Date_Time))
-                    .ToList();
-                foreach(Advertisement ad in advertisements)
+                // channel id:  -1001266388554
+                await bot.SendTextMessageAsync(330507566, $" One hour top check:" +
+                    $" { await cah.CheckPostTop(-1001266388554, 10, new TimeSpan(hours: 2, minutes:0, seconds: 0))} ");
+            }
+            else 
+            {
+                try
                 {
-                    if (await cah.CheckPostTop(ad.Channel_Id, /*ad.Post_id*/))
-                        continue;
-                    else
+
+                    TimeSpan temp;
+                    List<Advertisement> advertisements = dbContext.Advertisements.Where(x => x.Advertisement_Status_Id == 2).Where(x =>
+                        StartScheduler.DateInIntervalCheck(now.AddMinutes(-interval), now, x.Date_Time))
+                        .ToList();
+                    foreach (Advertisement ad in advertisements)
                     {
-                        await bot.SendTextMessageAsync(dbContext.Channels.Where(x => x.Channel_Id == ad.Channel_Id).First().User_Id,
-                                                       $"You interrupted advertisement in \"{(await bot.GetChatAsync(ad.Channel_Id)).Username}\"" +
-                                                       $" at {ad.Date_Time.ToString("HH:mm")}.\nHold is returned to buyer.");
-                        dbContext.Users.First(x => x.User_Id == ad.User_Id).Balance += ad.Price;
-                        ad.Advertisement_Status_Id = 6;
+                       // if (await cah.CheckPostTop(ad.Channel_Id, /*ad.Post_id*/))
+                       //     continue;
+                        //else
+                        //{
+                            await bot.SendTextMessageAsync(dbContext.Channels.Where(x => x.Channel_Id == ad.Channel_Id).First().User_Id,
+                                                           $"You interrupted advertisement in \"{(await bot.GetChatAsync(ad.Channel_Id)).Username}\"" +
+                                                           $" at {ad.Date_Time.ToString("HH:mm")}.\nHold is returned to buyer.");
+                            dbContext.Users.First(x => x.User_Id == ad.User_Id).Balance += ad.Price;
+                            ad.Advertisement_Status_Id = 6;
+                       // }
+
                     }
-                        
+                    dbContext.SaveChanges();
                 }
-                dbContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-            }
-            finally 
-            {
-                dbContext.Dispose();
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+                finally
+                {
+                    dbContext.Dispose();
+                } 
             }
             
         }

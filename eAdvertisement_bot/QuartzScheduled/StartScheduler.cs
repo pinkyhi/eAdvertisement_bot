@@ -17,7 +17,7 @@ namespace eAdvertisement_bot.QuartzScheduled
             await cah.SetClientId();
             
             ///Indicates time interval between top check on posted publications
-            int interval = 5;
+            int interval = 1;
 
             JobDataMap map = new JobDataMap
             {

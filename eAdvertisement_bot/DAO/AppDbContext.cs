@@ -23,6 +23,7 @@ namespace eAdvertisement_bot.DAO
         public DbSet<Place> Places { get; set; }
         public DbSet<Publication> Publications { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<AdMessage> AdMessages { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseMySql("server=localhost;UserId=root;Password=df443335;database=eadvertisement_bot;");
@@ -32,7 +33,7 @@ namespace eAdvertisement_bot.DAO
         {
             //FluentAPI
 
-            modelBuilder.Entity<Advertisement>().HasKey(p => new { p.Date_Time, p.Channel_Id });
+            //modelBuilder.Entity<Advertisement>().HasKey(p => new { p.Date_Time, p.Channel_Id });
 
             // Many to Many
 
@@ -64,12 +65,30 @@ namespace eAdvertisement_bot.DAO
                 .WithMany(p=>p.Buttons)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<AdMessage>()
+                .HasOne(b => b.Advertisement)
+                .WithMany(p => p.AdMessages)
+                .OnDelete(DeleteBehavior.Cascade);
+
             modelBuilder.Entity<Media>()
                 .HasOne(m => m.Publication)
                 .WithMany(p => p.Media)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<Channel_Category>()     // Channel deleting
+                .HasOne(cg => cg.Channel)
+                .WithMany(c => c.Channel_Categories)
+                .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<Autobuy_Channel>()
+                .HasOne(a => a.Channel)
+                .WithMany(c => c.Autobuy_Channels)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Place>()
+                .HasOne(p => p.Channel)
+                .WithMany(c => c.Places)
+                .OnDelete(DeleteBehavior.Cascade);      // End of channel deleting
         }
     }
 }

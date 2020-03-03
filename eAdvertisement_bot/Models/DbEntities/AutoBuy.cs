@@ -16,6 +16,9 @@ namespace eAdvertisement_bot.Models.DbEntities
         [Column("publication_snapshot")]
         public string Publication_Snapshot { get; set; }
 
+        [Column("name")]
+        public string Name { get; set; }
+
         [Column("interval")]
         public int Interval { get; set; }
 
@@ -27,6 +30,18 @@ namespace eAdvertisement_bot.Models.DbEntities
 
         [Column("max_cpm")]
         public int Max_Cpm { get; set; }
+
+        [Column("state")]
+        public int State { get; set; }
+
+        [Column("balance")]
+        public int Balance { get; set; }
+
+        [Column("daily_interval_from")]
+        public TimeSpan Daily_Interval_From { get; set; }  // Check this type!
+
+        [Column("daily_interval_to")]
+        public TimeSpan Daily_Interval_To { get; set; }  // Check this type!
 
         [Column("user_id")]
         public long User_Id { get; set; }

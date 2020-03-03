@@ -36,35 +36,65 @@ namespace eAdvertisement_bot.Models.Commands
             DateTime dateTime = DateTime.Parse(dateStr);
             try
             {
+
                 List<Place> places = dbContext.Places.Where(p => p.Channel_Id == channelId).OrderBy(p => p.Time).ToList();
                 Channel channel = dbContext.Channels.Find(channelId);
-                List<DateTime> occupiedAds = dbContext.Advertisements.Where(a=> a.Date_Time.Date.Equals(dateTime.Date) ).Where(a => a.Channel_Id == channelId && (a.Advertisement_Status_Id == 2 || a.Advertisement_Status_Id == 4) || ( a.Date_Time < DateTime.Now)).Select(a=>a.Date_Time).ToList();
-                List<TimeSpan> occupiedTimes = new List<TimeSpan>(occupiedAds.Count);
+                DateTime nowIs = DateTime.Now;
 
-                for(int i = 0; i < occupiedAds.Count; i++)
-                {
-                    occupiedTimes.Add(occupiedAds[i].TimeOfDay);
-                }
-                
-                InlineKeyboardButton[][] keyboard = new InlineKeyboardButton[places.Count+2][];
+                InlineKeyboardButton[][] keyboard = new InlineKeyboardButton[places.Count + 2][];
+                DateTime tDT = DateTime.Parse(dateStr);
+                int i = 0;
 
-                for(int i = 0; i < places.Count; i++)
+                if (channel.Places != null)
                 {
-                    DateTime tDT = DateTime.Parse(dateStr);
-                    if (occupiedTimes.Contains(places[i].Time))
+                    foreach (Place p in places)
                     {
-                        keyboard[i] = new[] { new InlineKeyboardButton { Text = "X"+Convert.ToString(places[i].Time)+"X", CallbackData = "/miq" } };
+                        if (new DateTime(tDT.Year, tDT.Month, tDT.Day, p.Time.Hours, p.Time.Minutes, p.Time.Seconds) < DateTime.Now)
+                        {
+                            keyboard[i] = new[] { new InlineKeyboardButton { Text = "X" + Convert.ToString(places[i].Time) + "X", CallbackData = "/miq" } };
+                            i++;
+                            continue;
+                        }
+
+                        List<Advertisement> nearestAds = dbContext.Advertisements.Where(a => a.Advertisement_Status_Id == 2 || a.Advertisement_Status_Id == 4 || a.Advertisement_Status_Id == 9).Where(a => a.Channel_Id == channelId && a.Date_Time <= new DateTime(tDT.Year, tDT.Month, tDT.Day, p.Time.Hours, p.Time.Minutes, p.Time.Seconds)).ToList();
+                        Advertisement nearestAd = nearestAds.FirstOrDefault(a => a.Date_Time.Equals(nearestAds.Max(a => a.Date_Time)));
+
+                        List<Advertisement> nearestTopAds = dbContext.Advertisements.Where(a => a.Advertisement_Status_Id == 2 || a.Advertisement_Status_Id == 4 || a.Advertisement_Status_Id == 9).Where(a => a.Channel_Id == channelId && a.Date_Time > new DateTime(tDT.Year, tDT.Month, tDT.Day, p.Time.Hours, p.Time.Minutes, p.Time.Seconds)).ToList();
+                        Advertisement nearestTopAd = nearestTopAds.FirstOrDefault(a => a.Date_Time.Equals(nearestTopAds.Min(a => a.Date_Time)));
+
+                        if (nearestAd != null)
+                        {
+                            if ((new DateTime(tDT.Year, tDT.Month, tDT.Day, p.Time.Hours, p.Time.Minutes, p.Time.Seconds)).Subtract(new TimeSpan(nearestAd.Top, 0, 0)) < nearestAd.Date_Time)
+                            {
+                                keyboard[i] = new[] { new InlineKeyboardButton { Text = "X" + Convert.ToString(places[i].Time) + "X", CallbackData = "/miq" } };
+                                i++;
+                                continue;
+                            }
+                        }
+                        if (nearestTopAd != null)
+                        {
+                            if ((new DateTime(nowIs.Year, nowIs.Month, nowIs.Day, p.Time.Hours, p.Time.Minutes, p.Time.Seconds)).Add(new TimeSpan(1, 0, 0)) > nearestTopAd.Date_Time)
+                            {
+                                keyboard[i] = new[] { new InlineKeyboardButton { Text = "X" + Convert.ToString(places[i].Time) + "X", CallbackData = "/miq" } };
+                                i++;
+                                continue;
+                            }
+                        }
+                        keyboard[i] = new[] { new InlineKeyboardButton { Text = Convert.ToString(places[i].Time), CallbackData = "cpfaN" + channelId + "D" + Convert.ToString(tDT.AddHours(places[i].Time.Hours).AddMinutes(places[i].Time.Minutes)) + "T" + tags } };
+                        i++;
                     }
-                    else
-                    {
-                        keyboard[i] = new[] { new InlineKeyboardButton { Text = Convert.ToString(places[i].Time), CallbackData = "cpfaN"+channelId+"D"+Convert.ToString(tDT.AddHours(places[i].Time.Hours).AddMinutes(places[i].Time.Minutes))+"T"+tags } };
-                    }
+
                 }
-                keyboard[keyboard.Length - 2] = new[] { new InlineKeyboardButton { Text = "Back", CallbackData = "/showPlacesCalendarForBuyerN" + channelId +"T"+tags} };
-                keyboard[keyboard.Length - 1] = new[]
-{
-                    new InlineKeyboardButton { Text = "Cancel", CallbackData = "/manualPurchaseMenuP" + tags },
-                };
+
+
+
+
+
+
+
+
+                keyboard[keyboard.Length - 2] = new[] { new InlineKeyboardButton { Text = "Back", CallbackData = "/showPlacesCalendarForBuyerN" + channelId + "T" + tags } };
+                keyboard[keyboard.Length - 1] = new[] { new InlineKeyboardButton { Text = "Cancel", CallbackData = "/manualPurchaseMenuP" + tags } };
 
                 await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Choose time", replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown, disableWebPagePreview: true);
 

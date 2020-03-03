@@ -32,7 +32,7 @@ namespace eAdvertisement_bot.Models.Commands
             dbContext.Users.First(u => u.User_Id == update.CallbackQuery.From.Id).Stopped = true;
             dbContext.SaveChanges();
 
-            await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "Bot is stopped", true);  // ...,...,alert    AnswerCallbackQuery is required to send to avoid clock animation ob the button
+            await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "Бот остановлен", true);  // ...,...,alert    AnswerCallbackQuery is required to send to avoid clock animation ob the button
 
             InlineKeyboardMarkup keyboard = entryStoppedBotKeyboard;
 

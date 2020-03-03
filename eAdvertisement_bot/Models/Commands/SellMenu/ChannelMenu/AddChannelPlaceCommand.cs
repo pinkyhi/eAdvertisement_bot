@@ -36,8 +36,8 @@ namespace eAdvertisement_bot.Models.Commands
 
                 dbContext.SaveChanges();
 
-                await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "Send time of place that you want to add in format hh:mm", true);
-                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Example \n*00:30*", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
+                await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "Добавьте место для ваших продаж в формате hh:mm", true);
+                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Пример \n*00:30*", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
             }
             catch (Exception ex)
             {

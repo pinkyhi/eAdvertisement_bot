@@ -33,9 +33,12 @@ namespace eAdvertisement_bot
                 commandsList.Add(new LaunchBotCommand());
                 commandsList.Add(new BuyMenuCommand());
                 commandsList.Add(new BackToStartMenu());
+
                 commandsList.Add(new SellMenuCommand());
                 commandsList.Add(new AddChannelCommand());
                 commandsList.Add(new ShowChannelForSellerCommand());
+                commandsList.Add(new DeleteChannelCommand());
+                commandsList.Add(new AcceptChannelDeleting());
                 commandsList.Add(new DeleteChannelPlaceCommand());
                 commandsList.Add(new MyPostsMenuCommand());
                 commandsList.Add(new AddPostCommand());
@@ -51,7 +54,7 @@ namespace eAdvertisement_bot
                 commandsList.Add(new ShowChannelForBuyerCommand());
                 commandsList.Add(new ShowPlacesCalendarForBuyerCommand());
                 commandsList.Add(new ShowPlacesForBuyerCommand());
-                commandsList.Add(new ChoosePostForAddCommandcs());
+                commandsList.Add(new ChoosePostForAddCommand());
                 commandsList.Add(new BuyerPostInitConfirmationCommand());
                 commandsList.Add(new AcceptManufactureBuyCommand());
                 commandsList.Add(new InfoMenuCommand());
@@ -59,6 +62,41 @@ namespace eAdvertisement_bot
                 commandsList.Add(new BoughtPostsMenuCommand());
                 commandsList.Add(new OwnSoldMenuCommand());
                 commandsList.Add(new AddOwnSoldTimeCommand());
+                commandsList.Add(new ManualPurchaseChangeIntervalCommand());
+                commandsList.Add(new AutobuyMenuCommand());
+                commandsList.Add(new AddNewAutoBuyCommand());
+                commandsList.Add(new ShowAutoBuyCommand());
+                commandsList.Add(new ChangeAutoBuyNameCommand());
+                commandsList.Add(new ChangeAutobuyMinMaxPriceCommand());
+                commandsList.Add(new ChangeAutobuyMaxCpmCommand());
+                commandsList.Add(new ChangeAutobuyStateCommand());
+                commandsList.Add(new ChangeAutobuyPostCommand());
+                commandsList.Add(new AcceptChangeAutobuyPostCommand());
+                commandsList.Add(new ChangingAutobuyPostIsAcceptedCommand());
+                commandsList.Add(new ChangeAutobuyChannelsCommand());
+                commandsList.Add(new ChangeAutobuyIntervalCommand());
+
+                commandsList.Add(new AddChannelsToAutobuyCommand());
+                commandsList.Add(new ClearAllCategoriesInAutobuyCommand());
+                commandsList.Add(new ChooseCategoriesForAutobuyCommand());
+                commandsList.Add(new DeleteCategoryFromAutobuyCategoriesCommand());
+                commandsList.Add(new AddCategoryToAutobuyCategoriesCommand());
+                commandsList.Add(new AcceptAddingChannelToAutobuyCommand());
+                commandsList.Add(new AddingChannelToAutobuyIsAcceptedCommand());
+                commandsList.Add(new ThisChannelIsAddedToAutobuyBlock());
+                commandsList.Add(new ShowAttachedToAutobuyChannelCommand());
+                commandsList.Add(new UnattachChannelFromAutobuyCommand());
+
+                commandsList.Add(new DeleteAutobuyCommand());
+                commandsList.Add(new DropAutobuyBalanceCommand());
+                commandsList.Add(new AddBalanceToAutobuyCommand());
+                commandsList.Add(new ChangeAutobuyDailyTimeIntervalCommand());
+
+                commandsList.Add(new OrdersMenuCommand());
+                commandsList.Add(new AcceptForeignAdCommand());
+                commandsList.Add(new DeclineForeignAdCommand());
+
+
 
 
 
@@ -72,6 +110,8 @@ namespace eAdvertisement_bot
                 commandsList.Add(new OnPhotoMessageEvent());
                 commandsList.Add(new On10XStateEvent());
                 commandsList.Add(new On20XStateEvent());
+                commandsList.Add(new On30XStateEvent());
+                commandsList.Add(new On40XStateEvent());
                 commandsList.Add(new On9XXStateEvent());
 
                 botClient = new TelegramBotClient(BotSettings.Token);   // Token setting

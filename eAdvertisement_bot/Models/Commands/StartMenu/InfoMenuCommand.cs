@@ -29,9 +29,9 @@ namespace eAdvertisement_bot.Models.Commands
 
         public async override Task Execute(Update update, TelegramBotClient botClient)
         {
-            InlineKeyboardButton[][] keyboard = new[] { new[] { new InlineKeyboardButton {Text = "Back", CallbackData = "/backToStartMenu" } } };
+            InlineKeyboardButton[][] keyboard = new[] { new[] { new InlineKeyboardButton {Text = "Назад", CallbackData = "/backToStartMenu" } } };
 
-            await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Info info info", replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
+            await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Связь с администратором\n@olejchanskiy", replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
 
             try
             {

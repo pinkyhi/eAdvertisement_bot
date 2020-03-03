@@ -38,10 +38,10 @@ namespace eAdvertisement_bot.Models.Commands
                 dbContext.Users.Find(channel.User_Id).User_State_Id = 0;
                 dbContext.SaveChanges();
                 string info = "[" + channel.Name + "](" + channel.Link + ")" +
-                    "\nSubscribers: " + channel.Subscribers +
-                    "\nCoverage: " + channel.Coverage +
+                    "\nПодписчиков: " + channel.Subscribers +
+                    "\nОхват: " + channel.Coverage +
                     "\nERR: " + Math.Round(Convert.ToDouble(channel.Coverage) / Convert.ToDouble(channel.Subscribers), 2) +
-                    "\nPrice: " + channel.Price +
+                    "\nЦена: " + channel.Price +
                     "\nCpm: " + channel.Cpm;
                 if(channel.Description!=null && !channel.Description.Equals(""))
                 {
@@ -49,21 +49,25 @@ namespace eAdvertisement_bot.Models.Commands
                 }
 
                 List<Place> places = dbContext.Places.Where(p => p.Channel_Id == channelId).OrderBy(p=>p.Time).ToList();
-                InlineKeyboardButton[][] keyboard = new InlineKeyboardButton[places.Count+2][];
+                InlineKeyboardButton[][] keyboard = new InlineKeyboardButton[places.Count+3][];
 
                 keyboard[0] = new[]
                 {
-                    new InlineKeyboardButton { Text = "Change desc", CallbackData = "/changeDescription"},
-                    new InlineKeyboardButton { Text = "Change cpm", CallbackData = "/changeCpm"},
-                    new InlineKeyboardButton { Text = "Add adv place", CallbackData = "/addAdvPlace"},
+                    new InlineKeyboardButton { Text = "Изменить описание", CallbackData = "/changeDescription"},
+                    new InlineKeyboardButton { Text = "Изменить cpm", CallbackData = "/changeCpm"},
+                    new InlineKeyboardButton { Text = "Добавить рекламное место", CallbackData = "/addAdvPlace"},
                 };
-                int indexToPaste = 1;
-                while (indexToPaste < places.Count()+1)
+                keyboard[1] = new[]
+{
+                    new InlineKeyboardButton { Text = "Удалить канал из бота", CallbackData = "/deleteChannel"},
+                };
+                int indexToPaste = 2;
+                while (indexToPaste < places.Count()+2)
                 {
-                    keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = "Delete place "+places[indexToPaste-1].Time, CallbackData = "/deletePlaceN" + places[indexToPaste-1].Place_Id }, };
+                    keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = "Удалить место "+places[indexToPaste-2].Time, CallbackData = "/deletePlaceN" + places[indexToPaste-2].Place_Id }, };
                     indexToPaste++;
                 }
-                keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = "Back", CallbackData = "/sellMenuP0" }, };
+                keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = "Назад", CallbackData = "/sellMenuP0" }, };
 
                 try
                 {

@@ -36,8 +36,8 @@ namespace eAdvertisement_bot.Models.Commands
 
                 dbContext.SaveChanges();
 
-                await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "Send cpm that you want (integer)", true);
-                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Example \n*220*", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
+                await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "Отправьте CPM (целое число)", true);
+                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Пример \n*220*", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
             }
             catch(Exception ex)
             {

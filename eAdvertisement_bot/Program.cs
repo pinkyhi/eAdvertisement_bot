@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
@@ -15,9 +16,11 @@ namespace eAdvertisement_bot
     {
         public static void Main(string[] args)
         {
-            StartScheduler();
+            EnviromentHandler eh = new EnviromentHandler(Bot.GetBotClientAsync().Result);
+            Thread cahThread = new Thread(new ThreadStart(eh.Start));
+            cahThread.Start();
             CreateHostBuilder(args).Build().Run();
-            
+
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
@@ -26,8 +29,5 @@ namespace eAdvertisement_bot
                 {
                     webBuilder.UseStartup<Startup>();
                 });
-
-        private static void StartScheduler() => QuartzScheduled.StartScheduler.StartSchedulers();
-        
     }
 }

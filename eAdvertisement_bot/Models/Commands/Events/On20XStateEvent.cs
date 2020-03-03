@@ -50,18 +50,18 @@ namespace eAdvertisement_bot.Models.Commands
                     }
                     catch
                     {
-                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Incorrect format of time. Try again.\nOr go back, you can click on the button below.", replyMarkup: new InlineKeyboardMarkup(new[] { new[] { new InlineKeyboardButton { Text = "Back", CallbackData = "/showChannelForSellerN" + user.Object_Id }, } }));
+                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Некорректный формат времни. Попробуйте ещё раз.\nИли вернитесь назад нажав на кнопку ниже.", replyMarkup: new InlineKeyboardMarkup(new[] { new[] { new InlineKeyboardButton { Text = "Назад", CallbackData = "/showChannelForSellerN" + user.Object_Id }, } }));
                         return;
                     }
                     if (timeStr.Length != 5)
                     {
 
-                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Incorrect format of time. Try again.\nOr go back, you can click on the button below.", replyMarkup: new InlineKeyboardMarkup(new[] { new[] { new InlineKeyboardButton { Text = "Back", CallbackData = "/showChannelForSellerN" + user.Object_Id }, } }));
+                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Некорректный формат времни. Попробуйте ещё раз.\nИли вернитесь назад нажав на кнопку ниже.", replyMarkup: new InlineKeyboardMarkup(new[] { new[] { new InlineKeyboardButton { Text = "Назад", CallbackData = "/showChannelForSellerN" + user.Object_Id }, } }));
                         return;
                     }
                     else
                     {
-                        if (dbContext.Places.Count(p => p.Channel_Id == user.User_State_Id) < 8)
+                        if (dbContext.Places.Count(p => p.Channel_Id == user.User_State_Id) < 5)
                         {
                             TimeSpan ts;
                             try
@@ -70,17 +70,17 @@ namespace eAdvertisement_bot.Models.Commands
                             }
                             catch
                             {
-                                await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Incorrect format of time. Try again.\nOr go back, you can click on the button below.", replyMarkup: new InlineKeyboardMarkup(new[] { new[] { new InlineKeyboardButton { Text = "Back", CallbackData = "/showChannelForSellerN" + user.Object_Id }, } }));
+                                await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Некорректный формат времни. Попробуйте ещё раз.\nИли вернитесь назад нажав на кнопку ниже.", replyMarkup: new InlineKeyboardMarkup(new[] { new[] { new InlineKeyboardButton { Text = "Назад", CallbackData = "/showChannelForSellerN" + user.Object_Id }, } }));
                                 return;
                             }
                             
                             dbContext.Places.Add(new DbEntities.Place { Channel_Id = user.Object_Id, Time = ts });
                             dbContext.SaveChanges();
-                            await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Place is added succesfully :)\nYou can write next commands, or press button bellow to see an updated menu", replyMarkup: new InlineKeyboardMarkup(new[] { new[] { new InlineKeyboardButton { Text = "Show updated menu", CallbackData = "/showChannelForSellerN" + user.Object_Id }, } }));
+                            await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Место добавленно успешно :)\nВы можете писать команды далее, или нажать на кнопку ниже", replyMarkup: new InlineKeyboardMarkup(new[] { new[] { new InlineKeyboardButton { Text = "Показать обновленное меню", CallbackData = "/showChannelForSellerN" + user.Object_Id }, } }));
                         }
                         else
                         {
-                            await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Your count has to be less than 8.\nOr go back, you can click on the button below.", replyMarkup: new InlineKeyboardMarkup(new[] { new[] { new InlineKeyboardButton { Text = "Back", CallbackData = "/showChannelForSellerN" + user.Object_Id }, } }));
+                            await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Количество мест должно быть менее четырех.", replyMarkup: new InlineKeyboardMarkup(new[] { new[] { new InlineKeyboardButton { Text = "Назад", CallbackData = "/showChannelForSellerN" + user.Object_Id }, } }));
 
                         }
 
@@ -96,7 +96,7 @@ namespace eAdvertisement_bot.Models.Commands
                     }
                     catch
                     {
-                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Incorrect format of cpm. Try again.\nOr go back, you can click on the button below.", replyMarkup: new InlineKeyboardMarkup(new[] { new[] { new InlineKeyboardButton { Text = "Back", CallbackData = "/showChannelForSellerN" + user.Object_Id }, } }));
+                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Некорректный формат CPM.\nИли вернитесь назад нажав на кнопку ниже", replyMarkup: new InlineKeyboardMarkup(new[] { new[] { new InlineKeyboardButton { Text = "Назад", CallbackData = "/showChannelForSellerN" + user.Object_Id }, } }));
                         return;
                     }
                     if (amount < 10000)
@@ -105,11 +105,11 @@ namespace eAdvertisement_bot.Models.Commands
                         channel.Cpm = amount;
                         channel.Price = Convert.ToInt32(channel.Coverage * channel.Cpm / 1000);
                         dbContext.SaveChanges();
-                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Cpm is changed succesfully :)\nYou can write next commands, or press button bellow to see an updated menu", replyMarkup: new InlineKeyboardMarkup(new[] { new[] { new InlineKeyboardButton { Text = "Show updated menu", CallbackData = "/showChannelForSellerN" + user.Object_Id }, } }));
+                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "CPM изменено успешно :)\nВы можете писать команды далее, или нажать на кнопку ниже", replyMarkup: new InlineKeyboardMarkup(new[] { new[] { new InlineKeyboardButton { Text = "Показать обновленное меню", CallbackData = "/showChannelForSellerN" + user.Object_Id }, } }));
                     }
                     else
                     {
-                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "It's too much, bro:C Try again.\nOr go back, you can click on the button below.", replyMarkup: new InlineKeyboardMarkup(new[] { new[] { new InlineKeyboardButton { Text = "Back", CallbackData = "/showChannelForSellerN" + user.Object_Id }, } }));
+                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Это слишком много, бро:C Поробуй снова.\nЧтобы вернуться назад нажмите на кнопку ниже", replyMarkup: new InlineKeyboardMarkup(new[] { new[] { new InlineKeyboardButton { Text = "Назад", CallbackData = "/showChannelForSellerN" + user.Object_Id }, } }));
 
                     }
                 }
@@ -122,22 +122,22 @@ namespace eAdvertisement_bot.Models.Commands
                     }
                     catch
                     {
-                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Wrong format of description. Try again.\nOr go back, you can click on the button below.", replyMarkup: new InlineKeyboardMarkup(new[] { new[] { new InlineKeyboardButton { Text = "Back", CallbackData = "/showChannelForSellerN" + user.Object_Id }, } }));
+                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Неправильный формат описания.  Поробуйте снова.\nЧтобы вернуться назад нажмите на кнопку ниже.", replyMarkup: new InlineKeyboardMarkup(new[] { new[] { new InlineKeyboardButton { Text = "Back", CallbackData = "/showChannelForSellerN" + user.Object_Id }, } }));
                         return;
                     }
                     if (newDescription.Length == 0)
                     {
-                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "It can't be emptyTry again.\nOr go back, you can click on the button below.", replyMarkup: new InlineKeyboardMarkup(new[] { new[] { new InlineKeyboardButton { Text = "Back", CallbackData = "/showChannelForSellerN" + user.Object_Id }, } }));
+                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Описание не может быть пустым.\nЧтобы вернуться назад нажмите на кнопку ниже.", replyMarkup: new InlineKeyboardMarkup(new[] { new[] { new InlineKeyboardButton { Text = "Back", CallbackData = "/showChannelForSellerN" + user.Object_Id }, } }));
                         return;
                     }
                     else if (newDescription.Length > 1024)
                     {
-                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Description must be less than 1024 chars\nYour is: " + newDescription.Length+ "Try again.\nOr go back, you can click on the button below.", replyMarkup: new InlineKeyboardMarkup(new[] { new[] { new InlineKeyboardButton { Text = "Back", CallbackData = "/showChannelForSellerN" + user.Object_Id }, } }));
+                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Описание должно быть менее 1024 символов\nВаше: " + newDescription.Length+ "Try again.\nOr go back, you can click on the button below.", replyMarkup: new InlineKeyboardMarkup(new[] { new[] { new InlineKeyboardButton { Text = "Back", CallbackData = "/showChannelForSellerN" + user.Object_Id }, } }));
                         return;
                     }
                     dbContext.Channels.Find(user.Object_Id).Description = newDescription;
                     dbContext.SaveChanges();
-                    await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Description is changed succesfully :)\nYou can write next commands, or press button bellow to see an updated menu", replyMarkup: new InlineKeyboardMarkup(new[] { new[] { new InlineKeyboardButton { Text = "Show updated menu", CallbackData = "/showChannelForSellerN" + user.Object_Id }, } }));
+                    await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Описание изменено успено :)\nВы можете писать команды далее, или нажать на кнопку ниже", replyMarkup: new InlineKeyboardMarkup(new[] { new[] { new InlineKeyboardButton { Text = "Показать обновленное меню", CallbackData = "/showChannelForSellerN" + user.Object_Id }, } }));
 
                 }
                 user.User_State_Id = 0;

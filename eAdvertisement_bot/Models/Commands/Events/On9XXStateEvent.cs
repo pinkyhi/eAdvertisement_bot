@@ -43,33 +43,57 @@ namespace eAdvertisement_bot.Models.Commands
                 DbEntities.User user = dbContext.Users.Find(Convert.ToInt64(update.Message.From.Id));
                 long channelId = user.Object_Id;
                 long tag = user.User_State_Id;
-                //22-06-01 13:31
+                //22-06-01 13:31 3
                 if (tag == 901 && dbContext.Channels.Find(channelId)!=null)
                 {
-                    DateTime dateTime = DateTime.Parse(update.Message.Text);
+                    DateTime dateTime = DateTime.Parse(update.Message.Text.Substring(0, update.Message.Text.LastIndexOf(':')+3).Trim());
+                    int topHours = Convert.ToInt32(update.Message.Text.Substring(update.Message.Text.LastIndexOf(':') + 3));
 
                     List<Advertisement> ads = dbContext.Advertisements.Where(a => a.Channel_Id == channelId && a.Date_Time < dateTime).ToList();
                     Advertisement nearestAd = ads.Where(a => a.Date_Time == ads.Max(a => a.Date_Time)).FirstOrDefault();
+                    if(dateTime < DateTime.Now)
+                    {
+                        InlineKeyboardButton[][] keyboard = new[] { new[] { new InlineKeyboardButton { Text = "Назад в меню проданых реклам", CallbackData = "/soldPostsMenu" }, } };
+                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Реклама не была добавлена так как дата/время добавление меньше текущих.", replyMarkup: new InlineKeyboardMarkup(keyboard));
+                        return;
+                    }
+                    else if(DateTime.Now.Subtract(dateTime).TotalDays > 365)
+                    {
+                        InlineKeyboardButton[][] keyboard = new[] { new[] { new InlineKeyboardButton { Text = "Назад в меню проданых реклам", CallbackData = "/soldPostsMenu" }, } };
+                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Реклама не была добавлена так как дата/время добавление будет более чем через год.", replyMarkup: new InlineKeyboardMarkup(keyboard));
+                        return;
+                    }
+                    if (ads.Count==0 || nearestAd == null || dateTime.Subtract(nearestAd.Date_Time).TotalHours >= nearestAd.Top)
+                    {
+                        Advertisement nearestTopAd= null ;
+                        if (ads.Count != 0)
+                        {
+                            nearestTopAd = dbContext.Advertisements.Where(a=>a.Date_Time.Date == dateTime.Date).Where(a => a.Channel_Id == channelId && a.Date_Time > dateTime).Where(a => a.Date_Time == ads.Min(a => a.Date_Time)).FirstOrDefault();
+                        }
 
-                    if (dateTime.Subtract(nearestAd.Date_Time).Hours >= nearestAd.Top)
-                    {
-                        dbContext.Advertisements.Add(new Advertisement { Channel_Id = channelId, Date_Time = dateTime, Advertisement_Status_Id = 9, Price = 0 });
-                        dbContext.SaveChanges();
-                        InlineKeyboardButton[][] keyboard = new[] { new[] { new InlineKeyboardButton { Text = "Back into sold ads menu", CallbackData = "/soldPostsMenu" }, } };
-                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Ad is added succesfully", replyMarkup: new InlineKeyboardMarkup(keyboard));
+                        if (nearestTopAd== null || nearestTopAd.Date_Time.Subtract(dateTime) > new TimeSpan(topHours,0,0))
+                        {
+                            dbContext.Advertisements.Add(new Advertisement { Channel_Id = channelId, Date_Time = dateTime, Advertisement_Status_Id = 9, Price = 0, Top = topHours });
+                            dbContext.SaveChanges();
+                            InlineKeyboardButton[][] keyboard = new[] { new[] { new InlineKeyboardButton { Text = "Назад в меню проданых реклам", CallbackData = "/soldPostsMenu" }, } };
+                            await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Реклама добавлена успешно", replyMarkup: new InlineKeyboardMarkup(keyboard));
+                        }
+                        else
+                        {
+                            InlineKeyboardButton[][] keyboard = new[] { new[] { new InlineKeyboardButton { Text = "Назад в меню проданых реклам", CallbackData = "/soldPostsMenu" }, } };
+                            await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Реклама не была добавлена так как вы имеете продажу время постинга которой входит в диапазон постинга вашей рекламы. Попробуйте ещё раз или вернитесь назад.", replyMarkup: new InlineKeyboardMarkup(keyboard));
+                            return;
+                        }
+
+                        
                     }
-                    else if(dateTime.Subtract(nearestAd.Date_Time).Hours < nearestAd.Top)
+                    else if(nearestAd!= null && dateTime.Subtract(nearestAd.Date_Time).Hours < nearestAd.Top)
                     {
-                        InlineKeyboardButton[][] keyboard = new[] { new[] { new InlineKeyboardButton { Text = "Back into sold ads menu", CallbackData = "/soldPostsMenu" }, } };
-                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Ad isn't added because u have already an ad sold thats time+top is bigger than time that you defined now. Try again or go back.", replyMarkup: new InlineKeyboardMarkup(keyboard));
+                        InlineKeyboardButton[][] keyboard = new[] { new[] { new InlineKeyboardButton { Text = "Назад в меню проданых реклам", CallbackData = "/soldPostsMenu" }, } };
+                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Реклама не была добавлена так как вы имеете продажу время+время топа которой больше чем время которе вы определили сейчас. Попробуйте ещё раз или вернитесь назад.", replyMarkup: new InlineKeyboardMarkup(keyboard));
                         return;
                     }
-                    else if (dateTime<DateTime.Now)
-                    {
-                        InlineKeyboardButton[][] keyboard = new[] { new[] { new InlineKeyboardButton { Text = "Back into sold ads menu", CallbackData = "/soldPostsMenu" }, } };
-                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Ad isn't added because date is less than now. Try again or go back.", replyMarkup: new InlineKeyboardMarkup(keyboard));
-                        return;
-                    }
+
                 }
                 user.User_State_Id = 0;
                 dbContext.SaveChanges();

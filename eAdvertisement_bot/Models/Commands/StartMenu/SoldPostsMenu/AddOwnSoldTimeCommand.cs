@@ -39,7 +39,7 @@ namespace eAdvertisement_bot.Models.Commands
                 dbContext.Users.Find(Convert.ToInt64(update.CallbackQuery.From.Id)).Object_Id = channelId;
                 dbContext.SaveChanges();
 
-                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Send date+time of your own sold in format\n dd:mm:yy-hh:mm\n\n22-06-01 13:31");
+                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Отправьте дату, время вашей продажи и сколько часов топ в формате:\n dd-mm-yy hh:mm hh\n\n22-06-01 13:31 4"); 
             }
             catch (Exception ex) { await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, ex.Message); }
             finally

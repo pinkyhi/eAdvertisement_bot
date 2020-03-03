@@ -7,7 +7,7 @@ using Telegram.Bot.Types;
 
 namespace eAdvertisement_bot.Models.Commands
 {
-    public class HowToCommand : Command
+    public class HowToCommand : Command // OLD VERSION
     {
         public override string Name => "/howTo";
 

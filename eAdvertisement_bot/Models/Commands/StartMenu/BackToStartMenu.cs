@@ -44,7 +44,7 @@ namespace eAdvertisement_bot.Models.Commands
                     keyboard = entryLaunchedBotKeyboard;
                 }
                 await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, null, false);
-                await botClient.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, "You are already initialized.", replyMarkup: keyboard);
+                await botClient.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, "Вы уже инициализированны.", replyMarkup: keyboard);
             }
             catch { }
             finally

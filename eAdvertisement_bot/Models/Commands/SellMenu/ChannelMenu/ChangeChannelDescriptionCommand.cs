@@ -36,8 +36,8 @@ namespace eAdvertisement_bot.Models.Commands
 
                 dbContext.SaveChanges();
 
-                await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "Send description that you want, it should be less than 1024 symbols", true);
-                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Example \n*This is the best channel!*", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
+                await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "Отправьте краткое описание ваего канала", true);
+                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Пример \n*This is the best channel!*", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
             
             }
             catch (Exception ex)

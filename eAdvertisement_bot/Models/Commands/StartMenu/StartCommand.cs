@@ -52,7 +52,7 @@ namespace eAdvertisement_bot.Models.Commands
                     dbContext.SaveChanges();
                     dbContext.Dispose();
                     InlineKeyboardMarkup keyboard = entryLaunchedBotKeyboard;
-                    await botClient.SendTextMessageAsync(userId, "Hi, " + message.From.FirstName + ". Initialization is succesfull :)", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown, replyMarkup: keyboard);
+                    await botClient.SendTextMessageAsync(userId, "Привет, " + message.From.FirstName + ". Инициализация успешна :)", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown, replyMarkup: keyboard);
                 }
                 else
                 {
@@ -65,13 +65,13 @@ namespace eAdvertisement_bot.Models.Commands
                     {
                         keyboard = entryLaunchedBotKeyboard;
                     }
-                    await botClient.SendTextMessageAsync(userId, "You are already initialized.", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown, replyMarkup: keyboard);
+                    await botClient.SendTextMessageAsync(userId, "Вы уже инициализированы.", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown, replyMarkup: keyboard);
                 }
             }
             catch(Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                await botClient.SendTextMessageAsync(userId, "Sorry, now are some troubles with initialization.", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
+                await botClient.SendTextMessageAsync(userId, "Извините, но сейчас есть некоторые проблемы с вашей инициализацией, можете попробовать обратиться к администратору.", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
             }
             finally
             {

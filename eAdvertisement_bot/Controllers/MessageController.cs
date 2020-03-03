@@ -23,33 +23,39 @@ namespace eAdvertisement_bot.Controllers
         }
 
 
-        
+
+
         //POST: Main post method in that updates from telegram become 
         [HttpPost]
         [Route("/df443335")]
         public async Task<StatusCodeResult> Post([FromBody]Update update)
         {
-            var botClient = await Bot.GetBotClientAsync();    // May be this will be better to make static
-            //return Ok();
-            try
+            if (update.Type == Telegram.Bot.Types.Enums.UpdateType.CallbackQuery || update.Type == Telegram.Bot.Types.Enums.UpdateType.Message)
             {
-                var commands = Bot.Commands;
-                if (update == null) { return Ok(); }    // Message can has no updates, but smth else ?
-                else
+
+
+                var botClient = await Bot.GetBotClientAsync();    // Singleton
+                try
                 {
-                    foreach (var command in commands)
+                    var commands = Bot.Commands;
+                    if (update == null) { return Ok(); }    // Message can has no updates, but smth else ?
+                    else
                     {
-                        if (command.Contains(update))
+                        foreach (var command in commands)
                         {
-                            await command.Execute(update, botClient);
-                            
-                            break;
+                            if (command.Contains(update))
+                            {
+                                await command.Execute(update, botClient);
+
+                                break;
+                            }
                         }
+
                     }
-                    
                 }
+                catch (Exception ex) { await botClient.SendTextMessageAsync(update.Message == null ? update.CallbackQuery.From.Id : update.Message.From.Id, "Error: " + ex.Message); return Ok(); }
             }
-            catch(Exception ex) { await botClient.SendTextMessageAsync(update.Message == null ? update.CallbackQuery.From.Id : update.Message.From.Id, "Error: " + ex.Message); return Ok(); }
+            //else if (update.Type == Telegram.Bot.Types.Enums.UpdateType.ChannelPost || update.Type == Telegram.Bot.Types.Enums.UpdateType.EditedChannelPost) { }
             return Ok();
         }
     }

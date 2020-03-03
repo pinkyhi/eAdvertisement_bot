@@ -13,6 +13,7 @@ namespace eAdvertisement_bot.Models.DbEntities
     {
         [Column("advertisement_id"), Key]
         public int Advertisement_Id { get; set; }
+
         [Column("channel_id")]
         public long Channel_Id { get; set; }
         public Channel Channel { get; set; }
@@ -39,5 +40,8 @@ namespace eAdvertisement_bot.Models.DbEntities
         [Column("advertisement_status_id")]
         public int Advertisement_Status_Id { get; set; }
         public Advertisement_Status Advertisement_Status { get; set; }
+
+        // One to Many
+        public List<AdMessage> AdMessages { get; set; }
     }
 }

@@ -106,7 +106,7 @@ namespace eAdvertisement_bot.Models.Commands
                         dbContext.SaveChanges();
                         try
                         {
-                            await botClient.SendTextMessageAsync(channel.User_Id, "У вас новый заказ на рекламу. Зайдите в меню заказов из стартового меню :)", disableNotification: true);
+                            await botClient.SendTextMessageAsync(channel.User_Id, "У вас новый заказ на рекламу:)", disableNotification: true, replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Заказы", CallbackData = "/ordersMenuP0" }));
                         }
                         catch { }
                         await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Post is sent, to back into manual purchase menu click the button below", replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown, disableWebPagePreview: true);

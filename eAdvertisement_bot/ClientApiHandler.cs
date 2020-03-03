@@ -137,11 +137,6 @@ namespace eAdvertisement_bot
                 }
                 else
                 {
-
-
-                    //     maxID<postID       postID    \/     topTime    \/
-                    //--------------------------|-----------------|--------------->t
-
                     for (int i = postID + 1; i < maxID; i++)
                     {
                         if (messages.Where(j => j is TLMessage).Any(x => ((TLMessage)x).Id == i))
@@ -172,6 +167,74 @@ namespace eAdvertisement_bot
             }
             return true;
         }
+        /// <summary>
+        /// Returns false if post was interrupted or deleted during top time
+        /// </summary>
+        /// <param name="channelID">Channel ID</param>
+        /// <param name="postID">Post id</param>
+        /// <param name="topTime"> Time, during which post mustn't be interrupted </param>
+        /// <returns>Returns false if post was interrupted during top time</returns>
+        public async Task<Boolean> CheckPostTop(long channelID, List<int> postIDs, TimeSpan topTime)
+        {
+            TLDialogs dialogs = (TLDialogs)await Client.GetUserDialogsAsync();
+            TLChannel channel = (TLChannel)dialogs.Chats.First(x => x is TLChannel && ((TLChannel)x).Id == channelID);
+            TLInputPeerChannel peer = new TLInputPeerChannel() { ChannelId = channel.Id, AccessHash = (long)channel.AccessHash };
+            var messages = (await Client.SendRequestAsync<TLChannelMessages>(new TLRequestGetHistory()
+            {
+                Peer = peer,
+                Limit = 20
+            })).Messages;
+            List<TLMessage> advertisements = new List<TLMessage>();
+            // Gets biggest ID out of all ID's
+            int postId = postIDs.OrderByDescending(x => x).First();
+            // Gets last message ID in channel
+            int maxID = ((TLMessage)messages.Where(i => i is TLMessage).OrderByDescending(x => ((TLMessage)x).Id).First()).Id;
+
+            try
+            {
+                foreach (int postID in postIDs)
+                {
+                    advertisements.Add((TLMessage)messages.Where(i => i is TLMessage).First(j => ((TLMessage)j).Id == postID));
+                }
+                //edited check:
+                foreach( TLMessage post in advertisements)
+                {
+                    if (post.EditDate != null)
+                    {
+                        return false;
+                    }
+                }
+
+                if (postId == maxID) return true;
+                else
+                {
+                    for (int i = postId + 1; i < maxID; i++)
+                    {
+                        if (messages.Where(j => j is TLMessage).Any(x => ((TLMessage)x).Id == i))
+                        {
+                            TLMessage nextMsg = (TLMessage)messages.Where(i => i is TLMessage).First(x => ((TLMessage)x).Id == i);
+                            TimeSpan postTopTime = ConvertFromUnixTime((double)nextMsg.Date).
+                                          Subtract(ConvertFromUnixTime((double)advertisements.Where(x => ((TLMessage)x).Id == postId).First().Date));
+
+                            if (postTopTime >= topTime) return true;
+                            else return false;
+                        }
+                    }
+                    throw new NullReferenceException("Last message not found");
+                }
+            }
+            catch (InvalidOperationException ex)
+            {
+                Console.WriteLine($"Post is deleted => {channelID} : {postId}");
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return false;
+            }
+        }
+
         /// <summary>
         /// Checks if post is alive
         /// </summary>
@@ -239,3 +302,7 @@ namespace eAdvertisement_bot
         }
     }
 }
+
+
+//     maxID<postID       postID    \/     topTime    \/
+//--------------------------|-----------------|--------------->t

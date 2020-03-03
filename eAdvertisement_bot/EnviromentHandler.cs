@@ -15,12 +15,12 @@ namespace eAdvertisement_bot
     public class EnviromentHandler
     {
         TelegramBotClient botClient;
-        ClientApiHandler clientApiHandler;
+        ClientApiHandler cah;
 
         public EnviromentHandler(TelegramBotClient botClient)
         {
             this.botClient = botClient;
-            clientApiHandler = new ClientApiHandler();
+            cah = new ClientApiHandler();
             clientApiHandler.SetClientId().Wait();
             clientApiHandler.ConnectClient().Wait();
         }
@@ -88,8 +88,18 @@ namespace eAdvertisement_bot
         }
         public void CheckAds(AppDbContext dbContext)    // Delete or interrupt
         {
+            List<Advertisement> advertisements = dbContext.Advertisements.Where(x => x.Advertisement_Status_Id == 4).ToList();
+            foreach(Advertisement ad in advertisements)
+            {
+                
+                if(cah.CheckPostTop(ad.Channel_Id,
+                                    ad.AdMessages.Select(adm=>adm.AdMessage_Id).ToList(),
+                                    new TimeSpan(ad.Top, 0, 0)).Result)
+                {
 
-        }     
+                }
+            }
+        }
         public void CloseAds(AppDbContext dbContext)
         {
 

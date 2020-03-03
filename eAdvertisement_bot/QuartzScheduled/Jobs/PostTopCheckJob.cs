@@ -29,17 +29,13 @@ namespace eAdvertisement_bot.QuartzScheduled.Jobs
             {
                 // channel id:  -1001266388554
                 await bot.SendTextMessageAsync(330507566, $" One hour top check:" +
-                    $" { await cah.CheckPostTop(-1001266388554, 10, new TimeSpan(hours: 2, minutes:0, seconds: 0))} ");
+                    $" { await cah.CheckPostTop(-1001266388554, 21, new TimeSpan(hours: 0, minutes:30, seconds: 0))} ");
             }
             else 
             {
                 try
                 {
-
-                    TimeSpan temp;
-                    List<Advertisement> advertisements = dbContext.Advertisements.Where(x => x.Advertisement_Status_Id == 2).Where(x =>
-                        StartScheduler.DateInIntervalCheck(now.AddMinutes(-interval), now, x.Date_Time.AddHours(x.Top)))
-                        .ToList();
+                    List<Advertisement> advertisements = dbContext.Advertisements.Where(x => x.Advertisement_Status_Id == 4).ToList();
                     foreach (Advertisement ad in advertisements)
                     {
                        // if (await cah.CheckPostTop(ad.Channel_Id, /*ad.Post_id*/))
@@ -49,7 +45,7 @@ namespace eAdvertisement_bot.QuartzScheduled.Jobs
                             await bot.SendTextMessageAsync(dbContext.Channels.Where(x => x.Channel_Id == ad.Channel_Id).First().User_Id,
                                                            $"You interrupted advertisement in \"{(await bot.GetChatAsync(ad.Channel_Id)).Username}\"" +
                                                            $" at {ad.Date_Time.ToString("HH:mm")}.\nHold is returned to buyer.");
-                            dbContext.Users.First(x => x.User_Id == ad.User_Id).Balance += ad.Price;
+                            //dbContext.Users.First(x => x.User_Id == ad.User_Id).Balance += ad.Price;
                             ad.Advertisement_Status_Id = 6;
                        // }
 

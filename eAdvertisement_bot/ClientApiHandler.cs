@@ -115,45 +115,47 @@ namespace eAdvertisement_bot
         public async /*double*/ Task<Boolean> CheckPostTop(long channelID, int postID,TimeSpan topTime)
         {
             if (TimeSpan.Compare(topTime, new TimeSpan(hours: 1, minutes: 0, seconds: 0)) == 0)
-                topTime = new TimeSpan(hours: 0, minutes: 59, seconds: 0);
-            else
-                topTime = new TimeSpan(topTime.Hours - 1, minutes: 59, seconds: 0);
-            long tempId = postID + 1;
-            channelID = Math.Abs(1000000000000 + channelID);
+                topTime.Subtract(new TimeSpan(0, 1, 0));
             try
             {
 
-                TLDialogs dialogs = (TLDialogs) await Client.GetUserDialogsAsync();
+                TLDialogs dialogs = (TLDialogs)await Client.GetUserDialogsAsync();
                 TLChannel channel = (TLChannel)dialogs.Chats.First(x => x is TLChannel && ((TLChannel)x).Id == channelID);
                 TLInputPeerChannel peer = new TLInputPeerChannel() { ChannelId = channel.Id, AccessHash = (long)channel.AccessHash };
                 var messages = (await Client.SendRequestAsync<TLChannelMessages>(new TLRequestGetHistory()
-                    {
-                       Peer = peer,
-                       Limit = 25
-                    })).Messages;
+                {
+                    Peer = peer,
+                    Limit = 25
+                })).Messages;
                 TLMessage msg = (TLMessage)messages.Where(i => i is TLMessage).First(j => ((TLMessage)j).Id == postID);
 
                 int maxID = ((TLMessage)messages.Where(i => i is TLMessage).OrderByDescending(x => ((TLMessage)x).Id).First()).Id;
 
                 if (maxID == postID)
+                {
                     return true;
-                
-                else if (maxID < postID)
-                    return false;
-
-                //     maxID<postID       postID    \/     topTime    \/
-                //--------------------------|-----------------|--------------->t
-
+                }
                 else
-                    foreach( long i in Enumerable.Range(postID+1, maxID - postID)) 
-                        if(messages.Where(j => j is TLMessage).Any(x => ((TLMessage)x).Id == i)) 
+                {
+
+
+                    //     maxID<postID       postID    \/     topTime    \/
+                    //--------------------------|-----------------|--------------->t
+
+                    for (int i = postID + 1; i < maxID; i++)
+                    {
+                        if (messages.Where(j => j is TLMessage).Any(x => ((TLMessage)x).Id == i))
                         {
                             TLMessage nextMsg = (TLMessage)messages.Where(i => i is TLMessage).First(x => ((TLMessage)x).Id == i);
                             TimeSpan postTopTime = ConvertFromUnixTime((double)nextMsg.Date).Subtract(ConvertFromUnixTime((double)msg.Date));
-                           
+
                             if (postTopTime >= topTime) return true;
                             else return false;
                         }
+                    }
+                }
+                    //foreach( long i in Enumerable.Range(postID+1, maxID - postID)) 
+                    
                 
             }
             // Usually shows up in line msg initialization, when post with 
@@ -167,6 +169,33 @@ namespace eAdvertisement_bot
             {
                 Console.WriteLine(ex);
                 return true;
+            }
+            return true;
+        }
+        /// <summary>
+        /// Checks if post is alive
+        /// </summary>
+        /// <param name="channelID"></param>
+        /// <param name="postID"></param>
+        /// <returns>Returns true if post is alive</returns>
+        public async Task<Boolean> AliveCheck(long channelID, int postID)
+        {
+            try
+            {
+
+                TLDialogs dialogs = (TLDialogs)await Client.GetUserDialogsAsync();
+                TLChannel channel = (TLChannel)dialogs.Chats.First(x => x is TLChannel && ((TLChannel)x).Id == channelID);
+                TLInputPeerChannel peer = new TLInputPeerChannel() { ChannelId = channel.Id, AccessHash = (long)channel.AccessHash };
+                var messages = (await Client.SendRequestAsync<TLChannelMessages>(new TLRequestGetHistory()
+                {
+                    Peer = peer,
+                    Limit = 25
+                })).Messages;
+                TLMessage msg = (TLMessage)messages.Where(i => i is TLMessage).First(j => ((TLMessage)j).Id == postID);
+            }
+            catch(Exception ex)
+            {
+                return false;
             }
             return true;
         }

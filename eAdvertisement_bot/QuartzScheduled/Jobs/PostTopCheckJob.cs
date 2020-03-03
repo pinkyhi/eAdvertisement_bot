@@ -38,7 +38,7 @@ namespace eAdvertisement_bot.QuartzScheduled.Jobs
 
                     TimeSpan temp;
                     List<Advertisement> advertisements = dbContext.Advertisements.Where(x => x.Advertisement_Status_Id == 2).Where(x =>
-                        StartScheduler.DateInIntervalCheck(now.AddMinutes(-interval), now, x.Date_Time.AddHours(-x.Top)))
+                        StartScheduler.DateInIntervalCheck(now.AddMinutes(-interval), now, x.Date_Time.AddHours(x.Top)))
                         .ToList();
                     foreach (Advertisement ad in advertisements)
                     {

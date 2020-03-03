@@ -123,15 +123,21 @@ namespace eAdvertisement_bot
 
         public async Task SetClientId()
         {
-            var rq = new TeleSharp.TL.Users.TLRequestGetFullUser { Id = new TLInputUserSelf() };
-            TLUserFull rUserSelf = await Client.SendRequestAsync<TLUserFull>(rq);
-            TLUser userSelf = (TLUser)rUserSelf.User;
-            Client_Id = userSelf.Id;
+            if (Client_Id == 0)
+            {
+                var rq = new TeleSharp.TL.Users.TLRequestGetFullUser { Id = new TLInputUserSelf() };
+                TLUserFull rUserSelf = await Client.SendRequestAsync<TLUserFull>(rq);
+                TLUser userSelf = (TLUser)rUserSelf.User;
+                Client_Id = userSelf.Id;
+            }
         }
         public async Task ConnectClient()
         {
-            Client = new TelegramClient(Api_Id, Api_Hash);
-            await Client.ConnectAsync();
+            if(Client == null || Client.IsConnected == false)
+            {
+                Client = new TelegramClient(Api_Id, Api_Hash);
+                await Client.ConnectAsync();
+            }
         }
     }
 }

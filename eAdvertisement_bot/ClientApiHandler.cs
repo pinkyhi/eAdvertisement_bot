@@ -84,13 +84,16 @@ namespace eAdvertisement_bot
                         }
                         
                         long unixTimeNow = (Int64)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
-
-                        List<TLMessage> realMessagesAY = realMessages.Where(r => unixTimeNow - r.Date < 259200 && unixTimeNow - r.Date > 172800).ToList();
-                        List<TLMessage> realMessagesY = realMessages.Where(r => unixTimeNow - r.Date <  172800 && unixTimeNow - r.Date > 86400).ToList();
-
-                        double? ay = realMessagesAY.Select(r=>r.Views).Min()*0.87;
-                        double? y = realMessagesY.Select(r=>r.Views).Min();
-                        int coverage = Convert.ToInt32((ay + y) / 2);
+                        for (int i = 0; i < realMessages.Count; i++)
+                        {
+                            if(realMessages[i].Date<unixTimeNow-172800|| realMessages[i].Date > unixTimeNow - 84600)
+                            {
+                                realMessages.RemoveAt(i);
+                            }
+                        }
+                        int min = Convert.ToInt32(realMessages.Min(c => c.Views));
+                        int average = Convert.ToInt32(realMessages.Average(c => c.Views));
+                        int coverage = (((min+average)/2)+min)/2;  // (((min+average)/2)+average)/2;
                         return coverage;
                     }
                 }
@@ -102,13 +105,109 @@ namespace eAdvertisement_bot
             return 0;
         }
 
+        /// <summary>
+        /// Returns false if post was interrupted or deleted during top time
+        /// </summary>
+        /// <param name="channelID">Channel ID</param>
+        /// <param name="postID">Post id</param>
+        /// <param name="topTime"> Time, during which post mustn't be interrupted </param>
+        /// <returns>Returns false if post was interrupted during top time</returns>
+        public async /*double*/ Task<Boolean> CheckPostTop(long channelID, int postID,TimeSpan topTime)
+        {
+            if (TimeSpan.Compare(topTime, new TimeSpan(hours: 1, minutes: 0, seconds: 0)) == 0)
+                topTime.Subtract(new TimeSpan(0, 1, 0));
+            try
+            {
+
+                TLDialogs dialogs = (TLDialogs)await Client.GetUserDialogsAsync();
+                TLChannel channel = (TLChannel)dialogs.Chats.First(x => x is TLChannel && ((TLChannel)x).Id == channelID);
+                TLInputPeerChannel peer = new TLInputPeerChannel() { ChannelId = channel.Id, AccessHash = (long)channel.AccessHash };
+                var messages = (await Client.SendRequestAsync<TLChannelMessages>(new TLRequestGetHistory()
+                {
+                    Peer = peer,
+                    Limit = 25
+                })).Messages;
+                TLMessage msg = (TLMessage)messages.Where(i => i is TLMessage).First(j => ((TLMessage)j).Id == postID);
+
+                int maxID = ((TLMessage)messages.Where(i => i is TLMessage).OrderByDescending(x => ((TLMessage)x).Id).First()).Id;
+
+                if (maxID == postID)
+                {
+                    return true;
+                }
+                else
+                {
+
+
+                    //     maxID<postID       postID    \/     topTime    \/
+                    //--------------------------|-----------------|--------------->t
+
+                    for (int i = postID + 1; i < maxID; i++)
+                    {
+                        if (messages.Where(j => j is TLMessage).Any(x => ((TLMessage)x).Id == i))
+                        {
+                            TLMessage nextMsg = (TLMessage)messages.Where(i => i is TLMessage).First(x => ((TLMessage)x).Id == i);
+                            TimeSpan postTopTime = ConvertFromUnixTime((double)nextMsg.Date).Subtract(ConvertFromUnixTime((double)msg.Date));
+
+                            if (postTopTime >= topTime) return true;
+                            else return false;
+                        }
+                    }
+                }
+                    //foreach( long i in Enumerable.Range(postID+1, maxID - postID)) 
+                    
+                
+            }
+            // Usually shows up in line msg initialization, when post with 
+            // definite id is deleted()
+            catch (InvalidOperationException ex)
+            {
+                Console.WriteLine($"Post is deleted => {channelID} : {postID}");
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return true;
+            }
+            return true;
+        }
+        /// <summary>
+        /// Checks if post is alive
+        /// </summary>
+        /// <param name="channelID"></param>
+        /// <param name="postID"></param>
+        /// <returns>Returns true if post is alive</returns>
+        public async Task<Boolean> AliveCheck(long channelID, int postID)
+        {
+            try
+            {
+
+                TLDialogs dialogs = (TLDialogs)await Client.GetUserDialogsAsync();
+                TLChannel channel = (TLChannel)dialogs.Chats.First(x => x is TLChannel && ((TLChannel)x).Id == channelID);
+                TLInputPeerChannel peer = new TLInputPeerChannel() { ChannelId = channel.Id, AccessHash = (long)channel.AccessHash };
+                var messages = (await Client.SendRequestAsync<TLChannelMessages>(new TLRequestGetHistory()
+                {
+                    Peer = peer,
+                    Limit = 25
+                })).Messages;
+                TLMessage msg = (TLMessage)messages.Where(i => i is TLMessage).First(j => ((TLMessage)j).Id == postID);
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
+            return true;
+        }
+
         public static long ConvertToUnixTime(DateTime datetime)
         {
             DateTime sTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
             return (long)(datetime - sTime).TotalSeconds;
         }
-        private static DateTime ConvertFromUnixTime(Double TimestampToConvert, bool Local)
+
+        private static DateTime ConvertFromUnixTime(Double TimestampToConvert, bool Local = false)
         {
             var mdt = new DateTime(1970, 1, 1, 0, 0, 0);
             if (Local)
@@ -120,7 +219,6 @@ namespace eAdvertisement_bot
                 return mdt.AddSeconds(TimestampToConvert);
             }
         }
-
         public async Task SetClientId()
         {
             if (Client_Id == 0)

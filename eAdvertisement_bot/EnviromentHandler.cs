@@ -15,11 +15,14 @@ namespace eAdvertisement_bot
     public class EnviromentHandler
     {
         TelegramBotClient botClient;
-        
+        ClientApiHandler clientApiHandler;
 
         public EnviromentHandler(TelegramBotClient botClient)
         {
             this.botClient = botClient;
+            clientApiHandler = new ClientApiHandler();
+            clientApiHandler.SetClientId().Wait();
+            clientApiHandler.ConnectClient().Wait();
         }
 
         public void Start()
@@ -83,29 +86,55 @@ namespace eAdvertisement_bot
             }
             dbContext.SaveChanges();
         }
-        /*
-        public void CheckAds(AppDbContext dbContext)
+        public void CheckAds(AppDbContext dbContext)    // Delete or interrupt
         {
 
-        }
-        */
+        }     
         public void CloseAds(AppDbContext dbContext)
         {
 
         }
         public void CloseOffers(AppDbContext dbContext)
         {
+            List<Advertisement> advertisements = dbContext.Advertisements.Where(a => a.Advertisement_Status_Id == 1 && a.Date_Time< DateTime.Now).ToList();
+            for(int i = 0; i < advertisements.Count; i++)
+            {
+                advertisements[i].Advertisement_Status_Id = 3;
+            }
+            dbContext.SaveChanges();
 
         }
         public void CloseTransactions(AppDbContext dbContext)   // Send money back or forward in dependency of ad status
         {
+            //List<User> users = dbContext.Users.Where
+            List<Advertisement> moneyBackAds = dbContext.Advertisements.Where(a=>a.Advertisement_Status_Id==3 || a.Advertisement_Status_Id == 6 || a.Advertisement_Status_Id == 10 || a.Advertisement_Status_Id == 11).ToList(); //3,6,10,11
+            foreach(Advertisement ad in moneyBackAds)
+            {
+                ad.User.Balance += ad.Price;
+                ad.Advertisement_Status_Id = 12;
+            }
+            dbContext.SaveChanges();
+
+            List<Advertisement> moneyForwardAds = dbContext.Advertisements.Where(a => a.Advertisement_Status_Id == 5).ToList();
+            foreach (Advertisement ad in moneyForwardAds)
+            {
+                ad.User.Balance += ad.Price;
+                ad.Advertisement_Status_Id = 12;
+            }
+            dbContext.SaveChanges();
 
         }
         public void TryAutobuy(AppDbContext dbContext)
         {
 
         }
-        public void CleanDB(AppDbContext dbContext)
+
+        // Daily
+        public void UpdateCoverage(AppDbContext dbContext)
+        {
+
+        }
+        public void CleanDB(AppDbContext dbContext) // Include delete of channels where bot isn't admin
         {
 
         }

@@ -34,6 +34,52 @@ namespace eAdvertisement_bot
             Api_Id = apiId;
             Api_Hash = apiHash;
         }
+        public async Task<int> GetCoverageOfPost(int messageId, long channelId)
+        {
+            channelId = Math.Abs(1000000000000 + channelId);  // I don't know why, but it's all right
+            var dialogs = (TLDialogs)await Client.GetUserDialogsAsync();
+
+
+            foreach (var element in dialogs.Chats)
+            {
+                if (element is TLChannel && ((TLChannel)element).Id == channelId)
+                {
+                    TLChannel channel = element as TLChannel;
+                    var chan = await Client.SendRequestAsync<TeleSharp.TL.Messages.TLChatFull>(new TLRequestGetFullChannel()
+                    {
+                        Channel = new TLInputChannel()
+                        { ChannelId = channel.Id, AccessHash = (long)channel.AccessHash }
+                    });
+                    TLInputPeerChannel inputPeer = new TLInputPeerChannel()
+                    { ChannelId = channel.Id, AccessHash = (long)channel.AccessHash };
+
+                    TLChannelMessages res = await Client.SendRequestAsync<TLChannelMessages>
+                    (new TLRequestGetHistory()
+                    {
+                        Peer = inputPeer,
+                        Limit = 140,    // 70 toWork and abt the same to ServiceMessages
+                        });
+                    var msgs = res.Messages;
+
+                    List<TLMessage> realMessages = new List<TLMessage>();
+                    foreach (var msg in msgs)
+                    {
+                        if (msg is TLMessage)
+                        {
+                            TLMessage sms = msg as TLMessage;
+                            realMessages.Add(sms);
+                        }
+                        if (msg is TLMessageService)
+                            continue;
+                    }
+
+                    TLMessage post = realMessages.FirstOrDefault(rm => rm.Id == messageId);
+                    int coverage = post == null ? 0 : Convert.ToInt32(post.Views);
+                    return coverage;
+                }
+            }
+            return 0;
+        }
         public async Task<int> GetCoverageOfChannel(string inviteLink, long channelId, bool isNewChannel)
         {
             if (isNewChannel)

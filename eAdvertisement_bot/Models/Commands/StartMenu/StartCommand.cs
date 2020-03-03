@@ -1,4 +1,5 @@
 ﻿using eAdvertisement_bot.DAO;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;

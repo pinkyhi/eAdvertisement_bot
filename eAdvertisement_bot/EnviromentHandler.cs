@@ -1,5 +1,6 @@
 ﻿using eAdvertisement_bot.DAO;
 using eAdvertisement_bot.Models.DbEntities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,8 +22,8 @@ namespace eAdvertisement_bot
         {
             this.botClient = botClient;
             clientApiHandler = new ClientApiHandler();
-            clientApiHandler.SetClientId().Wait();
             clientApiHandler.ConnectClient().Wait();
+            clientApiHandler.SetClientId().Wait();
         }
 
         public void Start()
@@ -35,6 +36,7 @@ namespace eAdvertisement_bot
                 {
 
                     PublishAccepted(dbContext).Wait();
+                    CloseTransactions(dbContext);
                     Thread.Sleep(4000);
                 }
                 catch(Exception ex)
@@ -106,23 +108,30 @@ namespace eAdvertisement_bot
         }
         public void CloseTransactions(AppDbContext dbContext)   // Send money back or forward in dependency of ad status
         {
-            //List<User> users = dbContext.Users.Where
-            List<Advertisement> moneyBackAds = dbContext.Advertisements.Where(a=>a.Advertisement_Status_Id==3 || a.Advertisement_Status_Id == 6 || a.Advertisement_Status_Id == 10 || a.Advertisement_Status_Id == 11).ToList(); //3,6,10,11
-            foreach(Advertisement ad in moneyBackAds)
+            List<Advertisement> moneyForwardAds = dbContext.Advertisements.Include("User").Include("Channel.User").Include("AdMessages").Where(a => a.Advertisement_Status_Id == 5).ToList();
+            List<Advertisement> moneyBackAds = dbContext.Advertisements.Include("User").Include("Channel.User").Include("AdMessages").Where(a => a.Advertisement_Status_Id == 3 || a.Advertisement_Status_Id == 6 || a.Advertisement_Status_Id == 10 || a.Advertisement_Status_Id == 11).ToList(); //3,6,10,11
+
+            foreach (Advertisement ad in moneyBackAds)
             {
                 ad.User.Balance += ad.Price;
                 ad.Advertisement_Status_Id = 12;
             }
             dbContext.SaveChanges();
-
-            List<Advertisement> moneyForwardAds = dbContext.Advertisements.Where(a => a.Advertisement_Status_Id == 5).ToList();
             foreach (Advertisement ad in moneyForwardAds)
             {
-                ad.User.Balance += ad.Price;
+                int coverage = clientApiHandler.GetCoverageOfPost(ad.AdMessages[0].AdMessage_Id, ad.Channel_Id).Result;
+                if (ad.Price> (Convert.ToDouble(coverage)/ 1000*ad.Channel.Cpm))
+                {
+                    ad.Channel.User.Balance += Convert.ToInt32((Convert.ToDouble(coverage) / 1000 * ad.Channel.Cpm) * 0.93);
+                }
+                else
+                {
+                    ad.Channel.User.Balance += Convert.ToInt32(ad.Price * 0.93);
+                }
+
                 ad.Advertisement_Status_Id = 12;
             }
             dbContext.SaveChanges();
-
         }
         public void TryAutobuy(AppDbContext dbContext)
         {

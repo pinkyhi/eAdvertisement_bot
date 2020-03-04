@@ -141,7 +141,11 @@ namespace eAdvertisement_bot
         // Daily
         public void UpdateCoverage(AppDbContext dbContext)
         {
-
+            List<Channel> channels = dbContext.Channels.ToList();
+            foreach(Channel ch in channels){
+                ch.Coverage = clientApiHandler.GetCoverageOfChannel(ch.Link, ch.Channel_Id, false).Result();
+            }
+            dbContext.SaveChanges();
         }
         public void CleanDB(AppDbContext dbContext) // Include delete of channels where bot isn't admin
         {

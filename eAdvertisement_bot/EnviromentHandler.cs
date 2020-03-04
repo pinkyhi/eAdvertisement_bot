@@ -143,7 +143,7 @@ namespace eAdvertisement_bot
         {
             List<Channel> channels = dbContext.Channels.ToList();
             foreach(Channel ch in channels){
-                ch.Coverage = clientApiHandler.GetCoverageOfChannel(ch.Link, ch.Channel_Id, false).Result();
+                ch.Coverage = clientApiHandler.GetCoverageOfChannel(ch.Link, ch.Channel_Id, false).Result;
             }
             dbContext.SaveChanges();
         }

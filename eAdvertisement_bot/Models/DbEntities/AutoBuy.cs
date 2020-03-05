@@ -47,6 +47,9 @@ namespace eAdvertisement_bot.Models.DbEntities
         public long User_Id { get; set; }
         public User User { get; set; }
 
+        // One to many
+        List<Advertisement> Advertisements { get; set; }
+
         // Many To Many relationship lists
         public List<Autobuy_Channel> Autobuy_Channels { get; set; } // Channels where advertisment post have to be sent
     }

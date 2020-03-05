@@ -34,7 +34,7 @@ namespace eAdvertisement_bot.Models.Commands
                 user.User_State_Id = 404;
                 dbContext.SaveChanges();
 
-                await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "Write integer interval in days, bot won't buy ads in channels more often than this days count.", true);
+                await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "Write integer interval in days, bot won't buy ads in channels more often than this days count. Not more than 60 days", true);
                 await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Write integer in days\n*14*", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
             }
             catch (Exception ex)

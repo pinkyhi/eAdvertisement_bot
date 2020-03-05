@@ -17,13 +17,15 @@ namespace eAdvertisement_bot
     {
         TelegramBotClient botClient;
         ClientApiHandler clientApiHandler;
+        int Interval;
 
-        public EnviromentHandler(TelegramBotClient botClient)
+        public EnviromentHandler(TelegramBotClient botClient, int interval)
         {
             this.botClient = botClient;
             clientApiHandler = new ClientApiHandler();
             clientApiHandler.ConnectClient().Wait();
             clientApiHandler.SetClientId().Wait();
+            Interval = interval;
         }
 
         public void Start()
@@ -34,10 +36,10 @@ namespace eAdvertisement_bot
                 AppDbContext dbContext = new AppDbContext();
                 try
                 {
-
-                    PublishAccepted(dbContext).Wait();
-                    CloseTransactions(dbContext);
-                    Thread.Sleep(4000);
+                    TryAutobuy(dbContext);
+                    //PublishAccepted(dbContext).Wait();
+                    //CloseTransactions(dbContext);
+                    Thread.Sleep(Interval);
                 }
                 catch(Exception ex)
                 {
@@ -94,7 +96,19 @@ namespace eAdvertisement_bot
         }     
         public void CloseAds(AppDbContext dbContext)
         {
-
+            DateTime now = DateTime.Now;
+            List<Advertisement> ads = dbContext.Advertisements.Include("Channel").Where(a => a.Advertisement_Status_Id == 4 && new DateTime(a.Date_Time.Ticks).AddHours(a.Alive) < now).ToList();
+            for(int i = 0; i < ads.Count; i++)
+            {
+                ads[i].Advertisement_Status_Id = 5;
+                foreach(AdMessage adm in ads[i].AdMessages)
+                try
+                {
+                        botClient.DeleteMessageAsync(ads[i].Channel_Id, adm.AdMessage_Id).Wait();
+                }
+                catch { }
+            }
+            dbContext.SaveChanges();
         }
         public void CloseOffers(AppDbContext dbContext)
         {
@@ -108,19 +122,28 @@ namespace eAdvertisement_bot
         }
         public void CloseTransactions(AppDbContext dbContext)   // Send money back or forward in dependency of ad status
         {
-            List<Advertisement> moneyForwardAds = dbContext.Advertisements.Include("User").Include("Channel.User").Include("AdMessages").Where(a => a.Advertisement_Status_Id == 5).ToList();
-            List<Advertisement> moneyBackAds = dbContext.Advertisements.Include("User").Include("Channel.User").Include("AdMessages").Where(a => a.Advertisement_Status_Id == 3 || a.Advertisement_Status_Id == 6 || a.Advertisement_Status_Id == 10 || a.Advertisement_Status_Id == 11).ToList(); //3,6,10,11
+            List<Advertisement> moneyForwardAds = dbContext.Advertisements.Include("Channel.User").Include("AdMessages").Where(a => a.Advertisement_Status_Id == 5).ToList();
+            List<Advertisement> moneyBackAds = dbContext.Advertisements.Include("Autobuy").Include("User").Include("Channel.User").Include("AdMessages").Where(a => a.Advertisement_Status_Id == 3 || a.Advertisement_Status_Id == 6 || a.Advertisement_Status_Id == 10 || a.Advertisement_Status_Id == 11).ToList(); //3,6,10,11
 
             foreach (Advertisement ad in moneyBackAds)
             {
-                ad.User.Balance += ad.Price;
-                ad.Advertisement_Status_Id = 12;
+                if (ad.Autobuy == null)
+                {
+                    ad.User.Balance += ad.Price;
+                    ad.Advertisement_Status_Id = 12;
+                }
+                else
+                {
+                    ad.Autobuy.Balance += ad.Price;
+                    ad.Advertisement_Status_Id = 12;
+                }
+
             }
             dbContext.SaveChanges();
             foreach (Advertisement ad in moneyForwardAds)
             {
                 int coverage = clientApiHandler.GetCoverageOfPost(ad.AdMessages[0].AdMessage_Id, ad.Channel_Id).Result;
-                if (ad.Price> (Convert.ToDouble(coverage)/ 1000*ad.Channel.Cpm))
+                if (ad.Price > (Convert.ToDouble(coverage) / 1000 * ad.Channel.Cpm))
                 {
                     ad.Channel.User.Balance += Convert.ToInt32((Convert.ToDouble(coverage) / 1000 * ad.Channel.Cpm) * 0.93);
                 }
@@ -133,9 +156,96 @@ namespace eAdvertisement_bot
             }
             dbContext.SaveChanges();
         }
+        // Autobuy part
+        public bool IsPlaceFreeForAd(AppDbContext dbContext, DateTime nowIs, long channelId, DateTime placeTime)
+        {
+            DateTime tDT = placeTime;
+
+            if (new DateTime(tDT.Year, tDT.Month, tDT.Day, tDT.Hour, tDT.Minute, tDT.Second) < nowIs)
+            {
+                return false;
+
+            }
+
+            List<Advertisement> nearestAds = dbContext.Advertisements.Where(a => a.Advertisement_Status_Id == 1 && a.Autobuy_Id != null || a.Advertisement_Status_Id == 3 && a.Autobuy_Id != null || a.Advertisement_Status_Id == 2 || a.Advertisement_Status_Id == 4 || a.Advertisement_Status_Id == 9).Where(a => a.Channel_Id == channelId && a.Date_Time <= new DateTime(tDT.Year, tDT.Month, tDT.Day, tDT.Hour, tDT.Minute, tDT.Second)).ToList();
+            Advertisement nearestAd = nearestAds.FirstOrDefault(a => a.Date_Time.Equals(nearestAds.Max(a => a.Date_Time)));
+
+            List<Advertisement> nearestTopAds = dbContext.Advertisements.Where(a => a.Advertisement_Status_Id ==1 && a.Autobuy_Id!=null || a.Advertisement_Status_Id == 3 && a.Autobuy_Id != null || a.Advertisement_Status_Id == 2 || a.Advertisement_Status_Id == 4 || a.Advertisement_Status_Id == 9).Where(a => a.Channel_Id == channelId && a.Date_Time > new DateTime(tDT.Year, tDT.Month, tDT.Day, tDT.Hour, tDT.Minute, tDT.Second)).ToList();
+            Advertisement nearestTopAd = nearestTopAds.FirstOrDefault(a => a.Date_Time.Equals(nearestTopAds.Min(a => a.Date_Time)));
+
+            if (nearestAd != null)
+            {
+                if ((new DateTime(tDT.Year, tDT.Month, tDT.Day, tDT.Hour, tDT.Minute, tDT.Second)).Subtract(new TimeSpan(nearestAd.Top, 0, 0)) < nearestAd.Date_Time)
+                {
+                    return false;
+                }
+            }
+            if (nearestTopAd != null)
+            {
+                if ((new DateTime(nowIs.Year, nowIs.Month, nowIs.Day, tDT.Hour, tDT.Minute, tDT.Second)).Add(new TimeSpan(1, 0, 0)) > nearestTopAd.Date_Time)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         public void TryAutobuy(AppDbContext dbContext)
         {
+            DateTime nowDT = DateTime.Now;
+            TimeSpan nowTP = new TimeSpan(nowDT.Hour, nowDT.Minute, nowDT.Second);
+            List<Autobuy> autobuys = dbContext.Autobuys.Include("Autobuy_Channels").Include("Autobuy_Channels.Channel").Include("Autobuy_Channels.Channel.Places").Include("Autobuy_Channels.Channel.Advertisements").Where(ab => ab.Balance != 0 && ab.State == 1 && ab.Daily_Interval_From < nowTP && nowTP < ab.Daily_Interval_To).ToList();
+            foreach(Autobuy ab in autobuys)
+            {
+                for(int i = 0; i < ab.Autobuy_Channels.Count; i++)
+                {
+                    Channel channel = ab.Autobuy_Channels[i].Channel;
+                    if (channel.Advertisements.FirstOrDefault(ad => ad.Advertisement_Status_Id==5 && ad.Date_Time.AddDays(ab.Interval) > new DateTime(nowDT.Ticks))!=null)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        if (ab.Balance >= channel.Price)
+                        {
+                            try
+                            {
 
+                                List<DateTime> dateTimesForPlaces = new List<DateTime>(channel.Places.Count*2);
+                                for(int j = 0; j < channel.Places.Count; j++)
+                                {
+                                    dateTimesForPlaces.Add(new DateTime(nowDT.Year, nowDT.Month, nowDT.Day, channel.Places[j].Time.Hours, channel.Places[j].Time.Minutes, channel.Places[j].Time.Seconds));
+                                    dateTimesForPlaces.Add(new DateTime(nowDT.Year, nowDT.Month, nowDT.Day+1, channel.Places[j].Time.Hours, channel.Places[j].Time.Minutes, channel.Places[j].Time.Seconds));
+
+                                }
+                                dateTimesForPlaces = dateTimesForPlaces.Where(dt => dt.Ticks - nowDT.Ticks < TimeSpan.TicksPerDay*3 && dt > nowDT).ToList();
+                                dateTimesForPlaces = dateTimesForPlaces.ToList();
+
+                                dateTimesForPlaces = dateTimesForPlaces.Where(dt => IsPlaceFreeForAd(dbContext, nowDT, channel.Channel_Id, dt)).OrderBy(dt=>dt).ToList();
+
+
+
+                                Advertisement newAd = new Advertisement { Advertisement_Status_Id = 1, Alive = 24, Top = 1, Channel_Id = channel.Channel_Id, Publication_Snapshot = ab.Publication_Snapshot, Date_Time = dateTimesForPlaces[0], User_Id = ab.User_Id, Autobuy_Id = ab.Autobuy_Id, Price = channel.Price };
+                                dbContext.Advertisements.Add(newAd);
+                                ab.Balance -= channel.Price;
+                                dbContext.SaveChanges();
+                                try
+                                {
+                                    botClient.SendTextMessageAsync(channel.User_Id, "У вас новый заказ на рекламу:)", disableNotification: true, replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Заказы", CallbackData = "/ordersMenuP0" })).Wait();
+                                }
+                                catch {   }
+                            }
+                            catch
+                            {   }
+
+                        }
+                        else
+                        {
+                            continue;
+                        }
+                    }
+                }
+            }
         }
 
         // Daily
@@ -147,9 +257,21 @@ namespace eAdvertisement_bot
             }
             dbContext.SaveChanges();
         }
-        public void CleanDB(AppDbContext dbContext) // Include delete of channels where bot isn't admin
+        public void CleanDB(AppDbContext dbContext) // Include delete of channels where bot isn't admin 
         {
 
+            DateTime now = DateTime.Now;
+            dbContext.Advertisements.RemoveRange(dbContext.Advertisements.Where(a => a.Date_Time.Ticks + TimeSpan.TicksPerDay * 62 < now.Ticks));
+            dbContext.Channels.RemoveRange(dbContext.Channels.Where(c => !IsBotAdminInChat(c.Channel_Id)));
+            dbContext.SaveChanges();
+
+        }
+        public bool IsBotAdminInChat(long chatId)
+        {
+            ChatMember[] admins = botClient.GetChatAdministratorsAsync(chatId).Result; ;
+            ChatMember botAsAChatMember = admins.First(a => a.User.Id == botClient.BotId);
+            bool isBotAdmin = botAsAChatMember != null;
+            return isBotAdmin;
         }
 
         public async Task<Message[]> SendPostToChat(Publication post, long chatId, TelegramBotClient botClient)

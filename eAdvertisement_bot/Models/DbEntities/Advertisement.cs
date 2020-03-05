@@ -18,6 +18,8 @@ namespace eAdvertisement_bot.Models.DbEntities
         public long Channel_Id { get; set; }
         public Channel Channel { get; set; }
 
+
+
         [Column("date_time")]
         public DateTime Date_Time { get; set; }
 
@@ -36,6 +38,10 @@ namespace eAdvertisement_bot.Models.DbEntities
         [Column("user_id")]
         public long User_Id { get; set; }
         public User User { get; set; }
+
+        [Column("autobuy_id")]
+        public int? Autobuy_Id { get; set; }
+        public Autobuy Autobuy { get; set; }
 
         [Column("advertisement_status_id")]
         public int Advertisement_Status_Id { get; set; }

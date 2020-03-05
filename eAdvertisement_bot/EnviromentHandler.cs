@@ -36,9 +36,10 @@ namespace eAdvertisement_bot
                 AppDbContext dbContext = new AppDbContext();
                 try
                 {
-                    TryAutobuy(dbContext);
-                    //PublishAccepted(dbContext).Wait();
-                    //CloseTransactions(dbContext);
+                    PublishAccepted(dbContext).Wait();
+                    CloseAds(dbContext);
+                    CheckAds(dbContext);
+                    CloseTransactions(dbContext);
                     Thread.Sleep(Interval);
                 }
                 catch(Exception ex)
@@ -92,21 +93,33 @@ namespace eAdvertisement_bot
         }
         public void CheckAds(AppDbContext dbContext)    // Delete or interrupt
         {
+            DateTime now = DateTime.Now;
+            List<Advertisement> adsToCheck = dbContext.Advertisements.Include("AdMessages").Where(ad => ad.Advertisement_Status_Id == 4 && now.Ticks - ad.Date_Time.Ticks>(TimeSpan.TicksPerMinute*10)).ToList();
+            foreach(Advertisement ad in adsToCheck)
+            {
+                if (!clientApiHandler.IsWorkingPostOk(ad.AdMessages.Select(adm=>adm.AdMessage_Id).ToList(), ad).Result)
+                {
+                    ad.Advertisement_Status_Id = 6;
+                }
 
+            }
         }     
         public void CloseAds(AppDbContext dbContext)
         {
             DateTime now = DateTime.Now;
-            List<Advertisement> ads = dbContext.Advertisements.Include("Channel").Where(a => a.Advertisement_Status_Id == 4 && new DateTime(a.Date_Time.Ticks).AddHours(a.Alive) < now).ToList();
+            List<Advertisement> ads = dbContext.Advertisements.Include("AdMessages").Include("Channel").Where(a => a.Advertisement_Status_Id == 4 && new DateTime(a.Date_Time.Ticks).AddHours(a.Alive) < now).ToList();
             for(int i = 0; i < ads.Count; i++)
             {
                 ads[i].Advertisement_Status_Id = 5;
-                foreach(AdMessage adm in ads[i].AdMessages)
-                try
+                if (ads[i].AdMessages != null)
                 {
-                        botClient.DeleteMessageAsync(ads[i].Channel_Id, adm.AdMessage_Id).Wait();
+                    foreach (AdMessage adm in ads[i].AdMessages)
+                        try
+                        {
+                            botClient.DeleteMessageAsync(ads[i].Channel_Id, adm.AdMessage_Id).Wait();
+                        }
+                        catch { }
                 }
-                catch { }
             }
             dbContext.SaveChanges();
         }

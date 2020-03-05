@@ -1,4 +1,5 @@
-﻿using System;
+﻿using eAdvertisement_bot.Models.DbEntities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -154,6 +155,83 @@ namespace eAdvertisement_bot
 
             return (long)(datetime - sTime).TotalSeconds;
         }
+
+        public async Task<bool> IsWorkingPostOk(List<int> messageIds, Advertisement ad)
+        {
+
+            DateTime now = DateTime.Now;
+            long channelId = Math.Abs(1000000000000 + ad.Channel_Id);  // I don't know why, but it's all right
+            var dialogs = (TLDialogs)await Client.GetUserDialogsAsync();
+
+            List<TLMessage> realMessages = new List<TLMessage>();
+
+            foreach (var element in dialogs.Chats)
+            {
+                if (element is TLChannel && ((TLChannel)element).Id == channelId)
+                {
+                    TLChannel channel = element as TLChannel;
+                    var chan = await Client.SendRequestAsync<TeleSharp.TL.Messages.TLChatFull>(new TLRequestGetFullChannel()
+                    {
+                        Channel = new TLInputChannel()
+                        { ChannelId = channel.Id, AccessHash = (long)channel.AccessHash }
+                    });
+                    TLInputPeerChannel inputPeer = new TLInputPeerChannel()
+                    { ChannelId = channel.Id, AccessHash = (long)channel.AccessHash };
+
+                    TLChannelMessages res = await Client.SendRequestAsync<TLChannelMessages>
+                    (new TLRequestGetHistory()
+                    {
+                        Peer = inputPeer,
+                        Limit = Convert.ToInt32(60*(Convert.ToDouble(ad.Alive)/24))+10,    // toWork and abt the same to ServiceMessages
+                    });
+                    var msgs = res.Messages;
+
+                    foreach (var msg in msgs)
+                    {
+                        if (msg is TLMessage)  
+                        {
+                            TLMessage sms = msg as TLMessage;
+                            realMessages.Add(sms);
+                        }
+                        if (msg is TLMessageService)
+                            continue;
+                    }
+                    break;
+                }
+            }
+            realMessages = realMessages.Where(m => ConvertToUnixTime(now) - m.Date > 300).ToList(); // Pick posts that are posted not less than 5 min ago
+            List<TLMessage> goodMessages = realMessages.Where(m=>messageIds.Contains(m.Id)).ToList();
+
+            if (goodMessages.Count==0 || goodMessages.Count != ad.AdMessages.Count)  // If one of the messages is deleted not by bot
+            {
+                return false;
+            }
+            TLMessage lastMessage = realMessages.FirstOrDefault(m => m.Date == realMessages.Max(m => m.Date));
+            TLMessage messageToCheck = goodMessages.FirstOrDefault(m => m.Date == goodMessages.Max(m => m.Date));
+            if (now.Ticks - ad.Date_Time.Ticks < TimeSpan.TicksPerHour * ad.Top) // Top check
+            {
+                if (messageToCheck!= null && lastMessage.Id == messageToCheck.Id)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else // Alive check
+            {
+                if (messageToCheck != null)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+        }
         private static DateTime ConvertFromUnixTime(Double TimestampToConvert, bool Local)
         {
             var mdt = new DateTime(1970, 1, 1, 0, 0, 0);
@@ -166,7 +244,6 @@ namespace eAdvertisement_bot
                 return mdt.AddSeconds(TimestampToConvert);
             }
         }
-
         public async Task SetClientId()
         {
             if (Client_Id == 0)

@@ -159,7 +159,7 @@ namespace eAdvertisement_bot.Models.Commands
 
                     string text = "Всего заказов "+ads.Count()+"\n*Информация о заказе*\n" +
                     "Канал: " + "[" + ad.Channel.Name + "](" + ad.Channel.Link + ")" +
-                    "\nЦена: " + ad.Price +
+                    "\nЦена: " + Convert.ToInt32(Convert.ToDouble(ad.Price)*0.93) +
                     "\nТоп: " + ad.Top +
                     "\nЛента: " + ad.Alive +
                     "\nВремя постинга: " + ad.Date_Time;

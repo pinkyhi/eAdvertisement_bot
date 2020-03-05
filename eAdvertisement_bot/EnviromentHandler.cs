@@ -39,6 +39,7 @@ namespace eAdvertisement_bot
                     PublishAccepted(dbContext).Wait();
                     CloseAds(dbContext);
                     CheckAds(dbContext);
+                    CloseOffers(dbContext);
                     CloseTransactions(dbContext);
                     Thread.Sleep(Interval);
                 }
@@ -93,8 +94,8 @@ namespace eAdvertisement_bot
         }
         public void CheckAds(AppDbContext dbContext)    // Delete or interrupt
         {
-            DateTime now = DateTime.Now;
-            List<Advertisement> adsToCheck = dbContext.Advertisements.Include("AdMessages").Where(ad => ad.Advertisement_Status_Id == 4 && now.Ticks - ad.Date_Time.Ticks>(TimeSpan.TicksPerMinute*10)).ToList();
+            DateTime now = DateTime.Now;// 10
+            List<Advertisement> adsToCheck = dbContext.Advertisements.Include("AdMessages").Where(ad => ad.Advertisement_Status_Id == 4 && now.Ticks - ad.Date_Time.Ticks>(TimeSpan.TicksPerMinute*2)).ToList();
             foreach(Advertisement ad in adsToCheck)
             {
                 if (!clientApiHandler.IsWorkingPostOk(ad.AdMessages.Select(adm=>adm.AdMessage_Id).ToList(), ad).Result)
@@ -103,6 +104,7 @@ namespace eAdvertisement_bot
                 }
 
             }
+            dbContext.SaveChanges();
         }     
         public void CloseAds(AppDbContext dbContext)
         {
@@ -135,7 +137,7 @@ namespace eAdvertisement_bot
         }
         public void CloseTransactions(AppDbContext dbContext)   // Send money back or forward in dependency of ad status
         {
-            List<Advertisement> moneyForwardAds = dbContext.Advertisements.Include("Channel.User").Include("AdMessages").Where(a => a.Advertisement_Status_Id == 5).ToList();
+            List<Advertisement> moneyForwardAds = dbContext.Advertisements.Include("User").Include("Channel.User").Include("AdMessages").Where(a => a.Advertisement_Status_Id == 5).ToList();
             List<Advertisement> moneyBackAds = dbContext.Advertisements.Include("Autobuy").Include("User").Include("Channel.User").Include("AdMessages").Where(a => a.Advertisement_Status_Id == 3 || a.Advertisement_Status_Id == 6 || a.Advertisement_Status_Id == 10 || a.Advertisement_Status_Id == 11).ToList(); //3,6,10,11
 
             foreach (Advertisement ad in moneyBackAds)
@@ -158,7 +160,20 @@ namespace eAdvertisement_bot
                 int coverage = clientApiHandler.GetCoverageOfPost(ad.AdMessages[0].AdMessage_Id, ad.Channel_Id).Result;
                 if (ad.Price > (Convert.ToDouble(coverage) / 1000 * ad.Channel.Cpm))
                 {
-                    ad.Channel.User.Balance += Convert.ToInt32((Convert.ToDouble(coverage) / 1000 * ad.Channel.Cpm) * 0.93);
+                    int remade = Convert.ToInt32((Convert.ToDouble(coverage) / 1000 * ad.Channel.Cpm) * 0.93);
+                    ad.Channel.User.Balance += remade;
+
+                    if (ad.Autobuy == null)
+                    {
+                        ad.User.Balance += ad.Price- Convert.ToInt32((Convert.ToDouble(coverage) / 1000 * ad.Channel.Cpm));
+                        ad.Advertisement_Status_Id = 12;
+                    }
+                    else
+                    {
+                        ad.Autobuy.Balance += ad.Price- Convert.ToInt32((Convert.ToDouble(coverage) / 1000 * ad.Channel.Cpm));
+                        ad.Advertisement_Status_Id = 12;
+                    }
+
                 }
                 else
                 {

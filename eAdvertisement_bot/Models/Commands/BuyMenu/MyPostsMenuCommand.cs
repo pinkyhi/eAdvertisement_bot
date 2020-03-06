@@ -37,7 +37,7 @@ namespace eAdvertisement_bot.Models.Commands
                 InlineKeyboardButton[][] keyboard = new InlineKeyboardButton[posts.Count + 2][];
                 keyboard[0] = new[]
                 {
-                    new InlineKeyboardButton{Text = "Add new post", CallbackData = "/addPost"}
+                    new InlineKeyboardButton{Text = "Добавить новый пост", CallbackData = "/addPost"}
                 };
 
                 int indexToPaste = 1;
@@ -51,7 +51,7 @@ namespace eAdvertisement_bot.Models.Commands
                 }
                 keyboard[indexToPaste] = new[]
                 {
-                    new InlineKeyboardButton{Text="Back", CallbackData = "/buyMenu"}
+                    new InlineKeyboardButton{Text="Назад", CallbackData = "/buyMenu"}
                 };
                 await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, null, false);
                 try
@@ -61,7 +61,7 @@ namespace eAdvertisement_bot.Models.Commands
                 catch { }
                 finally
                 {
-                    await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Here you can create advertisement posts and look them up", replyMarkup: new InlineKeyboardMarkup(keyboard));
+                    await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Здесь вы можете создать рекламные посты и просмотреть их", replyMarkup: new InlineKeyboardMarkup(keyboard));
                 }
 
             }

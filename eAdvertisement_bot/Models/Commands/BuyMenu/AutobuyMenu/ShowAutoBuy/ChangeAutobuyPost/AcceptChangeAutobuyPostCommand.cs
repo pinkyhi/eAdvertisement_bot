@@ -102,16 +102,16 @@ namespace eAdvertisement_bot.Models.Commands
                 {
                     new[]
                     {
-                        new InlineKeyboardButton{Text = "Accept", CallbackData = "cabpubiaN"+postId},
-                        new InlineKeyboardButton{Text = "Decline", CallbackData = "cabpub"}
+                        new InlineKeyboardButton{Text = "Принять", CallbackData = "cabpubiaN"+postId},
+                        new InlineKeyboardButton{Text = "Отклонить", CallbackData = "cabpub"}
                     },
                     new[]
                     {
-                        new InlineKeyboardButton{Text="Back",CallbackData = "cabpub"}
+                        new InlineKeyboardButton{Text="Назад",CallbackData = "cabpub"}
                     }
                 };
 
-                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Do you want to attach this post?", replyMarkup: new InlineKeyboardMarkup(keyboardControll));
+                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Вы хотите прикрепить этот пост?", replyMarkup: new InlineKeyboardMarkup(keyboardControll));
 
 
                 await botClient.DeleteMessageAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId);

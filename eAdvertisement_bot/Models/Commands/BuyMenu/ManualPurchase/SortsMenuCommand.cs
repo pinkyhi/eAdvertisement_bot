@@ -83,13 +83,13 @@ namespace eAdvertisement_bot.Models.Commands
             {
                 sStrs.Remove("1");
                 sStrs.Add("3");
-                keyboard[0][0] = new InlineKeyboardButton { Text = "By CPM asc ✔", CallbackData = "/sortsMenuP0I"+intervalFrom+"I"+intervalTo+"S"+String.Join(',',sStrs.ToArray())+"C"+String.Join(',',cStrs.ToArray()) };
+                keyboard[0][0] = new InlineKeyboardButton { Text = "По возрастанию CPM ✔", CallbackData = "/sortsMenuP0I"+intervalFrom+"I"+intervalTo+"S"+String.Join(',',sStrs.ToArray())+"C"+String.Join(',',cStrs.ToArray()) };
             }
             else if (sIndexes.Contains(3))
             {
                 sStrs.Remove("3");
                 sStrs.Add("1");
-                keyboard[0][0] = new InlineKeyboardButton { Text = "By CPM desc ✔", CallbackData = "/sortsMenuP0I" + intervalFrom + "I" + intervalTo + "S" + String.Join(',', sStrs.ToArray()) + "C" + String.Join(',', cStrs.ToArray()) };
+                keyboard[0][0] = new InlineKeyboardButton { Text = "По убыванию CPM ✔", CallbackData = "/sortsMenuP0I" + intervalFrom + "I" + intervalTo + "S" + String.Join(',', sStrs.ToArray()) + "C" + String.Join(',', cStrs.ToArray()) };
                 
             }
             
@@ -97,23 +97,23 @@ namespace eAdvertisement_bot.Models.Commands
             {
                 sStrsCopy.Remove("2");
                 sStrsCopy.Add("4");
-                keyboard[0][1] = new InlineKeyboardButton { Text = "By Price asc ✔", CallbackData = "/sortsMenuP0I" + intervalFrom + "I" + intervalTo + "S" + String.Join(',', sStrsCopy.ToArray()) + "C" + String.Join(',', cStrs.ToArray()) };
+                keyboard[0][1] = new InlineKeyboardButton { Text = "По возрастанию цены ✔", CallbackData = "/sortsMenuP0I" + intervalFrom + "I" + intervalTo + "S" + String.Join(',', sStrsCopy.ToArray()) + "C" + String.Join(',', cStrs.ToArray()) };
             }
             else if (sIndexes.Contains(4))
             {
                 sStrsCopy.Remove("4");
                 sStrsCopy.Add("2");
-                keyboard[0][1] = new InlineKeyboardButton { Text = "By Price desc ✔", CallbackData = "/sortsMenuP0I" + intervalFrom + "I" + intervalTo + "S" + String.Join(',', sStrsCopy.ToArray()) + "C" + String.Join(',', cStrs.ToArray()) };
+                keyboard[0][1] = new InlineKeyboardButton { Text = "По убыванию цены ✔", CallbackData = "/sortsMenuP0I" + intervalFrom + "I" + intervalTo + "S" + String.Join(',', sStrsCopy.ToArray()) + "C" + String.Join(',', cStrs.ToArray()) };
             }
 
-            await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Click on the button to change parameter, when parameters will be right for you – click \"OK\"", replyMarkup: new InlineKeyboardMarkup(keyboard));
+            await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Нажмите на кнопки ниже чтобы изменить параметры, если параметры вас устраивают – нажмите \"OK\"", replyMarkup: new InlineKeyboardMarkup(keyboard));
             try
             {
                 await botClient.DeleteMessageAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId);
             }
             catch
             {
-                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Impossible to delete old message");
+                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Невозможно удалить сообщение");
 
             }
         }

@@ -22,17 +22,17 @@ namespace eAdvertisement_bot.Models.Commands
         {
                         new[] //first row
                         {
-                            new InlineKeyboardButton { Text = "Launch Bot", CallbackData = "/launchBot" },
+                            new InlineKeyboardButton { Text = "Запустить бота", CallbackData = "/launchBot" },
                         },
                         new[] // second row
                         {
-                            new InlineKeyboardButton { Text = "Buy", CallbackData = "/buyMenu" },
-                            new InlineKeyboardButton { Text = "Sell", CallbackData = "/sellMenuP0" },
+                            new InlineKeyboardButton { Text = "Купить", CallbackData = "/buyMenu" },
+                            new InlineKeyboardButton { Text = "Продать", CallbackData = "/sellMenuP0" },
                         },
                         new[] // third row
                         {                            
-                            new InlineKeyboardButton { Text = "Bought posts", CallbackData = "/boughtPostsMenu" },
-                            new InlineKeyboardButton { Text = "Sold posts", CallbackData = "/soldPostsMenu" },
+                            new InlineKeyboardButton { Text = "Купленные", CallbackData = "/boughtPostsMenu" },
+                            new InlineKeyboardButton { Text = "Проданные", CallbackData = "/soldPostsMenu" },
                         },
                         new[] // fourth row
                         {
@@ -40,7 +40,7 @@ namespace eAdvertisement_bot.Models.Commands
                         },
                         new[] // fifth row
                         {
-                            new InlineKeyboardButton { Text = "Info", CallbackData = "/infoMenu" },
+                            new InlineKeyboardButton { Text = "Инфо", CallbackData = "/infoMenu" },
                         }
         });
 
@@ -49,17 +49,17 @@ namespace eAdvertisement_bot.Models.Commands
         {
                         new[] //first row
                         {
-                            new InlineKeyboardButton { Text = "Stop Bot", CallbackData = "/stopBot" },
+                            new InlineKeyboardButton { Text = "Остановить бота", CallbackData = "/stopBot" },
                         },
                         new[] // second row
                         {
-                            new InlineKeyboardButton { Text = "Buy", CallbackData = "/buyMenu" },
-                            new InlineKeyboardButton { Text = "Sell", CallbackData = "/sellMenuP0" },
+                            new InlineKeyboardButton { Text = "Купить", CallbackData = "/buyMenu" },
+                            new InlineKeyboardButton { Text = "Продать", CallbackData = "/sellMenuP0" },
                         },
                         new[] // third row
                         {
-                            new InlineKeyboardButton { Text = "Bought posts", CallbackData = "/boughtPostsMenu" },
-                            new InlineKeyboardButton { Text = "Sold posts", CallbackData = "/soldPostsMenu" },
+                            new InlineKeyboardButton { Text = "Купленные", CallbackData = "/boughtPostsMenu" },
+                            new InlineKeyboardButton { Text = "Проданные", CallbackData = "/soldPostsMenu" },
                         },
                         new[] // fourth row
                         {
@@ -67,7 +67,7 @@ namespace eAdvertisement_bot.Models.Commands
                         },
                         new[] // fifth row
                         {
-                            new InlineKeyboardButton { Text = "Info", CallbackData = "/infoMenu" },
+                            new InlineKeyboardButton { Text = "Инфо", CallbackData = "/infoMenu" },
                         }
         });
 
@@ -75,16 +75,16 @@ namespace eAdvertisement_bot.Models.Commands
        {
                         new[] //first row
                         {
-                            new InlineKeyboardButton { Text = "Manual purchase", CallbackData = "/manualPurchaseMenuP0IIS1,2C" },
-                            new InlineKeyboardButton { Text = "Autobuy", CallbackData = "abm" },
+                            new InlineKeyboardButton { Text = "Каталог", CallbackData = "/manualPurchaseMenuP0IIS1,2C" },
+                            new InlineKeyboardButton { Text = "Автозакуп", CallbackData = "abm" },
                         },
                         new[] // second row
                         {
-                            new InlineKeyboardButton { Text = "My posts", CallbackData = "/myPostsMenu" },
+                            new InlineKeyboardButton { Text = "Мои посты", CallbackData = "/myPostsMenu" },
                         },
                         new[] // third row
                         {
-                            new InlineKeyboardButton { Text = "Back", CallbackData = "/backToStartMenu" },
+                            new InlineKeyboardButton { Text = "Назад", CallbackData = "/backToStartMenu" },
                         }
         });
 

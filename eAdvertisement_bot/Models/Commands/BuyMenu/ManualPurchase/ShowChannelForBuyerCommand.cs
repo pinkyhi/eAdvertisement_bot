@@ -36,22 +36,22 @@ namespace eAdvertisement_bot.Models.Commands
             {
                 Channel channel = dbContext.Channels.Find(channelId);
                 string info = "[" + channel.Name + "](" + channel.Link + ")" +
-                    "\nSubscribers: " + channel.Subscribers +
-                    "\nCoverage: " + channel.Coverage +
+                    "\nПодписчиков: " + channel.Subscribers +
+                    "\nОхват: " + channel.Coverage +
                     "\nERR: " + Math.Round(Convert.ToDouble(channel.Coverage) / Convert.ToDouble(channel.Subscribers), 2) +
-                    "\nPrice: " + channel.Price +
-                    "\nCpm: " + channel.Cpm;
+                    "\nЦена: " + channel.Price +
+                    "\nCPM: " + channel.Cpm;
                 if (channel.Description != null && !channel.Description.Equals(""))
                 {
-                    info += "\n*Description*\n" + channel.Description;
+                    info += "\n*Описание*\n" + channel.Description;
                 }
 
                 InlineKeyboardButton[][] keyboard = new InlineKeyboardButton[1][];
 
                 keyboard[0] = new[]
                 {
-                    new InlineKeyboardButton { Text = "Buy place", CallbackData = "/showPlacesCalendarForBuyerN"+channelId+"T"+tags},
-                    new InlineKeyboardButton { Text = "Back", CallbackData = "/manualPurchaseMenuP"+tags},
+                    new InlineKeyboardButton { Text = "Купить место", CallbackData = "/showPlacesCalendarForBuyerN"+channelId+"T"+tags},
+                    new InlineKeyboardButton { Text = "Назад", CallbackData = "/manualPurchaseMenuP"+tags},
                 };
 
                 await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, info, replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown, disableWebPagePreview: true);

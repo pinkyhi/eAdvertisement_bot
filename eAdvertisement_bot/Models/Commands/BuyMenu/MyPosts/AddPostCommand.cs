@@ -46,7 +46,7 @@ namespace eAdvertisement_bot.Models.Commands
                 }
                 else
                 {
-                    await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "Limit of posts is 8\nDelete one to add another", true);
+                    await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "Лимит постов – 8\nУдалите один чтобы добавить другой", true);
                     return;
                 }
 

@@ -34,8 +34,8 @@ namespace eAdvertisement_bot.Models.Commands
                 user.User_State_Id = 405;
                 dbContext.SaveChanges();
 
-                await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "Write integer sum, it will bring from your balance", true);
-                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Write integer sum\n*1000*", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
+                await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "Напишите целочисленную сумму, она будет перенесена с вашего баланса", true);
+                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Напишите целочисленную сумму\n*1000*", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
             }
             catch (Exception ex)
             {

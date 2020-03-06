@@ -49,7 +49,7 @@ namespace eAdvertisement_bot.Models.Commands
                 }
                 keyboard[indexToPaste] = new[]
                 {
-                    new InlineKeyboardButton{Text="Back", CallbackData = "sabN"+user.Object_Id}
+                    new InlineKeyboardButton{Text="Назад", CallbackData = "sabN"+user.Object_Id}
                 };
                 await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, null, false);
                 try
@@ -59,7 +59,7 @@ namespace eAdvertisement_bot.Models.Commands
                 catch { }
                 finally
                 {
-                    await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Choose the post", replyMarkup: new InlineKeyboardMarkup(keyboard));
+                    await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Выберите пост", replyMarkup: new InlineKeyboardMarkup(keyboard));
                 }
 
             }

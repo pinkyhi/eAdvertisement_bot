@@ -103,7 +103,7 @@ namespace eAdvertisement_bot.Models.Commands
                 {
                     keyboard = new InlineKeyboardButton[categories.Count + 2][];
                 }
-                keyboard[0] = new[] { new InlineKeyboardButton { Text = "CLEAR ALL", CallbackData = "/categoriesMenuP" + page + "I" + intervalFrom + "I" + intervalTo + "S" + String.Join(',', sStrs) + "C" } };
+                keyboard[0] = new[] { new InlineKeyboardButton { Text = "ОЧИСТИТЬ", CallbackData = "/categoriesMenuP" + page + "I" + intervalFrom + "I" + intervalTo + "S" + String.Join(',', sStrs) + "C" } };
 
                 int indexToPaste = 1;
                 foreach (Category ca in categories)
@@ -143,7 +143,7 @@ namespace eAdvertisement_bot.Models.Commands
                 }
                 keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = "OK", CallbackData = "/manualPurchaseMenuP0I"+intervalFrom+"I"+intervalTo+"S"+String.Join(',', sStrs)+"C"+ String.Join(',', cStrs) }, };
 
-                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Choose wanted categories and press OK", replyMarkup: new InlineKeyboardMarkup(keyboard));
+                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Выберите желаемые категории и нажмите OK", replyMarkup: new InlineKeyboardMarkup(keyboard));
                 try
                 {
                     await botClient.DeleteMessageAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId);

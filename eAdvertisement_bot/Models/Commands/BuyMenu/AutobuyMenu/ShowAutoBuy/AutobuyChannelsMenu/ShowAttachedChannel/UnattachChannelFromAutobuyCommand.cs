@@ -42,12 +42,12 @@ namespace eAdvertisement_bot.Models.Commands
                 }
                 catch
                 {
-                    await botClient.SendTextMessageAsync(update.CallbackQuery.From.Id, "This channel isn't attached to a bot");
+                    await botClient.SendTextMessageAsync(update.CallbackQuery.From.Id, "Это канал не прикрелен к боту");
                     return;
                 }
                 if (channel.User_Id == update.CallbackQuery.From.Id)
                 {
-                    await botClient.SendTextMessageAsync(update.CallbackQuery.From.Id, "You can't add this channel because it's yours.");
+                    await botClient.SendTextMessageAsync(update.CallbackQuery.From.Id, "Вы не можете добавить этот канал так как он ваш.");
                     return;
                 }
                 DbEntities.User user = dbContext.Users.Find(Convert.ToInt64(update.CallbackQuery.From.Id));
@@ -62,7 +62,7 @@ namespace eAdvertisement_bot.Models.Commands
 
 
                         dbContext.SaveChanges();
-                        await botClient.SendTextMessageAsync(update.CallbackQuery.From.Id, "Unattaching was succesful", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Показать обновленное меню!", CallbackData = "cabcsP" + page }));
+                        await botClient.SendTextMessageAsync(update.CallbackQuery.From.Id, "Открепление успешно", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Показать обновленное меню!", CallbackData = "cabcsP" + page }));
                         try
                         {
                             await botClient.DeleteMessageAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId);
@@ -75,7 +75,7 @@ namespace eAdvertisement_bot.Models.Commands
                     }
                     else
                     {
-                        await botClient.SendTextMessageAsync(update.CallbackQuery.From.Id, "This channel isn't attached", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Back", CallbackData = "cabcsP" + page}));
+                        await botClient.SendTextMessageAsync(update.CallbackQuery.From.Id, "Этот канал не прикреплен", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Назад", CallbackData = "cabcsP" + page}));
 
                     }
                 }

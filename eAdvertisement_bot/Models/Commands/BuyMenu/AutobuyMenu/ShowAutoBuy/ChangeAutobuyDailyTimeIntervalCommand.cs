@@ -34,8 +34,8 @@ namespace eAdvertisement_bot.Models.Commands
                 user.User_State_Id = 406;
                 dbContext.SaveChanges();
 
-                await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "Write interval of times in format hh-hh, it defines when posts will be buying", true);
-                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Write interval of times\n*06-22*", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
+                await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "Напишите интервал времени в формате hh-hh, это определяет в какое время дня будет покупаться реклама", true);
+                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Напишите интервал времени\n*06-22*", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
             }
             catch (Exception ex)
             {

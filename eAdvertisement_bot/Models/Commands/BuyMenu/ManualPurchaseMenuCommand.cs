@@ -145,12 +145,12 @@ namespace eAdvertisement_bot.Models.Commands.ManualPurchase
                 {
                     keyboard = new InlineKeyboardButton[channels.Count + 2][];
                 }
-                keyboard[0] = new[] { new InlineKeyboardButton { Text = "Categories", CallbackData = "/categoriesMenuP0" + update.CallbackQuery.Data.Substring(update.CallbackQuery.Data.IndexOf('I')) }, new InlineKeyboardButton { Text = "Sorts", CallbackData = "/sortsMenu" + update.CallbackQuery.Data.Substring(19) }, new InlineKeyboardButton { Text = "Interval", CallbackData = "mpciT" + update.CallbackQuery.Data.Substring(19) } };
+                keyboard[0] = new[] { new InlineKeyboardButton { Text = "Категории", CallbackData = "/categoriesMenuP0" + update.CallbackQuery.Data.Substring(update.CallbackQuery.Data.IndexOf('I')) }, new InlineKeyboardButton { Text = "Sorts", CallbackData = "/sortsMenu" + update.CallbackQuery.Data.Substring(19) }, new InlineKeyboardButton { Text = "Interval", CallbackData = "mpciT" + update.CallbackQuery.Data.Substring(19) } };
 
                 int indexToPaste = 1;
                 foreach (DbEntities.Channel ch in channels)
                 {
-                    keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = "CPM: "+ch.Cpm+" Price: "+ch.Price +" \n"+ ch.Name, CallbackData = "/showChannelForBuyerN" + ch.Channel_Id+"T"+tagsC }, };
+                    keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = "CPM: "+ch.Cpm+" Цена: "+ch.Price +" \n"+ ch.Name, CallbackData = "/showChannelForBuyerN" + ch.Channel_Id+"T"+tagsC }, };
                     indexToPaste++;
                 }
 
@@ -170,13 +170,13 @@ namespace eAdvertisement_bot.Models.Commands.ManualPurchase
                     keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = "←←←", CallbackData = "/manualPurchaseMenuP" + (page - 1) + extraTag }, };
                     indexToPaste++;
                 }
-                keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = "Back", CallbackData = "/buyMenu" }, };
+                keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = "Назад", CallbackData = "/buyMenu" }, };
 
                 dbContext.Users.Find(Convert.ToInt64(update.CallbackQuery.From.Id)).User_State_Id = 3;
                 dbContext.SaveChanges();
 
 
-                string text = "Here you can change channel to buy ad there.\nIf you want to buy in specific channel you can send a post from it\n*Show settings*\nCategories:" + String.Join(", ", categoriesStrs) + "\nPrice interval: " + intervalFrom + "-" + intervalTo;
+                string text = "Здесь вы можете выбрать канал где купить рекламу.\nЕсли вы хотите купить рекламу в определенном канале, то просто перешлите пост из него\n*Показать*\nКатегории:" + String.Join(", ", categoriesStrs) + "\nЦеновой интервал: " + intervalFrom + "-" + intervalTo;
                 await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, text, replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
 
                 try

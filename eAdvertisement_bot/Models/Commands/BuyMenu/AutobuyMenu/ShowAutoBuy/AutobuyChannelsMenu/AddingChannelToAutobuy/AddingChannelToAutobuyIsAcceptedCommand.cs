@@ -45,12 +45,12 @@ namespace eAdvertisement_bot.Models.Commands
                 }
                 catch
                 {
-                    await botClient.SendTextMessageAsync(update.CallbackQuery.From.Id, "This channel isn't attached to a bot");
+                    await botClient.SendTextMessageAsync(update.CallbackQuery.From.Id, "Этот канал не прикреплен к боту");
                     return;
                 }
                 if (channel.User_Id == update.CallbackQuery.From.Id)
                 {
-                    await botClient.SendTextMessageAsync(update.CallbackQuery.From.Id, "You can't add this channel because it's yours.");
+                    await botClient.SendTextMessageAsync(update.CallbackQuery.From.Id, "Вы не можете добавить этот канал так как он ваш");
                     return;
                 }
                 DbEntities.User user = dbContext.Users.Find(Convert.ToInt64(update.CallbackQuery.From.Id));
@@ -69,7 +69,7 @@ namespace eAdvertisement_bot.Models.Commands
                             dbContext.Autobuys.Find(Convert.ToInt32(user.Object_Id)).Autobuy_Channels = new List<DbEntities.Autobuy_Channel> { new DbEntities.Autobuy_Channel { Autobuy_Id = Convert.ToInt32(user.Object_Id), Channel_Id = channel.Channel_Id } };
                         }
                         dbContext.SaveChanges();
-                        await botClient.SendTextMessageAsync(update.CallbackQuery.From.Id, "Adding was succesful", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Показать обновленное меню!", CallbackData = "acstabP"+page }));
+                        await botClient.SendTextMessageAsync(update.CallbackQuery.From.Id, "Добавление успешно", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Показать обновленное меню!", CallbackData = "acstabP"+page }));
                         try
                         {
                             await botClient.DeleteMessageAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId);
@@ -82,7 +82,7 @@ namespace eAdvertisement_bot.Models.Commands
                     }
                     else
                     {
-                        await botClient.SendTextMessageAsync(update.CallbackQuery.From.Id, "This channel is already attached", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Back", CallbackData = "acstabP"+page }));
+                        await botClient.SendTextMessageAsync(update.CallbackQuery.From.Id, "Этот канал уже прикреплён", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Назад", CallbackData = "acstabP"+page }));
 
                     }
                 }

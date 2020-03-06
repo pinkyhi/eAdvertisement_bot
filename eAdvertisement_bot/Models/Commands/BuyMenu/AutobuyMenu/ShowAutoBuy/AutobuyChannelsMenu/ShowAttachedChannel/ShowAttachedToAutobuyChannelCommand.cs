@@ -45,19 +45,19 @@ namespace eAdvertisement_bot.Models.Commands
                 {
                     new[]
                     {
-                        new InlineKeyboardButton{Text = "Unattach channel",CallbackData = "unatclfabN"+channelId+"P"+page},
-                        new InlineKeyboardButton{Text = "Back", CallbackData = "cabcsP"+page}
+                        new InlineKeyboardButton{Text = "Открепить канал",CallbackData = "unatclfabN"+channelId+"P"+page},
+                        new InlineKeyboardButton{Text = "Назад", CallbackData = "cabcsP"+page}
                     }
                 };
                 string info = "[" + channel.Name + "](" + channel.Link + ")" +
-                                    "\nSubscribers: " + channel.Subscribers +
-                                    "\nCoverage: " + channel.Coverage +
+                                    "\nПодписчиков: " + channel.Subscribers +
+                                    "\nОхват: " + channel.Coverage +
                                     "\nERR: " + Math.Round(Convert.ToDouble(channel.Coverage) / Convert.ToDouble(channel.Subscribers), 2) +
-                                    "\nPrice: " + channel.Price +
+                                    "\nЦена: " + channel.Price +
                                     "\nCpm: " + channel.Cpm;
                 if (channel.Description != null && !channel.Description.Equals(""))
                 {
-                    info += "\n*Description*\n" + channel.Description;
+                    info += "\n*Описание*\n" + channel.Description;
                 }
 
                 await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, info, replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown, disableWebPagePreview: true);

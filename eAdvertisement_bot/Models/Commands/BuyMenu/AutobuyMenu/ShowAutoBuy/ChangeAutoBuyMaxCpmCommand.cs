@@ -34,8 +34,8 @@ namespace eAdvertisement_bot.Models.Commands
                 user.User_State_Id = 402;
                 dbContext.SaveChanges();
 
-                await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "Write integer max cpm, bot won't buy ads in channels with cpm bigger than this.", true);
-                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Write integer max cpm\n*100*",parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
+                await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "Отправьте целочисленный максимальный cpm, бот не будет покупать рекламу с cpm больше этого.", true);
+                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Отправьте целочисленный максимальный cpm\n*100*", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
             }
             catch (Exception ex)
             {

@@ -55,7 +55,7 @@ namespace eAdvertisement_bot.Models.Commands
                         int countOfMediasOnPost = dbContext.Medias.Count(m => m.Publication_Id == post.Publication_Id);
                         if (countOfMediasOnPost==1 && dbContext.Buttons.Count(m => m.Publication_Id == post.Publication_Id) > 0)
                         {
-                            await botClient.SendTextMessageAsync(update.Message.Chat.Id, "You can't attach to this post more than 1 picture, because you use buttons\nYou can recreate post to avoid this problem");
+                            await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Вы не можете прикрепить более одной картинки так как вы используете кнопки\nПересоздайте пост чтобы избежать этой проблемы");
                             await botClient.DeleteMessageAsync(update.Message.Chat.Id, update.Message.MessageId);
                             return;
                         }
@@ -66,11 +66,11 @@ namespace eAdvertisement_bot.Models.Commands
 
                             user.User_State_Id = 0;
                             dbContext.SaveChanges();
-                            await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Image is added succesfully :)", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Показать обновленный пост ", CallbackData = "/showPostN" + post.Publication_Id }));
+                            await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Картинка добавлена успешно :)", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Показать обновленный пост ", CallbackData = "/showPostN" + post.Publication_Id }));
                         }
                         else
                         {
-                            await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Limit of images is 10\nIf you added excess image you can recreate post");
+                            await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Лимит картинок – 10 шт.\nЕсли вы добавили лишние картинки – пересоздайте пост");
                         }
                     }
                     else

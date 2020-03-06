@@ -27,7 +27,7 @@ namespace eAdvertisement_bot.Models.Commands
         }
         public async override Task Execute(Update update, TelegramBotClient botClient)
         {
-            await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "This channel ia already added to this autobuy", true);
+            await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "Этот канал уже прикреплен к автозакупу", true);
         }
     }
 }

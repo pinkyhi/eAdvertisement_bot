@@ -34,8 +34,8 @@ namespace eAdvertisement_bot.Models.Commands
                 user.User_State_Id = 401;
                 dbContext.SaveChanges();
 
-                await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "Write the name of this autobuy, it will be available only for you.", true);
-                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Write the name of this autobuy\n*My first autobuy*", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
+                await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "Напишите имя автозакупа, оно будет видно только вам.", true);
+                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Отправьте имя автозакупа\nПример\n*My first autobuy*", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
 
             }
             catch (Exception ex)

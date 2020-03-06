@@ -35,7 +35,7 @@ namespace eAdvertisement_bot.Models.Commands
                 user.Object_Id = Convert.ToInt64(update.CallbackQuery.Data.Substring(16));
                 dbContext.SaveChanges();
 
-                await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "Write the name of this post, it will be available only for you.", true);
+                await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "Задайте имя этому посту, это имя будет видно только вам.", true);
             }
             catch (Exception ex)
             {

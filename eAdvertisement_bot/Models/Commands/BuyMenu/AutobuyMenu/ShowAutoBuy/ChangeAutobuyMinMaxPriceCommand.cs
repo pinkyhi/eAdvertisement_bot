@@ -33,8 +33,8 @@ namespace eAdvertisement_bot.Models.Commands
                 user.User_State_Id = 403;
                 dbContext.SaveChanges();
 
-                await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "Write integer min-max price, it's interval for buying ads", true);
-                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Write integer min-max price\n*1-1000*", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
+                await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "Отправьте целочисленную min-max цену, это интервал цены", true);
+                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Отправьте целочисленную min-max цену\n*1-1000*", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
             }
             catch (Exception ex)
             {

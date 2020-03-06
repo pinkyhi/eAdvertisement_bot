@@ -36,8 +36,8 @@ namespace eAdvertisement_bot.Models.Commands
                 user.Object_Id = Convert.ToInt64(update.CallbackQuery.Data.Substring(17));
                 dbContext.SaveChanges();
 
-                await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "Send buttons in format like in message below\nYou can't use symbols such as ()[] in text or url\nIf you attach buttons, you won't be able to add more than 1 image!", true);
-                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "You can add up to 5 buttons, each line for a new button\n\n(Button 1)[http://example1.com]\n(Button 2)[http://example2.com]");
+                await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "Отправьте кнопки как в формате ниже\nВы не можете использовать символы: ()[]\nЕсли вы добавите кнопки, вы не сможете добавить более одной картинки!", true);
+                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Вы можете прикрепить до 5-ти кнопок, каждая кнопка с новой строчки\nПример\n\n(Button 1)[http://example1.com]\n(Button 2)[http://example2.com]");
             }
             catch (Exception ex)
             {

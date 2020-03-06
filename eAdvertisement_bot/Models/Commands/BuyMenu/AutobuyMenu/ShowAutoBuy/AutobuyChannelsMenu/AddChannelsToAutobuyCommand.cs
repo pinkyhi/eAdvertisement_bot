@@ -134,18 +134,18 @@ namespace eAdvertisement_bot.Models.Commands
                 {
                     keyboard = new InlineKeyboardButton[channels.Count + 2][];
                 }
-                keyboard[0] = new[] { new InlineKeyboardButton { Text = "Categories", CallbackData = "ccgsfabP0"} };
+                keyboard[0] = new[] { new InlineKeyboardButton { Text = "Категории", CallbackData = "ccgsfabP0"} };
 
                 int indexToPaste = 1;
                 foreach (DbEntities.Channel ch in channels)
                 {
                     if (t!= null && t.Contains(ch.Channel_Id))
                     {
-                        keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = "CPM: " + ch.Cpm + " Price: " + ch.Price + " \nX" + ch.Name+"X", CallbackData = "tciatabBlock"}, };
+                        keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = "CPM: " + ch.Cpm + " Цена: " + ch.Price + " \nX" + ch.Name+"X", CallbackData = "tciatabBlock"}, };
                     }
                     else
                     {
-                        keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = "CPM: " + ch.Cpm + " Price: " + ch.Price + " \n" + ch.Name, CallbackData = "aacltabN" + ch.Channel_Id + "P" + page }, };
+                        keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = "CPM: " + ch.Cpm + " Цена: " + ch.Price + " \n" + ch.Name, CallbackData = "aacltabN" + ch.Channel_Id + "P" + page }, };
                     }
                     indexToPaste++;
                 }
@@ -165,13 +165,13 @@ namespace eAdvertisement_bot.Models.Commands
                     keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = "←←←", CallbackData = "acstabP" + (page - 1)  }, };
                     indexToPaste++;
                 }
-                keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = "Back", CallbackData = "cabcsP0" }, };
+                keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = "Назад", CallbackData = "cabcsP0" }, };
 
                 dbContext.Users.Find(Convert.ToInt64(update.CallbackQuery.From.Id)).User_State_Id = 5;
                 dbContext.SaveChanges();
 
 
-                string text = "Here you can add channels to autobuy.\nIf you want to buy in specific channel you can send a post from it\n*Show settings*\nCategories:" + String.Join(", ", categoriesStrs) + "\nPrice interval: " + intervalFrom + "-" + intervalTo+"\nMax CPM: "+maxCpm;
+                string text = "Здесь вы можете добавить каналы к автозакупу.\nЕсли вы хотите добавить определенный канал перешлите пост оттуда\n*Показать настройки*\nКатегории:" + String.Join(", ", categoriesStrs) + "\nИнтервал цены: " + intervalFrom + "-" + intervalTo+"\nМаксимальный CPM: "+maxCpm;
                 await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, text, replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
 
                 try

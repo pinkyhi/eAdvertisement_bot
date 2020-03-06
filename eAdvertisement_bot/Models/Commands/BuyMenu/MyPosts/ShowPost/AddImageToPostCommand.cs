@@ -36,7 +36,7 @@ namespace eAdvertisement_bot.Models.Commands
                 user.Object_Id = Convert.ToInt64(update.CallbackQuery.Data.Substring(16));
                 dbContext.SaveChanges();
 
-                await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "Send image, it will be added to post\nIf you attach 2 or more images, you won't be able to add buttons!", true);
+                await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "Отправьте картинку, она будет прикреплена к посту\nЕсли вы прикрепите более одной картинки то вы не сможете использовать кнопки!", true);
             }
             catch(Exception ex)
             {

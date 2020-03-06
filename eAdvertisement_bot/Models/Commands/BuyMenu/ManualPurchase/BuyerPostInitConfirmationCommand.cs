@@ -49,14 +49,14 @@ namespace eAdvertisement_bot.Models.Commands
 
                 SendPost(post, update, botClient);
 
-                keyboard[0] = new[] { new InlineKeyboardButton { Text = "Accept", CallbackData = "ambN" + channelId + "D" + Convert.ToString(dateTime) + "T" + tags + "P" + postId} };
-                keyboard[1] = new[] { new InlineKeyboardButton { Text = "Back", CallbackData = "cpfaN" + channelId + "D" + Convert.ToString(dateTime) + "T" + tags } };
+                keyboard[0] = new[] { new InlineKeyboardButton { Text = "Принять", CallbackData = "ambN" + channelId + "D" + Convert.ToString(dateTime) + "T" + tags + "P" + postId} };
+                keyboard[1] = new[] { new InlineKeyboardButton { Text = "Назад", CallbackData = "cpfaN" + channelId + "D" + Convert.ToString(dateTime) + "T" + tags } };
                 keyboard[keyboard.Length - 1] = new[]
 {
-                    new InlineKeyboardButton { Text = "Cancel", CallbackData = "/manualPurchaseMenuP" + tags },
+                    new InlineKeyboardButton { Text = "Отмена", CallbackData = "/manualPurchaseMenuP" + tags },
                 }; 
 
-                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Price: "+channel.Price+"\nAre you sure?", replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown, disableWebPagePreview: true);
+                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Цена: "+channel.Price+"\nВы уверены?", replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown, disableWebPagePreview: true);
 
                 try
                 {

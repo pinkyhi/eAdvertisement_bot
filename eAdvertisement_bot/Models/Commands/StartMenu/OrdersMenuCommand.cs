@@ -171,8 +171,8 @@ namespace eAdvertisement_bot.Models.Commands
                         {
                             controllKeyboard[0] = new[]
                             {
-                                new InlineKeyboardButton{CallbackData = "afaN"+ad.Advertisement_Id, Text = "Accept"},
-                                new InlineKeyboardButton{CallbackData = "dfaN"+ad.Advertisement_Id, Text = "Decline"}
+                                new InlineKeyboardButton{CallbackData = "afaN"+ad.Advertisement_Id, Text = "Принять"},
+                                new InlineKeyboardButton{CallbackData = "dfaN"+ad.Advertisement_Id, Text = "Отклонить"}
                             };
                             controllKeyboard[1] = new[] { new InlineKeyboardButton { CallbackData = "/ordersMenuP" + (page + 1), Text = "→→→ "+(page+2) } };
                             controllKeyboard[2] = new[] { new InlineKeyboardButton { CallbackData = "/backToStartMenu", Text = "Back" } };
@@ -181,8 +181,8 @@ namespace eAdvertisement_bot.Models.Commands
                         {
                             controllKeyboard[0] = new[]
                             {
-                                new InlineKeyboardButton{CallbackData = "afaN"+ad.Advertisement_Id, Text = "Accept"},
-                                new InlineKeyboardButton{CallbackData = "dfaN"+ad.Advertisement_Id, Text = "Decline"}
+                                new InlineKeyboardButton{CallbackData = "afaN"+ad.Advertisement_Id, Text = "Принять"},
+                                new InlineKeyboardButton{CallbackData = "dfaN"+ad.Advertisement_Id, Text = "Отклонить"}
                             };
                             controllKeyboard[1] = new[] { new InlineKeyboardButton { CallbackData = "/ordersMenuP" + (page - 1), Text = page+" ←←←" } };
                             controllKeyboard[2] = new[] { new InlineKeyboardButton { CallbackData = "/backToStartMenu", Text = "Back" } };
@@ -191,8 +191,8 @@ namespace eAdvertisement_bot.Models.Commands
                         {
                             controllKeyboard[0] = new[]
                             {
-                                new InlineKeyboardButton{CallbackData = "afaN"+ad.Advertisement_Id, Text = "Accept"},
-                                new InlineKeyboardButton{CallbackData = "dfaN"+ad.Advertisement_Id, Text = "Decline"}
+                                new InlineKeyboardButton{CallbackData = "afaN"+ad.Advertisement_Id, Text = "Принять"},
+                                new InlineKeyboardButton{CallbackData = "dfaN"+ad.Advertisement_Id, Text = "Отклонить"}
                             };
                             controllKeyboard[1] = new[] { new InlineKeyboardButton { CallbackData = "/ordersMenuP" + (page - 1), Text = page+ " ←←←" }, new InlineKeyboardButton { CallbackData = "/ordersMenuP" + (page + 1), Text = "→→→ "+(page+2) } };
                             controllKeyboard[2] = new[] { new InlineKeyboardButton { CallbackData = "/backToStartMenu", Text = "Back" } };
@@ -203,8 +203,8 @@ namespace eAdvertisement_bot.Models.Commands
                         controllKeyboard = new InlineKeyboardButton[2][];
                         controllKeyboard[0] = new[]
                             {
-                                new InlineKeyboardButton{CallbackData = "afaN"+ad.Advertisement_Id, Text = "Accept"},
-                                new InlineKeyboardButton{CallbackData = "dfaN"+ad.Advertisement_Id, Text = "Decline"}
+                                new InlineKeyboardButton{CallbackData = "afaN"+ad.Advertisement_Id, Text = "Принять"},
+                                new InlineKeyboardButton{CallbackData = "dfaN"+ad.Advertisement_Id, Text = "Отклонить"}
                             };
                         controllKeyboard[1] = new[] { new InlineKeyboardButton { CallbackData = "/backToStartMenu", Text = "Back" } };
                     }

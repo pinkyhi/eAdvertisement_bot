@@ -49,7 +49,7 @@ namespace eAdvertisement_bot.Models.Commands
                 string json = JsonSerializer.Serialize(post);
                 
 
-                keyboard[0] = new[] { new InlineKeyboardButton { Text = "Back to manual purchase menu", CallbackData = "/manualPurchaseMenuP"+tags } };
+                keyboard[0] = new[] { new InlineKeyboardButton { Text = "Назад в меню ручной покупки", CallbackData = "/manualPurchaseMenuP"+tags } };
 
                 if(user.Balance>= channel.Price)
                 {
@@ -109,11 +109,11 @@ namespace eAdvertisement_bot.Models.Commands
                             await botClient.SendTextMessageAsync(channel.User_Id, "У вас новый заказ на рекламу:)", disableNotification: true, replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Заказы", CallbackData = "/ordersMenuP0" }));
                         }
                         catch { }
-                        await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Post is sent, to back into manual purchase menu click the button below", replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown, disableWebPagePreview: true);
+                        await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Пост отправлен", replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown, disableWebPagePreview: true);
                     }
                     catch
                     {
-                        await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Sorry but this place is occupied now, to back into manual purchase menu click the button below", replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown, disableWebPagePreview: true);
+                        await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Это место уже занято", replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown, disableWebPagePreview: true);
                     }
 
                 }

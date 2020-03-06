@@ -39,7 +39,7 @@ namespace eAdvertisement_bot.Models.Commands
                 Channel channel = dbContext.Channels.Find(channelId);
                 if (channel.User_Id == update.CallbackQuery.From.Id)
                 {
-                    await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "You can't go next step because u can't buy ad in your own channel.", true);
+                    await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "Вы не можете покупать рекламу в собственном канале.", true);
                     return;
                 }
                 List<Publication> posts = dbContext.Publications.Where(p => p.User_Id == update.CallbackQuery.From.Id).ToList();
@@ -50,13 +50,13 @@ namespace eAdvertisement_bot.Models.Commands
                     keyboard[i] = new[] { new InlineKeyboardButton { Text = posts[i].Name, CallbackData = "bpicN" + channelId + "D" + dateStr + "T" + tags + "P" + posts[i].Publication_Id } };
                 }
 
-                keyboard[keyboard.Length - 2] = new[] { new InlineKeyboardButton { Text = "Back", CallbackData = "/showPlacesForBuyerN" + channelId + "D" + Convert.ToString(dateTime).Substring(0, 10) + "T" + tags } };
+                keyboard[keyboard.Length - 2] = new[] { new InlineKeyboardButton { Text = "Назад", CallbackData = "/showPlacesForBuyerN" + channelId + "D" + Convert.ToString(dateTime).Substring(0, 10) + "T" + tags } };
                 keyboard[keyboard.Length - 1] = new[]
 {
-                    new InlineKeyboardButton { Text = "Cancel", CallbackData = "/manualPurchaseMenuP" + tags },
+                    new InlineKeyboardButton { Text = "Отмена", CallbackData = "/manualPurchaseMenuP" + tags },
                 };
 
-                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Choose post", replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown, disableWebPagePreview: true);
+                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Выберите пост", replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown, disableWebPagePreview: true);
 
                 try
                 {

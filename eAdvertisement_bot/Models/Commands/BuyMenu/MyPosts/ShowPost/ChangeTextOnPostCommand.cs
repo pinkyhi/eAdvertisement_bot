@@ -35,7 +35,7 @@ namespace eAdvertisement_bot.Models.Commands
                 user.Object_Id = Convert.ToInt64(update.CallbackQuery.Data.Substring(18));
                 dbContext.SaveChanges();
 
-                await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "Send text for your post\nFormating is markdown!", true);
+                await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "Отправьте текст вашего поста\nФорматировние – markdown!", true);
             }
             catch (Exception ex)
             {

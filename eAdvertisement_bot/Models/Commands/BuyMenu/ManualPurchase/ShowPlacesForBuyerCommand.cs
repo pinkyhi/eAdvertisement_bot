@@ -93,10 +93,10 @@ namespace eAdvertisement_bot.Models.Commands
 
 
 
-                keyboard[keyboard.Length - 2] = new[] { new InlineKeyboardButton { Text = "Back", CallbackData = "/showPlacesCalendarForBuyerN" + channelId + "T" + tags } };
-                keyboard[keyboard.Length - 1] = new[] { new InlineKeyboardButton { Text = "Cancel", CallbackData = "/manualPurchaseMenuP" + tags } };
+                keyboard[keyboard.Length - 2] = new[] { new InlineKeyboardButton { Text = "Назад", CallbackData = "/showPlacesCalendarForBuyerN" + channelId + "T" + tags } };
+                keyboard[keyboard.Length - 1] = new[] { new InlineKeyboardButton { Text = "Отмена", CallbackData = "/manualPurchaseMenuP" + tags } };
 
-                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Choose time", replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown, disableWebPagePreview: true);
+                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Выберите время", replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown, disableWebPagePreview: true);
 
                 try
                 {

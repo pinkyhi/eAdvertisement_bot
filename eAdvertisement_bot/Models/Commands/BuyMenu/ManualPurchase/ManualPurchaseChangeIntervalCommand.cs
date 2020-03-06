@@ -38,7 +38,7 @@ namespace eAdvertisement_bot.Models.Commands
                 dbContext.SaveChanges();
 
                 await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "", true);
-                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Send interval in format integers intervalFrom-intervalTo\n*1-100000*", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
+                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Отправьте интервал в целочисленном формате от-до\n*1-100000*", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
 
 
             }

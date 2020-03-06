@@ -44,14 +44,14 @@ namespace eAdvertisement_bot.Models.Commands
                 string postName = post == null ? "*None*" : post.Name;
 
                 string text = "*" + autobuyToShow.Name + "*" +
-                    "\nBalance of autobuy: " + autobuyToShow.Balance +
-                    "\nState: " + (autobuyToShow.State == 1 ? "On" : "Off") +
-                    "\nInterval: " + autobuyToShow.Interval + (autobuyToShow.Interval > 1 ? " days" : " day") +
-                    "\nPrice\n    Min: " + autobuyToShow.Min_Price + "\n    Max: " + autobuyToShow.Max_Price +
+                    "\nБаланс автозакупа: " + autobuyToShow.Balance +
+                    "\nСостояние: " + (autobuyToShow.State == 1 ? "Вкл" : "Выкл") +
+                    "\nИнтервал: " + autobuyToShow.Interval + (autobuyToShow.Interval > 1 ? " дня" : " день") +
+                    "\nЦены\n    Min: " + autobuyToShow.Min_Price + "\n    Max: " + autobuyToShow.Max_Price +
                     "\nMax CPM: " + autobuyToShow.Max_Cpm +
-                    "\nPost: " + postName +
-                    "\nDaily interval: " + autobuyToShow.Daily_Interval_From.Hours + "-"+ autobuyToShow.Daily_Interval_To.Hours +
-                    "\n*Channels*" +
+                    "\nПост: " + postName +
+                    "\nДневной интервал: " + autobuyToShow.Daily_Interval_From.Hours + "-"+ autobuyToShow.Daily_Interval_To.Hours +
+                    "\n*Каналы*" +
                     "\n" + String.Join(',',channels.Select(c=>c.Name)) + ".";
 
 
@@ -65,39 +65,39 @@ namespace eAdvertisement_bot.Models.Commands
                 {
                     new[]
                     {
-                        new InlineKeyboardButton{Text = "Change State", CallbackData = "cabst"},
-                        new InlineKeyboardButton{Text="Change post",CallbackData = "cabpub"},
+                        new InlineKeyboardButton{Text = "Изменить состояние", CallbackData = "cabst"},
+                        new InlineKeyboardButton{Text="Изменить пост",CallbackData = "cabpub"},
                     },
                     new[]//
                     {
-                        new InlineKeyboardButton{Text="Add balance",CallbackData = "abaltab"},
-                        new InlineKeyboardButton{Text="Drop balance",CallbackData = "drabbal"},
+                        new InlineKeyboardButton{Text="Добавить баланс",CallbackData = "abaltab"},
+                        new InlineKeyboardButton{Text="Сбросить баланс",CallbackData = "drabbal"},
                     },
                     new[]
                     {
-                        new InlineKeyboardButton{Text = "Change Name", CallbackData = "cabn"},
-                        new InlineKeyboardButton{Text = "Change Max CPM", CallbackData = "cabmac"}
+                        new InlineKeyboardButton{Text = "Изменить имя", CallbackData = "cabn"},
+                        new InlineKeyboardButton{Text = "Изменить максимальный CPM", CallbackData = "cabmac"}
                     },
                     new[]
                     {
-                        new InlineKeyboardButton{Text = "Change Min-Max price", CallbackData = "cabmimap"},
-                        new InlineKeyboardButton{Text = "Change buy interval", CallbackData = "cabbi"}
+                        new InlineKeyboardButton{Text = "Изменить диапазон цены", CallbackData = "cabmimap"},
+                        new InlineKeyboardButton{Text = "Изменить интервал покупок", CallbackData = "cabbi"}
                     },
                     new[]//
                     {
-                        new InlineKeyboardButton{Text="Change daily time interval",CallbackData = "cabdti"}
+                        new InlineKeyboardButton{Text="Изменить дневной интервал времени",CallbackData = "cabdti"}
                     },
                     new[]
                     {
-                        new InlineKeyboardButton{Text="Change channels",CallbackData = "cabcsP0"}
+                        new InlineKeyboardButton{Text="Изменить каналы",CallbackData = "cabcsP0"}
                     },
                     new[]//
                     {
-                        new InlineKeyboardButton{Text="Delete autobuy",CallbackData = "delab"}
+                        new InlineKeyboardButton{Text="Удалить автозакуп",CallbackData = "delab"}
                     },
                     new[]
                     {
-                        new InlineKeyboardButton{Text="Back",CallbackData = "abm"}
+                        new InlineKeyboardButton{Text="Назад",CallbackData = "abm"}
                     }
                 };
 

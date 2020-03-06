@@ -76,7 +76,7 @@ namespace eAdvertisement_bot.Models.Commands
                 int indexToPaste = 1;
                 foreach (DbEntities.Channel ch in channels)
                 {
-                    keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = "CPM: " + ch.Cpm + " Price: " + ch.Price + " \n" + ch.Name, CallbackData = "satabclN" + ch.Channel_Id + "P" + page }, }; //Show attached to autobuy channel
+                    keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = "CPM: " + ch.Cpm + " Цена: " + ch.Price + " \n" + ch.Name, CallbackData = "satabclN" + ch.Channel_Id + "P" + page }, }; //Show attached to autobuy channel
                     indexToPaste++;
                 }
 
@@ -95,14 +95,14 @@ namespace eAdvertisement_bot.Models.Commands
                     keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = "←←←", CallbackData = "cabcsP" + (page - 1)  }, };
                     indexToPaste++;
                 }
-                keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = "Back", CallbackData = "sabN"+user.Object_Id }, };
+                keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = "Назад", CallbackData = "sabN"+user.Object_Id }, };
 
                 user.Tag = "C";
                 //user.User_State_Id = 5;
                 dbContext.SaveChanges();
 
 
-                string text = "Here you can see channels that are attached to this autobuy\n Click on channel will give info about it";
+                string text = "Здесь вы можете увидеть каналы прикрепленные к этому автозакупу\nНажатие на канал даст информацию про него";
                 await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, text, replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
 
                 try

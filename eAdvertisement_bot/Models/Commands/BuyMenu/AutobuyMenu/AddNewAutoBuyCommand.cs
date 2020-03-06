@@ -35,7 +35,7 @@ namespace eAdvertisement_bot.Models.Commands
                 {
                     DbEntities.User user = dbContext.Users.Find(Convert.ToInt64(update.CallbackQuery.From.Id));
 
-                    DbEntities.Autobuy newAb = new DbEntities.Autobuy { User_Id = user.User_Id, Balance = 0, Interval = 0, State = 0, Name = "New autobuy", Min_Price = 0, Max_Cpm = 0, Max_Price = 0, Daily_Interval_From = new TimeSpan(0,0,0), Daily_Interval_To = new TimeSpan(24,0,0)  };
+                    DbEntities.Autobuy newAb = new DbEntities.Autobuy { User_Id = user.User_Id, Balance = 0, Interval = 0, State = 0, Name = "Новый автозакуп", Min_Price = 0, Max_Cpm = 0, Max_Price = 0, Daily_Interval_From = new TimeSpan(0,0,0), Daily_Interval_To = new TimeSpan(24,0,0)  };
                     dbContext.Autobuys.Add(newAb);
                     dbContext.SaveChanges();
 
@@ -47,7 +47,7 @@ namespace eAdvertisement_bot.Models.Commands
                 }
                 else
                 {
-                    await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "Limit of autobuys is 8\nDelete one to add another", true);
+                    await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "Лимит автозакупов – 8\nУдалите один чтобы добавить другой", true);
                     return;
                 }
 

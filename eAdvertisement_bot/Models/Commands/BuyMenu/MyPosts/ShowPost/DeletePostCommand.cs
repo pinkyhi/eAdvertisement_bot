@@ -35,7 +35,7 @@ namespace eAdvertisement_bot.Models.Commands
                 dbContext.Publications.Remove(dbContext.Publications.Find(Convert.ToInt32(update.CallbackQuery.Data.Substring(12))));
                 dbContext.SaveChanges();
 
-                await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "Post is deleted", true);
+                await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "Пост удален", true);
                 Command c = new MyPostsMenuCommand();
                 await c.Execute(update, botClient);
 

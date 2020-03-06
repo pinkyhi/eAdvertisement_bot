@@ -105,25 +105,25 @@ namespace eAdvertisement_bot.Models.Commands
                 {
                     new[]
                     {
-                        new InlineKeyboardButton{Text = "Add image", CallbackData = "/addImageToPostN"+postId},
-                        new InlineKeyboardButton{Text = "Add button", CallbackData = "/addButtonToPostN"+postId}
+                        new InlineKeyboardButton{Text = "Медиа", CallbackData = "/addImageToPostN"+postId},
+                        new InlineKeyboardButton{Text = "Кнопки", CallbackData = "/addButtonToPostN"+postId}
                     },
                     new[]
                     {
-                        new InlineKeyboardButton{Text = "Change text", CallbackData = "/changeTextOnPostN"+postId},
-                        new InlineKeyboardButton{Text = "Delete post", CallbackData = "/deletePostN"+postId}
+                        new InlineKeyboardButton{Text = "Текст", CallbackData = "/changeTextOnPostN"+postId},
+                        new InlineKeyboardButton{Text = "Удалить пост", CallbackData = "/deletePostN"+postId}
                     },
                     new[]
                     {
-                        new InlineKeyboardButton{Text="Change name",CallbackData = "/changePostNameN"+postId}
+                        new InlineKeyboardButton{Text="Изменить имя",CallbackData = "/changePostNameN"+postId}
                     },
                     new[]
                     {
-                        new InlineKeyboardButton{Text="Back",CallbackData = "/myPostsMenu"}
+                        new InlineKeyboardButton{Text="Назад",CallbackData = "/myPostsMenu"}
                     }
                 };
                 
-                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Buttons to change post", replyMarkup: new InlineKeyboardMarkup(keyboardControll));
+                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Кнопки для изменения поста", replyMarkup: new InlineKeyboardMarkup(keyboardControll));
 
                 await botClient.DeleteMessageAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId);
                 

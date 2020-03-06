@@ -111,15 +111,15 @@ namespace eAdvertisement_bot.Models.Commands
                                     */
                                     dbContext.Channels.Add(new DbEntities.Channel { Price = 0, Coverage = coverage, Name = update.Message.ForwardFromChat.Title, Date = DateTime.UtcNow, Channel_Id = chatId, Link = inviteLink, Subscribers = await botClient.GetChatMembersCountAsync(update.Message.ForwardFromChat.Id), User_Id = update.Message.From.Id });
                                     dbContext.SaveChanges();
-                                    await botClient.SendTextMessageAsync(update.Message.From.Id, "OK! Channel is added :)", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Back to sell menu", CallbackData = "/sellMenuP0" }));
+                                    await botClient.SendTextMessageAsync(update.Message.From.Id, "OK! Канал добавлен :)", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Мазад в меню продаж", CallbackData = "/sellMenuP0" }));
 
                                 }
                                 catch (Exception ex)
                                 {
                                     if (ex.Message.Equals("INVITE_HASH_EXPIRED"))
                                     {
-                                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "eAdvertisement_bot helper couldn't join to channel, try to add it manually.\n@eAdvertisement_Helper\n" +
-                                            "Also that can be because of high load on helper account, so just try again later.\n\n" + inviteLink);
+                                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "eAdvertisement_bot helper не может присоединиться к каналу, попробуйте сделать это вручную.\n@eAdvertisement_Helper\n" +
+                                            "Также такое может происходить из-за высокой нагрузки на @eAdvertisement_Helper . Попробуйте позже.\n\n" + inviteLink);
                                     }
                                     else
                                     {
@@ -129,33 +129,33 @@ namespace eAdvertisement_bot.Models.Commands
                             }
                             else
                             {
-                                await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Sorry, but bot hasn't all required permissions \nin this channel to work");
+                                await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Извините, но бот не имеет всех нужных разрешений \nв этом канале для того чтобы работать");
                             }
                         }
                         if (!isBotAdmin)
                         {
-                            await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Sorry, but bot isn't in administrators of this channel");
+                            await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Извините, но бот не является администратором этого канала");
                         }
                         if (!isUserACreator)
                         {
-                            await botClient.SendTextMessageAsync(update.Message.Chat.Id, "You aren't a creator of this channel");
+                            await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Вы не создатель этого канала");
                         }
                     }
                     else
                     {
                         if (chInDb.User_Id == update.Message.From.Id)
                         {
-                            await botClient.SendTextMessageAsync(update.Message.Chat.Id, "This channel is already attached to you", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Back to sell menu", CallbackData = "/sellMenuP0" }));
+                            await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Этот какнал уже привязан к вам", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Back to sell menu", CallbackData = "/sellMenuP0" }));
                         }
                         else if (!isUserACreator)
                         {
-                            await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Sorry, but you aren't a creator of this channel");
+                            await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Вы не создатель этого канала");
                         }
                         else if (chInDb.User_Id != update.Message.From.Id && isUserACreator)
                         {
                             chInDb.User_Id = update.Message.From.Id;
                             dbContext.SaveChanges();
-                            await botClient.SendTextMessageAsync(update.Message.Chat.Id, "This channel was attached not to you, but we fixed it!\nCongratulations with a new channel! :)", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Back to sell menu", CallbackData = "/sellMenuP0" }));
+                            await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Этот канал был привязан не к вам, но мы исправили это!\nПоздравляем с новым каналом! :)", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Back to sell menu", CallbackData = "/sellMenuP0" }));
                         }
                     }
                 }
@@ -166,19 +166,19 @@ namespace eAdvertisement_bot.Models.Commands
                     if (channel != null)
                     {
                         info = "[" + channel.Name + "](" + channel.Link + ")" +
-                         "\nSubscribers: " + channel.Subscribers +
-                         "\nCoverage: " + channel.Coverage +
+                         "\nПодписчиков: " + channel.Subscribers +
+                         "\nОхватов: " + channel.Coverage +
                          "\nERR: " + Math.Round(Convert.ToDouble(channel.Coverage) / Convert.ToDouble(channel.Subscribers), 2) +
-                         "\nPrice: " + channel.Price +
-                         "\nCpm: " + channel.Cpm;
+                         "\nЦена: " + channel.Price +
+                         "\nCPM: " + channel.Cpm;
                         if (channel.Description != null && !channel.Description.Equals(""))
                         {
-                            info += "\n*Description*\n" + channel.Description;
+                            info += "\n*Описание*\n" + channel.Description;
                         }
                     }
                     else
                     {
-                        await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Channel isn't found", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Back", CallbackData = "/manualPurchaseMenuP0IIS1,2C" }), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown, disableWebPagePreview: true);
+                        await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Канал не найден", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Назад", CallbackData = "/manualPurchaseMenuP0IIS1,2C" }), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown, disableWebPagePreview: true);
                         return;
                     }
 
@@ -187,8 +187,8 @@ namespace eAdvertisement_bot.Models.Commands
 
                     keyboard[0] = new[]
                     {
-                        new InlineKeyboardButton { Text = "Buy place", CallbackData = "/showPlacesCalendarForBuyerN"+channel.Channel_Id+"T0IIS1,2C"},
-                        new InlineKeyboardButton { Text = "Back", CallbackData = "/manualPurchaseMenuP0IIS1,2C"},
+                        new InlineKeyboardButton { Text = "Купить место", CallbackData = "/showPlacesCalendarForBuyerN"+channel.Channel_Id+"T0IIS1,2C"},
+                        new InlineKeyboardButton { Text = "Назад", CallbackData = "/manualPurchaseMenuP0IIS1,2C"},
                     };
 
                     await botClient.SendTextMessageAsync(update.Message.Chat.Id, info, replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown, disableWebPagePreview: true);
@@ -211,12 +211,12 @@ namespace eAdvertisement_bot.Models.Commands
                     }
                     catch
                     {
-                        await botClient.SendTextMessageAsync(update.Message.From.Id, "This channel isn't attached to a bot");
+                        await botClient.SendTextMessageAsync(update.Message.From.Id, "Этот канал не прикреплен к боту");
                         return;
                     }
                     if (channel.User_Id == update.Message.From.Id)
                     {
-                        await botClient.SendTextMessageAsync(update.Message.From.Id, "You can't add this channel because it's yours.");
+                        await botClient.SendTextMessageAsync(update.Message.From.Id, "Вы не можете купит рекламу в этом канале, потому что это ваш канал");
                         return;
                     }
                     DbEntities.User user = dbContext.Users.Find(Convert.ToInt64(update.Message.From.Id));
@@ -235,12 +235,12 @@ namespace eAdvertisement_bot.Models.Commands
                                 dbContext.Autobuys.Find(Convert.ToInt32(user.Object_Id)).Autobuy_Channels = new List<DbEntities.Autobuy_Channel> { new DbEntities.Autobuy_Channel { Autobuy_Id = Convert.ToInt32(user.Object_Id), Channel_Id = channel.Channel_Id } };
                             }
                             dbContext.SaveChanges();
-                            await botClient.SendTextMessageAsync(update.Message.From.Id, "Adding was succesful", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Показать обновленное меню!", CallbackData = "acstabP0" }));
+                            await botClient.SendTextMessageAsync(update.Message.From.Id, "Добавлние успешно", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Показать обновленное меню!", CallbackData = "acstabP0" }));
 
                         }
                         else
                         {
-                            await botClient.SendTextMessageAsync(update.Message.From.Id, "This channel is already attached", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Back", CallbackData = "acstabP0" }));
+                            await botClient.SendTextMessageAsync(update.Message.From.Id, "Этот канал уже прикреплен", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Back", CallbackData = "acstabP0" }));
 
                         }
                     }

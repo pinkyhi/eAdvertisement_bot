@@ -81,7 +81,7 @@ namespace eAdvertisement_bot.Models.Commands
                 {
                     keyboard = new InlineKeyboardButton[categories.Count + 2][];
                 }
-                keyboard[0] = new[] { new InlineKeyboardButton { Text = "CLEAR ALL", CallbackData = "clalcgsiabP" + page } };
+                keyboard[0] = new[] { new InlineKeyboardButton { Text = "ОЧИСТИТЬ", CallbackData = "clalcgsiabP" + page } };
 
                 int indexToPaste = 1;
                 foreach (Category ca in categories)
@@ -120,14 +120,14 @@ namespace eAdvertisement_bot.Models.Commands
                 }
                 keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = "OK", CallbackData = "acstabP0" }, };
 
-                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Choose wanted categories and press OK", replyMarkup: new InlineKeyboardMarkup(keyboard));
+                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Выберите категории и нажмите OK", replyMarkup: new InlineKeyboardMarkup(keyboard));
                 try
                 {
                     await botClient.DeleteMessageAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId);
                 }
                 catch
                 {
-                    await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Impossible to delete old message");
+                    await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Невозможно удалить старое сообщение");
                 }
             }
             catch (Exception ex)

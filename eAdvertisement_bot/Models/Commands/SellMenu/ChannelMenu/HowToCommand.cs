@@ -30,19 +30,19 @@ namespace eAdvertisement_bot.Models.Commands
             if (action.Equals("ChangeCpm"))
             {
                 long x = update.CallbackQuery.Message.Chat.Id;
-                await botClient.SendTextMessageAsync(x, "To change cpm write: *cpm: 'your integer cpm'*\n*Example*\ncpm: 100", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
+                await botClient.SendTextMessageAsync(x, "Для того чтобы изменить CPM напишите: *cpm: 'целое число'*\n*Пример*\ncpm: 100", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
 
                 await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, null, false);
             }
             else if(action.Equals("ChangeDescription"))
             {
                 await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, null, false);
-                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "To change description write: *description: 'your description'*\n*Example*\ndescription: My channel is the best!", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
+                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Для того чтобы изменить описане отправьте: *description: 'ваше описание'*\n*Пример*\ndescription: Это хороший канал без прона", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
             }
             else if(action.Equals("AddAdvPlace"))
             {
                 await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, null, false);
-                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "To add advertisement place write: *place: 'time in format hh:mm'*\n*Example*\nplace: 09:00", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
+                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Для того чтобы добавить рекламное место отправьте: *place: 'время в формате hh:mm'*\n*Пример*\nplace: 09:00", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
             }
         }
     }

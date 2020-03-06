@@ -95,16 +95,22 @@ namespace eAdvertisement_bot
         public void CheckAds(AppDbContext dbContext)    // Delete or interrupt
         {
             DateTime now = DateTime.Now;// 10
-            List<Advertisement> adsToCheck = dbContext.Advertisements.Include("AdMessages").Where(ad => ad.Advertisement_Status_Id == 4 && now.Ticks - ad.Date_Time.Ticks>(TimeSpan.TicksPerMinute*2)).ToList();
+            List<Advertisement> adsToCheck = dbContext.Advertisements.Include("Channel").Include("AdMessages").Where(ad => ad.Advertisement_Status_Id == 4 && now.Ticks - ad.Date_Time.Ticks>(TimeSpan.TicksPerMinute*2)).ToList();
             foreach(Advertisement ad in adsToCheck)
             {
                 if (!clientApiHandler.IsWorkingPostOk(ad.AdMessages.Select(adm=>adm.AdMessage_Id).ToList(), ad).Result)
                 {
                     ad.Advertisement_Status_Id = 6;
+                    try
+                    {
+                        botClient.SendTextMessageAsync(ad.Channel.User_Id,"Вы перебили топ рекламы или удалили её. Реклама вышла в " + ad.Date_Time + " в канале " + ad.Channel.Name+"\nХолд возвращен рекламодателю").Wait();
+                    }
+                    catch { }
                 }
 
             }
             dbContext.SaveChanges();
+
         }     
         public void CloseAds(AppDbContext dbContext)
         {

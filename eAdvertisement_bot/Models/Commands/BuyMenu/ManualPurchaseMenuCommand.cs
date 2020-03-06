@@ -145,7 +145,7 @@ namespace eAdvertisement_bot.Models.Commands.ManualPurchase
                 {
                     keyboard = new InlineKeyboardButton[channels.Count + 2][];
                 }
-                keyboard[0] = new[] { new InlineKeyboardButton { Text = "Категории", CallbackData = "/categoriesMenuP0" + update.CallbackQuery.Data.Substring(update.CallbackQuery.Data.IndexOf('I')) }, new InlineKeyboardButton { Text = "Sorts", CallbackData = "/sortsMenu" + update.CallbackQuery.Data.Substring(19) }, new InlineKeyboardButton { Text = "Interval", CallbackData = "mpciT" + update.CallbackQuery.Data.Substring(19) } };
+                keyboard[0] = new[] { new InlineKeyboardButton { Text = "Категории", CallbackData = "/categoriesMenuP0" + update.CallbackQuery.Data.Substring(update.CallbackQuery.Data.IndexOf('I')) }, new InlineKeyboardButton { Text = "Сортировка", CallbackData = "/sortsMenu" + update.CallbackQuery.Data.Substring(19) }, new InlineKeyboardButton { Text = "Интервал", CallbackData = "mpciT" + update.CallbackQuery.Data.Substring(19) } };
 
                 int indexToPaste = 1;
                 foreach (DbEntities.Channel ch in channels)

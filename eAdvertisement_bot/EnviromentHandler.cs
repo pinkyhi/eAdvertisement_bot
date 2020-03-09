@@ -28,7 +28,7 @@ namespace eAdvertisement_bot
             Interval = interval;
         }
 
-        public void Start()
+        public void StartEveryMinute()
         {
 
             while (true)
@@ -53,10 +53,34 @@ namespace eAdvertisement_bot
                 }
             }
         }
+        public void StartEveryDay()
+        {
+
+            while (true)
+            {
+                AppDbContext dbContext = new AppDbContext();
+                try
+                {
+                    UpdateCommission(dbContext);
+                    UpdateCoverage(dbContext);
+                    CleanDB(dbContext);
+                    Thread.Sleep(Interval);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                finally
+                {
+                    dbContext.Dispose();
+                }
+            }
+        }
+
 
         public async Task PublishAccepted(AppDbContext dbContext)
         {
-            List<Advertisement> ads = dbContext.Advertisements.Where(a => a.Advertisement_Status_Id == 2 && a.Date_Time < DateTime.Now).ToList();
+            List<Advertisement> ads = dbContext.Advertisements.Where(a => a.Is_Opened && ( a.Advertisement_Status_Id == 2 && a.Date_Time < DateTime.Now)).ToList();
             
             for(int i = 0; i < ads.Count; i++)
             {
@@ -95,7 +119,7 @@ namespace eAdvertisement_bot
         public void CheckAds(AppDbContext dbContext)    // Delete or interrupt
         {
             DateTime now = DateTime.Now;// 10
-            List<Advertisement> adsToCheck = dbContext.Advertisements.Include("Channel").Include("AdMessages").Where(ad => ad.Advertisement_Status_Id == 4 && now.Ticks - ad.Date_Time.Ticks>(TimeSpan.TicksPerMinute*2)).ToList();
+            List<Advertisement> adsToCheck = dbContext.Advertisements.Include("Channel").Include("AdMessages").Where(ad => ad.Is_Opened &&( ad.Advertisement_Status_Id == 4 && now.Ticks - ad.Date_Time.Ticks>(TimeSpan.TicksPerMinute*2))).ToList();
             foreach(Advertisement ad in adsToCheck)
             {
                 if (!clientApiHandler.IsWorkingPostOk(ad.AdMessages.Select(adm=>adm.AdMessage_Id).ToList(), ad).Result)
@@ -115,7 +139,7 @@ namespace eAdvertisement_bot
         public void CloseAds(AppDbContext dbContext)
         {
             DateTime now = DateTime.Now;
-            List<Advertisement> ads = dbContext.Advertisements.Include("AdMessages").Include("Channel").Where(a => a.Advertisement_Status_Id == 4 && new DateTime(a.Date_Time.Ticks).AddHours(a.Alive) < now).ToList();
+            List<Advertisement> ads = dbContext.Advertisements.Include("AdMessages").Include("Channel").Where(a => a.Is_Opened && (a.Advertisement_Status_Id == 4 && new DateTime(a.Date_Time.Ticks).AddHours(a.Alive) < now)).ToList();
             for(int i = 0; i < ads.Count; i++)
             {
                 ads[i].Advertisement_Status_Id = 5;
@@ -133,7 +157,7 @@ namespace eAdvertisement_bot
         }
         public void CloseOffers(AppDbContext dbContext)
         {
-            List<Advertisement> advertisements = dbContext.Advertisements.Where(a => a.Advertisement_Status_Id == 1 && a.Date_Time< DateTime.Now).ToList();
+            List<Advertisement> advertisements = dbContext.Advertisements.Where(a => a.Is_Opened &&( a.Advertisement_Status_Id == 1 && a.Date_Time< DateTime.Now)).ToList();
             for(int i = 0; i < advertisements.Count; i++)
             {
                 advertisements[i].Advertisement_Status_Id = 3;
@@ -143,20 +167,20 @@ namespace eAdvertisement_bot
         }
         public void CloseTransactions(AppDbContext dbContext)   // Send money back or forward in dependency of ad status
         {
-            List<Advertisement> moneyForwardAds = dbContext.Advertisements.Include("User").Include("Channel.User").Include("AdMessages").Where(a => a.Advertisement_Status_Id == 5).ToList();
-            List<Advertisement> moneyBackAds = dbContext.Advertisements.Include("Autobuy").Include("User").Include("Channel.User").Include("AdMessages").Where(a => a.Advertisement_Status_Id == 3 || a.Advertisement_Status_Id == 6 || a.Advertisement_Status_Id == 10 || a.Advertisement_Status_Id == 11).ToList(); //3,6,10,11
+            List<Advertisement> moneyForwardAds = dbContext.Advertisements.Include("User").Include("Channel.User").Include("AdMessages").Where(a => a.Is_Opened &&( a.Advertisement_Status_Id == 5)).ToList();
+            List<Advertisement> moneyBackAds = dbContext.Advertisements.Include("Autobuy").Include("User").Include("Channel.User").Include("AdMessages").Where(a => a.Is_Opened&&(a.Advertisement_Status_Id == 3 || a.Advertisement_Status_Id == 6 || a.Advertisement_Status_Id == 10 || a.Advertisement_Status_Id == 11)).ToList(); //3,6,10,11
 
             foreach (Advertisement ad in moneyBackAds)
             {
                 if (ad.Autobuy == null)
                 {
                     ad.User.Balance += ad.Price;
-                    ad.Advertisement_Status_Id = 12;
+                    ad.Is_Opened = false ;
                 }
                 else
                 {
                     ad.Autobuy.Balance += ad.Price;
-                    ad.Advertisement_Status_Id = 12;
+                    ad.Is_Opened = false;
                 }
 
             }
@@ -201,10 +225,10 @@ namespace eAdvertisement_bot
 
             }
 
-            List<Advertisement> nearestAds = dbContext.Advertisements.Where(a => a.Advertisement_Status_Id == 1 && a.Autobuy_Id != null || a.Advertisement_Status_Id == 3 && a.Autobuy_Id != null || a.Advertisement_Status_Id == 2 || a.Advertisement_Status_Id == 4 || a.Advertisement_Status_Id == 9).Where(a => a.Channel_Id == channelId && a.Date_Time <= new DateTime(tDT.Year, tDT.Month, tDT.Day, tDT.Hour, tDT.Minute, tDT.Second)).ToList();
+            List<Advertisement> nearestAds = dbContext.Advertisements.Where(a => a.Is_Opened && ( a.Advertisement_Status_Id == 1 && a.Autobuy_Id != null || a.Advertisement_Status_Id == 3 && a.Autobuy_Id != null || a.Advertisement_Status_Id == 2 || a.Advertisement_Status_Id == 4 || a.Advertisement_Status_Id == 9)).Where(a => a.Channel_Id == channelId && a.Date_Time <= new DateTime(tDT.Year, tDT.Month, tDT.Day, tDT.Hour, tDT.Minute, tDT.Second)).ToList();
             Advertisement nearestAd = nearestAds.FirstOrDefault(a => a.Date_Time.Equals(nearestAds.Max(a => a.Date_Time)));
 
-            List<Advertisement> nearestTopAds = dbContext.Advertisements.Where(a => a.Advertisement_Status_Id ==1 && a.Autobuy_Id!=null || a.Advertisement_Status_Id == 3 && a.Autobuy_Id != null || a.Advertisement_Status_Id == 2 || a.Advertisement_Status_Id == 4 || a.Advertisement_Status_Id == 9).Where(a => a.Channel_Id == channelId && a.Date_Time > new DateTime(tDT.Year, tDT.Month, tDT.Day, tDT.Hour, tDT.Minute, tDT.Second)).ToList();
+            List<Advertisement> nearestTopAds = dbContext.Advertisements.Where(a => a.Is_Opened && ( a.Advertisement_Status_Id ==1 && a.Autobuy_Id!=null || a.Advertisement_Status_Id == 3 && a.Autobuy_Id != null || a.Advertisement_Status_Id == 2 || a.Advertisement_Status_Id == 4 || a.Advertisement_Status_Id == 9)).Where(a => a.Channel_Id == channelId && a.Date_Time > new DateTime(tDT.Year, tDT.Month, tDT.Day, tDT.Hour, tDT.Minute, tDT.Second)).ToList();
             Advertisement nearestTopAd = nearestTopAds.FirstOrDefault(a => a.Date_Time.Equals(nearestTopAds.Min(a => a.Date_Time)));
 
             if (nearestAd != null)
@@ -234,7 +258,7 @@ namespace eAdvertisement_bot
                 for(int i = 0; i < ab.Autobuy_Channels.Count; i++)
                 {
                     Channel channel = ab.Autobuy_Channels[i].Channel;
-                    if (channel.Advertisements.FirstOrDefault(ad => ad.Advertisement_Status_Id==5 && ad.Date_Time.AddDays(ab.Interval) > new DateTime(nowDT.Ticks))!=null)
+                    if (channel.Advertisements.FirstOrDefault(ad => ad.Is_Opened && ( ad.Advertisement_Status_Id==5 && ad.Date_Time.AddDays(ab.Interval) > new DateTime(nowDT.Ticks)))!=null)
                     {
                         continue;
                     }
@@ -259,7 +283,7 @@ namespace eAdvertisement_bot
 
 
 
-                                Advertisement newAd = new Advertisement { Advertisement_Status_Id = 1, Alive = 24, Top = 1, Channel_Id = channel.Channel_Id, Publication_Snapshot = ab.Publication_Snapshot, Date_Time = dateTimesForPlaces[0], User_Id = ab.User_Id, Autobuy_Id = ab.Autobuy_Id, Price = channel.Price };
+                                Advertisement newAd = new Advertisement { Is_Opened = true, Advertisement_Status_Id = 1, Alive = 24, Top = 1, Channel_Id = channel.Channel_Id, Publication_Snapshot = ab.Publication_Snapshot, Date_Time = dateTimesForPlaces[0], User_Id = ab.User_Id, Autobuy_Id = ab.Autobuy_Id, Price = channel.Price };
                                 dbContext.Advertisements.Add(newAd);
                                 ab.Balance -= channel.Price;
                                 dbContext.SaveChanges();
@@ -283,6 +307,27 @@ namespace eAdvertisement_bot
         }
 
         // Daily
+        public void UpdateCommission(AppDbContext dbContext)
+        {
+            DateTime dtN = DateTime.Now;
+            List<Models.DbEntities.User> users = dbContext.Users.Include("User_Status").Where(u=>u.User_Status_Id!=3).ToList();
+            List<Advertisement> ads = dbContext.Advertisements.Where(a=>a.Date_Time.Ticks+TimeSpan.TicksPerDay*30>dtN.Ticks).ToList();
+
+            for (int i = 0; i< users.Count; i++)
+            {
+                long sum = users[i].Advertisements.Where(a=>!a.Is_Opened && a.Advertisement_Status_Id==5).Sum(a=>a.Price);
+                double comm = users[i].User_Status.Default_Commision;
+                long bound = 50000;
+                while(Math.Pow(comm, 0.8) < 0.99 && sum > bound)
+                {
+                    comm = Math.Pow(comm, 0.8);
+                    bound += 25000;
+                }
+                users[i].Commission = comm;
+
+            }
+            dbContext.SaveChanges();
+        }
         public void UpdateCoverage(AppDbContext dbContext)
         {
             List<Channel> channels = dbContext.Channels.ToList();

@@ -1,5 +1,6 @@
 ﻿using eAdvertisement_bot.DAO;
 using eAdvertisement_bot.Models.DbEntities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,14 +33,14 @@ namespace eAdvertisement_bot.Models.Commands
             AppDbContext dbContext = new AppDbContext();
             try
             {
-                DbEntities.User userEntity = dbContext.Users.Find(Convert.ToInt64(update.CallbackQuery.From.Id));
+                DbEntities.User userEntity = dbContext.Users.Include("User_Status").FirstOrDefault(u=>u.User_Id == Convert.ToInt64(update.CallbackQuery.From.Id));
                 userEntity.User_State_Id = 0;
                 dbContext.SaveChanges();
                 long hold = dbContext.Advertisements.Where(a => a.User_Id == userEntity.User_Id && (a.Advertisement_Status_Id == 1 || a.Advertisement_Status_Id == 2 || a.Advertisement_Status_Id == 4)).Sum(a => a.Price);
                 await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, null, false);  // ...,...,alert    AnswerCallbackQuery is required to send to avoid clock animation ob the button
 
                 InlineKeyboardMarkup keyboard = buyMenuKeyboard;
-                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Баланс: " + userEntity.Balance + "\nХолд: " + hold, replyMarkup: keyboard);
+                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Баланс: " + userEntity.Balance + "\nХолд: " + hold + "\nСтатус аккаунта: *" + userEntity.User_Status.Name + ".*\nКоммиссия: " + (Math.Round((1-userEntity.Commission)*100))+"%", replyMarkup: keyboard, parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
 
                 try
                 {

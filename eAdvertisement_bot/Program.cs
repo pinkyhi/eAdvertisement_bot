@@ -17,7 +17,9 @@ namespace eAdvertisement_bot
         public static void Main(string[] args)
         {
             EnviromentHandler eh = new EnviromentHandler(Bot.GetBotClientAsync().Result, 60000);
-            Thread ehThread = new Thread(new ThreadStart(eh.Start));
+            EnviromentHandler ed = new EnviromentHandler(Bot.GetBotClientAsync().Result, 86400000);
+            Thread edThread = new Thread(new ThreadStart(ed.StartEveryDay));
+            Thread ehThread = new Thread(new ThreadStart(eh.StartEveryMinute));
             ehThread.Start();
             CreateHostBuilder(args).Build().Run();
 

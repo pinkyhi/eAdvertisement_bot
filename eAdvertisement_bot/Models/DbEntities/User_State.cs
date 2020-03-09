@@ -15,5 +15,6 @@ namespace eAdvertisement_bot.Models.DbEntities
 
         [Column("state")]
         public string State { get; set; }
+
     }
 }

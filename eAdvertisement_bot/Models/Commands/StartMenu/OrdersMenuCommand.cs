@@ -38,7 +38,7 @@ namespace eAdvertisement_bot.Models.Commands
                 DbEntities.User userEntity = dbContext.Users.Find(Convert.ToInt64(update.CallbackQuery.From.Id));
                 List<Channel> channels = dbContext.Channels.Where(c => c.User_Id == userEntity.User_Id).ToList();
                 List<long> channelIds = channels.Select(c => c.Channel_Id).ToList();
-                List<Advertisement> ads = dbContext.Advertisements.Where(a => a.Date_Time>DateTime.Now && channelIds.Contains(a.Channel_Id) && a.Advertisement_Status_Id == 1).OrderByDescending(a=>a.Price).OrderBy(a=>a.Date_Time).ToList();
+                List<Advertisement> ads = dbContext.Advertisements.Where(a => a.Is_Opened && (a.Date_Time>DateTime.Now && channelIds.Contains(a.Channel_Id) && a.Advertisement_Status_Id == 1)).OrderByDescending(a=>a.Price).OrderBy(a=>a.Date_Time).ToList();
                 DateTime nowIs = DateTime.Now;
 
                 for (int i = 0; i < ads.Count; i++)
@@ -54,10 +54,10 @@ namespace eAdvertisement_bot.Models.Commands
 
                     }
 
-                    List<Advertisement> nearestAds = dbContext.Advertisements.Where(a => a.Advertisement_Status_Id == 2 || a.Advertisement_Status_Id == 4 || a.Advertisement_Status_Id == 9).Where(a => a.Channel_Id == adNow.Channel_Id && a.Date_Time <= new DateTime(tDT.Year, tDT.Month, tDT.Day, tDT.Hour, tDT.Minute, tDT.Second)).ToList();
+                    List<Advertisement> nearestAds = dbContext.Advertisements.Where(a => a.Is_Opened && ( a.Advertisement_Status_Id == 2 || a.Advertisement_Status_Id == 4 || a.Advertisement_Status_Id == 9)).Where(a => a.Channel_Id == adNow.Channel_Id && a.Date_Time <= new DateTime(tDT.Year, tDT.Month, tDT.Day, tDT.Hour, tDT.Minute, tDT.Second)).ToList();
                     Advertisement nearestAd = nearestAds.FirstOrDefault(a => a.Date_Time.Equals(nearestAds.Max(a => a.Date_Time)));
 
-                    List<Advertisement> nearestTopAds = dbContext.Advertisements.Where(a => a.Advertisement_Status_Id == 2 || a.Advertisement_Status_Id == 4 || a.Advertisement_Status_Id == 9).Where(a => a.Channel_Id == adNow.Channel_Id && a.Date_Time > new DateTime(tDT.Year, tDT.Month, tDT.Day, tDT.Hour, tDT.Minute, tDT.Second)).ToList();
+                    List<Advertisement> nearestTopAds = dbContext.Advertisements.Where(a => a.Is_Opened && (a.Advertisement_Status_Id == 2 || a.Advertisement_Status_Id == 4 || a.Advertisement_Status_Id == 9)).Where(a => a.Channel_Id == adNow.Channel_Id && a.Date_Time > new DateTime(tDT.Year, tDT.Month, tDT.Day, tDT.Hour, tDT.Minute, tDT.Second)).ToList();
                     Advertisement nearestTopAd = nearestTopAds.FirstOrDefault(a => a.Date_Time.Equals(nearestTopAds.Min(a => a.Date_Time)));
 
                     if (nearestAd != null)

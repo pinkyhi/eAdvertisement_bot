@@ -73,7 +73,7 @@ namespace eAdvertisement_bot.Models.Commands
 
                         if (nearestTopAd== null || nearestTopAd.Date_Time.Subtract(dateTime) > new TimeSpan(topHours,0,0))
                         {
-                            dbContext.Advertisements.Add(new Advertisement { Channel_Id = channelId, Date_Time = dateTime, Advertisement_Status_Id = 9, Price = 0, Top = topHours });
+                            dbContext.Advertisements.Add(new Advertisement { Is_Opened = true, Channel_Id = channelId, Date_Time = dateTime, Advertisement_Status_Id = 9, Price = 0, Top = topHours }); ;
                             dbContext.SaveChanges();
                             InlineKeyboardButton[][] keyboard = new[] { new[] { new InlineKeyboardButton { Text = "Назад в меню проданых реклам", CallbackData = "/soldPostsMenu" }, } };
                             await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Реклама добавлена успешно", replyMarkup: new InlineKeyboardMarkup(keyboard));

@@ -49,6 +49,13 @@ namespace eAdvertisement_bot.Models.DbEntities
         public long User_State_Id { get; set; }
         public User_State User_State { get; set; }
 
+        [Column("user_status_id")]
+        public long User_Status_Id { get; set; }
+        public User_Status User_Status { get; set; }
+
+        [Column("commission")]
+        public double Commission { get; set; }
+
         // One to Many relationship lists
         public List<Input> Inputs { get; set; }
         public List<Advertisement> Advertisements { get; set; }

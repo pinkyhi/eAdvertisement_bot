@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
+using System.ComponentModel;
 
 namespace eAdvertisement_bot.Models.DbEntities
 {
@@ -18,7 +18,9 @@ namespace eAdvertisement_bot.Models.DbEntities
         public long Channel_Id { get; set; }
         public Channel Channel { get; set; }
 
-
+        [Column("is_opened", TypeName = "bit")]
+        [DefaultValue(true)]
+        public bool Is_Opened { get; set; }
 
         [Column("date_time")]
         public DateTime Date_Time { get; set; }

@@ -12,4 +12,10 @@
     <PackageReference Include="TLSharp" Version="0.1.0.429" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="session.dat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

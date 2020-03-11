@@ -40,8 +40,8 @@ namespace eAdvertisement_bot.Models.Commands
                 string info = "[" + channel.Name + "](" + channel.Link + ")" +
                     "\nПодписчиков: " + channel.Subscribers +
                     "\nОхват: " + channel.Coverage +
-                    "\nERR: " + Math.Round(Convert.ToDouble(channel.Coverage) / Convert.ToDouble(channel.Subscribers), 2) +
-                    "\nЦена: " + channel.Price +
+                    "\nERR: " + (Math.Round(Convert.ToDouble(channel.Coverage) / Convert.ToDouble(channel.Subscribers), 2))*100 +
+                    "%\nЦена: " + channel.Price +
                     "\nCpm: " + channel.Cpm;
                 if(channel.Description!=null && !channel.Description.Equals(""))
                 {
@@ -53,9 +53,9 @@ namespace eAdvertisement_bot.Models.Commands
 
                 keyboard[0] = new[]
                 {
-                    new InlineKeyboardButton { Text = "Изменить описание", CallbackData = "/changeDescription"},
+                    new InlineKeyboardButton { Text = "Описание", CallbackData = "/changeDescription"},
                     new InlineKeyboardButton { Text = "Изменить cpm", CallbackData = "/changeCpm"},
-                    new InlineKeyboardButton { Text = "Добавить рекламное место", CallbackData = "/addAdvPlace"},
+                    new InlineKeyboardButton { Text = "Рекл. место", CallbackData = "/addAdvPlace"},
                 };
                 keyboard[1] = new[]
 {

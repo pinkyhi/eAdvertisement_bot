@@ -19,7 +19,7 @@ namespace eAdvertisement_bot
         ClientApiHandler clientApiHandler;
         int Interval;
 
-        public EnviromentHandler(TelegramBotClient botClient, int interval)
+        public EnviromentHandler(TelegramBotClient botClient, int interval) // Try to move cah in Program.cs, check confirmation
         {
             this.botClient = botClient;
             clientApiHandler = new ClientApiHandler();

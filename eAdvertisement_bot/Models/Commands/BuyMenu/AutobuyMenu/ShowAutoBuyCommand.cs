@@ -76,12 +76,12 @@ namespace eAdvertisement_bot.Models.Commands
                     new[]
                     {
                         new InlineKeyboardButton{Text = "Изменить имя", CallbackData = "cabn"},
-                        new InlineKeyboardButton{Text = "Изменить максимальный CPM", CallbackData = "cabmac"}
+                        new InlineKeyboardButton{Text = "Макс. CPM", CallbackData = "cabmac"}
                     },
                     new[]
                     {
-                        new InlineKeyboardButton{Text = "Изменить диапазон цены", CallbackData = "cabmimap"},
-                        new InlineKeyboardButton{Text = "Изменить интервал покупок", CallbackData = "cabbi"}
+                        new InlineKeyboardButton{Text = "Диапазон цены", CallbackData = "cabmimap"},
+                        new InlineKeyboardButton{Text = "Интервал покупок", CallbackData = "cabbi"}
                     },
                     new[]//
                     {

@@ -49,7 +49,7 @@ namespace eAdvertisement_bot.Models.Commands
             {
                 if (userEntity == null)
                 {
-                    double defaultComm = dbContext.User_Statuses.Find(1).Default_Commision;
+                    double defaultComm = dbContext.User_Statuses.First(us=>us.User_Status_Id==1).Default_Commision;
                     dbContext.Users.Add(new DbEntities.User { User_Id = message.From.Id, Nickname = message.From.Username, FirstName = message.From.FirstName, LastName = message.From.LastName, Language = message.From.LanguageCode, Stopped = false, Commission=defaultComm, User_Status_Id = 1 });
                     dbContext.SaveChanges();
                     dbContext.Dispose();

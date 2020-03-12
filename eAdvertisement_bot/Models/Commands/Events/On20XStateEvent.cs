@@ -50,13 +50,13 @@ namespace eAdvertisement_bot.Models.Commands
                     }
                     catch
                     {
-                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Некорректный формат времни. Попробуйте ещё раз.\nИли вернитесь назад нажав на кнопку ниже.", replyMarkup: new InlineKeyboardMarkup(new[] { new[] { new InlineKeyboardButton { Text = "Назад", CallbackData = "/showChannelForSellerN" + user.Object_Id }, } }));
+                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Некорректный формат времени. Попробуйте ещё раз.\nИли вернитесь назад нажав на кнопку ниже.", replyMarkup: new InlineKeyboardMarkup(new[] { new[] { new InlineKeyboardButton { Text = "Назад", CallbackData = "/showChannelForSellerN" + user.Object_Id }, } }));
                         return;
                     }
                     if (timeStr.Length != 5)
                     {
 
-                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Некорректный формат времни. Попробуйте ещё раз.\nИли вернитесь назад нажав на кнопку ниже.", replyMarkup: new InlineKeyboardMarkup(new[] { new[] { new InlineKeyboardButton { Text = "Назад", CallbackData = "/showChannelForSellerN" + user.Object_Id }, } }));
+                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Некорректный формат времени. Попробуйте ещё раз.\nИли вернитесь назад нажав на кнопку ниже.", replyMarkup: new InlineKeyboardMarkup(new[] { new[] { new InlineKeyboardButton { Text = "Назад", CallbackData = "/showChannelForSellerN" + user.Object_Id }, } }));
                         return;
                     }
                     else
@@ -70,7 +70,7 @@ namespace eAdvertisement_bot.Models.Commands
                             }
                             catch
                             {
-                                await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Некорректный формат времни. Попробуйте ещё раз.\nИли вернитесь назад нажав на кнопку ниже.", replyMarkup: new InlineKeyboardMarkup(new[] { new[] { new InlineKeyboardButton { Text = "Назад", CallbackData = "/showChannelForSellerN" + user.Object_Id }, } }));
+                                await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Некорректный формат времени. Попробуйте ещё раз.\nИли вернитесь назад нажав на кнопку ниже.", replyMarkup: new InlineKeyboardMarkup(new[] { new[] { new InlineKeyboardButton { Text = "Назад", CallbackData = "/showChannelForSellerN" + user.Object_Id }, } }));
                                 return;
                             }
                             

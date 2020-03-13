@@ -31,7 +31,7 @@ namespace eAdvertisement_bot.Models.Commands
         {
             InlineKeyboardButton[][] keyboard = new[] { new[] { new InlineKeyboardButton {Text = "Назад", CallbackData = "/backToStartMenu" } } };
 
-            await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Связь с администратором\n@olejchanskiy", replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
+            await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Связь с администратором\n@olejchanskiy\nТакже читайте [FAQ](https://telegra.ph/eAdvertisement-03-07), оно будет дополнятья", replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
 
             try
             {

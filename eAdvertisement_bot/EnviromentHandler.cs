@@ -80,10 +80,12 @@ namespace eAdvertisement_bot
 
         public async Task PublishAccepted(AppDbContext dbContext)
         {
-            List<Advertisement> ads = dbContext.Advertisements.Where(a => a.Is_Opened && ( a.Advertisement_Status_Id == 2 && a.Date_Time < DateTime.Now)).ToList();
-            
-            for(int i = 0; i < ads.Count; i++)
+            DateTime now = DateTime.Now;
+
+            List<Advertisement> ads = dbContext.Advertisements.Where(a => a.Is_Opened && a.Advertisement_Status_Id == 2 && a.Date_Time < now).ToList(); ;
+            for (int i = 0; i < ads.Count; i++)
             {
+                Console.WriteLine(ads[i].Advertisement_Id);
                 Publication post;
                 try
                 {
@@ -99,7 +101,7 @@ namespace eAdvertisement_bot
                     Message[] messages = await SendPostToChat(post, ads[i].Channel_Id, botClient);
                     try
                     {
-                        ads[i].AdMessages = messages.Select(m=>new AdMessage {AdMessage_Id = m.MessageId, Advertisement_Id=ads[i].Advertisement_Status_Id }).ToList();
+                        ads[i].AdMessages = messages.Select(m=>new AdMessage {AdMessage_Id = m.MessageId, Advertisement_Id=ads[i].Advertisement_Id }).ToList();
                         ads[i].Advertisement_Status_Id = 4;
                     }
                     catch
@@ -113,8 +115,10 @@ namespace eAdvertisement_bot
                     ads[i].Advertisement_Status_Id = 10;
                     continue;
                 }
+                dbContext.SaveChanges();
             }
             dbContext.SaveChanges();
+
         }
         public void CheckAds(AppDbContext dbContext)    // Delete or interrupt
         {
@@ -310,12 +314,13 @@ namespace eAdvertisement_bot
         public void UpdateCommission(AppDbContext dbContext)
         {
             DateTime dtN = DateTime.Now;
-            List<Models.DbEntities.User> users = dbContext.Users.Include("User_Status").Where(u=>u.User_Status_Id!=3).ToList();
+            List<Models.DbEntities.User> users = dbContext.Users.Include("User_Status").Include("Advertisements").Where(u=>u.User_Status_Id!=3).ToList();
             List<Advertisement> ads = dbContext.Advertisements.Where(a=>a.Date_Time.Ticks+TimeSpan.TicksPerDay*30>dtN.Ticks).ToList();
 
             for (int i = 0; i< users.Count; i++)
             {
-                long sum = users[i].Advertisements.Where(a=>!a.Is_Opened && a.Advertisement_Status_Id==5).Sum(a=>a.Price);
+                var adsss = users[i].Advertisements.Where(a => !a.Is_Opened && a.Advertisement_Status_Id == 5);
+                long sum = adsss!=null && adsss.Count()!=0? ads.Sum(a=>a.Price) : 0;
                 double comm = users[i].User_Status.Default_Commision;
                 long bound = 50000;
                 while(Math.Pow(comm, 0.8) < 0.99 && sum > bound)
@@ -333,7 +338,7 @@ namespace eAdvertisement_bot
             List<Channel> channels = dbContext.Channels.ToList();
             foreach(Channel ch in channels){
                 ch.Coverage = clientApiHandler.GetCoverageOfChannel(ch.Link, ch.Channel_Id, false).Result;
-                ch.Price = (ch.Cpm!=null && ch.Cpm!=0) ? Convert.ToInt32(ch.Coverage * (ch.Cpm / 1000)) : 0 ;
+                ch.Price = (ch.Cpm!=null && ch.Cpm!=0) ? Convert.ToInt32(ch.Coverage * (Convert.ToDouble(ch.Cpm) / 1000)) : 0;
             }
             dbContext.SaveChanges();
         }

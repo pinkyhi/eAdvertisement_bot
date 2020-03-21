@@ -66,11 +66,14 @@ namespace eAdvertisement_bot.Models.Commands
                         if (isBotAdmin && isUserACreator)
                         {
                             int coverage = 0;
-                            if (botAsAChatMember.CanDeleteMessages == true && botAsAChatMember.CanEditMessages == true && botAsAChatMember.CanPostMessages == true)
+                            if (botAsAChatMember.CanDeleteMessages == true && botAsAChatMember.CanEditMessages == true && botAsAChatMember.CanPostMessages == true && botAsAChatMember.CanAddWebPagePreviews == true)
                             {
+
                                 ClientApiHandler cah = new ClientApiHandler();
+
                                 await cah.ConnectClient();
                                 await cah.SetClientId();
+
 
                                 if ((await botClient.GetChatAsync(chatId)).InviteLink == null)
                                 {
@@ -111,7 +114,7 @@ namespace eAdvertisement_bot.Models.Commands
                                     */
                                     dbContext.Channels.Add(new DbEntities.Channel { Price = 0, Coverage = coverage, Name = update.Message.ForwardFromChat.Title, Date = DateTime.UtcNow, Channel_Id = chatId, Link = inviteLink, Subscribers = await botClient.GetChatMembersCountAsync(update.Message.ForwardFromChat.Id), User_Id = update.Message.From.Id });
                                     dbContext.SaveChanges();
-                                    await botClient.SendTextMessageAsync(update.Message.From.Id, "OK! Канал добавлен :)\n*Что бы вы могли продать рекламу в своём канале - не забудьте выставить в настройках канала CPM и добавить рекламные места*", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Мазад в меню продаж", CallbackData = "/sellMenuP0" }),parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
+                                    await botClient.SendTextMessageAsync(update.Message.From.Id, "OK! Канал добавлен :)\n*Что бы вы могли продать рекламу в своём канале - не забудьте выставить в настройках канала CPM и добавить рекламные места*", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Мазад в меню продаж", CallbackData = "/sellMenuP0" }), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
 
                                 }
                                 catch (Exception ex)

@@ -13,7 +13,7 @@ namespace eAdvertisement_bot.Models.DbEntities
         [Key, Column("time")]
         public TimeSpan Time { get; set; }  // Check this type!
 
-        [Column("channel_id")]
+        [Key, Column("channel_id")]
         public long Channel_Id { get; set; }
         public Channel Channel { get; set; }
 

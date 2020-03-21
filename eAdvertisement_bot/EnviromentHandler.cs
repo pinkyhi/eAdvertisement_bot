@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
+using TLSharp.Core.Network;
 
 namespace eAdvertisement_bot
 {
@@ -19,12 +20,10 @@ namespace eAdvertisement_bot
         ClientApiHandler clientApiHandler;
         int Interval;
 
-        public EnviromentHandler(TelegramBotClient botClient, int interval) // Try to move cah in Program.cs, check confirmation
+        public EnviromentHandler(TelegramBotClient botClient, int interval, ClientApiHandler cah) // Try to move cah in Program.cs, check confirmation
         {
             this.botClient = botClient;
-            clientApiHandler = new ClientApiHandler();
-            clientApiHandler.ConnectClient().Wait();
-            clientApiHandler.SetClientId().Wait();
+            clientApiHandler = cah;
             Interval = interval;
         }
 
@@ -41,9 +40,15 @@ namespace eAdvertisement_bot
                     CheckAds(dbContext);
                     CloseOffers(dbContext);
                     CloseTransactions(dbContext);
+                    TryAutobuy(dbContext);
                     Thread.Sleep(Interval);
                 }
-                catch(Exception ex)
+                catch (FloodException floodException)
+                {
+                    Thread.Sleep(floodException.TimeToWait); 
+                    Console.WriteLine("Flood ex catched, sleep for"+floodException.TimeToWait);
+                }
+                catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
                 }
@@ -65,6 +70,11 @@ namespace eAdvertisement_bot
                     UpdateCoverage(dbContext);
                     CleanDB(dbContext);
                     Thread.Sleep(Interval);
+                }
+                catch (FloodException floodException)
+                {
+                    Thread.Sleep(floodException.TimeToWait);
+                    Console.WriteLine("Flood ex catched, sleep for" + floodException.TimeToWait);
                 }
                 catch (Exception ex)
                 {
@@ -200,12 +210,12 @@ namespace eAdvertisement_bot
                     if (ad.Autobuy == null)
                     {
                         ad.User.Balance += ad.Price- Convert.ToInt32((Convert.ToDouble(coverage) / 1000 * ad.Channel.Cpm));
-                        ad.Advertisement_Status_Id = 12;
+                        ad.Is_Opened = false;
                     }
                     else
                     {
                         ad.Autobuy.Balance += ad.Price- Convert.ToInt32((Convert.ToDouble(coverage) / 1000 * ad.Channel.Cpm));
-                        ad.Advertisement_Status_Id = 12;
+                        ad.Is_Opened = false;
                     }
 
                 }
@@ -214,7 +224,7 @@ namespace eAdvertisement_bot
                     ad.Channel.User.Balance += Convert.ToInt32(ad.Price * 0.93);
                 }
 
-                ad.Advertisement_Status_Id = 12;
+                ad.Is_Opened = false;
             }
             dbContext.SaveChanges();
         }
@@ -353,10 +363,26 @@ namespace eAdvertisement_bot
         }
         public bool IsBotAdminInChat(long chatId)
         {
-            ChatMember[] admins = botClient.GetChatAdministratorsAsync(chatId).Result; ;
-            ChatMember botAsAChatMember = admins.First(a => a.User.Id == botClient.BotId);
-            bool isBotAdmin = botAsAChatMember != null;
-            return isBotAdmin;
+            try
+            {
+                ChatMember[] admins = botClient.GetChatAdministratorsAsync(chatId).Result; ;
+                ChatMember botAsAChatMember = admins.First(a => a.User.Id == botClient.BotId);
+                bool isBotAdmin = botAsAChatMember != null;
+                return isBotAdmin;
+            }
+            catch ( AggregateException ex)
+            {
+                if(ex.HResult== -2146233088)
+                {
+                    Console.WriteLine("Delete channel " + chatId + " because of AggregateException try/catch construction");
+                    return false;
+                }
+                else
+                {
+                    throw ex;
+                }
+            }
+
         }
 
         public async Task<Message[]> SendPostToChat(Publication post, long chatId, TelegramBotClient botClient)

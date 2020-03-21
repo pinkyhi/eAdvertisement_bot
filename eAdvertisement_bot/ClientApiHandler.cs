@@ -2,12 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Types;
 using TeleSharp.TL;
 using TeleSharp.TL.Channels;
 using TeleSharp.TL.Messages;
 using TLSharp.Core;
+using TLSharp.Core.Network;
 
 namespace eAdvertisement_bot
 {
@@ -141,6 +143,11 @@ namespace eAdvertisement_bot
                         return coverage;
                     }
                 }
+            }
+            catch (FloodException floodException)
+            {
+                Thread.Sleep(floodException.TimeToWait);
+                Console.WriteLine("Flood ex catched, sleep for" + floodException.TimeToWait);
             }
             catch (Exception ex)
             {

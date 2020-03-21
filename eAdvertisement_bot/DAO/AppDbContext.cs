@@ -34,7 +34,7 @@ namespace eAdvertisement_bot.DAO
         {
             //FluentAPI
 
-            //modelBuilder.Entity<Advertisement>().HasKey(p => new { p.Date_Time, p.Channel_Id });
+            modelBuilder.Entity<Place>().HasKey(p => new { p.Time, p.Channel_Id });
 
             // Many to Many
 

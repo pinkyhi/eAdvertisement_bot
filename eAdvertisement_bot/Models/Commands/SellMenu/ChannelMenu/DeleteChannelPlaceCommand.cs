@@ -36,6 +36,12 @@ namespace eAdvertisement_bot.Models.Commands
                 long channelId = places[0].Channel_Id;
                 dbContext.Places.RemoveRange(dbContext.Places.Where(p => p.Place_Id == placeId).ToList());
                 dbContext.SaveChanges();
+
+                await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "Место удалено", true);  // ...,...,alert    AnswerCallbackQuery is required to send to avoid clock animation ob the button   
+                ShowChannelForSellerCommand scfsc = new ShowChannelForSellerCommand();
+                update.CallbackQuery.Data = "/showChannelForSellerN" + channelId;
+                await scfsc.Execute(update, botClient);
+                /*
                 places = dbContext.Places.Where(p => p.Channel_Id == channelId).ToList();
 
                 InlineKeyboardButton[][] keyboard = new InlineKeyboardButton[places.Count + 2][];
@@ -54,7 +60,6 @@ namespace eAdvertisement_bot.Models.Commands
                 keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = "Назад", CallbackData = "/sellMenuP0" }, };
 
 
-                await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "Место удалено", true);  // ...,...,alert    AnswerCallbackQuery is required to send to avoid clock animation ob the button   
 
                 try
                 {
@@ -62,11 +67,12 @@ namespace eAdvertisement_bot.Models.Commands
                 }
                 catch { }
                 await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.Text, replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
-
+                */
             }
             catch (Exception ex)
             {
                 await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, ex.Message);
+                Console.WriteLine(ex.StackTrace);
             }
             finally
             {

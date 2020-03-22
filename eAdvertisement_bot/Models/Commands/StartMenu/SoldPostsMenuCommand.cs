@@ -64,7 +64,7 @@ namespace eAdvertisement_bot.Models.Commands
                     await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, ex.Message);
                 }
             }
-            catch (Exception ex) { Console.WriteLine(ex.Message); }
+            catch (Exception ex) { Console.WriteLine(ex.StackTrace + "\n" + ex.Message +"\n"); }
             finally
             {
                 dbContext.Dispose();

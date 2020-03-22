@@ -103,7 +103,7 @@ namespace eAdvertisement_bot.Models.Commands
                 
                 
             }
-            catch (Exception ex){ Console.WriteLine(ex.Message); }
+            catch (Exception ex){ Console.WriteLine(ex.StackTrace + "\n" + ex.Message +"\n"); }
             finally
             {
                 dbContext.Dispose();

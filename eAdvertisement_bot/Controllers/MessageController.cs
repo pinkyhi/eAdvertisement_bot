@@ -53,7 +53,7 @@ namespace eAdvertisement_bot.Controllers
 
                     }
                 }
-                catch (Exception ex) { await botClient.SendTextMessageAsync(update.Message == null ? update.CallbackQuery.From.Id : update.Message.From.Id, "Error: " + ex.Message); return Ok(); }
+                catch (Exception ex) { await botClient.SendTextMessageAsync(update.Message == null ? update.CallbackQuery.From.Id : update.Message.From.Id, "Error: " + ex.StackTrace + "\n" + ex.Message +"\n"); return Ok(); }
             }
             //else if (update.Type == Telegram.Bot.Types.Enums.UpdateType.ChannelPost || update.Type == Telegram.Bot.Types.Enums.UpdateType.EditedChannelPost) { }
             return Ok();

@@ -88,7 +88,7 @@ namespace eAdvertisement_bot.Models.Commands
                 }
                 catch (Exception ex)
                 {
-                    await botClient.SendTextMessageAsync(update.CallbackQuery.From.Id, ex.Message);
+                    await botClient.SendTextMessageAsync(update.CallbackQuery.From.Id, ex.StackTrace + "\n" + ex.Message +"\n");
 
                 }
 

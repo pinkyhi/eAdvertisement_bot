@@ -71,8 +71,8 @@ namespace eAdvertisement_bot.Models.Commands
 
                                 ClientApiHandler cah = new ClientApiHandler();
 
-                                await cah.ConnectClient();
-                                await cah.SetClientId();
+                                await ClientApiHandler.ConnectClient();
+                                await ClientApiHandler.SetClientId();
 
 
                                 if ((await botClient.GetChatAsync(chatId)).InviteLink == null)
@@ -87,18 +87,18 @@ namespace eAdvertisement_bot.Models.Commands
                                     Chat s = await botClient.GetChatAsync(chatId);
                                     try
                                     {
-                                        if ((await botClient.GetChatMemberAsync(chatId, cah.Client_Id)).Status == Telegram.Bot.Types.Enums.ChatMemberStatus.Member)
+                                        if ((await botClient.GetChatMemberAsync(chatId, ClientApiHandler.Client_Id)).Status == Telegram.Bot.Types.Enums.ChatMemberStatus.Member)
                                         {
-                                            coverage = await cah.GetCoverageOfChannel(inviteLink, chatId, false);
+                                            coverage = await ClientApiHandler.GetCoverageOfChannel(inviteLink, chatId, false);
                                         }
                                         else
                                         {
-                                            coverage = await cah.GetCoverageOfChannel(inviteLink, chatId, true);
+                                            coverage = await ClientApiHandler.GetCoverageOfChannel(inviteLink, chatId, true);
                                         }
                                     }
                                     catch
                                     {
-                                        coverage = await cah.GetCoverageOfChannel(inviteLink, chatId, true);
+                                        coverage = await ClientApiHandler.GetCoverageOfChannel(inviteLink, chatId, true);
                                     }
 
                                     /* Old Version
@@ -126,7 +126,7 @@ namespace eAdvertisement_bot.Models.Commands
                                     }
                                     else
                                     {
-                                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, ex.Message);
+                                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, ex.StackTrace + "\n" + ex.Message +"\n");
                                     }
                                 }
                             }
@@ -202,7 +202,7 @@ namespace eAdvertisement_bot.Models.Commands
                     }
                     catch (Exception ex)
                     {
-                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, ex.Message);
+                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, ex.StackTrace + "\n" + ex.Message +"\n");
                     }
                 }
                 else if (userStateId == 5)
@@ -249,14 +249,14 @@ namespace eAdvertisement_bot.Models.Commands
                     }
                     catch (Exception ex)
                     {
-                        await botClient.SendTextMessageAsync(update.Message.From.Id, ex.Message);
+                        await botClient.SendTextMessageAsync(update.Message.From.Id, ex.StackTrace + "\n" + ex.Message +"\n");
                         
                     }
 
 
                 }
             }
-            catch (Exception ex){ await botClient.SendTextMessageAsync(update.Message.From.Id, ex.Message); }
+            catch (Exception ex){ await botClient.SendTextMessageAsync(update.Message.From.Id, ex.StackTrace + "\n" + ex.Message +"\n"); }
             finally { dbContext.Dispose(); }
         }
     }

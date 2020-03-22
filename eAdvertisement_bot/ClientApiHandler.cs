@@ -23,10 +23,25 @@ namespace eAdvertisement_bot
         //var user = await client.MakeAuthAsync("+380509400345", hash, code);
 
 
-        public int Api_Id { get; set; }
-        public string Api_Hash { get; set; }
-        public int Client_Id { private set; get; }
-        public TelegramClient Client { get; set; }
+        // Dialogs snapshot can't be older than 1 minute, it's made to decrease pressure on project
+
+        public static TLDialogs DialogsSnapshot { get; set; }
+        public static long UpdateTicks { get; set; }
+        public async static Task<TLDialogs> UpdateDialogsSnapshot()
+        {
+            if (DateTime.Now.Ticks - UpdateTicks > TimeSpan.TicksPerMinute*2)
+            {
+                UpdateTicks = DateTime.Now.Ticks;
+                DialogsSnapshot = (TLDialogs)await Client.GetUserDialogsAsync();
+            }
+            return DialogsSnapshot;
+        }
+        //
+
+        public static int Api_Id { get; set; }
+        public static string Api_Hash { get; set; }
+        public static int Client_Id { private set; get; }
+        public static TelegramClient Client { get; set; }
         public ClientApiHandler()
         {
             Api_Id = 1026352;
@@ -37,10 +52,10 @@ namespace eAdvertisement_bot
             Api_Id = apiId;
             Api_Hash = apiHash;
         }
-        public async Task<int> GetCoverageOfPost(int messageId, long channelId)
+        public static async Task<int> GetCoverageOfPost(int messageId, long channelId)
         {
             channelId = Math.Abs(1000000000000 + channelId);  // I don't know why, but it's all right
-            var dialogs = (TLDialogs)await Client.GetUserDialogsAsync();
+            var dialogs = UpdateDialogsSnapshot().Result;
 
 
             foreach (var element in dialogs.Chats)
@@ -83,7 +98,7 @@ namespace eAdvertisement_bot
             }
             return 0;
         }
-        public async Task<int> GetCoverageOfChannel(string inviteLink, long channelId, bool isNewChannel)
+        public static async Task<int> GetCoverageOfChannel(string inviteLink, long channelId, bool isNewChannel)
         {
             if (isNewChannel)
             {
@@ -96,7 +111,7 @@ namespace eAdvertisement_bot
             try
             {
                 channelId = Math.Abs(1000000000000+channelId);  // I don't know why, but it's all right
-                var dialogs = (TLDialogs)await Client.GetUserDialogsAsync();
+                var dialogs = UpdateDialogsSnapshot().Result;
 
                 
                 foreach (var element in dialogs.Chats)
@@ -147,11 +162,11 @@ namespace eAdvertisement_bot
             catch (FloodException floodException)
             {
                 Thread.Sleep(floodException.TimeToWait);
-                Console.WriteLine("Flood ex catched, sleep for" + floodException.TimeToWait);
+                Console.WriteLine("Flood ex catched, sleep for " + floodException.TimeToWait);
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace + "\n" + ex.Message +"\n");
             }
             return 0;
         }
@@ -163,12 +178,12 @@ namespace eAdvertisement_bot
             return (long)(datetime - sTime).TotalSeconds;
         }
 
-        public async Task<bool> IsWorkingPostOk(List<int> messageIds, Advertisement ad)
+        public static async Task<bool> IsWorkingPostOk(List<int> messageIds, Advertisement ad)
         {
 
             DateTime now = DateTime.Now;
             long channelId = Math.Abs(1000000000000 + ad.Channel_Id);  // I don't know why, but it's all right
-            var dialogs = (TLDialogs)await Client.GetUserDialogsAsync();
+            var dialogs = UpdateDialogsSnapshot().Result;
 
             List<TLMessage> realMessages = new List<TLMessage>();
 
@@ -251,7 +266,7 @@ namespace eAdvertisement_bot
                 return mdt.AddSeconds(TimestampToConvert);
             }
         }
-        public async Task SetClientId()
+        public static async Task SetClientId()
         {
             if (Client_Id == 0)
             {
@@ -261,7 +276,7 @@ namespace eAdvertisement_bot
                 Client_Id = userSelf.Id;
             }
         }
-        public async Task ConnectClient()
+        public static async Task ConnectClient()
         {
             if(Client == null || Client.IsConnected == false)
             {

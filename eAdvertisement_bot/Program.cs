@@ -22,16 +22,16 @@ namespace eAdvertisement_bot
             cah = new ClientApiHandler();
             try
             {
-                cah.ConnectClient().Wait();
-                cah.SetClientId().Wait();
+                ClientApiHandler.ConnectClient().Wait();
+                ClientApiHandler.SetClientId().Wait();
 
             }
             catch
             {
-                string hash = cah.Client.SendCodeRequestAsync("+380509400345").Result;
+                string hash = ClientApiHandler.Client.SendCodeRequestAsync("+380509400345").Result;
                 Console.WriteLine("Write your telegram code");
                 var code = Console.ReadLine();
-                var user = cah.Client.MakeAuthAsync("+380509400345", hash, code).Result;
+                var user = ClientApiHandler.Client.MakeAuthAsync("+380509400345", hash, code).Result;
             }
             EnviromentHandler eh = new EnviromentHandler(Bot.GetBotClientAsync().Result, 60000,cah);
             EnviromentHandler ed = new EnviromentHandler(Bot.GetBotClientAsync().Result, 86400000,cah);

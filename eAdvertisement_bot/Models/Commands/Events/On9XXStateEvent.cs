@@ -100,7 +100,7 @@ namespace eAdvertisement_bot.Models.Commands
             }
             catch (Exception ex)
             {
-                await botClient.SendTextMessageAsync(update.Message.Chat.Id, ex.Message);
+                await botClient.SendTextMessageAsync(update.Message.Chat.Id, ex.StackTrace + "\n" + ex.Message +"\n");
             }
             finally
             {

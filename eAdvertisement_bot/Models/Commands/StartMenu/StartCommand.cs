@@ -72,7 +72,7 @@ namespace eAdvertisement_bot.Models.Commands
             }
             catch(Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace + "\n" + ex.Message +"\n");
                 await botClient.SendTextMessageAsync(userId, "Извините, но сейчас есть некоторые проблемы с вашей инициализацией, можете попробовать обратиться к администратору.", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
             }
             finally

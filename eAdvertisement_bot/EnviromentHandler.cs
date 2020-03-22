@@ -46,11 +46,11 @@ namespace eAdvertisement_bot
                 catch (FloodException floodException)
                 {
                     Thread.Sleep(floodException.TimeToWait); 
-                    Console.WriteLine("Flood ex catched, sleep for"+floodException.TimeToWait);
+                    Console.WriteLine("Flood ex catched, sleep for "+floodException.TimeToWait);
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    Console.WriteLine(ex.StackTrace + "\n" + ex.Message +"\n");
                 }
                 finally
                 {
@@ -74,11 +74,11 @@ namespace eAdvertisement_bot
                 catch (FloodException floodException)
                 {
                     Thread.Sleep(floodException.TimeToWait);
-                    Console.WriteLine("Flood ex catched, sleep for" + floodException.TimeToWait);
+                    Console.WriteLine("Flood ex catched, sleep for " + floodException.TimeToWait);
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    Console.WriteLine(ex.StackTrace + "\n" + ex.Message +"\n");
                 }
                 finally
                 {
@@ -133,10 +133,11 @@ namespace eAdvertisement_bot
         public void CheckAds(AppDbContext dbContext)    // Delete or interrupt
         {
             DateTime now = DateTime.Now;// 10
-            List<Advertisement> adsToCheck = dbContext.Advertisements.Include("Channel").Include("AdMessages").Where(ad => ad.Is_Opened &&( ad.Advertisement_Status_Id == 4 && now.Ticks - ad.Date_Time.Ticks>(TimeSpan.TicksPerMinute*2))).ToList();
+            List<Advertisement> alladss = dbContext.Advertisements.Include("Channel").Include("AdMessages").ToList();
+            List<Advertisement> adsToCheck = dbContext.Advertisements.Include("Channel").Include("AdMessages").Where(ad => ad.Is_Opened && ad.Advertisement_Status_Id == 4 && now.Ticks - ad.Date_Time.Ticks>(TimeSpan.TicksPerMinute*2)).ToList();
             foreach(Advertisement ad in adsToCheck)
             {
-                if (!clientApiHandler.IsWorkingPostOk(ad.AdMessages.Select(adm=>adm.AdMessage_Id).ToList(), ad).Result)
+                if (!ClientApiHandler.IsWorkingPostOk(ad.AdMessages.Select(adm=>adm.AdMessage_Id).ToList(), ad).Result)
                 {
                     ad.Advertisement_Status_Id = 6;
                     try
@@ -201,7 +202,7 @@ namespace eAdvertisement_bot
             dbContext.SaveChanges();
             foreach (Advertisement ad in moneyForwardAds)
             {
-                int coverage = clientApiHandler.GetCoverageOfPost(ad.AdMessages[0].AdMessage_Id, ad.Channel_Id).Result;
+                int coverage = ClientApiHandler.GetCoverageOfPost(ad.AdMessages[0].AdMessage_Id, ad.Channel_Id).Result;
                 if (ad.Price > (Convert.ToDouble(coverage) / 1000 * ad.Channel.Cpm))
                 {
                     int remade = Convert.ToInt32((Convert.ToDouble(coverage) / 1000 * ad.Channel.Cpm) * 0.93);
@@ -347,7 +348,7 @@ namespace eAdvertisement_bot
         {
             List<Channel> channels = dbContext.Channels.ToList();
             foreach(Channel ch in channels){
-                ch.Coverage = clientApiHandler.GetCoverageOfChannel(ch.Link, ch.Channel_Id, false).Result;
+                ch.Coverage = ClientApiHandler.GetCoverageOfChannel(ch.Link, ch.Channel_Id, false).Result;
                 ch.Price = (ch.Cpm!=null && ch.Cpm!=0) ? Convert.ToInt32(ch.Coverage * (Convert.ToDouble(ch.Cpm) / 1000)) : 0;
             }
             dbContext.SaveChanges();

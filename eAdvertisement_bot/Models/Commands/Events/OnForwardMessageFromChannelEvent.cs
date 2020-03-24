@@ -66,7 +66,7 @@ namespace eAdvertisement_bot.Models.Commands
                         if (isBotAdmin && isUserACreator)
                         {
                             int coverage = 0;
-                            if (botAsAChatMember.CanDeleteMessages == true && botAsAChatMember.CanEditMessages == true && botAsAChatMember.CanPostMessages == true && botAsAChatMember.CanAddWebPagePreviews == true)
+                            if (botAsAChatMember.CanDeleteMessages == true && botAsAChatMember.CanEditMessages == true && botAsAChatMember.CanPostMessages == true)
                             {
 
                                 ClientApiHandler cah = new ClientApiHandler();

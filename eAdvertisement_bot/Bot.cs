@@ -2,6 +2,7 @@
 using eAdvertisement_bot.Models.Commands.ManualPurchase;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot;
@@ -115,7 +116,21 @@ namespace eAdvertisement_bot
                 commandsList.Add(new On9XXStateEvent());
 
                 botClient = new TelegramBotClient(BotSettings.Token);   // Token setting
+                string path = Environment.CurrentDirectory + @"\web_hook_url.txt";
+                Console.WriteLine(path);
+                using (StreamReader sr = new StreamReader(path, System.Text.Encoding.Default))
+                {
+                    string line;
+                    while ((line = sr.ReadLine()) != null)
+                    {
+                        if (line != null && !line.Equals(""))
+                        {
+                            Console.WriteLine(line);
+                            BotSettings.WebHookUrl = line;
+                        }
+                    }
 
+                }
                 string hook = String.Concat(BotSettings.WebHookUrl,"/df443335");    // Setting the webhook for telegram
                 await botClient.SetWebhookAsync(hook);
             }   

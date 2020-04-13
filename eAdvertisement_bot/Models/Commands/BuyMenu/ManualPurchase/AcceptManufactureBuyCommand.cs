@@ -119,7 +119,7 @@ namespace eAdvertisement_bot.Models.Commands
                 }
                 else
                 {
-                    await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Sorry, but you haven't enough money, to back into manual purchase menu click on the button below", replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown, disableWebPagePreview: true);
+                    await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Извините, но у вас недостаточный баланс", replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown, disableWebPagePreview: true);
                     
                 }
 

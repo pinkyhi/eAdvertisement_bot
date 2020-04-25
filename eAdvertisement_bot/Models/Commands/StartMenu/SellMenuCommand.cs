@@ -33,7 +33,7 @@ namespace eAdvertisement_bot.Models.Commands
             AppDbContext dbContext = new AppDbContext();
             try
             {
-                List<DbEntities.Channel> channels = dbContext.Channels.Where(chssda => chssda.User_Id == update.CallbackQuery.Message.Chat.Id).ToList().OrderBy(c=>c.Channel_Id).ToList();
+                List<DbEntities.Channel> channels = dbContext.Channels.Include("Places").Where(chssda => chssda.User_Id == update.CallbackQuery.Message.Chat.Id).ToList().OrderBy(c=>c.Channel_Id).ToList();
                 List<DbEntities.Channel> channelsToType = channels.Skip(7 * pageNow).Take(7).ToList();
 
                 channelsToType.Remove(null);
@@ -71,7 +71,7 @@ namespace eAdvertisement_bot.Models.Commands
                 int indexToPaste = 1;
                 foreach (DbEntities.Channel ch in channelsToType)
                 {
-                    keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = ch.Name, CallbackData = "/showChannelForSellerN" + ch.Channel_Id }, };
+                    keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = (ch.Cpm!=null&&ch.Cpm>0&&ch.Coverage>1500&&ch.Places!=null&&ch.Places.Count>0) ? "✔️" + ch.Name:"❌" + ch.Name, CallbackData = "/showChannelForSellerN" + ch.Channel_Id }, };
                     indexToPaste++;
                 }
 
@@ -99,7 +99,7 @@ namespace eAdvertisement_bot.Models.Commands
                 await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, null, false);  // ...,...,alert    AnswerCallbackQuery is required to send to avoid clock animation ob the button
                 dbContext.Users.Find(Convert.ToInt64(update.CallbackQuery.From.Id)).User_State_Id = 0;
                 dbContext.SaveChanges();
-                await botClient.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, "Здесь вы можете просмотреть свои каналы", replyMarkup: new InlineKeyboardMarkup(keyboard));
+                await botClient.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, "Вот ваши каналы.\n✔️ означает, что Купить рекламу в канале можно\n❌ означает, что купить рекламу в канале нельзя.\nВозможные причины:\n    1. Выставлен СРМ = 0\n    2. Не добавлены рекламные места\n    3. В канале охват меньше 1500", replyMarkup: new InlineKeyboardMarkup(keyboard));
                 
                 
             }

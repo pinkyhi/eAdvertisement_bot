@@ -56,7 +56,7 @@ namespace eAdvertisement_bot.Models.Commands
                     new InlineKeyboardButton { Text = "Отмена", CallbackData = "/manualPurchaseMenuP" + tags },
                 }; 
 
-                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Цена: "+channel.Price+"\nВы уверены?", replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown, disableWebPagePreview: true);
+                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Цена: "+channel.Price+"\nВы уверены? Покупку нельзя будет отменить.", replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown, disableWebPagePreview: true);
 
                 try
                 {

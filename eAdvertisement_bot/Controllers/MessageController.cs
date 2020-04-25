@@ -30,11 +30,8 @@ namespace eAdvertisement_bot.Controllers
         [Route("/df443335")]
         public async Task<StatusCodeResult> Post([FromBody]Update update)
         {
-            Console.WriteLine(update);
             if (update.Type == Telegram.Bot.Types.Enums.UpdateType.CallbackQuery || update.Type == Telegram.Bot.Types.Enums.UpdateType.Message)
             {
-
-
                 var botClient = await Bot.GetBotClientAsync();    // Singleton
                 try
                 {
@@ -56,7 +53,6 @@ namespace eAdvertisement_bot.Controllers
                 }
                 catch (Exception ex) { await botClient.SendTextMessageAsync(update.Message == null ? update.CallbackQuery.From.Id : update.Message.From.Id, "Error: " + ex.StackTrace + "\n" + ex.Message +"\n"); return Ok(); }
             }
-            //else if (update.Type == Telegram.Bot.Types.Enums.UpdateType.ChannelPost || update.Type == Telegram.Bot.Types.Enums.UpdateType.EditedChannelPost) { }
             return Ok();
         }
     }

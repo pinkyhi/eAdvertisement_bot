@@ -35,12 +35,15 @@ namespace eAdvertisement_bot
                 AppDbContext dbContext = new AppDbContext();
                 try
                 {
-                    PublishAccepted(dbContext).Wait();
-                    CloseAds(dbContext);
-                    CheckAds(dbContext);
-                    CloseOffers(dbContext);
-                    CloseTransactions(dbContext);
-                    TryAutobuy(dbContext);
+                    lock (clientApiHandler)
+                    {
+                        PublishAccepted(dbContext).Wait();
+                        CloseAds(dbContext);
+                        CheckAds(dbContext);
+                        CloseOffers(dbContext);
+                        CloseTransactions(dbContext);
+                        TryAutobuy(dbContext);
+                    }
                     Thread.Sleep(Interval);
                 }
                 catch (FloodException floodException)
@@ -66,9 +69,13 @@ namespace eAdvertisement_bot
                 AppDbContext dbContext = new AppDbContext();
                 try
                 {
-                    UpdateCommission(dbContext);
-                    UpdateCoverage(dbContext);
-                    CleanDB(dbContext);
+                    lock (clientApiHandler)
+                    {
+                        UpdateCommission(dbContext);
+                        UpdateCoverage(dbContext);
+                        CleanDB(dbContext);
+                    }
+
                     Thread.Sleep(Interval);
                 }
                 catch (FloodException floodException)

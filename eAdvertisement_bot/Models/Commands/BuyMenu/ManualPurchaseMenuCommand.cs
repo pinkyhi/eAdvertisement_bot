@@ -1,4 +1,5 @@
 ﻿using eAdvertisement_bot.DAO;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -84,7 +85,7 @@ namespace eAdvertisement_bot.Models.Commands.ManualPurchase
             try
             {
                 List<DbEntities.Channel_Category> channelsCategoriesToShow = dbContext.Channel_Categories.Where(cc=>cIndexes.Contains(cc.Category_Id)).ToList();
-                List<DbEntities.Channel> channels = dbContext.Channels.Where(c=>c.Price>=intervalFrom && c.Price<=intervalTo && c.Cpm!=null).ToList();
+                List<DbEntities.Channel> channels = dbContext.Channels.Include("Places").Where(c=>c.Price>=intervalFrom && c.Price<=intervalTo && c.Cpm!=null && c.Coverage>1500 && c.Places!=null && c.Places.Count>0).ToList();
 
                 List<int> categoriesToShow = channelsCategoriesToShow.Select(cc => cc.Category_Id).Distinct().ToList();
                 //List<string> categoriesStrs = dbContext.Categories.Where(c => categoriesToShow.Contains(c.Category_Id)).Select(c => c.Name).ToList(); OLD VERSION

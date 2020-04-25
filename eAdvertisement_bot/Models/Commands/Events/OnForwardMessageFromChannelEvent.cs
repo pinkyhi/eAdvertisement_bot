@@ -148,7 +148,7 @@ namespace eAdvertisement_bot.Models.Commands
                     {
                         if (chInDb.User_Id == update.Message.From.Id)
                         {
-                            await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Этот какнал уже привязан к вам", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Back to sell menu", CallbackData = "/sellMenuP0" }));
+                            await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Этот канал уже привязан к вам", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Назад в меню продаж", CallbackData = "/sellMenuP0" }));
                         }
                         else if (!isUserACreator)
                         {
@@ -158,7 +158,7 @@ namespace eAdvertisement_bot.Models.Commands
                         {
                             chInDb.User_Id = update.Message.From.Id;
                             dbContext.SaveChanges();
-                            await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Этот канал был привязан не к вам, но мы исправили это!\nПоздравляем с новым каналом! :)", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Back to sell menu", CallbackData = "/sellMenuP0" }));
+                            await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Этот канал был привязан не к вам, но мы исправили это!\nПоздравляем с новым каналом! :)", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Назад в меню продаж", CallbackData = "/sellMenuP0" }));
                         }
                     }
                 }

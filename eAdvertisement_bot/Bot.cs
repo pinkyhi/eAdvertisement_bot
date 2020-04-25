@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot;
+using Telegram.Bot.Types.InputFiles;
 
 namespace eAdvertisement_bot
 {
@@ -129,10 +130,16 @@ namespace eAdvertisement_bot
                             BotSettings.WebHookUrl = line;
                         }
                     }
-
                 }
-                string hook = String.Concat(BotSettings.WebHookUrl,"/df443335");    // Setting the webhook for telegram
-                await botClient.SetWebhookAsync(hook);
+                using (FileStream fs = File.OpenRead("eadvertisements.pem"))
+                {
+                    InputFileStream ifs = new InputFileStream(fs);
+
+
+                    string hook = String.Concat(BotSettings.WebHookUrl, "/df443335");    // Setting the webhook for telegram
+                    Console.WriteLine("WebHook on: " + hook);
+                    await botClient.SetWebhookAsync(hook, ifs);
+                }
             }   
             return botClient;
         }

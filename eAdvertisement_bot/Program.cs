@@ -2,11 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Microsoft.AspNetCore.Server.Kestrel.Https;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -49,9 +52,32 @@ namespace eAdvertisement_bot
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseKestrel();
+                    webBuilder.UseKestrel(options =>
+                    {
+                        
+
+                        options.Listen(IPAddress.Loopback, 443, listenOptions =>
+                        {
+                            listenOptions.UseHttps("eadvertisements.pfx", "22Dkflbvbhjd06");
+                        });
+                        options.Listen(IPAddress.Any, 443, listenOptions =>
+                        {
+                            listenOptions.UseHttps("eadvertisements.pfx", "22Dkflbvbhjd06");
+                        });
+
+                    }
+                    
+
+                    );
+
                     webBuilder.UseStartup<Startup>();
                     webBuilder.UseUrls("http://localhost:44359");
+                    webBuilder.ConfigureKestrel(o =>
+                    {
+                        o.ConfigureHttpsDefaults(o =>
+                    o.ClientCertificateMode =
+                        ClientCertificateMode.NoCertificate);
+                    });
                 })
                 .ConfigureServices((context, services) =>
                 {

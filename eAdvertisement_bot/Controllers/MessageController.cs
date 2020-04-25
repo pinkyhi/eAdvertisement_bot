@@ -30,6 +30,7 @@ namespace eAdvertisement_bot.Controllers
         [Route("/df443335")]
         public async Task<StatusCodeResult> Post([FromBody]Update update)
         {
+            Console.WriteLine(update);
             if (update.Type == Telegram.Bot.Types.Enums.UpdateType.CallbackQuery || update.Type == Telegram.Bot.Types.Enums.UpdateType.Message)
             {
 

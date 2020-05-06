@@ -175,7 +175,7 @@ namespace eAdvertisement_bot.Models.Commands
                                 new InlineKeyboardButton{CallbackData = "dfaN"+ad.Advertisement_Id, Text = "Отклонить"}
                             };
                             controllKeyboard[1] = new[] { new InlineKeyboardButton { CallbackData = "/ordersMenuP" + (page + 1), Text = "→→→ "+(page+2) } };
-                            controllKeyboard[2] = new[] { new InlineKeyboardButton { CallbackData = "/backToStartMenu", Text = "Back" } };
+                            controllKeyboard[2] = new[] { new InlineKeyboardButton { CallbackData = "/backToStartMenu", Text = "Назад" } };
                         }
                         else if (page == ads.Count - 1)
                         {
@@ -185,7 +185,7 @@ namespace eAdvertisement_bot.Models.Commands
                                 new InlineKeyboardButton{CallbackData = "dfaN"+ad.Advertisement_Id, Text = "Отклонить"}
                             };
                             controllKeyboard[1] = new[] { new InlineKeyboardButton { CallbackData = "/ordersMenuP" + (page - 1), Text = page+" ←←←" } };
-                            controllKeyboard[2] = new[] { new InlineKeyboardButton { CallbackData = "/backToStartMenu", Text = "Back" } };
+                            controllKeyboard[2] = new[] { new InlineKeyboardButton { CallbackData = "/backToStartMenu", Text = "Назад" } };
                         }
                         else
                         {
@@ -195,7 +195,7 @@ namespace eAdvertisement_bot.Models.Commands
                                 new InlineKeyboardButton{CallbackData = "dfaN"+ad.Advertisement_Id, Text = "Отклонить"}
                             };
                             controllKeyboard[1] = new[] { new InlineKeyboardButton { CallbackData = "/ordersMenuP" + (page - 1), Text = page+ " ←←←" }, new InlineKeyboardButton { CallbackData = "/ordersMenuP" + (page + 1), Text = "→→→ "+(page+2) } };
-                            controllKeyboard[2] = new[] { new InlineKeyboardButton { CallbackData = "/backToStartMenu", Text = "Back" } };
+                            controllKeyboard[2] = new[] { new InlineKeyboardButton { CallbackData = "/backToStartMenu", Text = "Назад" } };
                         }
                     }
                     else
@@ -206,7 +206,7 @@ namespace eAdvertisement_bot.Models.Commands
                                 new InlineKeyboardButton{CallbackData = "afaN"+ad.Advertisement_Id, Text = "Принять"},
                                 new InlineKeyboardButton{CallbackData = "dfaN"+ad.Advertisement_Id, Text = "Отклонить"}
                             };
-                        controllKeyboard[1] = new[] { new InlineKeyboardButton { CallbackData = "/backToStartMenu", Text = "Back" } };
+                        controllKeyboard[1] = new[] { new InlineKeyboardButton { CallbackData = "/backToStartMenu", Text = "Назад" } };
                     }
 
 
@@ -215,7 +215,7 @@ namespace eAdvertisement_bot.Models.Commands
                 }
                 else
                 {
-                    await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Пока у вас нет заказов.", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { CallbackData = "/backToStartMenu", Text = "Back" }));
+                    await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Пока у вас нет заказов.", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { CallbackData = "/backToStartMenu", Text = "Назад" }));
                 }
 
 

@@ -9,7 +9,7 @@
 7) Don't forget to add initialization of bot in the end of Startup.cs
 8) Add ngrok extension for Visual Studio
 9) Add GitHub extension
-10) ADD TO GITIGNORE FILES THAT YOU WILL CHANGE, WHICH WILL USE EVERY USER FOR EXAMPLE BOTSETTINGS.CS OR CLASS WHERE YOU GET CONNECTION TO DB.
+10) TO GITIGNORE FILES THAT YOU WILL CHANGE, WHICH WILL USE EVERY USER FOR EXAMPLE BOTSETTINGS.CS OR CLASS WHERE YOU GET CONNECTION TO DB.
 11) Download MySQL Notifier and MySQL Workbench
 12) Import dbDump that is in Dumps folder (button to do it is in "Administration" page in MySQL Workbench)
 13) Check if you have all required NuGet packages: MySQL.Data, Pomelo.EntityFrameworkCore.MySql, Telegram.Bot

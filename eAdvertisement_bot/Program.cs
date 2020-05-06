@@ -19,10 +19,8 @@ namespace eAdvertisement_bot
 {
     public class Program
     {
-        public static ClientApiHandler cah;
         public static void Main(string[] args)
         {
-            cah = new ClientApiHandler();
             try
             {
                 ClientApiHandler.ConnectClient().Wait();
@@ -36,8 +34,10 @@ namespace eAdvertisement_bot
                 var code = Console.ReadLine();
                 var user = ClientApiHandler.Client.MakeAuthAsync("+380509400345", hash, code).Result;
             }
-            EnviromentHandler eh = new EnviromentHandler(Bot.GetBotClientAsync().Result, 60000,cah);
-            EnviromentHandler ed = new EnviromentHandler(Bot.GetBotClientAsync().Result, 86400000,cah);
+            EnviromentHandler eh = new EnviromentHandler(Bot.GetBotClientAsync().Result, 60000);
+            EnviromentHandler ed = new EnviromentHandler(Bot.GetBotClientAsync().Result, 300000);
+            //EnviromentHandler ed = new EnviromentHandler(Bot.GetBotClientAsync().Result, 86400000);
+
             Thread edThread = new Thread(new ThreadStart(ed.StartEveryDay));
             Thread ehThread = new Thread(new ThreadStart(eh.StartEveryMinute));
 

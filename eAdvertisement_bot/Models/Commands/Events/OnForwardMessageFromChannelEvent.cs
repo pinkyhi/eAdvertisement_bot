@@ -53,6 +53,7 @@ namespace eAdvertisement_bot.Models.Commands
                 userStateId = Convert.ToInt32(dbContext.Users.First(u => u.User_Id == update.Message.From.Id).User_State_Id);
                 if (userStateId == 1)
                 {
+
                     DbEntities.Channel chInDb = dbContext.Channels.Find(chatId);
 
 
@@ -69,10 +70,9 @@ namespace eAdvertisement_bot.Models.Commands
                             if (botAsAChatMember.CanDeleteMessages == true && botAsAChatMember.CanEditMessages == true && botAsAChatMember.CanPostMessages == true)
                             {
 
-                                ClientApiHandler cah = new ClientApiHandler();
 
-                                await ClientApiHandler.ConnectClient();
-                                await ClientApiHandler.SetClientId();
+                                //await ClientApiHandler.ConnectClient();
+                                //await ClientApiHandler.SetClientId();
 
 
                                 if ((await botClient.GetChatAsync(chatId)).InviteLink == null)
@@ -85,36 +85,35 @@ namespace eAdvertisement_bot.Models.Commands
                                 try
                                 {
                                     Chat s = await botClient.GetChatAsync(chatId);
-                                    try
+                                    lock (ClientApiHandler.Client)
                                     {
-                                        if ((await botClient.GetChatMemberAsync(chatId, ClientApiHandler.Client_Id)).Status == Telegram.Bot.Types.Enums.ChatMemberStatus.Member)
+                                        try
                                         {
-                                            coverage = await ClientApiHandler.GetCoverageOfChannel(inviteLink, chatId, false);
+                                            if ((botClient.GetChatMemberAsync(chatId, ClientApiHandler.Client_Id).Result).Status == Telegram.Bot.Types.Enums.ChatMemberStatus.Member)
+                                            {
+                                                coverage = ClientApiHandler.GetCoverageOfChannel(inviteLink, chatId, false).Result;
+                                            }
+                                            else
+                                            {
+                                                coverage = ClientApiHandler.GetCoverageOfChannel(inviteLink, chatId, true).Result;
+                                            }
                                         }
-                                        else
+                                        catch
                                         {
-                                            coverage = await ClientApiHandler.GetCoverageOfChannel(inviteLink, chatId, true);
+                                            coverage = ClientApiHandler.GetCoverageOfChannel(inviteLink, chatId, true).Result;
                                         }
-                                    }
-                                    catch
-                                    {
-                                        coverage = await ClientApiHandler.GetCoverageOfChannel(inviteLink, chatId, true);
                                     }
 
-                                    /* Old Version
-                                     *
-                                    if ((await botClient.GetChatMemberAsync(chatId, cah.Client_Id)).Status != Telegram.Bot.Types.Enums.ChatMemberStatus.Member)
+                                    if (coverage > 1500)
                                     {
-                                        coverage = await cah.GetCoverageOfChannel(inviteLink,chatId,true);
+                                        dbContext.Channels.Add(new DbEntities.Channel { Price = 0, Coverage = coverage, Name = update.Message.ForwardFromChat.Title, Date = DateTime.UtcNow, Channel_Id = chatId, Link = inviteLink, Subscribers = await botClient.GetChatMembersCountAsync(update.Message.ForwardFromChat.Id), User_Id = update.Message.From.Id });
+                                        dbContext.SaveChanges();
+                                        await botClient.SendTextMessageAsync(update.Message.From.Id, "OK! Канал добавлен :)\n*Что бы вы могли продать рекламу в своём канале - не забудьте выставить в настройках канала CPM и добавить рекламные места*", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Назад в меню продаж", CallbackData = "/sellMenuP0" }), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
                                     }
                                     else
                                     {
-                                        coverage = await cah.GetCoverageOfChannel(inviteLink, chatId, false);
+                                        await botClient.SendTextMessageAsync(update.Message.From.Id, "Канал не добавлен, т.к. среднесуточній охват в нем менее 1500.", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Назад в меню продаж", CallbackData = "/sellMenuP0" }), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
                                     }
-                                    */
-                                    dbContext.Channels.Add(new DbEntities.Channel { Price = 0, Coverage = coverage, Name = update.Message.ForwardFromChat.Title, Date = DateTime.UtcNow, Channel_Id = chatId, Link = inviteLink, Subscribers = await botClient.GetChatMembersCountAsync(update.Message.ForwardFromChat.Id), User_Id = update.Message.From.Id });
-                                    dbContext.SaveChanges();
-                                    await botClient.SendTextMessageAsync(update.Message.From.Id, "OK! Канал добавлен :)\n*Что бы вы могли продать рекламу в своём канале - не забудьте выставить в настройках канала CPM и добавить рекламные места*", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Назад в меню продаж", CallbackData = "/sellMenuP0" }), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
 
                                 }
                                 catch (Exception ex)
@@ -243,7 +242,7 @@ namespace eAdvertisement_bot.Models.Commands
                         }
                         else
                         {
-                            await botClient.SendTextMessageAsync(update.Message.From.Id, "Этот канал уже прикреплен", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Back", CallbackData = "acstabP0" }));
+                            await botClient.SendTextMessageAsync(update.Message.From.Id, "Этот канал уже прикреплен", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Назад", CallbackData = "acstabP0" }));
 
                         }
                     }

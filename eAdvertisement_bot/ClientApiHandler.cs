@@ -13,7 +13,7 @@ using TLSharp.Core.Network;
 
 namespace eAdvertisement_bot
 {
-    public class ClientApiHandler
+    public static class ClientApiHandler
     {
 
         // Client API part
@@ -42,16 +42,12 @@ namespace eAdvertisement_bot
         public static string Api_Hash { get; set; }
         public static int Client_Id { private set; get; }
         public static TelegramClient Client { get; set; }
-        public ClientApiHandler()
+        static ClientApiHandler()
         {
             Api_Id = 1026352;
             Api_Hash = "a5913624290fc8ba734d33597d39ad87";
         }
-        public ClientApiHandler(int apiId, string apiHash)
-        {
-            Api_Id = apiId;
-            Api_Hash = apiHash;
-        }
+
         public static async Task<int> GetCoverageOfPost(int messageId, long channelId)
         {
             channelId = Math.Abs(1000000000000 + channelId);  // I don't know why, but it's all right
@@ -108,66 +104,56 @@ namespace eAdvertisement_bot
                 RCHI.Hash = grhash;
                 TLUpdates chatInstance = await Client.SendRequestAsync<TLUpdates>(RCHI);
             }
-            try
+
+            channelId = Math.Abs(1000000000000 + channelId);  // I don't know why, but it's all right
+            var dialogs = UpdateDialogsSnapshot().Result;
+
+
+            foreach (var element in dialogs.Chats)
             {
-                channelId = Math.Abs(1000000000000+channelId);  // I don't know why, but it's all right
-                var dialogs = UpdateDialogsSnapshot().Result;
-
-                
-                foreach (var element in dialogs.Chats)
+                if (element is TLChannel && ((TLChannel)element).Id == channelId)
                 {
-                    if (element is TLChannel && ((TLChannel)element).Id==channelId)
+                    TLChannel channel = element as TLChannel;
+                    var chan = await Client.SendRequestAsync<TeleSharp.TL.Messages.TLChatFull>(new TLRequestGetFullChannel()
                     {
-                        TLChannel channel = element as TLChannel;
-                        var chan = await Client.SendRequestAsync<TeleSharp.TL.Messages.TLChatFull>(new TLRequestGetFullChannel()
-                        {
-                            Channel = new TLInputChannel()
-                            { ChannelId = channel.Id, AccessHash = (long)channel.AccessHash }
-                        });
-                        TLInputPeerChannel inputPeer = new TLInputPeerChannel()
-                        { ChannelId = channel.Id, AccessHash = (long)channel.AccessHash };
+                        Channel = new TLInputChannel()
+                        { ChannelId = channel.Id, AccessHash = (long)channel.AccessHash }
+                    });
+                    TLInputPeerChannel inputPeer = new TLInputPeerChannel()
+                    { ChannelId = channel.Id, AccessHash = (long)channel.AccessHash };
 
-                        TLChannelMessages res = await Client.SendRequestAsync<TLChannelMessages>
-                        (new TLRequestGetHistory()
-                        {
-                            Peer = inputPeer,
-                            Limit = 140,    // 70 toWork and abt the same to ServiceMessages
+                    TLChannelMessages res = await Client.SendRequestAsync<TLChannelMessages>
+                    (new TLRequestGetHistory()
+                    {
+                        Peer = inputPeer,
+                        Limit = 140,    // 70 toWork and abt the same to ServiceMessages
                         });
-                        var msgs = res.Messages;
+                    var msgs = res.Messages;
 
-                        List<TLMessage> realMessages = new List<TLMessage>();
-                        foreach (var msg in msgs)
+                    List<TLMessage> realMessages = new List<TLMessage>();
+                    foreach (var msg in msgs)
+                    {
+                        if (msg is TLMessage)
                         {
-                            if (msg is TLMessage)
-                            {
-                                TLMessage sms = msg as TLMessage;
-                                realMessages.Add(sms);
-                            }
-                            if (msg is TLMessageService)
-                                continue;
+                            TLMessage sms = msg as TLMessage;
+                            realMessages.Add(sms);
                         }
-                        
-                        long unixTimeNow = (Int64)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
-
-                        List<TLMessage> realMessagesAY = realMessages.Where(r => unixTimeNow - r.Date < 259200 && unixTimeNow - r.Date > 172800).ToList();
-                        List<TLMessage> realMessagesY = realMessages.Where(r => unixTimeNow - r.Date <  172800 && unixTimeNow - r.Date > 86400).ToList();
-
-                        double? ay = realMessagesAY.Select(r=>r.Views).Min()*0.87;
-                        double? y = realMessagesY.Select(r=>r.Views).Min();
-                        int coverage = Convert.ToInt32((ay + y) / 2);
-                        return coverage;
+                        if (msg is TLMessageService)
+                            continue;
                     }
+
+                    long unixTimeNow = (Int64)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+
+                    List<TLMessage> realMessagesAY = realMessages.Where(r => unixTimeNow - r.Date < 259200 && unixTimeNow - r.Date > 172800).ToList();
+                    List<TLMessage> realMessagesY = realMessages.Where(r => unixTimeNow - r.Date < 172800 && unixTimeNow - r.Date > 86400).ToList();
+
+                    double? ay = realMessagesAY.Select(r => r.Views).Min() * 0.87;
+                    double? y = realMessagesY.Select(r => r.Views).Min();
+                    int coverage = Convert.ToInt32((ay + y) / 2);
+                    return coverage;
                 }
             }
-            catch (FloodException floodException)
-            {
-                Thread.Sleep(floodException.TimeToWait);
-                Console.WriteLine("Flood ex catched, sleep for " + floodException.TimeToWait);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.StackTrace + "\n" + ex.Message +"\n");
-            }
+
             return 0;
         }
 

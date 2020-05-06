@@ -17,80 +17,113 @@ namespace eAdvertisement_bot
     public class EnviromentHandler
     {
         TelegramBotClient botClient;
-        ClientApiHandler clientApiHandler;
         int Interval;
 
-        public EnviromentHandler(TelegramBotClient botClient, int interval, ClientApiHandler cah) // Try to move cah in Program.cs, check confirmation
+        public EnviromentHandler(TelegramBotClient botClient, int interval) // Try to move cah in Program.cs, check confirmation
         {
             this.botClient = botClient;
-            clientApiHandler = cah;
             Interval = interval;
         }
 
         public void StartEveryMinute()
         {
-
+            Thread.Sleep(1000);
             while (true)
             {
-                AppDbContext dbContext = new AppDbContext();
-                try
+                lock (ClientApiHandler.Client)
                 {
-                    lock (clientApiHandler)
+                    AppDbContext dbContext = new AppDbContext();
+                    try
                     {
+                        Console.WriteLine("mins");
+
                         PublishAccepted(dbContext).Wait();
                         CloseAds(dbContext);
                         CheckAds(dbContext);
                         CloseOffers(dbContext);
                         CloseTransactions(dbContext);
                         TryAutobuy(dbContext);
+
+                        Console.WriteLine("mine");
+
                     }
-                    Thread.Sleep(Interval);
+                    catch (AggregateException ex)
+                    {
+                        if (ex.InnerException is FloodException)
+                        {
+                            Console.WriteLine("Flood ex catched, sleep for " + (ex.InnerException as FloodException).TimeToWait);
+                            Thread.Sleep(Convert.ToInt32((ex.InnerException as FloodException).TimeToWait.TotalMilliseconds));
+                            PublishAccepted(dbContext).Wait();
+                            CloseAds(dbContext);
+                            CheckAds(dbContext);
+                            CloseOffers(dbContext);
+                            CloseTransactions(dbContext);
+                            TryAutobuy(dbContext);
+                        }
+                        else
+                        {
+                            Console.WriteLine(ex.StackTrace + "\n" + ex.Message + "\n");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.StackTrace + "\n" + ex.Message + "\n");
+                    }
+                    finally
+                    {
+                        dbContext.Dispose();
+                    }
                 }
-                catch (FloodException floodException)
-                {
-                    Thread.Sleep(floodException.TimeToWait); 
-                    Console.WriteLine("Flood ex catched, sleep for "+floodException.TimeToWait);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.StackTrace + "\n" + ex.Message +"\n");
-                }
-                finally
-                {
-                    dbContext.Dispose();
-                }
+                Thread.Sleep(Interval);
             }
         }
         public void StartEveryDay()
         {
-
+            Thread.Sleep(1000);
             while (true)
             {
-                AppDbContext dbContext = new AppDbContext();
-                try
+                lock (ClientApiHandler.Client)
                 {
-                    lock (clientApiHandler)
+                    AppDbContext dbContext = new AppDbContext();
+                    try
                     {
+                        Console.WriteLine("days");
                         UpdateCommission(dbContext);
                         UpdateCoverage(dbContext);
+                        UpdateSubscribers(dbContext);
+                        
                         CleanDB(dbContext);
-                    }
+                        Console.WriteLine("daye");
 
-                    Thread.Sleep(Interval);
+
+                    }
+                    catch (AggregateException ex)
+                    {
+                        if (ex.InnerException is FloodException)
+                        {
+                            Console.WriteLine("Flood ex catched, sleep for " + (ex.InnerException as FloodException).TimeToWait);
+                            Thread.Sleep(Convert.ToInt32((ex.InnerException as FloodException).TimeToWait.TotalMilliseconds));
+                            UpdateCommission(dbContext);
+                            UpdateCoverage(dbContext);
+                            CleanDB(dbContext);
+
+                        }
+                        else
+                        {
+                            Console.WriteLine(ex.StackTrace + "\n" + ex.Message + "\n");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.StackTrace + "\n" + ex.Message + "\n");
+                    }
+                    finally
+                    {
+                        dbContext.Dispose();
+                    }
                 }
-                catch (FloodException floodException)
-                {
-                    Thread.Sleep(floodException.TimeToWait);
-                    Console.WriteLine("Flood ex catched, sleep for " + floodException.TimeToWait);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.StackTrace + "\n" + ex.Message +"\n");
-                }
-                finally
-                {
-                    dbContext.Dispose();
-                }
+                Thread.Sleep(Interval);
+
             }
         }
 
@@ -355,8 +388,52 @@ namespace eAdvertisement_bot
         {
             List<Channel> channels = dbContext.Channels.ToList();
             foreach(Channel ch in channels){
-                ch.Coverage = ClientApiHandler.GetCoverageOfChannel(ch.Link, ch.Channel_Id, false).Result;
-                ch.Price = (ch.Cpm!=null && ch.Cpm!=0) ? Convert.ToInt32(ch.Coverage * (Convert.ToDouble(ch.Cpm) / 1000)) : 0;
+                try
+                {
+                    ch.Coverage = ClientApiHandler.GetCoverageOfChannel(ch.Link, ch.Channel_Id, false).Result;
+                    ch.Price = (ch.Cpm != null && ch.Cpm != 0) ? Convert.ToInt32(ch.Coverage * (Convert.ToDouble(ch.Cpm) / 1000)) : 0;
+                }
+                catch(AggregateException ex)
+                {
+                    if(ex.InnerException is FloodException)
+                    {
+                        Console.WriteLine("Flood ex catched, sleep for " + (ex.InnerException as FloodException).TimeToWait);
+                        Thread.Sleep(Convert.ToInt32((ex.InnerException as FloodException).TimeToWait.TotalMilliseconds));
+                        ch.Coverage = ClientApiHandler.GetCoverageOfChannel(ch.Link, ch.Channel_Id, false).Result;
+                        ch.Price = (ch.Cpm != null && ch.Cpm != 0) ? Convert.ToInt32(ch.Coverage * (Convert.ToDouble(ch.Cpm) / 1000)) : 0;
+                    }
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                
+            }
+            dbContext.SaveChanges();
+        }
+        public void UpdateSubscribers(AppDbContext dbContext)
+        {
+            List<Channel> channels = dbContext.Channels.ToList();
+            foreach (Channel ch in channels)
+            {
+                try
+                {
+                    ch.Subscribers = botClient.GetChatMembersCountAsync(ch.Channel_Id).Result;
+                }
+                catch (AggregateException ex)
+                {
+                    if (ex.InnerException is FloodException)
+                    {
+                        Console.WriteLine("Flood ex catched, sleep for " + (ex.InnerException as FloodException).TimeToWait);
+                        Thread.Sleep(Convert.ToInt32((ex.InnerException as FloodException).TimeToWait.TotalMilliseconds));
+                        ch.Subscribers = botClient.GetChatMembersCountAsync(ch.Channel_Id).Result;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+
             }
             dbContext.SaveChanges();
         }

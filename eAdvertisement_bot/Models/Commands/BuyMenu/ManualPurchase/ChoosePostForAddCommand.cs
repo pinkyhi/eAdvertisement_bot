@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
+using eAdvertisement_bot.Logger;
 
 namespace eAdvertisement_bot.Models.Commands
 {
@@ -62,12 +63,12 @@ namespace eAdvertisement_bot.Models.Commands
                 {
                     await botClient.DeleteMessageAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId);
                 }
-                catch (Exception ex)
-                {
-                    await botClient.SendTextMessageAsync(update.Message.Chat.Id, ex.StackTrace + "\n" + ex.Message +"\n");
-                }
+                catch {}
             }
-            catch (Exception ex) { await botClient.SendTextMessageAsync(update.CallbackQuery.From.Id, ex.StackTrace + "\n" + ex.Message +"\n"); }
+            catch (Exception ex)
+            {
+                MainLogger.LogException(ex, "ChoosePostForAdd");
+            }
             finally
             {
                 dbContext.Dispose();

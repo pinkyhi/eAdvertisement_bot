@@ -1,4 +1,5 @@
 ﻿using eAdvertisement_bot.DAO;
+using eAdvertisement_bot.Logger;
 using eAdvertisement_bot.Models.DbEntities;
 using System;
 using System.Collections.Generic;
@@ -127,12 +128,12 @@ namespace eAdvertisement_bot.Models.Commands
                 }
                 catch
                 {
-                    await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Невозможно удалить старое сообщение");
+
                 }
             }
             catch (Exception ex)
             {
-                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, ex.Message);
+                MainLogger.LogException(ex, addStr: "ChooseCategoriesForAutobuy");
             }
             finally
             {

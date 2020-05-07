@@ -1,4 +1,5 @@
 ﻿using eAdvertisement_bot.DAO;
+using eAdvertisement_bot.Logger;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,9 +45,16 @@ namespace eAdvertisement_bot.Models.Commands
                     keyboard = entryLaunchedBotKeyboard;
                 }
                 await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, null, false);
-                await botClient.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, "Вы уже инициализированны.", replyMarkup: keyboard);
+                try
+                {
+                    await botClient.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, "Вы уже инициализированны.", replyMarkup: keyboard);
+                }
+                catch { }
             }
-            catch { }
+            catch(Exception ex)
+            {
+                MainLogger.LogException(ex, "BackToStartMenu");
+            }
             finally
             {
                 dbContext.Dispose();

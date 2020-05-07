@@ -1,4 +1,5 @@
 ﻿using eAdvertisement_bot.DAO;
+using eAdvertisement_bot.Logger;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,11 +34,18 @@ namespace eAdvertisement_bot.Models.Commands
             {
                 InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Назад в меню продажи", CallbackData = "/sellMenuP0" });
                 await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, null, false);
-                await botClient.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, "Перешлите любой пост из канала в котором бот администратор", replyMarkup: keyboard);
+                try
+                {
+                    await botClient.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, "Перешлите любой пост из канала в котором бот администратор", replyMarkup: keyboard);
+                }
+                catch { }
                 dbContext.Users.First(u => u.User_Id == update.CallbackQuery.From.Id).User_State_Id = 1;
                 dbContext.SaveChanges();
             }
-            catch { }
+            catch (Exception ex)
+            {
+                MainLogger.LogException(ex, "AddChannelCommand");
+            }
             finally
             {
                 dbContext.Dispose();

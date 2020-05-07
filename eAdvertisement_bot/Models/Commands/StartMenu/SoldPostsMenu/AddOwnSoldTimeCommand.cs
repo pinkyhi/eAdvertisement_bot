@@ -1,4 +1,5 @@
 ﻿using eAdvertisement_bot.DAO;
+using eAdvertisement_bot.Logger;
 using eAdvertisement_bot.Models.DbEntities;
 using System;
 using System.Collections.Generic;
@@ -41,7 +42,10 @@ namespace eAdvertisement_bot.Models.Commands
 
                 await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Отправьте дату, время вашей продажи и сколько часов топ в формате:\n dd-mm-yy hh:mm hh\n\n22-06-01 13:31 4"); 
             }
-            catch (Exception ex) { await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, ex.Message); }
+            catch (Exception ex)
+            {
+                MainLogger.LogException(ex, "AddOwnSoldTimeCommand");
+            }
             finally
             {
                 dbContext.Dispose();

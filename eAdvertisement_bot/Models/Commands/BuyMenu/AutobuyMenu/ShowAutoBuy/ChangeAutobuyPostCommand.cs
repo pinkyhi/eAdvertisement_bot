@@ -1,4 +1,5 @@
 ﻿using eAdvertisement_bot.DAO;
+using eAdvertisement_bot.Logger;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,7 +57,10 @@ namespace eAdvertisement_bot.Models.Commands
                 {
                     await botClient.DeleteMessageAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId);
                 }
-                catch { }
+                catch
+                {
+
+                }
                 finally
                 {
                     await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Выберите пост", replyMarkup: new InlineKeyboardMarkup(keyboard));
@@ -65,7 +69,7 @@ namespace eAdvertisement_bot.Models.Commands
             }
             catch (Exception ex)
             {
-                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, ex.Message);
+                MainLogger.LogException(ex, addStr: "ChangeAutobuyPost");
             }
             finally
             {

@@ -1,4 +1,5 @@
 ﻿using eAdvertisement_bot.DAO;
+using eAdvertisement_bot.Logger;
 using eAdvertisement_bot.Models.DbEntities;
 using System;
 using System.Collections.Generic;
@@ -54,7 +55,7 @@ namespace eAdvertisement_bot.Models.Commands
 
                 try
                 {
-                    List<DbEntities.Autobuy_Channel> abcs = dbContext.Autobuy_Channels.Where(a => a.Autobuy_Id == Convert.ToInt32(user.Object_Id)).ToList();
+                    List<Autobuy_Channel> abcs = dbContext.Autobuy_Channels.Where(a => a.Autobuy_Id == Convert.ToInt32(user.Object_Id)).ToList();
                     if (abcs.Select(ac => ac.Channel_Id).Contains(channelId))
                     {
 
@@ -67,9 +68,9 @@ namespace eAdvertisement_bot.Models.Commands
                         {
                             await botClient.DeleteMessageAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId);
                         }
-                        catch (Exception ex)
+                        catch
                         {
-                            await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, ex.Message);
+        
                         }
 
                     }
@@ -81,15 +82,14 @@ namespace eAdvertisement_bot.Models.Commands
                 }
                 catch (Exception ex)
                 {
-                    await botClient.SendTextMessageAsync(update.CallbackQuery.From.Id, ex.StackTrace + "\n" + ex.Message +"\n");
-
+                    MainLogger.LogException(ex, addStr: "UnattachChannelFromAutobuy");
                 }
 
 
             }
             catch (Exception ex)
             {
-                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, ex.Message);
+                MainLogger.LogException(ex, addStr: "UnattachChannelFromAutobuy");
             }
             finally
             {

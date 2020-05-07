@@ -1,4 +1,5 @@
 ﻿using eAdvertisement_bot.DAO;
+using eAdvertisement_bot.Logger;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -40,12 +41,18 @@ namespace eAdvertisement_bot.Models.Commands
                 dbContext.SaveChanges();
 
                 await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Пост изменен!", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Показать обновленное меню", CallbackData = "sabN" + user.Object_Id }));
+                try
+                {
+                    await botClient.DeleteMessageAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId);
+                }
+                catch 
+                {
 
-                await botClient.DeleteMessageAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId);
+                }
             }
             catch (Exception ex)
             {
-                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, ex.Message);
+                MainLogger.LogException(ex, addStr: "ChangingAutobuyPostIsAccepted");
             }
             finally
             {

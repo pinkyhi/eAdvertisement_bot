@@ -1,4 +1,5 @@
 ﻿using eAdvertisement_bot.DAO;
+using eAdvertisement_bot.Logger;
 using eAdvertisement_bot.Models.DbEntities;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -59,12 +60,14 @@ namespace eAdvertisement_bot.Models.Commands
                 {
                     await botClient.DeleteMessageAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId);
                 }
-                catch (Exception ex)
+                catch
                 {
-                    await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, ex.Message);
                 }
             }
-            catch (Exception ex) { Console.WriteLine(ex.StackTrace + "\n" + ex.Message +"\n"); }
+            catch (Exception ex)
+            {
+                MainLogger.LogException(ex, "SoldPostsMenuCommand");
+            }
             finally
             {
                 dbContext.Dispose();

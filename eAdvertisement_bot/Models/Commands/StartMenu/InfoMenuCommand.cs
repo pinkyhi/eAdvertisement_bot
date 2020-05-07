@@ -1,4 +1,5 @@
 ﻿using eAdvertisement_bot.DAO;
+using eAdvertisement_bot.Logger;
 using eAdvertisement_bot.Models.DbEntities;
 using System;
 using System.Collections.Generic;
@@ -29,18 +30,24 @@ namespace eAdvertisement_bot.Models.Commands
 
         public async override Task Execute(Update update, TelegramBotClient botClient)
         {
-            InlineKeyboardButton[][] keyboard = new[] { new[] { new InlineKeyboardButton {Text = "Назад", CallbackData = "/backToStartMenu" } } };
-
-            await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Связь с администратором\n@olejchanskiy\nТакже читайте [FAQ](https://telegra.ph/eAdvertisement-03-07), оно будет дополнятья", replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
-
             try
             {
-                await botClient.DeleteMessageAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId);
+                InlineKeyboardButton[][] keyboard = new[] { new[] { new InlineKeyboardButton { Text = "Назад", CallbackData = "/backToStartMenu" } } };
+
+                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Связь с администратором\n@olejchanskiy\nТакже читайте [FAQ](https://telegra.ph/eAdvertisement-03-07), оно будет дополнятья", replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
+
+                try
+                {
+                    await botClient.DeleteMessageAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId);
+                }
+                catch
+                {}
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
-                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, ex.Message);
+                MainLogger.LogException(ex, "InfoMenuCommand");
             }
+            
         }
     }
 }

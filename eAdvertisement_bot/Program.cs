@@ -6,6 +6,7 @@ using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
+using eAdvertisement_bot.Logger;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
@@ -21,6 +22,7 @@ namespace eAdvertisement_bot
     {
         public static void Main(string[] args)
         {
+            MainLogger.LogException(new Exception());
             try
             {
                 ClientApiHandler.ConnectClient().Wait();
@@ -35,8 +37,7 @@ namespace eAdvertisement_bot
                 var user = ClientApiHandler.Client.MakeAuthAsync("+380509400345", hash, code).Result;
             }
             EnviromentHandler eh = new EnviromentHandler(Bot.GetBotClientAsync().Result, 60000);
-            EnviromentHandler ed = new EnviromentHandler(Bot.GetBotClientAsync().Result, 300000);
-            //EnviromentHandler ed = new EnviromentHandler(Bot.GetBotClientAsync().Result, 86400000);
+            EnviromentHandler ed = new EnviromentHandler(Bot.GetBotClientAsync().Result, 43200000);
 
             Thread edThread = new Thread(new ThreadStart(ed.StartEveryDay));
             Thread ehThread = new Thread(new ThreadStart(eh.StartEveryMinute));

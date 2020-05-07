@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using eAdvertisement_bot.DAO;
+using eAdvertisement_bot.Logger;
 using eAdvertisement_bot.Models.DbEntities;
 using Microsoft.AspNetCore.Mvc;
 using Telegram.Bot.Types;
@@ -51,7 +52,10 @@ namespace eAdvertisement_bot.Controllers
 
                     }
                 }
-                catch (Exception ex) { await botClient.SendTextMessageAsync(update.Message == null ? update.CallbackQuery.From.Id : update.Message.From.Id, "Error: " + ex.StackTrace + "\n" + ex.Message +"\n"); return Ok(); }
+                catch (Exception ex) {
+                    MainLogger.LogException(ex, "Controller");
+                    return Ok();
+                }
             }
             return Ok();
         }

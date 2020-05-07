@@ -1,4 +1,5 @@
 ﻿using eAdvertisement_bot.DAO;
+using eAdvertisement_bot.Logger;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,12 +37,11 @@ namespace eAdvertisement_bot.Models.Commands
                 dbContext.SaveChanges();
 
                 await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "Состояние измененно. Автозакуп " + (dbContext.Autobuys.Find(Convert.ToInt32(user.Object_Id)).State == 0 ? "выключен" : "включен") + "!\n", true);
-
                 await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Состояние измененно. Автозакуп " + (dbContext.Autobuys.Find(Convert.ToInt32(user.Object_Id)).State == 0 ? "выключен" : "включен") + "!\n", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown, replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Показать обновленное меню", CallbackData = "sabN" + user.Object_Id }));
             }
             catch (Exception ex)
             {
-                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, ex.Message);
+                MainLogger.LogException(ex, addStr: "ChangeAutobuyState");
             }
             finally
             {

@@ -1,4 +1,5 @@
 ﻿using eAdvertisement_bot.DAO;
+using eAdvertisement_bot.Logger;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -114,14 +115,20 @@ namespace eAdvertisement_bot.Models.Commands
 
                 await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Вы хотите прикрепить этот пост?", replyMarkup: new InlineKeyboardMarkup(keyboardControll));
 
+                try
+                {
+                    await botClient.DeleteMessageAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId);
+                }
+                catch 
+                {
 
-                await botClient.DeleteMessageAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId);
+                }
 
 
             }
             catch (Exception ex)
             {
-                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, ex.Message);
+                MainLogger.LogException(ex, addStr: "AcceptChangeAutobuyPost");
             }
             finally
             {

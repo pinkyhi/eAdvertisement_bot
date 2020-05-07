@@ -1,4 +1,5 @@
 ﻿using eAdvertisement_bot.DAO;
+using eAdvertisement_bot.Logger;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -184,9 +185,8 @@ namespace eAdvertisement_bot.Models.Commands.ManualPurchase
                 {
                     await botClient.DeleteMessageAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId);
                 }
-                catch (Exception ex)
+                catch 
                 {
-                    await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, ex.Message);
                 }
 
 
@@ -194,7 +194,7 @@ namespace eAdvertisement_bot.Models.Commands.ManualPurchase
             }
             catch(Exception ex)
             {
-                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, ex.Message);
+                MainLogger.LogException(ex, "ManualPurchaseMenuCommand");
             }
             finally
             {

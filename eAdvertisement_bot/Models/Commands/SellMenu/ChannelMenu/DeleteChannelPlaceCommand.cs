@@ -1,4 +1,5 @@
 ﻿using eAdvertisement_bot.DAO;
+using eAdvertisement_bot.Logger;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,38 +42,11 @@ namespace eAdvertisement_bot.Models.Commands
                 ShowChannelForSellerCommand scfsc = new ShowChannelForSellerCommand();
                 update.CallbackQuery.Data = "/showChannelForSellerN" + channelId;
                 await scfsc.Execute(update, botClient);
-                /*
-                places = dbContext.Places.Where(p => p.Channel_Id == channelId).ToList();
-
-                InlineKeyboardButton[][] keyboard = new InlineKeyboardButton[places.Count + 2][];
-                keyboard[0] = new[]
-                {
-                    new InlineKeyboardButton { Text = "Описание", CallbackData = "/howToChangeDescription"},
-                    new InlineKeyboardButton { Text = "CPM", CallbackData = "/howToChangeCpm"},
-                    new InlineKeyboardButton { Text = "Добавить места", CallbackData = "/howToAddAdvPlace"},
-                };
-                int indexToPaste = 1;
-                while (indexToPaste < places.Count() + 1)
-                {
-                    keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = "Удалить место " + places[indexToPaste - 1].Time, CallbackData = "/deletePlaceN" + places[indexToPaste - 1].Place_Id }, };
-                    indexToPaste++;
-                }
-                keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = "Назад", CallbackData = "/sellMenuP0" }, };
-
-
-
-                try
-                {
-                    await botClient.DeleteMessageAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId);
-                }
-                catch { }
-                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.Text, replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
-                */
+                
             }
             catch (Exception ex)
             {
-                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, ex.Message);
-                Console.WriteLine(ex.StackTrace);
+                MainLogger.LogException(ex, "DeleteChannelPlaceCommand");
             }
             finally
             {

@@ -8,6 +8,7 @@ using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 using System.Text.Json;
+using eAdvertisement_bot.Logger;
 
 namespace eAdvertisement_bot.Models.Commands
 {
@@ -104,11 +105,7 @@ namespace eAdvertisement_bot.Models.Commands
                         dbContext.Advertisements.Add(newAd);
                         user.Balance -= channel.Price;
                         dbContext.SaveChanges();
-                        try
-                        {
-                            await botClient.SendTextMessageAsync(channel.User_Id, "У вас новый заказ на рекламу:)", disableNotification: true, replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Заказы", CallbackData = "/ordersMenuP0" }));
-                        }
-                        catch { }
+                        await botClient.SendTextMessageAsync(channel.User_Id, "У вас новый заказ на рекламу:)", disableNotification: true, replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Заказы", CallbackData = "/ordersMenuP0" }));
                         await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Пост отправлен", replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown, disableWebPagePreview: true);
                     }
                     catch
@@ -129,9 +126,9 @@ namespace eAdvertisement_bot.Models.Commands
                 {
                     await botClient.DeleteMessageAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId);
                 }
-                catch (Exception ex)
+                catch
                 {
-                    await botClient.SendTextMessageAsync(update.Message.Chat.Id, ex.StackTrace + "\n" + ex.Message +"\n");
+
                 }
             }
             catch (Exception ex) { await botClient.SendTextMessageAsync(update.CallbackQuery.From.Id, ex.StackTrace + "\n" + ex.Message +"\n"); }

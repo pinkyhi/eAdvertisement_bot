@@ -1,4 +1,5 @@
 ﻿using eAdvertisement_bot.DAO;
+using eAdvertisement_bot.Logger;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
@@ -72,7 +73,7 @@ namespace eAdvertisement_bot.Models.Commands
             }
             catch(Exception ex)
             {
-                Console.WriteLine(ex.StackTrace + "\n" + ex.Message +"\n");
+                MainLogger.LogException(ex, "StartCommand");
                 await botClient.SendTextMessageAsync(userId, "Извините, но сейчас есть некоторые проблемы с вашей инициализацией, можете попробовать обратиться к администратору.", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
             }
             finally

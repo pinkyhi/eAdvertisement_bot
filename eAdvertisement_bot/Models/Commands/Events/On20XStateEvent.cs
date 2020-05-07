@@ -1,4 +1,5 @@
 ﻿using eAdvertisement_bot.DAO;
+using eAdvertisement_bot.Logger;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -144,7 +145,7 @@ namespace eAdvertisement_bot.Models.Commands
             }
             catch(Exception ex)
             {
-                await botClient.SendTextMessageAsync(update.Message.Chat.Id, ex.StackTrace + "\n" + ex.Message +"\n");
+                MainLogger.LogException(ex, "On20XStateEvent");
             }
             finally
             {

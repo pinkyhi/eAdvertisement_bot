@@ -124,8 +124,11 @@ namespace eAdvertisement_bot.Models.Commands
                 };
                 
                 await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Кнопки для изменения поста\n*Не забудьте выставить какой-то текст, иначе реклама не запостится!*", replyMarkup: new InlineKeyboardMarkup(keyboardControll), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
-
-                await botClient.DeleteMessageAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId);
+                try
+                {
+                    await botClient.DeleteMessageAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId);
+                }
+                catch { }
                 
 
             }

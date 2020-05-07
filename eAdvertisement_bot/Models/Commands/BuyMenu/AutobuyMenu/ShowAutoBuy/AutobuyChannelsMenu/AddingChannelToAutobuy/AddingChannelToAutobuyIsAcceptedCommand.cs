@@ -1,4 +1,5 @@
 ﻿using eAdvertisement_bot.DAO;
+using eAdvertisement_bot.Logger;
 using eAdvertisement_bot.Models.DbEntities;
 using System;
 using System.Collections.Generic;
@@ -38,7 +39,7 @@ namespace eAdvertisement_bot.Models.Commands
             try
             {
 
-                DbEntities.Channel channel;
+                Channel channel;
                 try
                 {
                     channel = dbContext.Channels.Find(channelId);
@@ -57,16 +58,16 @@ namespace eAdvertisement_bot.Models.Commands
 
                 try
                 {
-                    List<DbEntities.Autobuy_Channel> abcs = dbContext.Autobuy_Channels.Where(a => a.Autobuy_Id == Convert.ToInt32(user.Object_Id)).ToList();
+                    List<Autobuy_Channel> abcs = dbContext.Autobuy_Channels.Where(a => a.Autobuy_Id == Convert.ToInt32(user.Object_Id)).ToList();
                     if (!abcs.Select(ac => ac.Channel_Id).Contains(channelId))
                     {
                         if (dbContext.Autobuys.Find(Convert.ToInt32(user.Object_Id)).Autobuy_Channels != null)
                         {
-                            dbContext.Autobuys.Find(Convert.ToInt32(user.Object_Id)).Autobuy_Channels.Add(new DbEntities.Autobuy_Channel { Autobuy_Id = Convert.ToInt32(user.Object_Id), Channel_Id = channel.Channel_Id });
+                            dbContext.Autobuys.Find(Convert.ToInt32(user.Object_Id)).Autobuy_Channels.Add(new Autobuy_Channel { Autobuy_Id = Convert.ToInt32(user.Object_Id), Channel_Id = channel.Channel_Id });
                         }
                         else
                         {
-                            dbContext.Autobuys.Find(Convert.ToInt32(user.Object_Id)).Autobuy_Channels = new List<DbEntities.Autobuy_Channel> { new DbEntities.Autobuy_Channel { Autobuy_Id = Convert.ToInt32(user.Object_Id), Channel_Id = channel.Channel_Id } };
+                            dbContext.Autobuys.Find(Convert.ToInt32(user.Object_Id)).Autobuy_Channels = new List<Autobuy_Channel> { new DbEntities.Autobuy_Channel { Autobuy_Id = Convert.ToInt32(user.Object_Id), Channel_Id = channel.Channel_Id } };
                         }
                         dbContext.SaveChanges();
                         await botClient.SendTextMessageAsync(update.CallbackQuery.From.Id, "Добавление успешно", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Показать обновленное меню!", CallbackData = "acstabP"+page }));
@@ -74,9 +75,8 @@ namespace eAdvertisement_bot.Models.Commands
                         {
                             await botClient.DeleteMessageAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId);
                         }
-                        catch (Exception ex)
+                        catch
                         {
-                            await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, ex.Message);
                         }
 
                     }
@@ -88,15 +88,14 @@ namespace eAdvertisement_bot.Models.Commands
                 }
                 catch (Exception ex)
                 {
-                    await botClient.SendTextMessageAsync(update.CallbackQuery.From.Id, ex.StackTrace + "\n" + ex.Message +"\n");
-
+                    MainLogger.LogException(ex, addStr: "AddingChannelToAutobuyIsAccepted");
                 }
 
 
             }
             catch (Exception ex)
             {
-                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, ex.Message);
+                MainLogger.LogException(ex, addStr: "AddingChannelToAutobuyIsAccepted");
             }
             finally
             {

@@ -1,4 +1,5 @@
 ﻿using eAdvertisement_bot.DAO;
+using eAdvertisement_bot.Logger;
 using eAdvertisement_bot.Models.DbEntities;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -35,39 +36,16 @@ namespace eAdvertisement_bot
                     AppDbContext dbContext = new AppDbContext();
                     try
                     {
-                        Console.WriteLine("mins");
-
                         PublishAccepted(dbContext).Wait();
                         CloseAds(dbContext);
                         CheckAds(dbContext);
                         CloseOffers(dbContext);
                         CloseTransactions(dbContext);
                         TryAutobuy(dbContext);
-
-                        Console.WriteLine("mine");
-
-                    }
-                    catch (AggregateException ex)
-                    {
-                        if (ex.InnerException is FloodException)
-                        {
-                            Console.WriteLine("Flood ex catched, sleep for " + (ex.InnerException as FloodException).TimeToWait);
-                            Thread.Sleep(Convert.ToInt32((ex.InnerException as FloodException).TimeToWait.TotalMilliseconds));
-                            PublishAccepted(dbContext).Wait();
-                            CloseAds(dbContext);
-                            CheckAds(dbContext);
-                            CloseOffers(dbContext);
-                            CloseTransactions(dbContext);
-                            TryAutobuy(dbContext);
-                        }
-                        else
-                        {
-                            Console.WriteLine(ex.StackTrace + "\n" + ex.Message + "\n");
-                        }
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine(ex.StackTrace + "\n" + ex.Message + "\n");
+                        MainLogger.LogException(ex, "EveryMinute");
                     }
                     finally
                     {
@@ -87,35 +65,17 @@ namespace eAdvertisement_bot
                     AppDbContext dbContext = new AppDbContext();
                     try
                     {
-                        Console.WriteLine("days");
                         UpdateCommission(dbContext);
                         UpdateCoverage(dbContext);
                         UpdateSubscribers(dbContext);
                         
                         CleanDB(dbContext);
-                        Console.WriteLine("daye");
 
 
-                    }
-                    catch (AggregateException ex)
-                    {
-                        if (ex.InnerException is FloodException)
-                        {
-                            Console.WriteLine("Flood ex catched, sleep for " + (ex.InnerException as FloodException).TimeToWait);
-                            Thread.Sleep(Convert.ToInt32((ex.InnerException as FloodException).TimeToWait.TotalMilliseconds));
-                            UpdateCommission(dbContext);
-                            UpdateCoverage(dbContext);
-                            CleanDB(dbContext);
-
-                        }
-                        else
-                        {
-                            Console.WriteLine(ex.StackTrace + "\n" + ex.Message + "\n");
-                        }
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine(ex.StackTrace + "\n" + ex.Message + "\n");
+                        MainLogger.LogException(ex, "EveryDay");
                     }
                     finally
                     {
@@ -131,40 +91,48 @@ namespace eAdvertisement_bot
         public async Task PublishAccepted(AppDbContext dbContext)
         {
             DateTime now = DateTime.Now;
-
-            List<Advertisement> ads = dbContext.Advertisements.Where(a => a.Is_Opened && a.Advertisement_Status_Id == 2 && a.Date_Time < now).ToList(); ;
+            List<Advertisement> ads = dbContext.Advertisements.Where(a => a.Is_Opened && a.Advertisement_Status_Id == 2 && a.Date_Time < now).ToList();
             for (int i = 0; i < ads.Count; i++)
             {
-                Console.WriteLine(ads[i].Advertisement_Id);
-                Publication post;
                 try
                 {
-                    post = JsonSerializer.Deserialize<Publication>(ads[i].Publication_Snapshot);
-                }
-                catch
-                {
-                    ads[i].Advertisement_Status_Id = 10;
-                    continue;
-                }
-
-                if (post != null && post.Text!= null) {
-                    Message[] messages = await SendPostToChat(post, ads[i].Channel_Id, botClient);
+                    Console.WriteLine(ads[i].Advertisement_Id);
+                    Publication post;
                     try
                     {
-                        ads[i].AdMessages = messages.Select(m=>new AdMessage {AdMessage_Id = m.MessageId, Advertisement_Id=ads[i].Advertisement_Id }).ToList();
-                        ads[i].Advertisement_Status_Id = 4;
+                        post = JsonSerializer.Deserialize<Publication>(ads[i].Publication_Snapshot);
                     }
                     catch
                     {
-                        ads[i].Advertisement_Status_Id = 11;
+                        ads[i].Advertisement_Status_Id = 10;
+                        continue;
+                    }
+
+                    if (post != null && post.Text != null)
+                    {
+                        Message[] messages = await SendPostToChat(post, ads[i].Channel_Id, botClient);
+                        try
+                        {
+                            ads[i].AdMessages = messages.Select(m => new AdMessage { AdMessage_Id = m.MessageId, Advertisement_Id = ads[i].Advertisement_Id }).ToList();
+                            ads[i].Advertisement_Status_Id = 4;
+                        }
+                        catch
+                        {
+                            ads[i].Advertisement_Status_Id = 11;
+                            continue;
+                        }
+                    }
+                    else
+                    {
+                        ads[i].Advertisement_Status_Id = 10;
                         continue;
                     }
                 }
-                else
+                catch(Exception ex)
                 {
-                    ads[i].Advertisement_Status_Id = 10;
-                    continue;
+                    MainLogger.LogException(ex, $"PublishAccepted adId = {ads[i].Advertisement_Id}");
                 }
+
                 dbContext.SaveChanges();
             }
             dbContext.SaveChanges();
@@ -177,14 +145,19 @@ namespace eAdvertisement_bot
             List<Advertisement> adsToCheck = dbContext.Advertisements.Include("Channel").Include("AdMessages").Where(ad => ad.Is_Opened && ad.Advertisement_Status_Id == 4 && now.Ticks - ad.Date_Time.Ticks>(TimeSpan.TicksPerMinute*2)).ToList();
             foreach(Advertisement ad in adsToCheck)
             {
-                if (!ClientApiHandler.IsWorkingPostOk(ad.AdMessages.Select(adm=>adm.AdMessage_Id).ToList(), ad).Result)
+                try
                 {
-                    ad.Advertisement_Status_Id = 6;
-                    try
+                    if (!ClientApiHandler.IsWorkingPostOk(ad.AdMessages.Select(adm => adm.AdMessage_Id).ToList(), ad).Result)
                     {
-                        botClient.SendTextMessageAsync(ad.Channel.User_Id,"Вы перебили топ рекламы или удалили её. Реклама вышла в " + ad.Date_Time + " в канале " + ad.Channel.Name+"\nХолд возвращен рекламодателю").Wait();
+
+                        ad.Advertisement_Status_Id = 6;
+                        botClient.SendTextMessageAsync(ad.Channel.User_Id, "Вы перебили топ рекламы или удалили её. Реклама вышла в " + ad.Date_Time + " в канале " + ad.Channel.Name + "\nХолд возвращен рекламодателю").Wait();
+
                     }
-                    catch { }
+                }
+                catch (Exception ex)
+                {
+                    MainLogger.LogException(ex, $"CheckAdd adId = {ad.Advertisement_Id}");
                 }
 
             }
@@ -197,15 +170,22 @@ namespace eAdvertisement_bot
             List<Advertisement> ads = dbContext.Advertisements.Include("AdMessages").Include("Channel").Where(a => a.Is_Opened && (a.Advertisement_Status_Id == 4 && new DateTime(a.Date_Time.Ticks).AddHours(a.Alive) < now)).ToList();
             for(int i = 0; i < ads.Count; i++)
             {
-                ads[i].Advertisement_Status_Id = 5;
-                if (ads[i].AdMessages != null)
+                try
                 {
-                    foreach (AdMessage adm in ads[i].AdMessages)
-                        try
-                        {
-                            botClient.DeleteMessageAsync(ads[i].Channel_Id, adm.AdMessage_Id).Wait();
-                        }
-                        catch { }
+                    ads[i].Advertisement_Status_Id = 5;
+                    if (ads[i].AdMessages != null)
+                    {
+                        foreach (AdMessage adm in ads[i].AdMessages)
+                            try
+                            {
+                                botClient.DeleteMessageAsync(ads[i].Channel_Id, adm.AdMessage_Id).Wait();
+                            }
+                            catch { }
+                    }
+                }
+                catch(Exception ex)
+                {
+                    MainLogger.LogException(ex, $"CloseAd adId = {ads[i].Advertisement_Id}");
                 }
             }
             dbContext.SaveChanges();
@@ -218,7 +198,6 @@ namespace eAdvertisement_bot
                 advertisements[i].Advertisement_Status_Id = 3;
             }
             dbContext.SaveChanges();
-
         }
         public void CloseTransactions(AppDbContext dbContext)   // Send money back or forward in dependency of ad status
         {
@@ -240,35 +219,58 @@ namespace eAdvertisement_bot
 
             }
             dbContext.SaveChanges();
-            foreach (Advertisement ad in moneyForwardAds)
+            for(int i = 0; i<moneyForwardAds.Count();i++)
             {
-                int coverage = ClientApiHandler.GetCoverageOfPost(ad.AdMessages[0].AdMessage_Id, ad.Channel_Id).Result;
-                if (ad.Price > (Convert.ToDouble(coverage) / 1000 * ad.Channel.Cpm))
+                Advertisement ad = moneyForwardAds[i];
+                try
                 {
-                    int remade = Convert.ToInt32((Convert.ToDouble(coverage) / 1000 * ad.Channel.Cpm) * 0.93);
-                    ad.Channel.User.Balance += remade;
-
-                    if (ad.Autobuy == null)
+                    int coverage = ClientApiHandler.GetCoverageOfPost(ad.AdMessages[0].AdMessage_Id, ad.Channel_Id).Result;
+                    if (ad.Price > (Convert.ToDouble(coverage) / 1000 * ad.Channel.Cpm))
                     {
-                        ad.User.Balance += ad.Price- Convert.ToInt32((Convert.ToDouble(coverage) / 1000 * ad.Channel.Cpm));
-                        ad.Is_Opened = false;
+                        int remade = Convert.ToInt32((Convert.ToDouble(coverage) / 1000 * ad.Channel.Cpm) * 0.93);
+                        ad.Channel.User.Balance += remade;
+
+                        if (ad.Autobuy == null)
+                        {
+                            ad.User.Balance += ad.Price - Convert.ToInt32((Convert.ToDouble(coverage) / 1000 * ad.Channel.Cpm));
+                            ad.Is_Opened = false;
+                        }
+                        else
+                        {
+                            ad.Autobuy.Balance += ad.Price - Convert.ToInt32((Convert.ToDouble(coverage) / 1000 * ad.Channel.Cpm));
+                            ad.Is_Opened = false;
+                        }
+
                     }
                     else
                     {
-                        ad.Autobuy.Balance += ad.Price- Convert.ToInt32((Convert.ToDouble(coverage) / 1000 * ad.Channel.Cpm));
-                        ad.Is_Opened = false;
+                        ad.Channel.User.Balance += Convert.ToInt32(ad.Price * 0.93);
                     }
 
+                    ad.Is_Opened = false;
                 }
-                else
+                catch (AggregateException ex)
                 {
-                    ad.Channel.User.Balance += Convert.ToInt32(ad.Price * 0.93);
+                    if (ex.InnerException is FloodException)
+                    {
+                        Console.WriteLine("Flood ex catched, sleep for " + (ex.InnerException as FloodException).TimeToWait);
+                        Thread.Sleep(Convert.ToInt32((ex.InnerException as FloodException).TimeToWait.TotalMilliseconds));
+                        i--;
+                    }
+                    else
+                    {
+                        MainLogger.LogException(ex, $"CloseTranaction adId={ad.Advertisement_Id}");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MainLogger.LogException(ex, $"CloseTranaction adId={ad.Advertisement_Id}");
                 }
 
-                ad.Is_Opened = false;
             }
             dbContext.SaveChanges();
         }
+
         // Autobuy part
         public bool IsPlaceFreeForAd(AppDbContext dbContext, DateTime nowIs, long channelId, DateTime placeTime)
         {
@@ -310,54 +312,62 @@ namespace eAdvertisement_bot
             List<Autobuy> autobuys = dbContext.Autobuys.Include("Autobuy_Channels").Include("Autobuy_Channels.Channel").Include("Autobuy_Channels.Channel.Places").Include("Autobuy_Channels.Channel.Advertisements").Where(ab => ab.Balance != 0 && ab.State == 1 && ab.Daily_Interval_From < nowTP && nowTP < ab.Daily_Interval_To).ToList();
             foreach(Autobuy ab in autobuys)
             {
-                for(int i = 0; i < ab.Autobuy_Channels.Count; i++)
+                try
                 {
-                    Channel channel = ab.Autobuy_Channels[i].Channel;
-                    if (channel.Advertisements.FirstOrDefault(ad => ad.Is_Opened && ( ad.Advertisement_Status_Id==5 && ad.Date_Time.AddDays(ab.Interval) > new DateTime(nowDT.Ticks)))!=null)
+                    for (int i = 0; i < ab.Autobuy_Channels.Count; i++)
                     {
-                        continue;
-                    }
-                    else
-                    {
-                        if (ab.Balance >= channel.Price)
-                        {
-                            try
-                            {
-
-                                List<DateTime> dateTimesForPlaces = new List<DateTime>(channel.Places.Count*2);
-                                for(int j = 0; j < channel.Places.Count; j++)
-                                {
-                                    dateTimesForPlaces.Add(new DateTime(nowDT.Year, nowDT.Month, nowDT.Day, channel.Places[j].Time.Hours, channel.Places[j].Time.Minutes, channel.Places[j].Time.Seconds));
-                                    dateTimesForPlaces.Add(new DateTime(nowDT.Year, nowDT.Month, nowDT.Day+1, channel.Places[j].Time.Hours, channel.Places[j].Time.Minutes, channel.Places[j].Time.Seconds));
-
-                                }
-                                dateTimesForPlaces = dateTimesForPlaces.Where(dt => dt.Ticks - nowDT.Ticks < TimeSpan.TicksPerDay*3 && dt > nowDT).ToList();
-                                dateTimesForPlaces = dateTimesForPlaces.ToList();
-
-                                dateTimesForPlaces = dateTimesForPlaces.Where(dt => IsPlaceFreeForAd(dbContext, nowDT, channel.Channel_Id, dt)).OrderBy(dt=>dt).ToList();
-
-
-
-                                Advertisement newAd = new Advertisement { Is_Opened = true, Advertisement_Status_Id = 1, Alive = 24, Top = 1, Channel_Id = channel.Channel_Id, Publication_Snapshot = ab.Publication_Snapshot, Date_Time = dateTimesForPlaces[0], User_Id = ab.User_Id, Autobuy_Id = ab.Autobuy_Id, Price = channel.Price };
-                                dbContext.Advertisements.Add(newAd);
-                                ab.Balance -= channel.Price;
-                                dbContext.SaveChanges();
-                                try
-                                {
-                                    botClient.SendTextMessageAsync(channel.User_Id, "У вас новый заказ на рекламу:)", disableNotification: true, replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Заказы", CallbackData = "/ordersMenuP0" })).Wait();
-                                }
-                                catch {   }
-                            }
-                            catch
-                            {   }
-
-                        }
-                        else
+                        Channel channel = ab.Autobuy_Channels[i].Channel;
+                        if (channel.Advertisements.FirstOrDefault(ad => ad.Is_Opened && (ad.Advertisement_Status_Id == 5 && ad.Date_Time.AddDays(ab.Interval) > new DateTime(nowDT.Ticks))) != null)
                         {
                             continue;
                         }
+                        else
+                        {
+                            if (ab.Balance >= channel.Price)
+                            {
+                                try
+                                {
+
+                                    List<DateTime> dateTimesForPlaces = new List<DateTime>(channel.Places.Count * 2);
+                                    for (int j = 0; j < channel.Places.Count; j++)
+                                    {
+                                        dateTimesForPlaces.Add(new DateTime(nowDT.Year, nowDT.Month, nowDT.Day, channel.Places[j].Time.Hours, channel.Places[j].Time.Minutes, channel.Places[j].Time.Seconds));
+                                        dateTimesForPlaces.Add(new DateTime(nowDT.Year, nowDT.Month, nowDT.Day + 1, channel.Places[j].Time.Hours, channel.Places[j].Time.Minutes, channel.Places[j].Time.Seconds));
+
+                                    }
+                                    dateTimesForPlaces = dateTimesForPlaces.Where(dt => dt.Ticks - nowDT.Ticks < TimeSpan.TicksPerDay * 3 && dt > nowDT).ToList();
+                                    dateTimesForPlaces = dateTimesForPlaces.ToList();
+
+                                    dateTimesForPlaces = dateTimesForPlaces.Where(dt => IsPlaceFreeForAd(dbContext, nowDT, channel.Channel_Id, dt)).OrderBy(dt => dt).ToList();
+
+
+
+                                    Advertisement newAd = new Advertisement { Is_Opened = true, Advertisement_Status_Id = 1, Alive = 24, Top = 1, Channel_Id = channel.Channel_Id, Publication_Snapshot = ab.Publication_Snapshot, Date_Time = dateTimesForPlaces[0], User_Id = ab.User_Id, Autobuy_Id = ab.Autobuy_Id, Price = channel.Price };
+                                    dbContext.Advertisements.Add(newAd);
+                                    ab.Balance -= channel.Price;
+                                    dbContext.SaveChanges();
+                                    try
+                                    {
+                                        botClient.SendTextMessageAsync(channel.User_Id, "У вас новый заказ на рекламу:)", disableNotification: true, replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Заказы", CallbackData = "/ordersMenuP0" })).Wait();
+                                    }
+                                    catch { }
+                                }
+                                catch
+                                { }
+
+                            }
+                            else
+                            {
+                                continue;
+                            }
+                        }
                     }
                 }
+                catch(Exception ex)
+                {
+                    MainLogger.LogException(ex, $"TryAutobuy abId={ab.Autobuy_Id}");
+                }
+
             }
         }
 
@@ -370,24 +380,31 @@ namespace eAdvertisement_bot
 
             for (int i = 0; i< users.Count; i++)
             {
-                var adsss = users[i].Advertisements.Where(a => !a.Is_Opened && a.Advertisement_Status_Id == 5);
-                long sum = adsss!=null && adsss.Count()!=0? ads.Sum(a=>a.Price) : 0;
-                double comm = users[i].User_Status.Default_Commision;
-                long bound = 50000;
-                while(Math.Pow(comm, 0.8) < 0.99 && sum > bound)
+                try
                 {
-                    comm = Math.Pow(comm, 0.8);
-                    bound += 25000;
+                    var adsss = users[i].Advertisements.Where(a => !a.Is_Opened && a.Advertisement_Status_Id == 5);
+                    long sum = adsss != null && adsss.Count() != 0 ? ads.Sum(a => a.Price) : 0;
+                    double comm = users[i].User_Status.Default_Commision;
+                    long bound = 50000;
+                    while (Math.Pow(comm, 0.8) < 0.99 && sum > bound)
+                    {
+                        comm = Math.Pow(comm, 0.8);
+                        bound += 25000;
+                    }
+                    users[i].Commission = comm;
                 }
-                users[i].Commission = comm;
-
+                catch(Exception ex)
+                {
+                    MainLogger.LogException(ex, $"UpdateCommission uId={users[i].User_Id}");
+                }
             }
             dbContext.SaveChanges();
         }
         public void UpdateCoverage(AppDbContext dbContext)
         {
             List<Channel> channels = dbContext.Channels.ToList();
-            foreach(Channel ch in channels){
+            for(int i =0; i<channels.Count();i++){
+                Channel ch = channels[i];
                 try
                 {
                     ch.Coverage = ClientApiHandler.GetCoverageOfChannel(ch.Link, ch.Channel_Id, false).Result;
@@ -399,15 +416,18 @@ namespace eAdvertisement_bot
                     {
                         Console.WriteLine("Flood ex catched, sleep for " + (ex.InnerException as FloodException).TimeToWait);
                         Thread.Sleep(Convert.ToInt32((ex.InnerException as FloodException).TimeToWait.TotalMilliseconds));
-                        ch.Coverage = ClientApiHandler.GetCoverageOfChannel(ch.Link, ch.Channel_Id, false).Result;
-                        ch.Price = (ch.Cpm != null && ch.Cpm != 0) ? Convert.ToInt32(ch.Coverage * (Convert.ToDouble(ch.Cpm) / 1000)) : 0;
+                        i--;
+                    }
+                    else
+                    {
+                        MainLogger.LogException(ex, $"UpdateCoverage chId={ch.Channel_Id}");
                     }
                 }
                 catch(Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    MainLogger.LogException(ex, $"UpdateCoverage chId={ch.Channel_Id}");
                 }
-                
+
             }
             dbContext.SaveChanges();
         }
@@ -431,7 +451,7 @@ namespace eAdvertisement_bot
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    MainLogger.LogException(ex, $"UpdateSubscribers chId={ch.Channel_Id}");
                 }
 
             }

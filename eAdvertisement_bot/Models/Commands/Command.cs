@@ -22,7 +22,9 @@ namespace eAdvertisement_bot.Models.Commands
         {
                         new[] //first row
                         {
-                            new InlineKeyboardButton { Text = "Запустить бота", CallbackData = "/launchBot" },
+                            new InlineKeyboardButton { Text = "Ввод средств", CallbackData = "input" },
+                             new InlineKeyboardButton { Text = "Вывод", CallbackData = "output" },
+
                         },
                         new[] // second row
                         {

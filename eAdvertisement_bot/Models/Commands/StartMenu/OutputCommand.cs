@@ -1,6 +1,4 @@
-﻿using eAdvertisement_bot.DAO;
-using eAdvertisement_bot.Logger;
-using eAdvertisement_bot.Models.DbEntities;
+﻿using eAdvertisement_bot.Logger;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +9,9 @@ using Telegram.Bot.Types.ReplyMarkups;
 
 namespace eAdvertisement_bot.Models.Commands
 {
-    public class InfoMenuCommand : Command
+    public class OutputCommand : Command
     {
-        public override string Name => "/infoMenu";
+        public override string Name => "/outputCommand";
 
         public override bool Contains(Update update)
         {
@@ -24,7 +22,7 @@ namespace eAdvertisement_bot.Models.Commands
             else
             {
                 var data = update.CallbackQuery.Data;
-                return data.Equals("/infoMenu");
+                return data.Equals("output");
             }
         }
 
@@ -34,21 +32,19 @@ namespace eAdvertisement_bot.Models.Commands
             {
                 InlineKeyboardButton[][] keyboard = new[] { new[] { new InlineKeyboardButton { Text = "Назад", CallbackData = "/backToStartMenu" } } };
 
-                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Связь с администратором\n@olejchanskiy\nТакже читайте [FAQ](https://telegra.ph/eAdvertisement-03-07), оно будет дополнятьcя", replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
+                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, $"Отправьте деньги на киви кошелек 380958374332 с комментарием *{update.CallbackQuery.From}* Поддержка - @olejchanskiy", replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
 
                 try
                 {
                     await botClient.DeleteMessageAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId);
                 }
                 catch
-                {
-                }
+                { }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                MainLogger.LogException(ex, "InfoMenuCommand");
+                MainLogger.LogException(ex, "Вывод происходит в ручном режиме через менеджера - @olejchanskiy");
             }
-            
         }
     }
 }

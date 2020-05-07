@@ -96,7 +96,6 @@ namespace eAdvertisement_bot
             {
                 try
                 {
-                    Console.WriteLine(ads[i].Advertisement_Id);
                     Publication post;
                     try
                     {
@@ -113,11 +112,12 @@ namespace eAdvertisement_bot
                         Message[] messages = await SendPostToChat(post, ads[i].Channel_Id, botClient);
                         try
                         {
-                            ads[i].AdMessages = messages.Select(m => new AdMessage { AdMessage_Id = m.MessageId, Advertisement_Id = ads[i].Advertisement_Id }).ToList();
+                            ads[i].AdMessages = new List<AdMessage>(messages.Select(m => new AdMessage { AdMessage_Id = m.MessageId, Advertisement_Id = ads[i].Advertisement_Id }));
                             ads[i].Advertisement_Status_Id = 4;
                         }
-                        catch
+                        catch(Exception ex)
                         {
+                            MainLogger.LogException(ex, $"PublishAccepted adId = {ads[i].Advertisement_Id}, set advStatus = 11");
                             ads[i].Advertisement_Status_Id = 11;
                             continue;
                         }
@@ -140,9 +140,9 @@ namespace eAdvertisement_bot
         }
         public void CheckAds(AppDbContext dbContext)    // Delete or interrupt
         {
-            DateTime now = DateTime.Now;// 10
-            List<Advertisement> alladss = dbContext.Advertisements.Include("Channel").Include("AdMessages").ToList();
-            List<Advertisement> adsToCheck = dbContext.Advertisements.Include("Channel").Include("AdMessages").Where(ad => ad.Is_Opened && ad.Advertisement_Status_Id == 4 && now.Ticks - ad.Date_Time.Ticks>(TimeSpan.TicksPerMinute*2)).ToList();
+            DateTime now = DateTime.Now;
+
+            List<Advertisement> adsToCheck = dbContext.Advertisements.Include("Channel").Include("AdMessages").Where(ad => ad.Is_Opened && ad.Advertisement_Status_Id == 4 && now.Ticks - ad.Date_Time.Ticks>(TimeSpan.TicksPerMinute*3)).ToList();
             foreach(Advertisement ad in adsToCheck)
             {
                 try

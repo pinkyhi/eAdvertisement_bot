@@ -22,7 +22,6 @@ namespace eAdvertisement_bot
     {
         public static void Main(string[] args)
         {
-            MainLogger.LogException(new Exception());
             try
             {
                 ClientApiHandler.ConnectClient().Wait();

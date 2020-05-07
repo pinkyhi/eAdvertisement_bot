@@ -38,7 +38,7 @@ namespace eAdvertisement_bot.Models.Commands
                 //List<DbEntities.Media> mediasDb = dbContext.Medias.ToList();
                 //List<DbEntities.Button> buttonsDb = dbContext.Buttons.ToList();
 
-                DbEntities.Publication postToShow = dbContext.Publications.Include("Medias").Include("Buttons").FirstOrDefault(p=>p.Publication_Id==postId);
+                DbEntities.Publication postToShow = dbContext.Publications.Include("Media").Include("Buttons").FirstOrDefault(p=>p.Publication_Id==postId);
 
 
                 if (postToShow.Media != null && postToShow.Media.Count > 1)

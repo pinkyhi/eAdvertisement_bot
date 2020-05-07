@@ -51,7 +51,8 @@ namespace eAdvertisement_bot.Models.Commands
         {
                         new[] //first row
                         {
-                            new InlineKeyboardButton { Text = "Остановить бота", CallbackData = "/stopBot" },
+                            new InlineKeyboardButton { Text = "Ввод средств", CallbackData = "input" },
+                            new InlineKeyboardButton { Text = "Вывод", CallbackData = "output" },
                         },
                         new[] // second row
                         {

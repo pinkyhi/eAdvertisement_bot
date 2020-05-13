@@ -209,7 +209,14 @@ namespace eAdvertisement_bot
             }
             realMessages = realMessages.Where(m => ConvertToUnixTime(now) - m.Date > 300).ToList(); // Pick posts that are posted not less than 5 min ago
             List<TLMessage> goodMessages = realMessages.Where(m=>messageIds.Contains(m.Id)).ToList();
-
+            /*
+            foreach(TLMessage msg in goodMessages)  // Check for editing post
+            {
+                if (msg.EditDate != null)
+                {
+                    return false;
+                }
+            }*/
             if (goodMessages.Count==0 || goodMessages.Count != ad.AdMessages.Count)  // If one of the messages is deleted not by bot
             {
                 return false;

@@ -151,7 +151,7 @@ namespace eAdvertisement_bot
                     {
 
                         ad.Advertisement_Status_Id = 6;
-                        botClient.SendTextMessageAsync(ad.Channel.User_Id, "Вы перебили топ рекламы или удалили её. Реклама вышла в " + ad.Date_Time + " в канале " + ad.Channel.Name + "\nХолд возвращен рекламодателю").Wait();
+                        botClient.SendTextMessageAsync(ad.Channel.User_Id, "Вы перебили топ рекламы, удалили или изменили её. Реклама вышла в " + ad.Date_Time + " в канале " + ad.Channel.Name + "\nХолд возвращен рекламодателю").Wait();
 
                     }
                 }
@@ -495,13 +495,10 @@ namespace eAdvertisement_bot
             if (post.Media != null && post.Media.Count > 1)
             {
                 List<InputMediaPhoto> album = new List<InputMediaPhoto>();
-
                 for (int i = 0; i < post.Media.Count; i++)
                 {
                     album.Add(new InputMediaPhoto(new InputMedia(post.Media[i].Path)));
-                    album[i].ParseMode = Telegram.Bot.Types.Enums.ParseMode.Markdown;
                 }
-
                 album[0].Caption = post.Text != null ? post.Text : "newPost";
 
                 return await botClient.SendMediaGroupAsync(album, chatId);
@@ -522,11 +519,11 @@ namespace eAdvertisement_bot
                         indexToPaste++;
                     }
 
-                    return new Message[] { await botClient.SendPhotoAsync(chatId, post.Media[0].Path, caption: post.Text, replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown) };
+                    return new Message[] { await botClient.SendPhotoAsync(chatId, post.Media[0].Path, caption: post.Text != null ? post.Text : "newPost", replyMarkup: new InlineKeyboardMarkup(keyboard)) };
                 }
                 else
                 {
-                    return new Message[] { await botClient.SendPhotoAsync(chatId, post.Media[0].Path, caption: post.Text, parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown) };
+                    return new Message[] { await botClient.SendPhotoAsync(chatId, post.Media[0].Path, caption: post.Text != null ? post.Text : "newPost") };
                 }
 
             }
@@ -545,11 +542,11 @@ namespace eAdvertisement_bot
                             };
                         indexToPaste++;
                     }
-                    return new Message[] { await botClient.SendTextMessageAsync(chatId, post.Text, replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown) };
+                    return new Message[] { await botClient.SendTextMessageAsync(chatId, post.Text != null ? post.Text : "newPost", replyMarkup: new InlineKeyboardMarkup(keyboard)) };
                 }
                 else
                 {
-                    return new Message[] { await botClient.SendTextMessageAsync(chatId, post.Text, parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown) };
+                    return new Message[] { await botClient.SendTextMessageAsync(chatId, post.Text != null ? post.Text : "newPost") };
                 }
 
             }

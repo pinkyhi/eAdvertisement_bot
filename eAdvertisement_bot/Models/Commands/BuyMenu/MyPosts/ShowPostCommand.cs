@@ -1,4 +1,5 @@
 ﻿using eAdvertisement_bot.DAO;
+using eAdvertisement_bot.Logger;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -33,73 +34,11 @@ namespace eAdvertisement_bot.Models.Commands
             AppDbContext dbContext = new AppDbContext();
             try
             {
-                List<DbEntities.Media> mediasDb = dbContext.Medias.ToList();
-                List<DbEntities.Button> buttonsDb = dbContext.Buttons.ToList();
 
-                DbEntities.Publication postToShow = dbContext.Publications.Find(postId);
+                DbEntities.Publication postToShow = dbContext.Publications.Include("Media").Include("Buttons").FirstOrDefault(p=>p.Publication_Id==postId);
 
 
-                if (postToShow.Media!=null && postToShow.Media.Count > 1)
-                {
-                    List<InputMediaPhoto> album = new List<InputMediaPhoto>();
-                    
-                    for (int i = 0; i < postToShow.Media.Count; i++)
-                    {
-                        album.Add(new InputMediaPhoto(new InputMedia(postToShow.Media[i].Path)));
-                        album[i].ParseMode = Telegram.Bot.Types.Enums.ParseMode.Markdown;
-                    }
-
-                    album[0].Caption = postToShow.Text != null ? postToShow.Text : "newPost";
-
-                    await botClient.SendMediaGroupAsync(album, update.CallbackQuery.Message.Chat.Id);
-                }
-                else if (postToShow.Media !=null && postToShow.Media.Count == 1)
-                {
-                    if (postToShow.Buttons != null)
-                    {
-                        InlineKeyboardButton[][] keyboard = new InlineKeyboardButton[postToShow.Buttons.Count][];
-
-                        int indexToPaste = 0;
-                        foreach (DbEntities.Button b in postToShow.Buttons)
-                        {
-                            keyboard[indexToPaste] = new[]
-                            {
-                                new InlineKeyboardButton{Text = b.Text, Url = b.Url}
-                            };
-                            indexToPaste++;
-                        }
-
-                        await botClient.SendPhotoAsync(update.CallbackQuery.Message.Chat.Id, postToShow.Media[0].Path, caption: postToShow.Text != null ? postToShow.Text : "newPost", replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
-                    }
-                    else
-                    {
-                        await botClient.SendPhotoAsync(update.CallbackQuery.Message.Chat.Id, postToShow.Media[0].Path, caption: postToShow.Text != null ? postToShow.Text : "newPost", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
-                    }
-
-                }
-                else if (postToShow.Media==null || postToShow.Media.Count == 0)
-                {
-                    if (postToShow.Buttons != null)
-                    {
-                        InlineKeyboardButton[][] keyboard = new InlineKeyboardButton[postToShow.Buttons.Count][];
-
-                        int indexToPaste = 0;
-                        foreach (DbEntities.Button b in postToShow.Buttons)
-                        {
-                            keyboard[indexToPaste] = new[]
-                            {
-                                new InlineKeyboardButton{Text = b.Text, Url = b.Url}
-                            };
-                            indexToPaste++;
-                        }
-                        await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, postToShow.Text != null ? postToShow.Text : "newPost", replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
-                    }
-                    else
-                    {
-                        await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, postToShow.Text != null ? postToShow.Text : "newPost", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
-                    }
-                   
-                }
+                SendPost(postToShow,update, botClient);
 
                 InlineKeyboardButton[][] keyboardControll = new[]
                 {
@@ -134,7 +73,7 @@ namespace eAdvertisement_bot.Models.Commands
             }
             catch(Exception ex)
             {
-                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, ex.Message);
+                MainLogger.LogException(ex, "ShowPostCommand");
             }
             finally
             {

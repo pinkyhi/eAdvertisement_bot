@@ -1,4 +1,5 @@
-﻿using eAdvertisement_bot.Models.Commands;
+﻿using eAdvertisement_bot.Logger;
+using eAdvertisement_bot.Models.Commands;
 using eAdvertisement_bot.Models.Commands.ManualPurchase;
 using System;
 using System.Collections.Generic;
@@ -66,6 +67,7 @@ namespace eAdvertisement_bot
                 commandsList.Add(new AddOwnSoldTimeCommand());
                 commandsList.Add(new ManualPurchaseChangeIntervalCommand());
                 commandsList.Add(new AutobuyMenuCommand());
+                commandsList.Add(new AutobuyBlock());   // AUTOBUY BLOCK
                 commandsList.Add(new AddNewAutoBuyCommand());
                 commandsList.Add(new ShowAutoBuyCommand());
                 commandsList.Add(new ChangeAutoBuyNameCommand());
@@ -131,14 +133,23 @@ namespace eAdvertisement_bot
                         }
                     }
                 }
-                using (FileStream fs = File.OpenRead("eadvertisements.pem"))
+                if (MainLogger.DEV)
                 {
-                    InputFileStream ifs = new InputFileStream(fs);
-
-
                     string hook = String.Concat(BotSettings.WebHookUrl, "/df443335");    // Setting the webhook for telegram
-                    Console.WriteLine("WebHook on: " + hook);
-                    await botClient.SetWebhookAsync(hook, ifs);
+                    Console.WriteLine($"***DEVMODE***\nWebHook on: {hook}");
+                    await botClient.SetWebhookAsync(hook);
+                }
+                else
+                {
+                    using (FileStream fs = File.OpenRead("eadvertisements.pem"))
+                    {
+                        InputFileStream ifs = new InputFileStream(fs);
+
+
+                        string hook = String.Concat(BotSettings.WebHookUrl, "/df443335");    // Setting the webhook for telegram
+                        Console.WriteLine("WebHook on: " + hook);
+                        await botClient.SetWebhookAsync(hook, ifs);
+                    }
                 }
             }   
             return botClient;

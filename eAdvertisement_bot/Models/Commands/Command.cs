@@ -79,7 +79,7 @@ namespace eAdvertisement_bot.Models.Commands
                         new[] //first row
                         {
                             new InlineKeyboardButton { Text = "Каталог", CallbackData = "/manualPurchaseMenuP0IIS1,2C" },
-                            new InlineKeyboardButton { Text = "Автозакуп", CallbackData = "abm" },
+                            new InlineKeyboardButton { Text = "Автозакуп", CallbackData = "abblock" },  //  abm in RELEASE
                         },
                         new[] // second row
                         {

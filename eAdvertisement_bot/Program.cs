@@ -22,6 +22,7 @@ namespace eAdvertisement_bot
     {
         public static void Main(string[] args)
         {
+            
             try
             {
                 ClientApiHandler.ConnectClient().Wait();
@@ -71,7 +72,7 @@ namespace eAdvertisement_bot
                     );
 
                     webBuilder.UseStartup<Startup>();
-                    webBuilder.UseUrls("http://localhost:44359");
+                    //webBuilder.UseUrls("http://localhost:44359");
                     webBuilder.ConfigureKestrel(o =>
                     {
                         o.ConfigureHttpsDefaults(o =>

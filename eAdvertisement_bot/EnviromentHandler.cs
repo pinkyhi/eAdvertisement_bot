@@ -173,15 +173,6 @@ namespace eAdvertisement_bot
                 try
                 {
                     ads[i].Advertisement_Status_Id = 5;
-                    if (ads[i].AdMessages != null)
-                    {
-                        foreach (AdMessage adm in ads[i].AdMessages)
-                            try
-                            {
-                                botClient.DeleteMessageAsync(ads[i].Channel_Id, adm.AdMessage_Id).Wait();
-                            }
-                            catch { }
-                    }
                 }
                 catch(Exception ex)
                 {
@@ -199,9 +190,9 @@ namespace eAdvertisement_bot
             }
             dbContext.SaveChanges();
         }
-        public void CloseTransactions(AppDbContext dbContext)   // Send money back or forward in dependency of ad status
+        public async void CloseTransactions(AppDbContext dbContext)   // Send money back or forward in dependency of ad status
         {
-            List<Advertisement> moneyForwardAds = dbContext.Advertisements.Include("User").Include("Channel.User").Include("AdMessages").Where(a => a.Is_Opened &&( a.Advertisement_Status_Id == 5)).ToList();
+            List<Advertisement> moneyForwardAds = dbContext.Advertisements.Include("User").Include("Channel").Include("Channel.User").Include("AdMessages").Where(a => a.Is_Opened &&( a.Advertisement_Status_Id == 5)).ToList();
             List<Advertisement> moneyBackAds = dbContext.Advertisements.Include("Autobuy").Include("User").Include("Channel.User").Include("AdMessages").Where(a => a.Is_Opened&&(a.Advertisement_Status_Id == 3 || a.Advertisement_Status_Id == 6 || a.Advertisement_Status_Id == 10 || a.Advertisement_Status_Id == 11)).ToList(); //3,6,10,11
 
             foreach (Advertisement ad in moneyBackAds)
@@ -224,10 +215,10 @@ namespace eAdvertisement_bot
                 Advertisement ad = moneyForwardAds[i];
                 try
                 {
-                    int coverage = ClientApiHandler.GetCoverageOfPost(ad.AdMessages[0].AdMessage_Id, ad.Channel_Id).Result;
+                    int coverage = await ClientApiHandler.GetCoverageOfPost(ad.AdMessages[0].AdMessage_Id, ad.Channel_Id);
                     if (ad.Price > (Convert.ToDouble(coverage) / 1000 * ad.Channel.Cpm))
                     {
-                        int remade = Convert.ToInt32((Convert.ToDouble(coverage) / 1000 * ad.Channel.Cpm) * 0.93);
+                        int remade = Convert.ToInt32((Convert.ToDouble(coverage) / 1000 * ad.Channel.Cpm) * ad.Channel.User.Commission);
                         ad.Channel.User.Balance += remade;
 
                         if (ad.Autobuy == null)
@@ -244,10 +235,19 @@ namespace eAdvertisement_bot
                     }
                     else
                     {
-                        ad.Channel.User.Balance += Convert.ToInt32(ad.Price * 0.93);
+                        ad.Channel.User.Balance += Convert.ToInt32(ad.Price * ad.Channel.User.Commission);
                     }
-
-                    ad.Is_Opened = false;
+                    foreach(AdMessage adm in ad.AdMessages)
+                    {
+                        try
+                        {
+                            botClient.DeleteMessageAsync(ad.Channel.Channel_Id, adm.AdMessage_Id).Wait();
+                        }
+                        catch (Exception ex)
+                        {
+                            MainLogger.LogException(ex, "DeleteAdMessages IN CloseTransactions");
+                        }
+                    }
                 }
                 catch (AggregateException ex)
                 {

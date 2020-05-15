@@ -236,8 +236,9 @@ namespace eAdvertisement_bot
                     else
                     {
                         ad.Channel.User.Balance += Convert.ToInt32(ad.Price * ad.Channel.User.Commission);
+                        ad.Is_Opened = false;
                     }
-                    foreach(AdMessage adm in ad.AdMessages)
+                    foreach (AdMessage adm in ad.AdMessages)
                     {
                         try
                         {

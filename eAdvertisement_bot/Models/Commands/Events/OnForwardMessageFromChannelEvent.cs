@@ -113,7 +113,7 @@ namespace eAdvertisement_bot.Models.Commands
                                     }
                                     else
                                     {
-                                        await botClient.SendTextMessageAsync(update.Message.From.Id, "Канал не добавлен, т.к. среднесуточній охват в нем менее 1500.", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Назад в меню продаж", CallbackData = "/sellMenuP0" }), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
+                                        await botClient.SendTextMessageAsync(update.Message.From.Id, "Канал не добавлен, т.к. среднесуточный охват в нем менее 1500.", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Назад в меню продаж", CallbackData = "/sellMenuP0" }), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
                                     }
 
                                 }

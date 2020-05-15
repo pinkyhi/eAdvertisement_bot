@@ -34,9 +34,10 @@ namespace eAdvertisement_bot.Models.Commands
             {
                 InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Назад в меню продажи", CallbackData = "/sellMenuP0" });
                 await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, null, false);
+                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Перешлите любой пост из канала в котором бот администратор", replyMarkup: keyboard);
                 try
                 {
-                    await botClient.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, "Перешлите любой пост из канала в котором бот администратор", replyMarkup: keyboard);
+                    await botClient.DeleteMessageAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId);
                 }
                 catch { }
                 dbContext.Users.First(u => u.User_Id == update.CallbackQuery.From.Id).User_State_Id = 1;

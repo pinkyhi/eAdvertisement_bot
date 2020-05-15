@@ -147,3 +147,113 @@ One or more errors occurred. (Arithmetic operation resulted in an overflow.)
 
 
 
+15.05.2020 13:07:14
+DeleteAdMessages IN CloseTransactions
+One or more errors occurred. (Bad Request: message to delete not found)
+
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at System.Threading.Tasks.Task.Wait()
+   at eAdvertisement_bot.EnviromentHandler.CloseTransactions(AppDbContext dbContext) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\EnviromentHandler.cs:line 244
+
+
+
+15.05.2020 13:07:35
+CloseTranaction adId=71
+invalid checksum! skip
+
+   at TLSharp.Core.Network.TcpTransport.Receive()
+   at TLSharp.Core.Network.MtProtoSender.Receive(TLMethod request)
+   at TLSharp.Core.TelegramClient.RequestWithDcMigration(TLMethod request)
+   at TLSharp.Core.TelegramClient.SendRequestAsync[T](TLMethod methodToExecute)
+   at eAdvertisement_bot.ClientApiHandler.GetCoverageOfPost(Int32 messageId, Int64 channelId) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\ClientApiHandler.cs:line 70
+   at eAdvertisement_bot.EnviromentHandler.CloseTransactions(AppDbContext dbContext) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\EnviromentHandler.cs:line 218
+
+
+
+15.05.2020 13:07:35
+UpdateCoverage chId=-1001456914809
+One or more errors occurred. (Arithmetic operation resulted in an overflow.)
+
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at System.Threading.Tasks.Task`1.get_Result()
+   at eAdvertisement_bot.EnviromentHandler.UpdateCoverage(AppDbContext dbContext) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\EnviromentHandler.cs:line 410
+
+
+
+15.05.2020 13:09:06
+DeleteAdMessages IN CloseTransactions
+One or more errors occurred. (Bad Request: message to delete not found)
+
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at System.Threading.Tasks.Task.Wait()
+   at eAdvertisement_bot.EnviromentHandler.CloseTransactions(AppDbContext dbContext) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\EnviromentHandler.cs:line 244
+
+
+
+15.05.2020 13:13:36
+DeleteAdMessages IN CloseTransactions
+One or more errors occurred. (Bad Request: message to delete not found)
+
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at System.Threading.Tasks.Task.Wait()
+   at eAdvertisement_bot.EnviromentHandler.CloseTransactions(AppDbContext dbContext) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\EnviromentHandler.cs:line 245
+
+
+
+15.05.2020 13:14:31
+BackToStartMenu
+query is too old and response timeout expired or query ID is invalid
+
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at eAdvertisement_bot.Models.Commands.BackToStartMenu.Execute(Update update, TelegramBotClient botClient) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\Models\Commands\StartMenu\BackToStartMenu.cs:line 47
+
+
+
+15.05.2020 13:39:57
+SellMenuCommand
+query is too old and response timeout expired or query ID is invalid
+
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at eAdvertisement_bot.Models.Commands.SellMenuCommand.Execute(Update update, TelegramBotClient botClient) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\Models\Commands\StartMenu\SellMenuCommand.cs:line 100
+
+
+
+15.05.2020 13:45:43
+On905StateEvent
+Попытка установить соединение была безуспешной, т.к. от другого компьютера за требуемое время не получен нужный отклик, или было разорвано уже установленное соединение из-за неверного отклика уже подключенного компьютера.
+
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean allowHttp2, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttpConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.DiagnosticsHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at eAdvertisement_bot.Models.Commands.OnForwardMessageFromChannelEvent.Execute(Update update, TelegramBotClient botClient) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\Models\Commands\Events\OnForwardMessageFromChannelEvent.cs:line 79
+
+
+
+15.05.2020 13:53:57
+SellMenuCommand
+query is too old and response timeout expired or query ID is invalid
+
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at eAdvertisement_bot.Models.Commands.SellMenuCommand.Execute(Update update, TelegramBotClient botClient) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\Models\Commands\StartMenu\SellMenuCommand.cs:line 100
+
+
+
+15.05.2020 13:54:19
+SellMenuCommand
+query is too old and response timeout expired or query ID is invalid
+
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at eAdvertisement_bot.Models.Commands.SellMenuCommand.Execute(Update update, TelegramBotClient botClient) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\Models\Commands\StartMenu\SellMenuCommand.cs:line 100
+
+
+

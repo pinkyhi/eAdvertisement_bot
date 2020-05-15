@@ -1,4 +1,5 @@
-﻿using eAdvertisement_bot.Models.DbEntities;
+﻿using eAdvertisement_bot.Logger;
+using eAdvertisement_bot.Models.DbEntities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -96,64 +97,72 @@ namespace eAdvertisement_bot
         }
         public static async Task<int> GetCoverageOfChannel(string inviteLink, long channelId, bool isNewChannel)
         {
-            if (isNewChannel)
+            try
             {
-                string grhash = inviteLink.Trim().Replace("https://t.me/joinchat/", "").Replace("/", "");
-
-                TLRequestImportChatInvite RCHI = new TLRequestImportChatInvite();
-                RCHI.Hash = grhash;
-                TLUpdates chatInstance = await Client.SendRequestAsync<TLUpdates>(RCHI);
-            }
-
-            channelId = Math.Abs(1000000000000 + channelId);  // I don't know why, but it's all right
-            var dialogs = UpdateDialogsSnapshot().Result;
-
-
-            foreach (var element in dialogs.Chats)
-            {
-                if (element is TLChannel && ((TLChannel)element).Id == channelId)
+                if (isNewChannel)
                 {
-                    TLChannel channel = element as TLChannel;
-                    var chan = await Client.SendRequestAsync<TeleSharp.TL.Messages.TLChatFull>(new TLRequestGetFullChannel()
-                    {
-                        Channel = new TLInputChannel()
-                        { ChannelId = channel.Id, AccessHash = (long)channel.AccessHash }
-                    });
-                    TLInputPeerChannel inputPeer = new TLInputPeerChannel()
-                    { ChannelId = channel.Id, AccessHash = (long)channel.AccessHash };
+                    string grhash = inviteLink.Trim().Replace("https://t.me/joinchat/", "").Replace("/", "");
 
-                    TLChannelMessages res = await Client.SendRequestAsync<TLChannelMessages>
-                    (new TLRequestGetHistory()
-                    {
-                        Peer = inputPeer,
-                        Limit = 140,    // 70 toWork and abt the same to ServiceMessages
-                        });
-                    var msgs = res.Messages;
-
-                    List<TLMessage> realMessages = new List<TLMessage>();
-                    foreach (var msg in msgs)
-                    {
-                        if (msg is TLMessage)
-                        {
-                            TLMessage sms = msg as TLMessage;
-                            realMessages.Add(sms);
-                        }
-                        if (msg is TLMessageService)
-                            continue;
-                    }
-
-                    long unixTimeNow = (Int64)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
-
-                    List<TLMessage> realMessagesAY = realMessages.Where(r => unixTimeNow - r.Date < 259200 && unixTimeNow - r.Date > 172800).ToList();
-                    List<TLMessage> realMessagesY = realMessages.Where(r => unixTimeNow - r.Date < 172800 && unixTimeNow - r.Date > 86400).ToList();
-
-                    double? ay = realMessagesAY.Select(r => r.Views).Min() * 0.87;
-                    double? y = realMessagesY.Select(r => r.Views).Min();
-                    int coverage = Convert.ToInt32((ay + y) / 2);
-                    return coverage;
+                    TLRequestImportChatInvite RCHI = new TLRequestImportChatInvite();
+                    RCHI.Hash = grhash;
+                    TLUpdates chatInstance = await Client.SendRequestAsync<TLUpdates>(RCHI);
                 }
-            }
 
+                channelId = Math.Abs(1000000000000 + channelId);  // I don't know why, but it's all right
+                var dialogs = UpdateDialogsSnapshot().Result;
+
+
+                foreach (var element in dialogs.Chats)
+                {
+                    if (element is TLChannel && ((TLChannel)element).Id == channelId)
+                    {
+                        TLChannel channel = element as TLChannel;
+                        var chan = await Client.SendRequestAsync<TeleSharp.TL.Messages.TLChatFull>(new TLRequestGetFullChannel()
+                        {
+                            Channel = new TLInputChannel()
+                            { ChannelId = channel.Id, AccessHash = (long)channel.AccessHash }
+                        });
+                        TLInputPeerChannel inputPeer = new TLInputPeerChannel()
+                        { ChannelId = channel.Id, AccessHash = (long)channel.AccessHash };
+
+                        TLChannelMessages res = await Client.SendRequestAsync<TLChannelMessages>
+                        (new TLRequestGetHistory()
+                        {
+                            Peer = inputPeer,
+                            Limit = 140,    // 70 toWork and abt the same to ServiceMessages
+                        });
+                        var msgs = res.Messages;
+
+                        List<TLMessage> realMessages = new List<TLMessage>();
+                        foreach (var msg in msgs)
+                        {
+                            if (msg is TLMessage)
+                            {
+                                TLMessage sms = msg as TLMessage;
+                                realMessages.Add(sms);
+                            }
+                            else if (msg is TLMessageService)
+                                continue;
+                        }
+
+                        long unixTimeNow = (long)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+
+                        List<TLMessage> realMessagesAY = realMessages.Where(r => unixTimeNow - r.Date < 259200 && unixTimeNow - r.Date > 172800).ToList();
+                        List<TLMessage> realMessagesY = realMessages.Where(r => unixTimeNow - r.Date < 172800 && unixTimeNow - r.Date > 86400).ToList();
+
+                        double ay = realMessagesAY.Select(r => r.Views).Min() * 0.87 ?? 0;
+                        double y = realMessagesY.Select(r => r.Views).Min() ?? 0;
+                        int coverage = Convert.ToInt32((ay + y) / 2);
+                        return coverage;
+                    }
+                }
+
+                return 0;
+            }
+            catch(Exception ex)
+            {
+                MainLogger.LogException(ex, $"Get coverage of channel\nchId={channelId} new?{isNewChannel}");
+            }
             return 0;
         }
 

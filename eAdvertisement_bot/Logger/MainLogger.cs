@@ -9,7 +9,7 @@ namespace eAdvertisement_bot.Logger
     public static class MainLogger
     {
         static string writePath = @"log.txt";
-        public static bool DEV { get; set; } = false;
+        public static bool DEV { get; set; } = true;
         public static void LogException(Exception ex, string addStr = "")
         {
             lock (writePath)

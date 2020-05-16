@@ -257,3 +257,21 @@ query is too old and response timeout expired or query ID is invalid
 
 
 
+16.05.2020 10:32:25
+SellMenuCommand
+query is too old and response timeout expired or query ID is invalid
+
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at eAdvertisement_bot.Models.Commands.SellMenuCommand.Execute(Update update, TelegramBotClient botClient) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\Models\Commands\StartMenu\SellMenuCommand.cs:line 100
+
+
+
+16.05.2020 10:32:25
+SellMenuCommand
+query is too old and response timeout expired or query ID is invalid
+
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at eAdvertisement_bot.Models.Commands.SellMenuCommand.Execute(Update update, TelegramBotClient botClient) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\Models\Commands\StartMenu\SellMenuCommand.cs:line 100
+
+
+

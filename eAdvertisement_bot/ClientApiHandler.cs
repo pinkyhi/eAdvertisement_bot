@@ -42,7 +42,20 @@ namespace eAdvertisement_bot
         public static int Api_Id { get; set; }
         public static string Api_Hash { get; set; }
         public static int Client_Id { private set; get; }
-        public static TelegramClient Client { get; set; }
+        public static TelegramClient Client { 
+            get 
+            { 
+                if (!Client.IsConnected) 
+                {
+                    Client.ConnectAsync(reconnect: true);
+                }
+                return Client;
+            }
+            set
+            {
+                Client = value;
+            }
+        }
         static ClientApiHandler()
         {
             Api_Id = 1026352;
@@ -53,7 +66,6 @@ namespace eAdvertisement_bot
         {
             channelId = Math.Abs(1000000000000 + channelId);  // I don't know why, but it's all right
             var dialogs = UpdateDialogsSnapshot().Result;
-
 
             foreach (var element in dialogs.Chats)
             {

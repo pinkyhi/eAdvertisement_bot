@@ -104,7 +104,7 @@ namespace eAdvertisement_bot.Models.Commands
                                             coverage = ClientApiHandler.GetCoverageOfChannel(inviteLink, chatId, true).Result;
                                         }
                                     }
-
+                                    Console.WriteLine($"Adding channel {chatId} has coverage = {coverage}");
                                     if (coverage > 1500)
                                     {
                                         dbContext.Channels.Add(new DbEntities.Channel { Price = 0, Coverage = coverage, Name = update.Message.ForwardFromChat.Title, Date = DateTime.UtcNow, Channel_Id = chatId, Link = inviteLink, Subscribers = await botClient.GetChatMembersCountAsync(update.Message.ForwardFromChat.Id), User_Id = update.Message.From.Id });

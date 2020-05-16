@@ -25,15 +25,10 @@ namespace eAdvertisement_bot.Models.Commands
             }
             else
             {
-                try
-                {
-                    return update.Message.Text.Equals(this.Name);    // If it command is in text of update method
 
-                }
-                catch
-                {
-                    return false;
-                }
+                return update?.Message?.Text?.Equals(this.Name) ?? false;    // If it command is in text of update method
+
+
             }
         }
 

@@ -129,10 +129,6 @@ namespace eAdvertisement_bot.Models.Commands
                                         await botClient.SendTextMessageAsync(update.Message.Chat.Id, "eAdvertisement_bot helper не может присоединиться к каналу, попробуйте сделать это вручную.\n@eAdvertisement_Helper\n" +
                                             "Также такое может происходить из-за высокой нагрузки на @eAdvertisement_Helper . Попробуйте позже.\n\n" + inviteLink);
                                     }
-                                    else
-                                    {
-                                        await botClient.SendTextMessageAsync(update.Message.Chat.Id, ex.StackTrace + "\n" + ex.Message +"\n");
-                                    }
                                 }
                             }
                             else

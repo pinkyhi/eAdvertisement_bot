@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 using TLSharp.Core.Network;
 
@@ -524,11 +525,11 @@ namespace eAdvertisement_bot
                         indexToPaste++;
                     }
 
-                    return new Message[] { await botClient.SendPhotoAsync(chatId, post.Media[0].Path, caption: post.Text != null ? post.Text : "newPost", replyMarkup: new InlineKeyboardMarkup(keyboard)) };
+                    return new Message[] { await botClient.SendPhotoAsync(chatId, post.Media[0].Path, caption: post.Text != null ? post.Text : "newPost", replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: ParseMode.Markdown) };
                 }
                 else
                 {
-                    return new Message[] { await botClient.SendPhotoAsync(chatId, post.Media[0].Path, caption: post.Text != null ? post.Text : "newPost") };
+                    return new Message[] { await botClient.SendPhotoAsync(chatId, post.Media[0].Path, caption: post.Text != null ? post.Text : "newPost", parseMode: ParseMode.Markdown) };
                 }
 
             }
@@ -547,11 +548,11 @@ namespace eAdvertisement_bot
                             };
                         indexToPaste++;
                     }
-                    return new Message[] { await botClient.SendTextMessageAsync(chatId, post.Text != null ? post.Text : "newPost", replyMarkup: new InlineKeyboardMarkup(keyboard)) };
+                    return new Message[] { await botClient.SendTextMessageAsync(chatId, post.Text != null ? post.Text : "newPost", replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: ParseMode.Markdown) };
                 }
                 else
                 {
-                    return new Message[] { await botClient.SendTextMessageAsync(chatId, post.Text != null ? post.Text : "newPost") };
+                    return new Message[] { await botClient.SendTextMessageAsync(chatId, post.Text != null ? post.Text : "newPost", parseMode: ParseMode.Markdown) };
                 }
 
             }

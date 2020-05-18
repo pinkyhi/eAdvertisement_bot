@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace eAdvertisement_bot.Models.Commands
@@ -121,11 +122,11 @@ namespace eAdvertisement_bot.Models.Commands
                         indexToPaste++;
                     }
 
-                    await botClient.SendPhotoAsync(update.CallbackQuery.Message.Chat.Id, post.Media[0].Path, caption: post.Text != null ? post.Text : "newPost", replyMarkup: new InlineKeyboardMarkup(keyboard));
+                    await botClient.SendPhotoAsync(update.CallbackQuery.Message.Chat.Id, post.Media[0].Path, caption: post.Text != null ? post.Text : "newPost", replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: ParseMode.Markdown);
                 }
                 else
                 {
-                    await botClient.SendPhotoAsync(update.CallbackQuery.Message.Chat.Id, post.Media[0].Path, caption: post.Text != null ? post.Text : "newPost");
+                    await botClient.SendPhotoAsync(update.CallbackQuery.Message.Chat.Id, post.Media[0].Path, caption: post.Text != null ? post.Text : "newPost", parseMode: ParseMode.Markdown);
                 }
 
             }
@@ -144,11 +145,11 @@ namespace eAdvertisement_bot.Models.Commands
                             };
                         indexToPaste++;
                     }
-                    await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, post.Text != null ? post.Text : "newPost", replyMarkup: new InlineKeyboardMarkup(keyboard));
+                    await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, post.Text != null ? post.Text : "newPost", replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: ParseMode.Markdown);
                 }
                 else
                 {
-                    await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, post.Text != null ? post.Text : "newPost");
+                    await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, post.Text != null ? post.Text : "newPost", parseMode: ParseMode.Markdown);
                 }
 
             }

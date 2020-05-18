@@ -36,6 +36,7 @@ namespace eAdvertisement_bot
                     AppDbContext dbContext = new AppDbContext();
                     try
                     {
+                        ClientApiHandler.ConnectClient().Wait();
                         PublishAccepted(dbContext).Wait();
                         CloseAds(dbContext);
                         CheckAds(dbContext);
@@ -50,6 +51,7 @@ namespace eAdvertisement_bot
                     finally
                     {
                         dbContext.Dispose();
+                        ClientApiHandler.Client.Dispose();
                     }
                 }
                 Thread.Sleep(Interval);
@@ -65,6 +67,7 @@ namespace eAdvertisement_bot
                     AppDbContext dbContext = new AppDbContext();
                     try
                     {
+                        ClientApiHandler.ConnectClient().Wait();
                         UpdateCommission(dbContext);
                         UpdateCoverage(dbContext);
                         UpdateSubscribers(dbContext);
@@ -80,6 +83,7 @@ namespace eAdvertisement_bot
                     finally
                     {
                         dbContext.Dispose();
+                        ClientApiHandler.Client.Dispose();
                     }
                 }
                 Thread.Sleep(Interval);

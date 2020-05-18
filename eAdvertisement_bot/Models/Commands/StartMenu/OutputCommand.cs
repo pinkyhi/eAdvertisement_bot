@@ -43,7 +43,7 @@ namespace eAdvertisement_bot.Models.Commands
             }
             catch (Exception ex)
             {
-                MainLogger.LogException(ex, "Вывод происходит в ручном режиме через менеджера - @olejchanskiy");
+                MainLogger.LogException(ex, "Вывод происходит в ручном режиме через @olejchanskiy");
             }
         }
     }

@@ -33,7 +33,7 @@ namespace eAdvertisement_bot
             if (DateTime.Now.Ticks - UpdateTicks > TimeSpan.TicksPerMinute*2)
             {
                 UpdateTicks = DateTime.Now.Ticks;
-                DialogsSnapshot = (TLDialogs)await Client.GetUserDialogsAsync();
+                DialogsSnapshot = (TLDialogs) await Client.GetUserDialogsAsync();
             }
             return DialogsSnapshot;
         }
@@ -41,21 +41,9 @@ namespace eAdvertisement_bot
 
         public static int Api_Id { get; set; }
         public static string Api_Hash { get; set; }
-        public static int Client_Id { private set; get; }
-        public static TelegramClient Client { 
-            get 
-            { 
-                if (!Client.IsConnected) 
-                {
-                    Client.ConnectAsync(reconnect: true);
-                }
-                return Client;
-            }
-            set
-            {
-                Client = value;
-            }
-        }
+        public static int Client_Id { private set; get; } 	
+
+        public static TelegramClient Client { get; set; }
         static ClientApiHandler()
         {
             Api_Id = 1026352;
@@ -121,7 +109,7 @@ namespace eAdvertisement_bot
                 }
 
                 channelId = Math.Abs(1000000000000 + channelId);  // I don't know why, but it's all right
-                var dialogs = UpdateDialogsSnapshot().Result;
+                var dialogs = UpdateDialogsSnapshot().Result;       // LOOOOK HERE BROOOOOOOOOOOOOOOOOOOO
 
 
                 foreach (var element in dialogs.Chats)
@@ -187,7 +175,6 @@ namespace eAdvertisement_bot
 
         public static async Task<bool> IsWorkingPostOk(List<int> messageIds, Advertisement ad)
         {
-
             DateTime now = DateTime.Now;
             long channelId = Math.Abs(1000000000000 + ad.Channel_Id);  // I don't know why, but it's all right
             var dialogs = UpdateDialogsSnapshot().Result;
@@ -292,11 +279,10 @@ namespace eAdvertisement_bot
         }
         public static async Task ConnectClient()
         {
-            if(Client == null || Client.IsConnected == false)
-            {
-                Client = new TelegramClient(Api_Id, Api_Hash);
-                await Client.ConnectAsync();
-            }
+
+            Client = new TelegramClient(Api_Id, Api_Hash);
+            await Client.ConnectAsync();
+
         }
 
     }

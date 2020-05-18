@@ -275,3 +275,449 @@ query is too old and response timeout expired or query ID is invalid
 
 
 
+16.05.2020 23:01:18
+BuyMenuCommand
+query is too old and response timeout expired or query ID is invalid
+
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at eAdvertisement_bot.Models.Commands.BuyMenuCommand.Execute(Update update, TelegramBotClient botClient) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\Models\Commands\StartMenu\BuyMenuCommand.cs:line 41
+
+
+
+17.05.2020 03:39:57
+Get coverage of channel
+chId=1354683486 new?False
+One or more errors occurred. (Unable to read data from the transport connection: Программа на вашем хост-компьютере разорвала установленное подключение..)
+
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at eAdvertisement_bot.ClientApiHandler.GetCoverageOfChannel(String inviteLink, Int64 channelId, Boolean isNewChannel) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\ClientApiHandler.cs:line 125
+
+
+
+17.05.2020 03:40:02
+Get coverage of channel
+chId=1354683486 new?False
+Client not connected to server.
+
+   at TLSharp.Core.Network.TcpTransport.Send(Byte[] packet)
+   at TLSharp.Core.Network.MtProtoSender.Send(Byte[] packet, TLMethod request)
+   at TLSharp.Core.Network.MtProtoSender.Send(TLMethod request)
+   at TLSharp.Core.TelegramClient.RequestWithDcMigration(TLMethod request)
+   at TLSharp.Core.TelegramClient.SendRequestAsync[T](TLMethod methodToExecute)
+   at eAdvertisement_bot.ClientApiHandler.GetCoverageOfChannel(String inviteLink, Int64 channelId, Boolean isNewChannel) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\ClientApiHandler.cs:line 133
+
+
+
+17.05.2020 03:40:03
+Get coverage of channel
+chId=1354683486 new?False
+Client not connected to server.
+
+   at TLSharp.Core.Network.TcpTransport.Send(Byte[] packet)
+   at TLSharp.Core.Network.MtProtoSender.Send(Byte[] packet, TLMethod request)
+   at TLSharp.Core.Network.MtProtoSender.Send(TLMethod request)
+   at TLSharp.Core.TelegramClient.RequestWithDcMigration(TLMethod request)
+   at TLSharp.Core.TelegramClient.SendRequestAsync[T](TLMethod methodToExecute)
+   at eAdvertisement_bot.ClientApiHandler.GetCoverageOfChannel(String inviteLink, Int64 channelId, Boolean isNewChannel) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\ClientApiHandler.cs:line 133
+
+
+
+17.05.2020 03:42:16
+Get coverage of channel
+chId=1354683486 new?False
+One or more errors occurred. (Client not connected to server.)
+
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at eAdvertisement_bot.ClientApiHandler.GetCoverageOfChannel(String inviteLink, Int64 channelId, Boolean isNewChannel) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\ClientApiHandler.cs:line 125
+
+
+
+17.05.2020 03:42:45
+Get coverage of channel
+chId=1354683486 new?False
+Client not connected to server.
+
+   at TLSharp.Core.Network.TcpTransport.Send(Byte[] packet)
+   at TLSharp.Core.Network.MtProtoSender.Send(Byte[] packet, TLMethod request)
+   at TLSharp.Core.Network.MtProtoSender.Send(TLMethod request)
+   at TLSharp.Core.TelegramClient.RequestWithDcMigration(TLMethod request)
+   at TLSharp.Core.TelegramClient.SendRequestAsync[T](TLMethod methodToExecute)
+   at eAdvertisement_bot.ClientApiHandler.GetCoverageOfChannel(String inviteLink, Int64 channelId, Boolean isNewChannel) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\ClientApiHandler.cs:line 133
+
+
+
+17.05.2020 03:42:48
+SellMenuCommand
+query is too old and response timeout expired or query ID is invalid
+
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at eAdvertisement_bot.Models.Commands.SellMenuCommand.Execute(Update update, TelegramBotClient botClient) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\Models\Commands\StartMenu\SellMenuCommand.cs:line 100
+
+
+
+17.05.2020 11:43:47
+SellMenuCommand
+query is too old and response timeout expired or query ID is invalid
+
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at eAdvertisement_bot.Models.Commands.SellMenuCommand.Execute(Update update, TelegramBotClient botClient) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\Models\Commands\StartMenu\SellMenuCommand.cs:line 100
+
+
+
+17.05.2020 12:04:40
+Get coverage of channel
+chId=1354683486 new?False
+One or more errors occurred. (Unable to read data from the transport connection: Удаленный хост принудительно разорвал существующее подключение..)
+
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at eAdvertisement_bot.ClientApiHandler.GetCoverageOfChannel(String inviteLink, Int64 channelId, Boolean isNewChannel) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\ClientApiHandler.cs:line 137
+
+
+
+17.05.2020 15:18:23
+AddChannelCommand
+query is too old and response timeout expired or query ID is invalid
+
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at eAdvertisement_bot.Models.Commands.AddChannelCommand.Execute(Update update, TelegramBotClient botClient) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\Models\Commands\SellMenu\AddChannelCommand.cs:line 36
+
+
+
+17.05.2020 15:18:23
+BackToStartMenu
+query is too old and response timeout expired or query ID is invalid
+
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at eAdvertisement_bot.Models.Commands.BackToStartMenu.Execute(Update update, TelegramBotClient botClient) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\Models\Commands\StartMenu\BackToStartMenu.cs:line 47
+
+
+
+17.05.2020 15:18:53
+AddChannelCommand
+query is too old and response timeout expired or query ID is invalid
+
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at eAdvertisement_bot.Models.Commands.AddChannelCommand.Execute(Update update, TelegramBotClient botClient) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\Models\Commands\SellMenu\AddChannelCommand.cs:line 36
+
+
+
+17.05.2020 15:19:08
+Get coverage of channel
+chId=1354683486 new?False
+One or more errors occurred. (Unable to read data from the transport connection: Программа на вашем хост-компьютере разорвала установленное подключение..)
+
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at eAdvertisement_bot.ClientApiHandler.GetCoverageOfChannel(String inviteLink, Int64 channelId, Boolean isNewChannel) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\ClientApiHandler.cs:line 137
+
+
+
+17.05.2020 18:21:49
+SellMenuCommand
+query is too old and response timeout expired or query ID is invalid
+
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at eAdvertisement_bot.Models.Commands.SellMenuCommand.Execute(Update update, TelegramBotClient botClient) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\Models\Commands\StartMenu\SellMenuCommand.cs:line 100
+
+
+
+17.05.2020 18:22:03
+SellMenuCommand
+query is too old and response timeout expired or query ID is invalid
+
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at eAdvertisement_bot.Models.Commands.SellMenuCommand.Execute(Update update, TelegramBotClient botClient) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\Models\Commands\StartMenu\SellMenuCommand.cs:line 100
+
+
+
+17.05.2020 21:37:00
+Get coverage of channel
+chId=1354683486 new?False
+One or more errors occurred. (Unable to read data from the transport connection: Программа на вашем хост-компьютере разорвала установленное подключение..)
+
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at eAdvertisement_bot.ClientApiHandler.GetCoverageOfChannel(String inviteLink, Int64 channelId, Boolean isNewChannel) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\ClientApiHandler.cs:line 137
+
+
+
+17.05.2020 22:39:40
+SellMenuCommand
+query is too old and response timeout expired or query ID is invalid
+
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at eAdvertisement_bot.Models.Commands.SellMenuCommand.Execute(Update update, TelegramBotClient botClient) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\Models\Commands\StartMenu\SellMenuCommand.cs:line 100
+
+
+
+17.05.2020 22:42:50
+Get coverage of channel
+chId=1456914809 new?False
+One or more errors occurred. (One or more errors occurred. (invalid new nonce hash))
+
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at System.Threading.Tasks.Task`1.get_Result()
+   at eAdvertisement_bot.ClientApiHandler.GetCoverageOfChannel(String inviteLink, Int64 channelId, Boolean isNewChannel) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\ClientApiHandler.cs:line 135
+
+
+
+17.05.2020 22:42:53
+Get coverage of channel
+chId=1433904224 new?False
+One or more errors occurred. (AUTH_KEY_UNREGISTERED)
+
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at System.Threading.Tasks.Task`1.get_Result()
+   at eAdvertisement_bot.ClientApiHandler.GetCoverageOfChannel(String inviteLink, Int64 channelId, Boolean isNewChannel) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\ClientApiHandler.cs:line 135
+
+
+
+17.05.2020 22:42:55
+Get coverage of channel
+chId=1354683486 new?False
+Object reference not set to an instance of an object.
+
+   at eAdvertisement_bot.ClientApiHandler.GetCoverageOfChannel(String inviteLink, Int64 channelId, Boolean isNewChannel) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\ClientApiHandler.cs:line 138
+
+
+
+17.05.2020 22:42:56
+Get coverage of channel
+chId=1336365612 new?False
+Object reference not set to an instance of an object.
+
+   at eAdvertisement_bot.ClientApiHandler.GetCoverageOfChannel(String inviteLink, Int64 channelId, Boolean isNewChannel) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\ClientApiHandler.cs:line 138
+
+
+
+17.05.2020 22:42:56
+Get coverage of channel
+chId=1322943856 new?False
+Object reference not set to an instance of an object.
+
+   at eAdvertisement_bot.ClientApiHandler.GetCoverageOfChannel(String inviteLink, Int64 channelId, Boolean isNewChannel) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\ClientApiHandler.cs:line 138
+
+
+
+17.05.2020 22:42:57
+Get coverage of channel
+chId=1299142810 new?False
+Object reference not set to an instance of an object.
+
+   at eAdvertisement_bot.ClientApiHandler.GetCoverageOfChannel(String inviteLink, Int64 channelId, Boolean isNewChannel) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\ClientApiHandler.cs:line 138
+
+
+
+17.05.2020 22:42:57
+Get coverage of channel
+chId=1221369290 new?False
+Object reference not set to an instance of an object.
+
+   at eAdvertisement_bot.ClientApiHandler.GetCoverageOfChannel(String inviteLink, Int64 channelId, Boolean isNewChannel) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\ClientApiHandler.cs:line 138
+
+
+
+17.05.2020 22:42:58
+Get coverage of channel
+chId=1210790589 new?False
+Object reference not set to an instance of an object.
+
+   at eAdvertisement_bot.ClientApiHandler.GetCoverageOfChannel(String inviteLink, Int64 channelId, Boolean isNewChannel) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\ClientApiHandler.cs:line 138
+
+
+
+17.05.2020 22:42:59
+Get coverage of channel
+chId=1194856194 new?False
+Object reference not set to an instance of an object.
+
+   at eAdvertisement_bot.ClientApiHandler.GetCoverageOfChannel(String inviteLink, Int64 channelId, Boolean isNewChannel) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\ClientApiHandler.cs:line 138
+
+
+
+17.05.2020 22:46:13
+Get coverage of channel
+chId=1354683486 new?False
+Object reference not set to an instance of an object.
+
+   at eAdvertisement_bot.ClientApiHandler.GetCoverageOfChannel(String inviteLink, Int64 channelId, Boolean isNewChannel) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\ClientApiHandler.cs:line 138
+
+
+
+17.05.2020 22:46:49
+Get coverage of channel
+chId=1354683486 new?False
+One or more errors occurred. (AUTH_KEY_UNREGISTERED)
+
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at System.Threading.Tasks.Task`1.get_Result()
+   at eAdvertisement_bot.ClientApiHandler.GetCoverageOfChannel(String inviteLink, Int64 channelId, Boolean isNewChannel) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\ClientApiHandler.cs:line 135
+
+
+
+17.05.2020 22:50:13
+SellMenuCommand
+query is too old and response timeout expired or query ID is invalid
+
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at eAdvertisement_bot.Models.Commands.SellMenuCommand.Execute(Update update, TelegramBotClient botClient) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\Models\Commands\StartMenu\SellMenuCommand.cs:line 100
+
+
+
+17.05.2020 22:50:15
+Get coverage of channel
+chId=1456914809 new?False
+One or more errors occurred. (AUTH_KEY_UNREGISTERED)
+
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at System.Threading.Tasks.Task`1.get_Result()
+   at eAdvertisement_bot.ClientApiHandler.GetCoverageOfChannel(String inviteLink, Int64 channelId, Boolean isNewChannel) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\ClientApiHandler.cs:line 133
+
+
+
+17.05.2020 22:50:30
+Get coverage of channel
+chId=1433904224 new?False
+Object reference not set to an instance of an object.
+
+   at eAdvertisement_bot.ClientApiHandler.GetCoverageOfChannel(String inviteLink, Int64 channelId, Boolean isNewChannel) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\ClientApiHandler.cs:line 136
+
+
+
+17.05.2020 22:50:34
+Get coverage of channel
+chId=1336365612 new?False
+Object reference not set to an instance of an object.
+
+   at eAdvertisement_bot.ClientApiHandler.GetCoverageOfChannel(String inviteLink, Int64 channelId, Boolean isNewChannel) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\ClientApiHandler.cs:line 136
+
+
+
+17.05.2020 22:50:42
+Get coverage of channel
+chId=1322943856 new?False
+Object reference not set to an instance of an object.
+
+   at eAdvertisement_bot.ClientApiHandler.GetCoverageOfChannel(String inviteLink, Int64 channelId, Boolean isNewChannel) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\ClientApiHandler.cs:line 136
+
+
+
+17.05.2020 22:51:23
+Get coverage of channel
+chId=1456914809 new?False
+One or more errors occurred. (AUTH_KEY_UNREGISTERED)
+
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at System.Threading.Tasks.Task`1.get_Result()
+   at eAdvertisement_bot.ClientApiHandler.GetCoverageOfChannel(String inviteLink, Int64 channelId, Boolean isNewChannel) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\ClientApiHandler.cs:line 133
+
+
+
+17.05.2020 22:56:40
+Get coverage of channel
+chId=-1001354683486 new?True
+USER_ALREADY_PARTICIPANT
+
+   at TLSharp.Core.Network.MtProtoSender.HandleRpcResult(UInt64 messageId, Int32 sequence, BinaryReader messageReader, TLMethod request)
+   at TLSharp.Core.Network.MtProtoSender.processMessage(UInt64 messageId, Int32 sequence, BinaryReader messageReader, TLMethod request)
+   at TLSharp.Core.Network.MtProtoSender.Receive(TLMethod request)
+   at TLSharp.Core.TelegramClient.RequestWithDcMigration(TLMethod request)
+   at TLSharp.Core.TelegramClient.SendRequestAsync[T](TLMethod methodToExecute)
+   at eAdvertisement_bot.ClientApiHandler.GetCoverageOfChannel(String inviteLink, Int64 channelId, Boolean isNewChannel) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\ClientApiHandler.cs:line 129
+
+
+
+17.05.2020 22:56:43
+Get coverage of channel
+chId=-1001354683486 new?True
+USER_ALREADY_PARTICIPANT
+
+   at TLSharp.Core.Network.MtProtoSender.HandleRpcResult(UInt64 messageId, Int32 sequence, BinaryReader messageReader, TLMethod request)
+   at TLSharp.Core.Network.MtProtoSender.processMessage(UInt64 messageId, Int32 sequence, BinaryReader messageReader, TLMethod request)
+   at TLSharp.Core.Network.MtProtoSender.Receive(TLMethod request)
+   at TLSharp.Core.TelegramClient.RequestWithDcMigration(TLMethod request)
+   at TLSharp.Core.TelegramClient.SendRequestAsync[T](TLMethod methodToExecute)
+   at eAdvertisement_bot.ClientApiHandler.GetCoverageOfChannel(String inviteLink, Int64 channelId, Boolean isNewChannel) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\ClientApiHandler.cs:line 129
+
+
+
+18.05.2020 14:22:59
+EveryMinute
+One or more errors occurred. (Couldn't read the packet length)
+
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at System.Threading.Tasks.Task.Wait()
+   at eAdvertisement_bot.EnviromentHandler.StartEveryMinute() in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\EnviromentHandler.cs:line 39
+
+
+
+18.05.2020 15:14:06
+EveryMinute
+One or more errors occurred. (Couldn't read the packet length)
+
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at System.Threading.Tasks.Task.Wait()
+   at eAdvertisement_bot.EnviromentHandler.StartEveryMinute() in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\EnviromentHandler.cs:line 39
+
+
+
+18.05.2020 17:03:47
+EveryMinute
+One or more errors occurred. (Couldn't read the packet length)
+
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at System.Threading.Tasks.Task.Wait()
+   at eAdvertisement_bot.EnviromentHandler.StartEveryMinute() in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\EnviromentHandler.cs:line 39
+
+
+
+18.05.2020 17:39:52
+EveryMinute
+One or more errors occurred. (Couldn't read the packet length)
+
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at System.Threading.Tasks.Task.Wait()
+   at eAdvertisement_bot.EnviromentHandler.StartEveryMinute() in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\EnviromentHandler.cs:line 39
+
+
+
+18.05.2020 17:44:53
+EveryMinute
+One or more errors occurred. (Couldn't read the packet length)
+
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at System.Threading.Tasks.Task.Wait()
+   at eAdvertisement_bot.EnviromentHandler.StartEveryMinute() in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\EnviromentHandler.cs:line 39
+
+
+
+18.05.2020 20:23:00
+EveryMinute
+One or more errors occurred. (Сделана попытка выполнить операцию на сокете для недоступного хоста. 149.154.167.50:443)
+
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at System.Threading.Tasks.Task.Wait()
+   at eAdvertisement_bot.EnviromentHandler.StartEveryMinute() in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\EnviromentHandler.cs:line 39
+
+
+
+18.05.2020 20:24:00
+EveryMinute
+One or more errors occurred. (Сделана попытка выполнить операцию на сокете для недоступного хоста. 149.154.167.50:443)
+
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at System.Threading.Tasks.Task.Wait()
+   at eAdvertisement_bot.EnviromentHandler.StartEveryMinute() in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\EnviromentHandler.cs:line 39
+
+
+

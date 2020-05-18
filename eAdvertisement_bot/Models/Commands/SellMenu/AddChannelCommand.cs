@@ -34,7 +34,7 @@ namespace eAdvertisement_bot.Models.Commands
             {
                 InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Назад в меню продажи", CallbackData = "/sellMenuP0" });
                 await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, null, false);
-                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Перешлите любой пост из канала в котором бот администратор", replyMarkup: keyboard);
+                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Добавьте бота @eAdvertisement_bot в администраторы своего канала\nС правами:\n-Публиковать сообщения\n-Редактировать чужие сообщения\n-Удалять чужие сообщения\n-Пригласительные ссылки\n-Выбор администраторов\n\nПосле этого перешлите любой пост из своего канала в этот чат.", replyMarkup: keyboard);
                 try
                 {
                     await botClient.DeleteMessageAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId);

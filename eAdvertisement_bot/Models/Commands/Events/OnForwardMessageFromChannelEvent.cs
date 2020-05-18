@@ -88,6 +88,7 @@ namespace eAdvertisement_bot.Models.Commands
                                     Chat s = await botClient.GetChatAsync(chatId);
                                     lock (ClientApiHandler.Client)
                                     {
+                                        ClientApiHandler.ConnectClient().Wait();
                                         try
                                         {
                                             if ((botClient.GetChatMemberAsync(chatId, ClientApiHandler.Client_Id).Result).Status == Telegram.Bot.Types.Enums.ChatMemberStatus.Member)
@@ -103,13 +104,17 @@ namespace eAdvertisement_bot.Models.Commands
                                         {
                                             coverage = ClientApiHandler.GetCoverageOfChannel(inviteLink, chatId, true).Result;
                                         }
+                                        finally
+                                        {
+                                            ClientApiHandler.Client.Dispose();
+                                        }
                                     }
                                     Console.WriteLine($"Adding channel {chatId} has coverage = {coverage}");
                                     if (coverage > 1500)
                                     {
                                         dbContext.Channels.Add(new DbEntities.Channel { Price = 0, Coverage = coverage, Name = update.Message.ForwardFromChat.Title, Date = DateTime.UtcNow, Channel_Id = chatId, Link = inviteLink, Subscribers = await botClient.GetChatMembersCountAsync(update.Message.ForwardFromChat.Id), User_Id = update.Message.From.Id });
                                         dbContext.SaveChanges();
-                                        await botClient.SendTextMessageAsync(update.Message.From.Id, "OK! Канал добавлен :)\n*Что бы вы могли продать рекламу в своём канале - не забудьте выставить в настройках канала CPM и добавить рекламные места*", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Назад в меню продаж", CallbackData = "/sellMenuP0" }), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
+                                        await botClient.SendTextMessageAsync(update.Message.From.Id, "OK! Канал добавлен :)\n\n*Что бы вы могли продать рекламу в своём канале: не забудьте выставить в настройках канала CPM и добавить рекламные места*", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Назад в меню продаж", CallbackData = "/sellMenuP0" }), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
                                     }
                                     else
                                     {

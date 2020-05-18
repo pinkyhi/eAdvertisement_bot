@@ -178,7 +178,7 @@ namespace eAdvertisement_bot.Models.Commands.ManualPurchase
                 dbContext.SaveChanges();
 
 
-                string text = "Здесь вы можете выбрать канал где купить рекламу.\nЕсли вы хотите купить рекламу в определенном канале, то просто перешлите пост из него\n*Показать*\nКатегории:" + String.Join(", ", categoriesStrs) + "\nЦеновой интервал: " + intervalFrom + "-" + intervalTo;
+                string text = "Здесь вы можете выбрать канал где купить рекламу.\nЕсли вы хотите купить рекламу в определенном канале из каталога, то просто перешлите пост из него\n\nКатегории:" + String.Join(", ", categoriesStrs) + "\nЦеновой интервал: " + intervalFrom + "-" + intervalTo;
                 await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, text, replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
 
                 try

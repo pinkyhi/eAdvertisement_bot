@@ -41,7 +41,7 @@ namespace eAdvertisement_bot.Models.Commands
                 await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, null, false);  // ...,...,alert    AnswerCallbackQuery is required to send to avoid clock animation ob the button
 
                 InlineKeyboardMarkup keyboard = buyMenuKeyboard;
-                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Баланс: " + userEntity.Balance + "\nХолд: " + hold + "\nСтатус аккаунта: *" + userEntity.User_Status.Name + ".*\nКоммиссия: " + (Math.Round((1-userEntity.Commission)*100))+"%", replyMarkup: keyboard, parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
+                await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, "Баланс: " + userEntity.Balance + "\nХолд: " + hold + "\nСтатус аккаунта: *" + userEntity.User_Status.Name + ".*", replyMarkup: keyboard, parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
 
                 try
                 {

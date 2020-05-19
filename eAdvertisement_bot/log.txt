@@ -721,3 +721,55 @@ One or more errors occurred. (Сделана попытка выполнить �
 
 
 
+19.05.2020 04:02:19
+OnPhotoMessageEvent
+Object reference not set to an instance of an object.
+
+   at eAdvertisement_bot.Models.Commands.OnPhotoMessageEvent.Execute(Update update, TelegramBotClient botClient) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\Models\Commands\Events\OnPhotoMessageEvent.cs:line 50
+
+
+
+19.05.2020 04:02:20
+StartCommand
+An error occurred while updating the entries. See the inner exception for details.
+
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.Execute(IRelationalConnection connection)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.Execute(DbContext _, ValueTuple`2 parameters)
+   at Pomelo.EntityFrameworkCore.MySql.Storage.Internal.MySqlExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.Execute(IEnumerable`1 commandBatches, IRelationalConnection connection)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChanges(IReadOnlyList`1 entries)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChanges(IReadOnlyList`1 entriesToSave)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChanges(Boolean acceptAllChangesOnSuccess)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChanges(Boolean acceptAllChangesOnSuccess)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChanges()
+   at eAdvertisement_bot.Models.Commands.StartCommand.Execute(Update update, TelegramBotClient botClient) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\Models\Commands\StartMenu\StartCommand.cs:line 50
+
+
+
+19.05.2020 04:02:21
+SellMenuCommand
+query is too old and response timeout expired or query ID is invalid
+
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at eAdvertisement_bot.Models.Commands.SellMenuCommand.Execute(Update update, TelegramBotClient botClient) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\Models\Commands\StartMenu\SellMenuCommand.cs:line 100
+
+
+
+19.05.2020 04:02:21
+SellMenuCommand
+query is too old and response timeout expired or query ID is invalid
+
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at eAdvertisement_bot.Models.Commands.SellMenuCommand.Execute(Update update, TelegramBotClient botClient) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\Models\Commands\StartMenu\SellMenuCommand.cs:line 100
+
+
+
+19.05.2020 04:02:21
+BuyMenuCommand
+query is too old and response timeout expired or query ID is invalid
+
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at eAdvertisement_bot.Models.Commands.BuyMenuCommand.Execute(Update update, TelegramBotClient botClient) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\Models\Commands\StartMenu\BuyMenuCommand.cs:line 41
+
+
+

@@ -97,73 +97,67 @@ namespace eAdvertisement_bot
         }
         public static async Task<int> GetCoverageOfChannel(string inviteLink, long channelId, bool isNewChannel)
         {
-            try
+
+            if (isNewChannel)
             {
-                if (isNewChannel)
+                string grhash = inviteLink.Trim().Replace("https://t.me/joinchat/", "").Replace("/", "");
+
+                TLRequestImportChatInvite RCHI = new TLRequestImportChatInvite();
+                RCHI.Hash = grhash;
+                TLUpdates chatInstance = await Client.SendRequestAsync<TLUpdates>(RCHI);
+            }
+
+            channelId = Math.Abs(1000000000000 + channelId);  // I don't know why, but it's all right
+            var dialogs = UpdateDialogsSnapshot().Result;       // LOOOOK HERE BROOOOOOOOOOOOOOOOOOOO
+
+
+            foreach (var element in dialogs.Chats)
+            {
+                if (element is TLChannel && ((TLChannel)element).Id == channelId)
                 {
-                    string grhash = inviteLink.Trim().Replace("https://t.me/joinchat/", "").Replace("/", "");
-
-                    TLRequestImportChatInvite RCHI = new TLRequestImportChatInvite();
-                    RCHI.Hash = grhash;
-                    TLUpdates chatInstance = await Client.SendRequestAsync<TLUpdates>(RCHI);
-                }
-
-                channelId = Math.Abs(1000000000000 + channelId);  // I don't know why, but it's all right
-                var dialogs = UpdateDialogsSnapshot().Result;       // LOOOOK HERE BROOOOOOOOOOOOOOOOOOOO
-
-
-                foreach (var element in dialogs.Chats)
-                {
-                    if (element is TLChannel && ((TLChannel)element).Id == channelId)
+                    TLChannel channel = element as TLChannel;
+                    var chan = await Client.SendRequestAsync<TeleSharp.TL.Messages.TLChatFull>(new TLRequestGetFullChannel()
                     {
-                        TLChannel channel = element as TLChannel;
-                        var chan = await Client.SendRequestAsync<TeleSharp.TL.Messages.TLChatFull>(new TLRequestGetFullChannel()
-                        {
-                            Channel = new TLInputChannel()
-                            { ChannelId = channel.Id, AccessHash = (long)channel.AccessHash }
-                        });
-                        TLInputPeerChannel inputPeer = new TLInputPeerChannel()
-                        { ChannelId = channel.Id, AccessHash = (long)channel.AccessHash };
+                        Channel = new TLInputChannel()
+                        { ChannelId = channel.Id, AccessHash = (long)channel.AccessHash }
+                    });
+                    TLInputPeerChannel inputPeer = new TLInputPeerChannel()
+                    { ChannelId = channel.Id, AccessHash = (long)channel.AccessHash };
 
-                        TLChannelMessages res = await Client.SendRequestAsync<TLChannelMessages>
-                        (new TLRequestGetHistory()
-                        {
-                            Peer = inputPeer,
-                            Limit = 140,    // 70 toWork and abt the same to ServiceMessages
+                    TLChannelMessages res = await Client.SendRequestAsync<TLChannelMessages>
+                    (new TLRequestGetHistory()
+                    {
+                        Peer = inputPeer,
+                        Limit = 140,    // 70 toWork and abt the same to ServiceMessages
                         });
-                        var msgs = res.Messages;
+                    var msgs = res.Messages;
 
-                        List<TLMessage> realMessages = new List<TLMessage>();
-                        foreach (var msg in msgs)
+                    List<TLMessage> realMessages = new List<TLMessage>();
+                    foreach (var msg in msgs)
+                    {
+                        if (msg is TLMessage)
                         {
-                            if (msg is TLMessage)
-                            {
-                                TLMessage sms = msg as TLMessage;
-                                realMessages.Add(sms);
-                            }
-                            else if (msg is TLMessageService)
-                                continue;
+                            TLMessage sms = msg as TLMessage;
+                            realMessages.Add(sms);
                         }
-
-                        long unixTimeNow = (long)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
-
-                        List<TLMessage> realMessagesAY = realMessages.Where(r => unixTimeNow - r.Date < 259200 && unixTimeNow - r.Date > 172800).ToList();
-                        List<TLMessage> realMessagesY = realMessages.Where(r => unixTimeNow - r.Date < 172800 && unixTimeNow - r.Date > 86400).ToList();
-
-                        double ay = realMessagesAY.Select(r => r.Views).Min() * 0.87 ?? 0;
-                        double y = realMessagesY.Select(r => r.Views).Min() ?? 0;
-                        int coverage = Convert.ToInt32((ay + y) / 2);
-                        return coverage;
+                        else if (msg is TLMessageService)
+                            continue;
                     }
-                }
 
-                return 0;
+                    long unixTimeNow = (long)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+
+                    List<TLMessage> realMessagesAY = realMessages.Where(r => unixTimeNow - r.Date < 259200 && unixTimeNow - r.Date > 172800).ToList();
+                    List<TLMessage> realMessagesY = realMessages.Where(r => unixTimeNow - r.Date < 172800 && unixTimeNow - r.Date > 86400).ToList();
+
+                    double ay = realMessagesAY.Select(r => r.Views).Min() * 0.87 ?? 0;
+                    double y = realMessagesY.Select(r => r.Views).Min() ?? 0;
+                    int coverage = Convert.ToInt32((ay + y) / 2);
+                    return coverage;
+                }
             }
-            catch(Exception ex)
-            {
-                MainLogger.LogException(ex, $"Get coverage of channel\nchId={channelId} new?{isNewChannel}");
-            }
+
             return 0;
+
         }
 
         public static long ConvertToUnixTime(DateTime datetime)

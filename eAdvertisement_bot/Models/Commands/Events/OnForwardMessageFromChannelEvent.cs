@@ -3,6 +3,7 @@ using eAdvertisement_bot.Logger;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
@@ -10,6 +11,7 @@ using Telegram.Bot.Types.ReplyMarkups;
 using TeleSharp.TL;
 using TeleSharp.TL.Messages;
 using TLSharp.Core;
+using TLSharp.Core.Network;
 
 namespace eAdvertisement_bot.Models.Commands
 {
@@ -100,9 +102,15 @@ namespace eAdvertisement_bot.Models.Commands
                                                 coverage = ClientApiHandler.GetCoverageOfChannel(inviteLink, chatId, true).Result;
                                             }
                                         }
-                                        catch
+                                        catch (AggregateException ex)
                                         {
-                                            coverage = ClientApiHandler.GetCoverageOfChannel(inviteLink, chatId, true).Result;
+                                            if (ex.InnerException is FloodException)
+                                            {
+                                                botClient.SendTextMessageAsync(update.Message.From.Id, $"Бот сейчас слишком загружен для того чтобы добавить ваш канал. Попробуйте через {Convert.ToInt32((ex.InnerException as FloodException).TimeToWait.TotalSeconds)} секунд.\n\nТакже возможно в данный момент ведутся технические работы, так что просто попытайтесь сделать это позже.", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Назад в меню продаж", CallbackData = "/sellMenuP0" }), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown).Wait();
+                                                Console.WriteLine("Flood ex catched, sleep for " + (ex.InnerException as FloodException).TimeToWait);
+                                                Thread.Sleep(Convert.ToInt32((ex.InnerException as FloodException).TimeToWait.TotalMilliseconds));
+                                                coverage = ClientApiHandler.GetCoverageOfChannel(inviteLink, chatId, true).Result;
+                                            }
                                         }
                                         finally
                                         {

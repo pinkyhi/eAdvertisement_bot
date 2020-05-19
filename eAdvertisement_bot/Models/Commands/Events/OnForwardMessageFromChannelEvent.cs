@@ -110,7 +110,7 @@ namespace eAdvertisement_bot.Models.Commands
                                         }
                                     }
                                     Console.WriteLine($"Adding channel {chatId} has coverage = {coverage}");
-                                    if (coverage > 1500)
+                                    if (coverage > 400)
                                     {
                                         dbContext.Channels.Add(new DbEntities.Channel { Price = 0, Coverage = coverage, Name = update.Message.ForwardFromChat.Title, Date = DateTime.UtcNow, Channel_Id = chatId, Link = inviteLink, Subscribers = await botClient.GetChatMembersCountAsync(update.Message.ForwardFromChat.Id), User_Id = update.Message.From.Id });
                                         dbContext.SaveChanges();
@@ -118,7 +118,7 @@ namespace eAdvertisement_bot.Models.Commands
                                     }
                                     else
                                     {
-                                        await botClient.SendTextMessageAsync(update.Message.From.Id, "Канал не добавлен, т.к. среднесуточный охват в нем менее 1500.", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Назад в меню продаж", CallbackData = "/sellMenuP0" }), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
+                                        await botClient.SendTextMessageAsync(update.Message.From.Id, "Канал не добавлен, т.к. среднесуточный охват в нем менее 400.", replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Назад в меню продаж", CallbackData = "/sellMenuP0" }), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
                                     }
 
                                 }

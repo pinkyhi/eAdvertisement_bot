@@ -72,7 +72,7 @@ namespace eAdvertisement_bot.Models.Commands
                 int indexToPaste = 1;
                 foreach (DbEntities.Channel ch in channelsToType)
                 {
-                    keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = (ch.Cpm!=null&&ch.Cpm>0&&ch.Coverage>1500&&ch.Places!=null&&ch.Places.Count>0) ? "✅" + ch.Name:"❌" + ch.Name, CallbackData = "/showChannelForSellerN" + ch.Channel_Id }, };
+                    keyboard[indexToPaste] = new[] { new InlineKeyboardButton { Text = (ch.Cpm!=null&&ch.Cpm>0&&ch.Coverage>400&&ch.Places!=null&&ch.Places.Count>0) ? "✅" + ch.Name:"❌" + ch.Name, CallbackData = "/showChannelForSellerN" + ch.Channel_Id }, };
                     indexToPaste++;
                 }
 
@@ -102,7 +102,7 @@ namespace eAdvertisement_bot.Models.Commands
                 dbContext.SaveChanges();
                 try
                 {
-                    await botClient.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, "*Меню ваших каналов*\n\n✅ – канал отображается в каталоге, купить рекламу можно.\n❌ – канал НЕ отображается в каталоге, купить рекламу нельзя.\n\nВозможные причины:\n    1. Выставлен СРМ = 0\n    2. Не добавлены рекламные места\n    3. В канале охват меньше 1500", replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
+                    await botClient.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, "*Меню ваших каналов*\n\n✅ – канал отображается в каталоге, купить рекламу можно.\n❌ – канал НЕ отображается в каталоге, купить рекламу нельзя.\n\nВозможные причины:\n    1. Выставлен СРМ = 0\n    2. Не добавлены рекламные места\n    3. В канале охват меньше 400", replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
                 }
                 catch { }
                 

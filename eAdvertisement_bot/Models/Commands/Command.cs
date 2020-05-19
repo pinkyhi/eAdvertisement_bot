@@ -103,6 +103,8 @@ namespace eAdvertisement_bot.Models.Commands
                     album.Add(new InputMediaPhoto(new InputMedia(post.Media[i].Path)));
                 }
                 album[0].Caption = post.Text != null ? post.Text : "newPost";
+                album[0].ParseMode = ParseMode.Markdown;
+
 
                 await botClient.SendMediaGroupAsync(album, update.CallbackQuery.Message.Chat.Id);
             }
@@ -145,11 +147,11 @@ namespace eAdvertisement_bot.Models.Commands
                             };
                         indexToPaste++;
                     }
-                    await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, post.Text != null ? post.Text : "newPost", replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: ParseMode.Markdown);
+                    await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, post.Text != null ? post.Text : "newPost", replyMarkup: new InlineKeyboardMarkup(keyboard), parseMode: ParseMode.Markdown, disableWebPagePreview: true);
                 }
                 else
                 {
-                    await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, post.Text != null ? post.Text : "newPost", parseMode: ParseMode.Markdown);
+                    await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, post.Text != null ? post.Text : "newPost", parseMode: ParseMode.Markdown, disableWebPagePreview: true);
                 }
 
             }

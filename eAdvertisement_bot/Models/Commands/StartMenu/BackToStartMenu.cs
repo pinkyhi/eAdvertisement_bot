@@ -47,7 +47,7 @@ namespace eAdvertisement_bot.Models.Commands
                 await botClient.AnswerCallbackQueryAsync(update.CallbackQuery.Id, null, false);
                 try
                 {
-                    await botClient.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, "Вы уже инициализированны.", replyMarkup: keyboard);
+                    await botClient.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, "Вы уже инициализированны.\nВаши отзывы очень важны для нас. Оставить отзыв можно во вкладке Feedback.", replyMarkup: keyboard);
                 }
                 catch { }
             }

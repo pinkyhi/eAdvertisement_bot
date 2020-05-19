@@ -773,3 +773,202 @@ query is too old and response timeout expired or query ID is invalid
 
 
 
+19.05.2020 05:10:12
+SellMenuCommand
+query is too old and response timeout expired or query ID is invalid
+
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at eAdvertisement_bot.Models.Commands.SellMenuCommand.Execute(Update update, TelegramBotClient botClient) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\Models\Commands\StartMenu\SellMenuCommand.cs:line 100
+
+
+
+19.05.2020 05:13:00
+SellMenuCommand
+query is too old and response timeout expired or query ID is invalid
+
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at eAdvertisement_bot.Models.Commands.SellMenuCommand.Execute(Update update, TelegramBotClient botClient) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\Models\Commands\StartMenu\SellMenuCommand.cs:line 100
+
+
+
+19.05.2020 05:13:04
+UpdateCoverage chId=-1001322943856
+One or more errors occurred. ( msg_seqno too high (similarly, there is a message with a higher msg_id but with either a lower or an equal and odd seqno))
+
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at System.Threading.Tasks.Task`1.get_Result()
+   at eAdvertisement_bot.EnviromentHandler.UpdateCoverage(AppDbContext dbContext) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\EnviromentHandler.cs:line 416
+
+
+
+19.05.2020 05:13:06
+UpdateCoverage chId=-1001221369290
+One or more errors occurred. (The process cannot access the file 'C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\session.dat' because it is being used by another process.)
+
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at System.Threading.Tasks.Task`1.get_Result()
+   at eAdvertisement_bot.EnviromentHandler.UpdateCoverage(AppDbContext dbContext) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\EnviromentHandler.cs:line 416
+
+
+
+19.05.2020 05:18:14
+UpdateCoverage chId=-1001433904224
+One or more errors occurred. (One or more errors occurred. (Arithmetic operation resulted in an overflow.))
+
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at System.Threading.Tasks.Task`1.get_Result()
+   at eAdvertisement_bot.EnviromentHandler.UpdateCoverage(AppDbContext dbContext) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\EnviromentHandler.cs:line 416
+
+
+
+19.05.2020 05:18:50
+SellMenuCommand
+query is too old and response timeout expired or query ID is invalid
+
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at eAdvertisement_bot.Models.Commands.SellMenuCommand.Execute(Update update, TelegramBotClient botClient) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\Models\Commands\StartMenu\SellMenuCommand.cs:line 100
+
+
+
+19.05.2020 05:19:04
+UpdateCoverage chId=-1001194856194
+One or more errors occurred. ( msg_seqno too high (similarly, there is a message with a higher msg_id but with either a lower or an equal and odd seqno))
+
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at System.Threading.Tasks.Task`1.get_Result()
+   at eAdvertisement_bot.EnviromentHandler.UpdateCoverage(AppDbContext dbContext) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\EnviromentHandler.cs:line 416
+
+
+
+19.05.2020 05:19:04
+SellMenuCommand
+query is too old and response timeout expired or query ID is invalid
+
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at eAdvertisement_bot.Models.Commands.SellMenuCommand.Execute(Update update, TelegramBotClient botClient) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\Models\Commands\StartMenu\SellMenuCommand.cs:line 100
+
+
+
+19.05.2020 05:20:49
+UpdateCoverage chId=-1001433904224
+One or more errors occurred. (Client not connected to server.)
+
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at System.Threading.Tasks.Task`1.get_Result()
+   at eAdvertisement_bot.EnviromentHandler.UpdateCoverage(AppDbContext dbContext) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\EnviromentHandler.cs:line 416
+
+
+
+19.05.2020 05:20:49
+UpdateCoverage chId=-1001354683486
+One or more errors occurred. (Client not connected to server.)
+
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at System.Threading.Tasks.Task`1.get_Result()
+   at eAdvertisement_bot.EnviromentHandler.UpdateCoverage(AppDbContext dbContext) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\EnviromentHandler.cs:line 416
+
+
+
+19.05.2020 05:20:49
+UpdateCoverage chId=-1001336365612
+One or more errors occurred. (Client not connected to server.)
+
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at System.Threading.Tasks.Task`1.get_Result()
+   at eAdvertisement_bot.EnviromentHandler.UpdateCoverage(AppDbContext dbContext) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\EnviromentHandler.cs:line 416
+
+
+
+19.05.2020 05:20:49
+UpdateCoverage chId=-1001322943856
+One or more errors occurred. (Client not connected to server.)
+
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at System.Threading.Tasks.Task`1.get_Result()
+   at eAdvertisement_bot.EnviromentHandler.UpdateCoverage(AppDbContext dbContext) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\EnviromentHandler.cs:line 416
+
+
+
+19.05.2020 05:20:49
+UpdateCoverage chId=-1001221369290
+One or more errors occurred. (Client not connected to server.)
+
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at System.Threading.Tasks.Task`1.get_Result()
+   at eAdvertisement_bot.EnviromentHandler.UpdateCoverage(AppDbContext dbContext) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\EnviromentHandler.cs:line 416
+
+
+
+19.05.2020 05:20:49
+UpdateCoverage chId=-1001210790589
+One or more errors occurred. (Client not connected to server.)
+
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at System.Threading.Tasks.Task`1.get_Result()
+   at eAdvertisement_bot.EnviromentHandler.UpdateCoverage(AppDbContext dbContext) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\EnviromentHandler.cs:line 416
+
+
+
+19.05.2020 05:20:49
+UpdateCoverage chId=-1001194856194
+One or more errors occurred. (Client not connected to server.)
+
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at System.Threading.Tasks.Task`1.get_Result()
+   at eAdvertisement_bot.EnviromentHandler.UpdateCoverage(AppDbContext dbContext) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\EnviromentHandler.cs:line 416
+
+
+
+19.05.2020 05:20:52
+BuyMenuCommand
+Object reference not set to an instance of an object.
+
+   at eAdvertisement_bot.Models.Commands.BuyMenuCommand.Execute(Update update, TelegramBotClient botClient) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\Models\Commands\StartMenu\BuyMenuCommand.cs:line 38
+
+
+
+19.05.2020 05:20:53
+StartCommand
+An error occurred while updating the entries. See the inner exception for details.
+
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.Execute(IRelationalConnection connection)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.Execute(DbContext _, ValueTuple`2 parameters)
+   at Pomelo.EntityFrameworkCore.MySql.Storage.Internal.MySqlExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.Execute(IEnumerable`1 commandBatches, IRelationalConnection connection)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChanges(IReadOnlyList`1 entries)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChanges(IReadOnlyList`1 entriesToSave)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChanges(Boolean acceptAllChangesOnSuccess)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChanges(Boolean acceptAllChangesOnSuccess)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChanges()
+   at eAdvertisement_bot.Models.Commands.StartCommand.Execute(Update update, TelegramBotClient botClient) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\Models\Commands\StartMenu\StartCommand.cs:line 50
+
+
+
+19.05.2020 05:20:53
+StartCommand
+An error occurred while updating the entries. See the inner exception for details.
+
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.Execute(IRelationalConnection connection)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.Execute(DbContext _, ValueTuple`2 parameters)
+   at Pomelo.EntityFrameworkCore.MySql.Storage.Internal.MySqlExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.Execute(IEnumerable`1 commandBatches, IRelationalConnection connection)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChanges(IReadOnlyList`1 entries)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChanges(IReadOnlyList`1 entriesToSave)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChanges(Boolean acceptAllChangesOnSuccess)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChanges(Boolean acceptAllChangesOnSuccess)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChanges()
+   at eAdvertisement_bot.Models.Commands.StartCommand.Execute(Update update, TelegramBotClient botClient) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\Models\Commands\StartMenu\StartCommand.cs:line 50
+
+
+

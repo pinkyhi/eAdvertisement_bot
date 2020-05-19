@@ -63,7 +63,7 @@ namespace eAdvertisement_bot.Models.Commands
                     {
                         keyboard = entryLaunchedBotKeyboard;
                     }
-                    await botClient.SendTextMessageAsync(userId, "Вы уже инициализированы.", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown, replyMarkup: keyboard);
+                    await botClient.SendTextMessageAsync(userId, "Вы уже инициализированны.\nВаши отзывы очень важны для нас. Оставить отзыв можно во вкладке Feedback.", parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown, replyMarkup: keyboard);
                 }
             }
             catch(Exception ex)

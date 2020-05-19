@@ -108,10 +108,10 @@ namespace eAdvertisement_bot
             }
 
             channelId = Math.Abs(1000000000000 + channelId);  // I don't know why, but it's all right
-            var dialogs = UpdateDialogsSnapshot().Result;       // LOOOOK HERE BROOOOOOOOOOOOOOOOOOOO
+            var dialogs = UpdateDialogsSnapshot().Result;       
 
 
-            foreach (var element in dialogs.Chats)
+            foreach (var element in dialogs?.Chats)
             {
                 if (element is TLChannel && ((TLChannel)element).Id == channelId)
                 {
@@ -155,8 +155,8 @@ namespace eAdvertisement_bot
                     return coverage;
                 }
             }
-
             return 0;
+
 
         }
 

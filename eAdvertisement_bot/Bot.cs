@@ -1,6 +1,7 @@
 ﻿using eAdvertisement_bot.Logger;
 using eAdvertisement_bot.Models.Commands;
 using eAdvertisement_bot.Models.Commands.ManualPurchase;
+using eAdvertisement_bot.Models.Commands.StartMenu;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -36,6 +37,7 @@ namespace eAdvertisement_bot
                 commandsList.Add(new OutputCommand());
                 commandsList.Add(new BuyMenuCommand());
                 commandsList.Add(new BackToStartMenu());
+                commandsList.Add(new FeedbackCommand());
 
                 commandsList.Add(new SellMenuCommand());
                 commandsList.Add(new AddChannelCommand());

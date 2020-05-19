@@ -44,9 +44,13 @@ namespace eAdvertisement_bot.Models.Commands
                     return;
                 }
                 List<Publication> posts = dbContext.Publications.Where(p => p.User_Id == update.CallbackQuery.From.Id).ToList();
-                InlineKeyboardButton[][] keyboard = new InlineKeyboardButton[posts.Count + 2][];
+                InlineKeyboardButton[][] keyboard = new InlineKeyboardButton[posts.Count + 3][];
 
-                for(int i = 0; i < posts.Count; i++)
+                keyboard[0] = new[]{
+                    new InlineKeyboardButton { Text = "Меню управления постами", CallbackData = "/myPostsMenu" },
+                };
+
+                for (int i = 1; i < posts.Count; i++)
                 {
                     keyboard[i] = new[] { new InlineKeyboardButton { Text = posts[i].Name, CallbackData = "bpicN" + channelId + "D" + dateStr + "T" + tags + "P" + posts[i].Publication_Id } };
                 }

@@ -36,10 +36,12 @@ namespace eAdvertisement_bot.Models.Commands
                 user.User_State_Id = 0;
                 dbContext.SaveChanges();
                 List<DbEntities.Publication> posts = dbContext.Publications.Where(p => p.User_Id == update.CallbackQuery.From.Id).ToList();
-                InlineKeyboardButton[][] keyboard = new InlineKeyboardButton[posts.Count + 1][];
+                InlineKeyboardButton[][] keyboard = new InlineKeyboardButton[posts.Count + 2][];
 
-
-                int indexToPaste = 0;
+                keyboard[0] = new[]{
+                    new InlineKeyboardButton { Text = "Меню управления постами", CallbackData = "/myPostsMenu" },
+                };
+                int indexToPaste = 1;
                 while (indexToPaste < posts.Count)
                 {
                     keyboard[indexToPaste] = new[]

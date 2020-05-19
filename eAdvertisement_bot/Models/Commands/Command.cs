@@ -72,6 +72,10 @@ namespace eAdvertisement_bot.Models.Commands
                         new[] // fifth row
                         {
                             new InlineKeyboardButton { Text = "Инфо", CallbackData = "/infoMenu" },
+                        },
+                        new[] // sixth row
+                        {
+                            new InlineKeyboardButton { Text = "Feedback", CallbackData = "feedback" },
                         }
         });
 

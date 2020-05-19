@@ -50,9 +50,9 @@ namespace eAdvertisement_bot.Models.Commands
                     new InlineKeyboardButton { Text = "Меню управления постами", CallbackData = "/myPostsMenu" },
                 };
 
-                for (int i = 1; i < posts.Count; i++)
+                for (int i = 1; i-1 < posts.Count; i++)
                 {
-                    keyboard[i] = new[] { new InlineKeyboardButton { Text = posts[i].Name, CallbackData = "bpicN" + channelId + "D" + dateStr + "T" + tags + "P" + posts[i].Publication_Id } };
+                    keyboard[i] = new[] { new InlineKeyboardButton { Text = posts[i-1].Name, CallbackData = "bpicN" + channelId + "D" + dateStr + "T" + tags + "P" + posts[i-1].Publication_Id } };
                 }
 
                 keyboard[keyboard.Length - 2] = new[] { new InlineKeyboardButton { Text = "Назад", CallbackData = "/showPlacesForBuyerN" + channelId + "D" + Convert.ToString(dateTime).Substring(0, 10) + "T" + tags } };

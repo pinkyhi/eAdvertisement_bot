@@ -40,16 +40,14 @@ namespace eAdvertisement_bot.Models.Commands
                    
                 };
 
-                List<Advertisement_Status> advertisement_Statuses = dbContext.Advertisement_Statuses.ToList();
-                List<Channel> channels = dbContext.Channels.ToList();
-                List<Advertisement> ads = dbContext.Advertisements.Where(a => a.Channel.User_Id == update.CallbackQuery.From.Id).Where(a => a.Advertisement_Status_Id == 4 || a.Advertisement_Status_Id == 2 || a.Advertisement_Status_Id == 9).ToList();
+                List<Advertisement> ads = dbContext.Advertisements.Include("Channel").Include("Channel.User").Include("Advertisement_Status").Where(a => a.Channel.User_Id == update.CallbackQuery.From.Id).Where(a => a.Advertisement_Status_Id == 4 || a.Advertisement_Status_Id == 2 || a.Advertisement_Status_Id == 9).ToList();
 
                 string text = "*Здесь находятся посты которые вы продали*\n\n";
                 
                 for(int i = 0; i < ads.Count; i++)
                 {
                     text += "[" + ads[i].Channel.Name + "]" + "(" + ads[i].Channel.Link + ")" +
-                        "\nЦена: " + ads[i].Channel.Price +
+                        "\nЦена: " + ads[i].Price*ads[i].Channel.User.Commission +
                         "\nДолжно быть запощено в: " + ads[i].Date_Time +
                         "\nСтатус: " + ads[i].Advertisement_Status.Name+"\n";
                 }

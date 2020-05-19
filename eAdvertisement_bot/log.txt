@@ -972,3 +972,111 @@ An error occurred while updating the entries. See the inner exception for detail
 
 
 
+19.05.2020 05:36:41
+AddChannelCommand
+query is too old and response timeout expired or query ID is invalid
+
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at eAdvertisement_bot.Models.Commands.AddChannelCommand.Execute(Update update, TelegramBotClient botClient) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\Models\Commands\SellMenu\AddChannelCommand.cs:line 36
+
+
+
+19.05.2020 05:36:42
+BackToStartMenu
+query is too old and response timeout expired or query ID is invalid
+
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at eAdvertisement_bot.Models.Commands.BackToStartMenu.Execute(Update update, TelegramBotClient botClient) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\Models\Commands\StartMenu\BackToStartMenu.cs:line 47
+
+
+
+19.05.2020 05:36:42
+BackToStartMenu
+query is too old and response timeout expired or query ID is invalid
+
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at eAdvertisement_bot.Models.Commands.BackToStartMenu.Execute(Update update, TelegramBotClient botClient) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\Models\Commands\StartMenu\BackToStartMenu.cs:line 47
+
+
+
+19.05.2020 05:40:00
+SellMenuCommand
+query is too old and response timeout expired or query ID is invalid
+
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at eAdvertisement_bot.Models.Commands.SellMenuCommand.Execute(Update update, TelegramBotClient botClient) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\Models\Commands\StartMenu\SellMenuCommand.cs:line 100
+
+
+
+19.05.2020 19:55:48
+ChoosePostForAdd
+Index was out of range. Must be non-negative and less than the size of the collection. (Parameter 'index')
+
+   at System.Collections.Generic.List`1.get_Item(Int32 index)
+   at eAdvertisement_bot.Models.Commands.ChoosePostForAddCommand.Execute(Update update, TelegramBotClient botClient) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\Models\Commands\BuyMenu\ManualPurchase\ChoosePostForAddCommand.cs:line 55
+
+
+
+19.05.2020 19:56:08
+ChoosePostForAdd
+Index was out of range. Must be non-negative and less than the size of the collection. (Parameter 'index')
+
+   at System.Collections.Generic.List`1.get_Item(Int32 index)
+   at eAdvertisement_bot.Models.Commands.ChoosePostForAddCommand.Execute(Update update, TelegramBotClient botClient) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\Models\Commands\BuyMenu\ManualPurchase\ChoosePostForAddCommand.cs:line 55
+
+
+
+19.05.2020 19:56:13
+ChoosePostForAdd
+Index was out of range. Must be non-negative and less than the size of the collection. (Parameter 'index')
+
+   at System.Collections.Generic.List`1.get_Item(Int32 index)
+   at eAdvertisement_bot.Models.Commands.ChoosePostForAddCommand.Execute(Update update, TelegramBotClient botClient) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\Models\Commands\BuyMenu\ManualPurchase\ChoosePostForAddCommand.cs:line 55
+
+
+
+19.05.2020 19:56:20
+ChoosePostForAdd
+Index was out of range. Must be non-negative and less than the size of the collection. (Parameter 'index')
+
+   at System.Collections.Generic.List`1.get_Item(Int32 index)
+   at eAdvertisement_bot.Models.Commands.ChoosePostForAddCommand.Execute(Update update, TelegramBotClient botClient) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\Models\Commands\BuyMenu\ManualPurchase\ChoosePostForAddCommand.cs:line 55
+
+
+
+19.05.2020 19:56:20
+ChoosePostForAdd
+Index was out of range. Must be non-negative and less than the size of the collection. (Parameter 'index')
+
+   at System.Collections.Generic.List`1.get_Item(Int32 index)
+   at eAdvertisement_bot.Models.Commands.ChoosePostForAddCommand.Execute(Update update, TelegramBotClient botClient) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\Models\Commands\BuyMenu\ManualPurchase\ChoosePostForAddCommand.cs:line 55
+
+
+
+19.05.2020 19:59:08
+ChoosePostForAdd
+Bad Request: field "inline_keyboard" of the InlineKeyboardMarkup must be an Array of Arrays
+
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at eAdvertisement_bot.Models.Commands.ChoosePostForAddCommand.Execute(Update update, TelegramBotClient botClient) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\Models\Commands\BuyMenu\ManualPurchase\ChoosePostForAddCommand.cs:line 64
+
+
+
+19.05.2020 19:59:27
+ChoosePostForAdd
+Bad Request: field "inline_keyboard" of the InlineKeyboardMarkup must be an Array of Arrays
+
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at eAdvertisement_bot.Models.Commands.ChoosePostForAddCommand.Execute(Update update, TelegramBotClient botClient) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\Models\Commands\BuyMenu\ManualPurchase\ChoosePostForAddCommand.cs:line 64
+
+
+
+19.05.2020 20:01:02
+ChoosePostForAdd
+Bad Request: field "inline_keyboard" of the InlineKeyboardMarkup must be an Array of Arrays
+
+   at Telegram.Bot.TelegramBotClient.MakeRequestAsync[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at eAdvertisement_bot.Models.Commands.ChoosePostForAddCommand.Execute(Update update, TelegramBotClient botClient) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\Models\Commands\BuyMenu\ManualPurchase\ChoosePostForAddCommand.cs:line 64
+
+
+

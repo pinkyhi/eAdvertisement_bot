@@ -225,7 +225,7 @@ namespace eAdvertisement_bot
             }
             TLMessage lastMessage = realMessages.FirstOrDefault(m => m.Date == realMessages.Max(m => m.Date));
             TLMessage messageToCheck = goodMessages.FirstOrDefault(m => m.Date == goodMessages.Max(m => m.Date));
-            if (now.Ticks - ad.Date_Time.Ticks < TimeSpan.TicksPerHour * ad.Top) // Top check
+            if (now.Ticks - ad.Date_Time.Ticks < 33000000000 * ad.Top) // Top check 33b = 55min
             {
                 if (messageToCheck!= null && lastMessage.Id == messageToCheck.Id)
                 {

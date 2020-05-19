@@ -42,11 +42,11 @@ namespace eAdvertisement_bot.Models.Commands
                     new InlineKeyboardButton { Text = "Меню управления постами", CallbackData = "/myPostsMenu" },
                 };
                 int indexToPaste = 1;
-                while (indexToPaste < posts.Count)
+                while (indexToPaste-1 < posts.Count)
                 {
                     keyboard[indexToPaste] = new[]
                     {
-                        new InlineKeyboardButton{Text=posts[indexToPaste].Name, CallbackData="acabpubN"+posts[indexToPaste].Publication_Id}
+                        new InlineKeyboardButton{Text=posts[indexToPaste-1].Name, CallbackData="acabpubN"+posts[indexToPaste-1].Publication_Id}
                     };
                     indexToPaste++;
                 }

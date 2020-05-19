@@ -48,7 +48,7 @@ namespace eAdvertisement_bot.Models.Commands
                 for (int i = 0; i < ads.Count; i++)
                 {
                     text += "[" + ads[i].Channel.Name + "]" + "(" + ads[i].Channel.Link + ")" +
-                        "\nЦена: " + ads[i].Channel.Price +
+                        "\nЦена: " + ads[i].Price +
                         "\nДолжно быть запощено в: " + ads[i].Date_Time +
                         "\nСтатус: " + ads[i].Advertisement_Status.Name + "\n";
                 }

@@ -1080,3 +1080,224 @@ Bad Request: field "inline_keyboard" of the InlineKeyboardMarkup must be an Arra
 
 
 
+21.05.2020 10:47:11
+EveryMinute
+One or more errors occurred. (Transient exception detected)
+
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at System.Threading.Tasks.Task.Wait()
+   at eAdvertisement_bot.EnviromentHandler.StartEveryMinute() in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\EnviromentHandler.cs:line 41
+
+
+
+21.05.2020 10:47:13
+EveryDay
+Transient exception detected
+
+   at Pomelo.EntityFrameworkCore.MySql.Storage.Internal.MySqlExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at System.Linq.Enumerable.SelectEnumerableIterator`2.MoveNext()
+   at Microsoft.EntityFrameworkCore.Query.Internal.LinqOperatorProvider._TrackEntities[TOut,TIn](IEnumerable`1 results, QueryContext queryContext, IList`1 entityTrackingInfos, IList`1 entityAccessors)+MoveNext()
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at eAdvertisement_bot.EnviromentHandler.UpdateCommission(AppDbContext dbContext) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\EnviromentHandler.cs:line 384
+   at eAdvertisement_bot.EnviromentHandler.StartEveryDay() in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\EnviromentHandler.cs:line 72
+
+
+
+21.05.2020 10:48:12
+EveryMinute
+One or more errors occurred. (Transient exception detected)
+
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at System.Threading.Tasks.Task.Wait()
+   at eAdvertisement_bot.EnviromentHandler.StartEveryMinute() in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\EnviromentHandler.cs:line 41
+
+
+
+21.05.2020 10:48:14
+Controller
+Transient exception detected
+
+   at Pomelo.EntityFrameworkCore.MySql.Storage.Internal.MySqlExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at System.Linq.Enumerable.TryGetFirst[TSource](IEnumerable`1 source, Boolean& found)
+   at lambda_method(Closure )
+   at Microsoft.EntityFrameworkCore.Query.Internal.LinqOperatorProvider.ResultEnumerable`1.GetEnumerator()
+   at Microsoft.EntityFrameworkCore.Query.Internal.LinqOperatorProvider._TrackEntities[TOut,TIn](IEnumerable`1 results, QueryContext queryContext, IList`1 entityTrackingInfos, IList`1 entityAccessors)+MoveNext()
+   at System.Linq.Enumerable.TryGetFirst[TSource](IEnumerable`1 source, Boolean& found)
+   at System.Linq.Enumerable.First[TSource](IEnumerable`1 source)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.<>c__DisplayClass15_1`1.<CompileQueryCore>b__0(QueryContext qc)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.Execute[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.Execute[TResult](Expression expression)
+   at System.Linq.Queryable.FirstOrDefault[TSource](IQueryable`1 source, Expression`1 predicate)
+   at Microsoft.EntityFrameworkCore.Internal.EntityFinder`1.Find(Object[] keyValues)
+   at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.Find(Object[] keyValues)
+   at eAdvertisement_bot.Models.Commands.StartCommand.Execute(Update update, TelegramBotClient botClient) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\Models\Commands\StartMenu\StartCommand.cs:line 42
+   at eAdvertisement_bot.Controllers.MessageController.Post(Update update) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\Controllers\MessageController.cs:line 47
+
+
+
+21.05.2020 10:48:15
+EveryDay
+Transient exception detected
+
+   at Pomelo.EntityFrameworkCore.MySql.Storage.Internal.MySqlExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at System.Linq.Enumerable.SelectEnumerableIterator`2.MoveNext()
+   at Microsoft.EntityFrameworkCore.Query.Internal.LinqOperatorProvider._TrackEntities[TOut,TIn](IEnumerable`1 results, QueryContext queryContext, IList`1 entityTrackingInfos, IList`1 entityAccessors)+MoveNext()
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at eAdvertisement_bot.EnviromentHandler.UpdateCommission(AppDbContext dbContext) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\EnviromentHandler.cs:line 384
+   at eAdvertisement_bot.EnviromentHandler.StartEveryDay() in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\EnviromentHandler.cs:line 72
+
+
+
+21.05.2020 10:48:19
+Controller
+Transient exception detected
+
+   at Pomelo.EntityFrameworkCore.MySql.Storage.Internal.MySqlExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at System.Linq.Enumerable.TryGetFirst[TSource](IEnumerable`1 source, Boolean& found)
+   at lambda_method(Closure )
+   at Microsoft.EntityFrameworkCore.Query.Internal.LinqOperatorProvider.ResultEnumerable`1.GetEnumerator()
+   at Microsoft.EntityFrameworkCore.Query.Internal.LinqOperatorProvider._TrackEntities[TOut,TIn](IEnumerable`1 results, QueryContext queryContext, IList`1 entityTrackingInfos, IList`1 entityAccessors)+MoveNext()
+   at System.Linq.Enumerable.TryGetFirst[TSource](IEnumerable`1 source, Boolean& found)
+   at System.Linq.Enumerable.First[TSource](IEnumerable`1 source)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.<>c__DisplayClass15_1`1.<CompileQueryCore>b__0(QueryContext qc)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.Execute[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.Execute[TResult](Expression expression)
+   at System.Linq.Queryable.FirstOrDefault[TSource](IQueryable`1 source, Expression`1 predicate)
+   at Microsoft.EntityFrameworkCore.Internal.EntityFinder`1.Find(Object[] keyValues)
+   at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.Find(Object[] keyValues)
+   at eAdvertisement_bot.Models.Commands.StartCommand.Execute(Update update, TelegramBotClient botClient) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\Models\Commands\StartMenu\StartCommand.cs:line 42
+   at eAdvertisement_bot.Controllers.MessageController.Post(Update update) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\Controllers\MessageController.cs:line 47
+
+
+
+21.05.2020 10:48:19
+ManualPurchaseMenuCommand
+Transient exception detected
+
+   at Pomelo.EntityFrameworkCore.MySql.Storage.Internal.MySqlExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Query.Internal.LinqOperatorProvider._TrackEntities[TOut,TIn](IEnumerable`1 results, QueryContext queryContext, IList`1 entityTrackingInfos, IList`1 entityAccessors)+MoveNext()
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at eAdvertisement_bot.Models.Commands.ManualPurchase.ManualPurchaseMenuCommand.Execute(Update update, TelegramBotClient botClient) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\Models\Commands\BuyMenu\ManualPurchaseMenuCommand.cs:line 88
+
+
+
+21.05.2020 10:48:19
+ShowPlacesForBuyerCommand
+Transient exception detected
+
+   at Pomelo.EntityFrameworkCore.MySql.Storage.Internal.MySqlExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Query.Internal.LinqOperatorProvider._TrackEntities[TOut,TIn](IEnumerable`1 results, QueryContext queryContext, IList`1 entityTrackingInfos, IList`1 entityAccessors)+MoveNext()
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at eAdvertisement_bot.Models.Commands.ShowPlacesForBuyerCommand.Execute(Update update, TelegramBotClient botClient) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\Models\Commands\BuyMenu\ManualPurchase\ShowPlacesForBuyerCommand.cs:line 41
+
+
+
+21.05.2020 10:48:31
+Controller
+Transient exception detected
+
+   at Pomelo.EntityFrameworkCore.MySql.Storage.Internal.MySqlExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at System.Linq.Enumerable.TryGetFirst[TSource](IEnumerable`1 source, Boolean& found)
+   at lambda_method(Closure )
+   at Microsoft.EntityFrameworkCore.Query.Internal.LinqOperatorProvider.ResultEnumerable`1.GetEnumerator()
+   at Microsoft.EntityFrameworkCore.Query.Internal.LinqOperatorProvider._TrackEntities[TOut,TIn](IEnumerable`1 results, QueryContext queryContext, IList`1 entityTrackingInfos, IList`1 entityAccessors)+MoveNext()
+   at System.Linq.Enumerable.TryGetFirst[TSource](IEnumerable`1 source, Boolean& found)
+   at System.Linq.Enumerable.First[TSource](IEnumerable`1 source)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.<>c__DisplayClass15_1`1.<CompileQueryCore>b__0(QueryContext qc)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.Execute[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.Execute[TResult](Expression expression)
+   at System.Linq.Queryable.FirstOrDefault[TSource](IQueryable`1 source, Expression`1 predicate)
+   at Microsoft.EntityFrameworkCore.Internal.EntityFinder`1.Find(Object[] keyValues)
+   at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.Find(Object[] keyValues)
+   at eAdvertisement_bot.Models.Commands.StartCommand.Execute(Update update, TelegramBotClient botClient) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\Models\Commands\StartMenu\StartCommand.cs:line 42
+   at eAdvertisement_bot.Controllers.MessageController.Post(Update update) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\Controllers\MessageController.cs:line 47
+
+
+
+21.05.2020 10:59:01
+CloseTranaction adId=75
+Unable to read data from the transport connection: Операция ввода/вывода была прервана из-за завершения потока команд или по запросу приложения..
+
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.GetResult(Int16 token)
+   at System.Threading.Tasks.ValueTask`1.ValueTaskSourceAsTask.<>c.<.cctor>b__4_0(Object state)
+--- End of stack trace from previous location where exception was thrown ---
+   at TLSharp.Core.Network.TcpTransport.Receive()
+   at TLSharp.Core.Network.MtProtoSender.Receive(TLMethod request)
+   at TLSharp.Core.TelegramClient.RequestWithDcMigration(TLMethod request)
+   at TLSharp.Core.TelegramClient.SendRequestAsync[T](TLMethod methodToExecute)
+   at eAdvertisement_bot.ClientApiHandler.GetCoverageOfPost(Int32 messageId, Int64 channelId) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\ClientApiHandler.cs:line 63
+   at eAdvertisement_bot.EnviromentHandler.CloseTransactions(AppDbContext dbContext) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\EnviromentHandler.cs:line 223
+
+
+
+21.05.2020 11:11:45
+CloseTranaction adId=75
+Client not connected to server.
+
+   at TLSharp.Core.Network.TcpTransport.Send(Byte[] packet)
+   at TLSharp.Core.Network.MtProtoSender.Send(Byte[] packet, TLMethod request)
+   at TLSharp.Core.Network.MtProtoSender.Send(TLMethod request)
+   at TLSharp.Core.TelegramClient.RequestWithDcMigration(TLMethod request)
+   at TLSharp.Core.TelegramClient.SendRequestAsync[T](TLMethod methodToExecute)
+   at eAdvertisement_bot.ClientApiHandler.GetCoverageOfPost(Int32 messageId, Int64 channelId)
+   at eAdvertisement_bot.EnviromentHandler.CloseTransactions(AppDbContext dbContext)
+
+
+
+21.05.2020 11:29:48
+DeleteAdMessages IN CloseTransactions
+One or more errors occurred. (Bad Request: message to delete not found)
+
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at System.Threading.Tasks.Task.Wait()
+   at eAdvertisement_bot.EnviromentHandler.CloseTransactions(AppDbContext dbContext) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\EnviromentHandler.cs:line 250
+
+
+
+21.05.2020 11:29:49
+DeleteAdMessages IN CloseTransactions
+One or more errors occurred. (Bad Request: message to delete not found)
+
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at System.Threading.Tasks.Task.Wait()
+   at eAdvertisement_bot.EnviromentHandler.CloseTransactions(AppDbContext dbContext) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\EnviromentHandler.cs:line 250
+
+
+
+21.05.2020 11:29:49
+DeleteAdMessages IN CloseTransactions
+One or more errors occurred. (Bad Request: message to delete not found)
+
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at System.Threading.Tasks.Task.Wait()
+   at eAdvertisement_bot.EnviromentHandler.CloseTransactions(AppDbContext dbContext) in C:\Users\Pinky\source\repos\eAdvertisement_bot\eAdvertisement_bot\EnviromentHandler.cs:line 250
+
+
+
+21.05.2020 11:37:15
+CloseTranaction adId=75
+Cannot access a disposed object.
+Object name: 'System.Net.Sockets.NetworkStream'.
+
+   at System.Net.Sockets.NetworkStream.WriteAsync(Byte[] buffer, Int32 offset, Int32 size, CancellationToken cancellationToken)
+   at System.IO.Stream.WriteAsync(Byte[] buffer, Int32 offset, Int32 count)
+   at TLSharp.Core.Network.TcpTransport.Send(Byte[] packet)
+   at TLSharp.Core.Network.MtProtoSender.Send(Byte[] packet, TLMethod request)
+   at TLSharp.Core.Network.MtProtoSender.Send(TLMethod request)
+   at TLSharp.Core.TelegramClient.RequestWithDcMigration(TLMethod request)
+   at TLSharp.Core.TelegramClient.SendRequestAsync[T](TLMethod methodToExecute)
+   at eAdvertisement_bot.ClientApiHandler.GetCoverageOfPost(Int32 messageId, Int64 channelId)
+   at eAdvertisement_bot.EnviromentHandler.CloseTransactions(AppDbContext dbContext)
+
+
+

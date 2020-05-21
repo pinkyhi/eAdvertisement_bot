@@ -25,7 +25,8 @@ namespace eAdvertisement_bot
 
 
         // Dialogs snapshot can't be older than 1 minute, it's made to decrease pressure on project
-
+        
+        public static object locker = new Boolean();
         public static TLDialogs DialogsSnapshot { get; set; }
         public static long UpdateTicks { get; set; }
         public async static Task<TLDialogs> UpdateDialogsSnapshot()
@@ -60,20 +61,15 @@ namespace eAdvertisement_bot
                 if (element is TLChannel && ((TLChannel)element).Id == channelId)
                 {
                     TLChannel channel = element as TLChannel;
-                    var chan = await Client.SendRequestAsync<TeleSharp.TL.Messages.TLChatFull>(new TLRequestGetFullChannel()
-                    {
-                        Channel = new TLInputChannel()
-                        { ChannelId = channel.Id, AccessHash = (long)channel.AccessHash }
-                    });
                     TLInputPeerChannel inputPeer = new TLInputPeerChannel()
                     { ChannelId = channel.Id, AccessHash = (long)channel.AccessHash };
 
-                    TLChannelMessages res = await Client.SendRequestAsync<TLChannelMessages>
+                    TLChannelMessages res = Client.SendRequestAsync<TLChannelMessages>
                     (new TLRequestGetHistory()
                     {
                         Peer = inputPeer,
                         Limit = 140,    // 70 toWork and abt the same to ServiceMessages
-                        });
+                        }).Result;
                     var msgs = res.Messages;
 
                     List<TLMessage> realMessages = new List<TLMessage>();
@@ -116,20 +112,15 @@ namespace eAdvertisement_bot
                 if (element is TLChannel && ((TLChannel)element).Id == channelId)
                 {
                     TLChannel channel = element as TLChannel;
-                    var chan = await Client.SendRequestAsync<TeleSharp.TL.Messages.TLChatFull>(new TLRequestGetFullChannel()
-                    {
-                        Channel = new TLInputChannel()
-                        { ChannelId = channel.Id, AccessHash = (long)channel.AccessHash }
-                    });
                     TLInputPeerChannel inputPeer = new TLInputPeerChannel()
                     { ChannelId = channel.Id, AccessHash = (long)channel.AccessHash };
 
-                    TLChannelMessages res = await Client.SendRequestAsync<TLChannelMessages>
+                    TLChannelMessages res = Client.SendRequestAsync<TLChannelMessages>
                     (new TLRequestGetHistory()
                     {
                         Peer = inputPeer,
                         Limit = 140,    // 70 toWork and abt the same to ServiceMessages
-                        });
+                        }).Result;
                     var msgs = res.Messages;
 
                     List<TLMessage> realMessages = new List<TLMessage>();
@@ -180,20 +171,15 @@ namespace eAdvertisement_bot
                 if (element is TLChannel && ((TLChannel)element).Id == channelId)
                 {
                     TLChannel channel = element as TLChannel;
-                    var chan = await Client.SendRequestAsync<TeleSharp.TL.Messages.TLChatFull>(new TLRequestGetFullChannel()
-                    {
-                        Channel = new TLInputChannel()
-                        { ChannelId = channel.Id, AccessHash = (long)channel.AccessHash }
-                    });
                     TLInputPeerChannel inputPeer = new TLInputPeerChannel()
                     { ChannelId = channel.Id, AccessHash = (long)channel.AccessHash };
 
-                    TLChannelMessages res = await Client.SendRequestAsync<TLChannelMessages>
+                    TLChannelMessages res = Client.SendRequestAsync<TLChannelMessages>
                     (new TLRequestGetHistory()
                     {
                         Peer = inputPeer,
                         Limit = Convert.ToInt32(60*(Convert.ToDouble(ad.Alive)/24))+10,    // toWork and abt the same to ServiceMessages
-                    });
+                    }).Result;
                     var msgs = res.Messages;
 
                     foreach (var msg in msgs)

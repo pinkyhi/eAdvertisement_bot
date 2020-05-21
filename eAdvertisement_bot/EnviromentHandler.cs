@@ -32,7 +32,7 @@ namespace eAdvertisement_bot
             Thread.Sleep(1000);
             while (true)
             {
-                lock (ClientApiHandler.Client)
+                lock (ClientApiHandler.locker)
                 {
                     AppDbContext dbContext = new AppDbContext();
                     try
@@ -63,7 +63,7 @@ namespace eAdvertisement_bot
             Thread.Sleep(1000);
             while (true)
             {
-                lock (ClientApiHandler.Client)
+                lock (ClientApiHandler.locker)
                 {
                     AppDbContext dbContext = new AppDbContext();
                     try

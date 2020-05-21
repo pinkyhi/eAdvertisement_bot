@@ -88,7 +88,7 @@ namespace eAdvertisement_bot.Models.Commands
                                 try
                                 {
                                     Chat s = await botClient.GetChatAsync(chatId);
-                                    lock (ClientApiHandler.Client)
+                                    lock (ClientApiHandler.locker)
                                     {
                                         ClientApiHandler.ConnectClient().Wait();
                                         try

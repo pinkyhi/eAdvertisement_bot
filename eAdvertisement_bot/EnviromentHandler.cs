@@ -169,7 +169,7 @@ namespace eAdvertisement_bot
             dbContext.SaveChanges();
 
         }     
-        public void CloseAds(AppDbContext dbContext)
+        public async void CloseAds(AppDbContext dbContext)
         {
             DateTime now = DateTime.Now;
             List<Advertisement> ads = dbContext.Advertisements.Include("AdMessages").Include("Channel").Where(a => a.Is_Opened && (a.Advertisement_Status_Id == 4 && new DateTime(a.Date_Time.Ticks).AddHours(a.Alive) < now)).ToList();
@@ -177,9 +177,24 @@ namespace eAdvertisement_bot
             {
                 try
                 {
+                    int coverage = await ClientApiHandler.GetCoverageOfPost(ads[i].AdMessages[0].AdMessage_Id, ads[i].Channel_Id);
                     ads[i].Advertisement_Status_Id = 5;
+                    ads[i].Coverage = coverage;
                 }
-                catch(Exception ex)
+                catch (AggregateException ex)
+                {
+                    if (ex.InnerException is FloodException)
+                    {
+                        Console.WriteLine("Flood ex catched, sleep for " + (ex.InnerException as FloodException).TimeToWait);
+                        Thread.Sleep(Convert.ToInt32((ex.InnerException as FloodException).TimeToWait.TotalMilliseconds));
+                        i--;
+                    }
+                    else
+                    {
+                        MainLogger.LogException(ex, $"CloseAds adId={ads[i].Advertisement_Id}");
+                    }
+                }
+                catch (Exception ex)
                 {
                     MainLogger.LogException(ex, $"CloseAd adId = {ads[i].Advertisement_Id}");
                 }
@@ -220,20 +235,20 @@ namespace eAdvertisement_bot
                 Advertisement ad = moneyForwardAds[i];
                 try
                 {
-                    int coverage = await ClientApiHandler.GetCoverageOfPost(ad.AdMessages[0].AdMessage_Id, ad.Channel_Id);
-                    if (ad.Price > (Convert.ToDouble(coverage) / 1000 * ad.Channel.Cpm))
+                    int coverage = ad.Coverage??0;
+                    if (ad.Price > (Convert.ToDouble(coverage) / 1000 * ad.Moment_Cpm))
                     {
-                        int remade = Convert.ToInt32((Convert.ToDouble(coverage) / 1000 * ad.Channel.Cpm) * ad.Channel.User.Commission);
+                        int remade = Convert.ToInt32((Convert.ToDouble(coverage) / 1000 * ad.Moment_Cpm) * ad.Channel.User.Commission);
                         ad.Channel.User.Balance += remade;
 
                         if (ad.Autobuy == null)
                         {
-                            ad.User.Balance += ad.Price - Convert.ToInt32((Convert.ToDouble(coverage) / 1000 * ad.Channel.Cpm));
+                            ad.User.Balance += ad.Price - Convert.ToInt32((Convert.ToDouble(coverage) / 1000 * ad.Moment_Cpm));
                             ad.Is_Opened = false;
                         }
                         else
                         {
-                            ad.Autobuy.Balance += ad.Price - Convert.ToInt32((Convert.ToDouble(coverage) / 1000 * ad.Channel.Cpm));
+                            ad.Autobuy.Balance += ad.Price - Convert.ToInt32((Convert.ToDouble(coverage) / 1000 * ad.Moment_Cpm));
                             ad.Is_Opened = false;
                         }
 
@@ -251,21 +266,11 @@ namespace eAdvertisement_bot
                         }
                         catch (Exception ex)
                         {
-                            MainLogger.LogException(ex, "DeleteAdMessages IN CloseTransactions");
+                            if(ex.HResult != -2146233088) // Messages don't exist
+                            {
+                                MainLogger.LogException(ex, "DeleteAdMessages IN CloseTransactions");
+                            }
                         }
-                    }
-                }
-                catch (AggregateException ex)
-                {
-                    if (ex.InnerException is FloodException)
-                    {
-                        Console.WriteLine("Flood ex catched, sleep for " + (ex.InnerException as FloodException).TimeToWait);
-                        Thread.Sleep(Convert.ToInt32((ex.InnerException as FloodException).TimeToWait.TotalMilliseconds));
-                        i--;
-                    }
-                    else
-                    {
-                        MainLogger.LogException(ex, $"CloseTranaction adId={ad.Advertisement_Id}");
                     }
                 }
                 catch (Exception ex)
@@ -348,7 +353,7 @@ namespace eAdvertisement_bot
 
 
 
-                                    Advertisement newAd = new Advertisement { Is_Opened = true, Advertisement_Status_Id = 1, Alive = 24, Top = 1, Channel_Id = channel.Channel_Id, Publication_Snapshot = ab.Publication_Snapshot, Date_Time = dateTimesForPlaces[0], User_Id = ab.User_Id, Autobuy_Id = ab.Autobuy_Id, Price = channel.Price };
+                                    Advertisement newAd = new Advertisement { Is_Opened = true, Advertisement_Status_Id = 1, Alive = 24, Top = 1, Channel_Id = channel.Channel_Id, Publication_Snapshot = ab.Publication_Snapshot, Date_Time = dateTimesForPlaces[0], User_Id = ab.User_Id, Autobuy_Id = ab.Autobuy_Id, Price = channel.Price, Moment_Cpm = channel.Cpm??0 };
                                     dbContext.Advertisements.Add(newAd);
                                     ab.Balance -= channel.Price;
                                     dbContext.SaveChanges();

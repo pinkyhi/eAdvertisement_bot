@@ -18,6 +18,12 @@ namespace eAdvertisement_bot.Models.DbEntities
         public long Channel_Id { get; set; }
         public Channel Channel { get; set; }
 
+        [Column("moment_cpm")]
+        public int Moment_Cpm { get; set; }
+
+        [Column("coverage")]
+        public int? Coverage { get; set; }
+
         [Column("is_opened", TypeName = "bit")]
         [DefaultValue(true)]
         public bool Is_Opened { get; set; }

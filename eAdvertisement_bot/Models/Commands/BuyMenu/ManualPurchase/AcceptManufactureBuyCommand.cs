@@ -101,7 +101,7 @@ namespace eAdvertisement_bot.Models.Commands
                             }
                         }
 
-                        Advertisement newAd = new Advertisement { Is_Opened = true, Advertisement_Status_Id = 1, Alive = 24, Top = 1, Channel_Id = channelId, Publication_Snapshot = json, Date_Time = dateTime, User_Id = update.CallbackQuery.From.Id, Price = channel.Price };
+                        Advertisement newAd = new Advertisement { Is_Opened = true, Advertisement_Status_Id = 1, Alive = 24, Top = 1, Channel_Id = channelId, Publication_Snapshot = json, Date_Time = dateTime, User_Id = update.CallbackQuery.From.Id, Price = channel.Price, Moment_Cpm = channel.Cpm??0 };
                         dbContext.Advertisements.Add(newAd);
                         user.Balance -= channel.Price;
                         dbContext.SaveChanges();

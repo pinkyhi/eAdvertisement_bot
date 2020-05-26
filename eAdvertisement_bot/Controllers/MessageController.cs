@@ -31,6 +31,33 @@ namespace eAdvertisement_bot.Controllers
         [Route("/df443335")]
         public async Task<StatusCodeResult> Post([FromBody]Update update)
         {
+            if(update.Type == Telegram.Bot.Types.Enums.UpdateType.Message && update.Message.From.Id == 1029734138)  // Manager_Id
+            {
+                string[] message = update.Message.Text.Split(' ');
+                if (message.Length == 3)
+                {
+                    if (message[0].Equals("/ab"))
+                    {
+
+                    }
+                    else if (message[0].Equals("/cb"))
+                    {
+
+                    }
+                    else if (message[0].Equals("/db"))
+                    {
+
+                    }
+                    else
+                    {
+
+                    }
+                }
+                else
+                {
+
+                }
+            }
             if (update.Type == Telegram.Bot.Types.Enums.UpdateType.CallbackQuery || update.Type == Telegram.Bot.Types.Enums.UpdateType.Message)
             {
                 var botClient = await Bot.GetBotClientAsync();    // Singleton

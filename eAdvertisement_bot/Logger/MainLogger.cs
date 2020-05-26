@@ -8,6 +8,10 @@ namespace eAdvertisement_bot.Logger
 {
     public static class MainLogger
     {
+        public static int ManagerId = 1029734138;
+
+        public static string ManagerPass = "X570\"\\@%d2";
+
         static string writePath = @"log.txt";
         public static bool DEV { get; set; } = false;
         public static void LogException(Exception ex, string addStr = "")

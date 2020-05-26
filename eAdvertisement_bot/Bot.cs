@@ -103,7 +103,10 @@ namespace eAdvertisement_bot
                 commandsList.Add(new DeclineForeignAdCommand());
 
 
-
+                //TODO: ManagerCommands
+                commandsList.Add(new AddBalanceManagerCommand());
+                commandsList.Add(new CheckBalanceManagerCommand());
+                commandsList.Add(new DecreaseBalanceManagerCommand());
 
 
                 //TODO: Next add command texts
@@ -119,6 +122,10 @@ namespace eAdvertisement_bot
                 commandsList.Add(new On30XStateEvent());
                 commandsList.Add(new On40XStateEvent());
                 commandsList.Add(new On9XXStateEvent());
+
+
+
+
 
                 botClient = new TelegramBotClient(BotSettings.Token);   // Token setting
                 string path = Environment.CurrentDirectory + @"\web_hook_url.txt";
